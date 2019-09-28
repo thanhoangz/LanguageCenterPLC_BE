@@ -12,6 +12,8 @@ using Microsoft.OpenApi.Models;
 using System;
 using System.Reflection;
 using System.IO;
+using Newtonsoft.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace LanguageCenterPLC
 {
@@ -63,15 +65,16 @@ namespace LanguageCenterPLC
                 });
             });
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
-
-
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
+               .AddNewtonsoftJson();
+              
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo {
-                    Title = "Language Center PLC API", 
-                    Version = "v1" ,
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "Language Center PLC API",
+                    Version = "v1",
 
                 });
             });
