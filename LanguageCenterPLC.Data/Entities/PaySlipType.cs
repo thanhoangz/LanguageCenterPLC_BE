@@ -28,6 +28,6 @@ namespace LanguageCenterPLC.Data.Entities
 
         /*List of References */
 
-        public virtual ICollection<PaySlip> PaySlips { set; get; }
+        public ICollection<PaySlip> PaySlips { set; get; }
     }
 }

@@ -29,6 +29,6 @@ namespace LanguageCenterPLC.Data.Entities
 
         /*List of References */
 
-        public virtual ICollection<Receipt> Receipts { set; get; }
+        public ICollection<Receipt> Receipts { set; get; }
     }
 }

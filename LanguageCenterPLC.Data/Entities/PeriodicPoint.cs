@@ -62,6 +62,6 @@ namespace LanguageCenterPLC.Data.Entities
         public virtual User User { get; set; }
 
         /*List of References */
-        public virtual ICollection<PeriodicPointDetail> PeriodicPointDetails { set; get; }
+        public ICollection<PeriodicPointDetail> PeriodicPointDetails { set; get; }
     }
 }

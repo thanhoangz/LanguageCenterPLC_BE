@@ -66,6 +66,6 @@ namespace LanguageCenterPLC.Data.Entities
         public virtual ReceiptType ReceiptType { get; set; }
         /*List of References */
 
-        public virtual ICollection<ReceiptDetail> ReceiptDetails { set; get; }
+        public ICollection<ReceiptDetail> ReceiptDetails { set; get; }
     }
 }

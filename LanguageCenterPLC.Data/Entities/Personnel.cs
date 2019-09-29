@@ -12,7 +12,7 @@ namespace LanguageCenterPLC.Data.Entities
     /// Nhân viên
     /// </summary>
     [Table("Personnels")]
-    public class Personnel: DomainEntity<string>, ISwitchable, IDateTracking
+    public class Personnel : DomainEntity<string>, ISwitchable, IDateTracking
     {
 
         [StringLength(100)]
@@ -76,7 +76,7 @@ namespace LanguageCenterPLC.Data.Entities
         public decimal Bonus { get; set; }
 
         [Required]
-        public decimal InsurancePremium { get; set;}
+        public decimal InsurancePremium { get; set; }
 
         [Required]
         public DateTime DateCreated { get; set; }
@@ -97,14 +97,14 @@ namespace LanguageCenterPLC.Data.Entities
 
         /*List of References */
 
-        public virtual ICollection<Receipt> Receipts { set; get; }
+        public ICollection<Receipt> Receipts { set; get; }
 
-        public virtual ICollection<Timesheet> Timesheets { set; get; }
+        public ICollection<Timesheet> Timesheets { set; get; }
 
         [InverseProperty(nameof(PaySlip.Personnel))]
-        public virtual ICollection<PaySlip> PersonnelPaySlip { set; get; }
+        public ICollection<PaySlip> PersonnelPaySlip { set; get; }
 
         [InverseProperty(nameof(PaySlip.SendPersonnel))]
-        public virtual ICollection<PaySlip> SendPersonnelPaySlip { set; get; }
+        public ICollection<PaySlip> SendPersonnelPaySlip { set; get; }
     }
 }

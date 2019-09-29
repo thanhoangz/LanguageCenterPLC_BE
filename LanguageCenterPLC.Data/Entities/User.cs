@@ -31,9 +31,9 @@ namespace LanguageCenterPLC.Data.Entities
         /* Foreign Key */
         /*Reference Table*/
         /*List of References */
-        public virtual ICollection<EndingCoursePoint> EndingCoursePoints { set; get; }
-        public virtual ICollection<Receipt> Receipts { set; get; }
-        public virtual ICollection<Timesheet> Timesheets { set; get; }
-        public virtual ICollection<AttendanceSheet> AttendanceSheets { set; get; }
+        public ICollection<EndingCoursePoint> EndingCoursePoints { set; get; }
+        public ICollection<Receipt> Receipts { set; get; }
+        public ICollection<Timesheet> Timesheets { set; get; }
+        public ICollection<AttendanceSheet> AttendanceSheets { set; get; }
     }
 }

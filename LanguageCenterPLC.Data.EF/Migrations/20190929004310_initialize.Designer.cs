@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LanguageCenterPLC.Data.EF.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20190928053621_initialize")]
+    [Migration("20190929004310_initialize")]
     partial class initialize
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -1674,7 +1674,7 @@ namespace LanguageCenterPLC.Data.EF.Migrations
             modelBuilder.Entity("LanguageCenterPLC.Data.Entities.Learner", b =>
                 {
                     b.HasOne("LanguageCenterPLC.Data.Entities.GuestType", "GuestType")
-                        .WithMany()
+                        .WithMany("Learners")
                         .HasForeignKey("GuestTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

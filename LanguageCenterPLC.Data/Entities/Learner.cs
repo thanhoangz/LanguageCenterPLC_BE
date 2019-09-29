@@ -40,7 +40,7 @@ namespace LanguageCenterPLC.Data.Entities
         [StringLength(200)]
         public string Facebook { get; set; }
 
-        [Column(TypeName ="VARCHAR(16)")]
+        [Column(TypeName = "VARCHAR(16)")]
         public string Phone { get; set; }
 
         [Required]
@@ -72,11 +72,11 @@ namespace LanguageCenterPLC.Data.Entities
         public virtual GuestType GuestType { get; set; }
 
         /*List of References */
-        public virtual ICollection<StudyProcess> StudyProcesses { set; get; }
-        public virtual ICollection<EndingCoursePointDetail> EndingCoursePointDetails { set; get; }
-        public virtual ICollection<PeriodicPointDetail> PeriodicPointDetails { set; get; }
-        public virtual ICollection<TeachingSchedule> TeachingSchedules { set; get; }
-        public virtual ICollection<Receipt> Receipts { set; get; }
-        public virtual ICollection<AttendanceSheetDetail> AttendanceSheetDetails { set; get; }
+        public ICollection<StudyProcess> StudyProcesses { set; get; }
+        public ICollection<EndingCoursePointDetail> EndingCoursePointDetails { set; get; }
+        public ICollection<PeriodicPointDetail> PeriodicPointDetails { set; get; }
+        public ICollection<TeachingSchedule> TeachingSchedules { set; get; }
+        public ICollection<Receipt> Receipts { set; get; }
+        public ICollection<AttendanceSheetDetail> AttendanceSheetDetails { set; get; }
     }
 }

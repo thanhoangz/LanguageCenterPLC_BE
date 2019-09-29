@@ -59,7 +59,7 @@ namespace LanguageCenterPLC.Data.Entities
         public virtual User User { get; set; }
 
         /*List of References */
-        public virtual ICollection<EndingCoursePointDetail> EndingCoursePointDetails { set; get; }
+        public ICollection<EndingCoursePointDetail> EndingCoursePointDetails { set; get; }
 
     }
 }

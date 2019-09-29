@@ -1672,7 +1672,7 @@ namespace LanguageCenterPLC.Data.EF.Migrations
             modelBuilder.Entity("LanguageCenterPLC.Data.Entities.Learner", b =>
                 {
                     b.HasOne("LanguageCenterPLC.Data.Entities.GuestType", "GuestType")
-                        .WithMany()
+                        .WithMany("Learners")
                         .HasForeignKey("GuestTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

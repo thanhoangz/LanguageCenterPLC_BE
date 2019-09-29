@@ -116,14 +116,14 @@ namespace LanguageCenterPLC.Data.Entities
         /*Reference Table*/
 
         /*List of References */
-        public virtual ICollection<EndingCoursePoint> EndingCoursePoints { set; get; }
-        public virtual ICollection<PeriodicPoint> PeriodicPoints { set; get; }
+        public ICollection<EndingCoursePoint> EndingCoursePoints { set; get; }
+        public ICollection<PeriodicPoint> PeriodicPoints { set; get; }
 
         [InverseProperty(nameof(AttendanceSheet.Lecturer))]
-        public virtual ICollection<AttendanceSheet> LecturerAttendanceSheets { set; get; }
+        public ICollection<AttendanceSheet> LecturerAttendanceSheets { set; get; }
 
         [InverseProperty(nameof(AttendanceSheet.Tutor))]
-        public virtual ICollection<AttendanceSheet> TutorAttendanceSheets { set; get; }
+        public ICollection<AttendanceSheet> TutorAttendanceSheets { set; get; }
 
     }
 }

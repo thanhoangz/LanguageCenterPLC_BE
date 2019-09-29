@@ -70,6 +70,6 @@ namespace LanguageCenterPLC.Data.Entities
         public virtual User User { get; set; }
 
         /*List of References */
-        public virtual ICollection<AttendanceSheetDetail> AttendanceSheetDetails { set; get; }
+        public ICollection<AttendanceSheetDetail> AttendanceSheetDetails { set; get; }
     }
 }

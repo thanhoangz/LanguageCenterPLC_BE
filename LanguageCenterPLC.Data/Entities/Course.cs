@@ -43,6 +43,6 @@ namespace LanguageCenterPLC.Data.Entities
         /* Foreign Key */
         /*Reference Table*/
         /*List of References */
-        public virtual ICollection<LanguageClass> LanguageClasses { set; get; }
+        public ICollection<LanguageClass> LanguageClasses { set; get; }
     }
 }

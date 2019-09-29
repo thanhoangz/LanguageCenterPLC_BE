@@ -2,6 +2,7 @@
 using LanguageCenterPLC.Infrastructure.Interfaces;
 using LanguageCenterPLC.Infrastructure.SharedKernel;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -30,6 +31,6 @@ namespace LanguageCenterPLC.Data.Entities
         /* Foreign Key */
         /*Reference Table*/
         /*List of References */
-
+        public ICollection<Learner> Learners { set; get; }
     }
 }

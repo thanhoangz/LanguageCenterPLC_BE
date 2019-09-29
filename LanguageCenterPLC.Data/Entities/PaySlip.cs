@@ -72,10 +72,10 @@ namespace LanguageCenterPLC.Data.Entities
 
 
         [ForeignKey("PaySlipTypeId")]
-        public virtual PaySlipType PaySlipType { get; set; }
+        public PaySlipType PaySlipType { get; set; }
 
         [ForeignKey("UserId")]
-        public virtual User User { get; set; }
+        public User User { get; set; }
 
         /*List of References */
 
