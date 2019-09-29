@@ -60,7 +60,7 @@ namespace LanguageCenterPLC.Data.Entities
         public string SendPersonnelId { get; set; }
 
         [Required]
-        public int UserId { get; set; }
+        public Guid AppUserId { get; set; }
 
         /*Reference Table*/
 
@@ -74,8 +74,8 @@ namespace LanguageCenterPLC.Data.Entities
         [ForeignKey("PaySlipTypeId")]
         public PaySlipType PaySlipType { get; set; }
 
-        [ForeignKey("UserId")]
-        public User User { get; set; }
+        [ForeignKey("AppUserId")]
+        public AppUser AppUser { get; set; }
 
         /*List of References */
 

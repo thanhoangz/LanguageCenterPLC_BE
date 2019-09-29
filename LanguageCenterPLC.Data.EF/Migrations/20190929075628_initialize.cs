@@ -11,10 +11,11 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                 name: "AspNetRoles",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
+                    Id = table.Column<Guid>(nullable: false),
                     Name = table.Column<string>(maxLength: 256, nullable: true),
                     NormalizedName = table.Column<string>(maxLength: 256, nullable: true),
-                    ConcurrencyStamp = table.Column<string>(nullable: true)
+                    ConcurrencyStamp = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(maxLength: 250, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -25,7 +26,7 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                 name: "AspNetUsers",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
+                    Id = table.Column<Guid>(nullable: false),
                     UserName = table.Column<string>(maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(maxLength: 256, nullable: true),
                     Email = table.Column<string>(maxLength: 256, nullable: true),
@@ -39,7 +40,14 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                     TwoFactorEnabled = table.Column<bool>(nullable: false),
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
-                    AccessFailedCount = table.Column<int>(nullable: false)
+                    AccessFailedCount = table.Column<int>(nullable: false),
+                    FullName = table.Column<string>(nullable: true),
+                    BirthDay = table.Column<DateTime>(nullable: true),
+                    Balance = table.Column<decimal>(nullable: false),
+                    Avatar = table.Column<string>(nullable: true),
+                    DateCreated = table.Column<DateTime>(nullable: false),
+                    DateModified = table.Column<DateTime>(nullable: false),
+                    Status = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -135,6 +143,23 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Functions",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    Name = table.Column<string>(maxLength: 128, nullable: false),
+                    URL = table.Column<string>(maxLength: 250, nullable: false),
+                    ParentId = table.Column<string>(maxLength: 128, nullable: true),
+                    IconCss = table.Column<string>(nullable: true),
+                    SortOrder = table.Column<int>(nullable: false),
+                    Status = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Functions", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "GuestTypes",
                 columns: table => new
                 {
@@ -189,6 +214,20 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Lecturers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "LogWorks",
+                columns: table => new
+                {
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Content = table.Column<string>(nullable: false),
+                    DateCreated = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_LogWorks", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -279,30 +318,12 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Users",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    FullName = table.Column<string>(nullable: false),
-                    Username = table.Column<string>(nullable: false),
-                    Password = table.Column<string>(nullable: false),
-                    Status = table.Column<int>(nullable: false),
-                    DateCreated = table.Column<DateTime>(nullable: false),
-                    DateModified = table.Column<DateTime>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Users", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    RoleId = table.Column<string>(nullable: false),
+                    RoleId = table.Column<Guid>(nullable: false),
                     ClaimType = table.Column<string>(nullable: true),
                     ClaimValue = table.Column<string>(nullable: true)
                 },
@@ -323,7 +344,7 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<string>(nullable: false),
+                    UserId = table.Column<Guid>(nullable: false),
                     ClaimType = table.Column<string>(nullable: true),
                     ClaimValue = table.Column<string>(nullable: true)
                 },
@@ -345,7 +366,7 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                     LoginProvider = table.Column<string>(nullable: false),
                     ProviderKey = table.Column<string>(nullable: false),
                     ProviderDisplayName = table.Column<string>(nullable: true),
-                    UserId = table.Column<string>(nullable: false)
+                    UserId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -362,8 +383,8 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                 name: "AspNetUserRoles",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(nullable: false),
-                    RoleId = table.Column<string>(nullable: false)
+                    UserId = table.Column<Guid>(nullable: false),
+                    RoleId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -386,7 +407,7 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                 name: "AspNetUserTokens",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(nullable: false),
+                    UserId = table.Column<Guid>(nullable: false),
                     LoginProvider = table.Column<string>(nullable: false),
                     Name = table.Column<string>(nullable: false),
                     Value = table.Column<string>(nullable: true)
@@ -428,6 +449,36 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                         principalTable: "Courses",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Permissions",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    AppRoleId = table.Column<Guid>(nullable: false),
+                    FunctionId = table.Column<string>(maxLength: 450, nullable: false),
+                    CanCreate = table.Column<bool>(nullable: false),
+                    CanRead = table.Column<bool>(nullable: false),
+                    CanUpdate = table.Column<bool>(nullable: false),
+                    CanDelete = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Permissions", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Permissions_AspNetRoles_AppRoleId",
+                        column: x => x.AppRoleId,
+                        principalTable: "AspNetRoles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Permissions_Functions_FunctionId",
+                        column: x => x.FunctionId,
+                        principalTable: "Functions",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -480,11 +531,17 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                     PaySlipTypeId = table.Column<int>(nullable: false),
                     PersonnelId = table.Column<string>(nullable: false),
                     SendPersonnelId = table.Column<string>(nullable: true),
-                    UserId = table.Column<int>(nullable: false)
+                    AppUserId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_PaySlips", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_PaySlips_AspNetUsers_AppUserId",
+                        column: x => x.AppUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_PaySlips_PaySlipTypes_PaySlipTypeId",
                         column: x => x.PaySlipTypeId,
@@ -503,12 +560,6 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                         principalTable: "Personnels",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_PaySlips_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -562,22 +613,22 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                     DateCreated = table.Column<DateTime>(nullable: false),
                     DateModified = table.Column<DateTime>(nullable: false),
                     Note = table.Column<string>(nullable: true),
-                    UserId = table.Column<int>(nullable: false),
+                    AppUserId = table.Column<Guid>(nullable: false),
                     PersonnelId = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Timesheets", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Timesheets_Personnels_PersonnelId",
-                        column: x => x.PersonnelId,
-                        principalTable: "Personnels",
+                        name: "FK_Timesheets_AspNetUsers_AppUserId",
+                        column: x => x.AppUserId,
+                        principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Timesheets_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
+                        name: "FK_Timesheets_Personnels_PersonnelId",
+                        column: x => x.PersonnelId,
+                        principalTable: "Personnels",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -598,11 +649,17 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                     LanguageClassId = table.Column<string>(nullable: false),
                     LecturerId = table.Column<int>(nullable: false),
                     TutorId = table.Column<int>(nullable: true),
-                    UserId = table.Column<int>(nullable: false)
+                    AppUserId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AttendanceSheets", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AttendanceSheets_AspNetUsers_AppUserId",
+                        column: x => x.AppUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_AttendanceSheets_LanguageClasses_LanguageClassId",
                         column: x => x.LanguageClassId,
@@ -621,12 +678,6 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                         principalTable: "Lecturers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_AttendanceSheets_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -643,11 +694,17 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                     Note = table.Column<string>(nullable: true),
                     LanguageClassId = table.Column<string>(nullable: false),
                     LecturerId = table.Column<int>(nullable: false),
-                    UserId = table.Column<int>(nullable: false)
+                    AppUserId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_EndingCoursePoints", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_EndingCoursePoints_AspNetUsers_AppUserId",
+                        column: x => x.AppUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_EndingCoursePoints_LanguageClasses_LanguageClassId",
                         column: x => x.LanguageClassId,
@@ -658,12 +715,6 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                         name: "FK_EndingCoursePoints_Lecturers_LecturerId",
                         column: x => x.LecturerId,
                         principalTable: "Lecturers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_EndingCoursePoints_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -683,11 +734,17 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                     Note = table.Column<string>(nullable: true),
                     LanguageClassId = table.Column<string>(nullable: false),
                     LecturerId = table.Column<int>(nullable: false),
-                    UserId = table.Column<int>(nullable: false)
+                    AppUserId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_PeriodicPoints", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_PeriodicPoints_AspNetUsers_AppUserId",
+                        column: x => x.AppUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_PeriodicPoints_LanguageClasses_LanguageClassId",
                         column: x => x.LanguageClassId,
@@ -698,12 +755,6 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                         name: "FK_PeriodicPoints_Lecturers_LecturerId",
                         column: x => x.LecturerId,
                         principalTable: "Lecturers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_PeriodicPoints_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -723,12 +774,18 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                     Note = table.Column<string>(nullable: true),
                     ReceiptTypeId = table.Column<int>(nullable: false),
                     PersonnelId = table.Column<string>(nullable: false),
-                    UserId = table.Column<int>(nullable: false),
+                    AppUserId = table.Column<Guid>(nullable: false),
                     LearnerId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Receipts", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Receipts_AspNetUsers_AppUserId",
+                        column: x => x.AppUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Receipts_Learners_LearnerId",
                         column: x => x.LearnerId,
@@ -745,12 +802,6 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                         name: "FK_Receipts_ReceiptTypes_ReceiptTypeId",
                         column: x => x.ReceiptTypeId,
                         principalTable: "ReceiptTypes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Receipts_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -1035,6 +1086,11 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                 column: "LearnerId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_AttendanceSheets_AppUserId",
+                table: "AttendanceSheets",
+                column: "AppUserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_AttendanceSheets_LanguageClassId",
                 table: "AttendanceSheets",
                 column: "LanguageClassId");
@@ -1050,11 +1106,6 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                 column: "TutorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AttendanceSheets_UserId",
-                table: "AttendanceSheets",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_EndingCoursePointDetails_EndingCoursePointId",
                 table: "EndingCoursePointDetails",
                 column: "EndingCoursePointId");
@@ -1063,6 +1114,11 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                 name: "IX_EndingCoursePointDetails_LearnerId",
                 table: "EndingCoursePointDetails",
                 column: "LearnerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EndingCoursePoints_AppUserId",
+                table: "EndingCoursePoints",
+                column: "AppUserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_EndingCoursePoints_LanguageClassId",
@@ -1075,11 +1131,6 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                 column: "LecturerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_EndingCoursePoints_UserId",
-                table: "EndingCoursePoints",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_LanguageClasses_CourseId",
                 table: "LanguageClasses",
                 column: "CourseId");
@@ -1088,6 +1139,11 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                 name: "IX_Learners_GuestTypeId",
                 table: "Learners",
                 column: "GuestTypeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PaySlips_AppUserId",
+                table: "PaySlips",
+                column: "AppUserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PaySlips_PaySlipTypeId",
@@ -1105,11 +1161,6 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                 column: "SendPersonnelId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PaySlips_UserId",
-                table: "PaySlips",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_PeriodicPointDetails_LearnerId",
                 table: "PeriodicPointDetails",
                 column: "LearnerId");
@@ -1118,6 +1169,11 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                 name: "IX_PeriodicPointDetails_PeriodicPointId",
                 table: "PeriodicPointDetails",
                 column: "PeriodicPointId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PeriodicPoints_AppUserId",
+                table: "PeriodicPoints",
+                column: "AppUserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PeriodicPoints_LanguageClassId",
@@ -1130,9 +1186,14 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                 column: "LecturerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PeriodicPoints_UserId",
-                table: "PeriodicPoints",
-                column: "UserId");
+                name: "IX_Permissions_AppRoleId",
+                table: "Permissions",
+                column: "AppRoleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Permissions_FunctionId",
+                table: "Permissions",
+                column: "FunctionId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ReceiptDetails_LanguageClassId",
@@ -1143,6 +1204,11 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                 name: "IX_ReceiptDetails_ReceiptId",
                 table: "ReceiptDetails",
                 column: "ReceiptId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Receipts_AppUserId",
+                table: "Receipts",
+                column: "AppUserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Receipts_LearnerId",
@@ -1158,11 +1224,6 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                 name: "IX_Receipts_ReceiptTypeId",
                 table: "Receipts",
                 column: "ReceiptTypeId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Receipts_UserId",
-                table: "Receipts",
-                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_StudyProcess_LanguageClassId",
@@ -1195,14 +1256,14 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                 column: "LecturerId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Timesheets_AppUserId",
+                table: "Timesheets",
+                column: "AppUserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Timesheets_PersonnelId",
                 table: "Timesheets",
                 column: "PersonnelId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Timesheets_UserId",
-                table: "Timesheets",
-                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -1238,10 +1299,16 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                 name: "Footers");
 
             migrationBuilder.DropTable(
+                name: "LogWorks");
+
+            migrationBuilder.DropTable(
                 name: "PaySlips");
 
             migrationBuilder.DropTable(
                 name: "PeriodicPointDetails");
+
+            migrationBuilder.DropTable(
+                name: "Permissions");
 
             migrationBuilder.DropTable(
                 name: "ReceiptDetails");
@@ -1259,12 +1326,6 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                 name: "Timesheets");
 
             migrationBuilder.DropTable(
-                name: "AspNetRoles");
-
-            migrationBuilder.DropTable(
-                name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
                 name: "AttendanceSheets");
 
             migrationBuilder.DropTable(
@@ -1275,6 +1336,12 @@ namespace LanguageCenterPLC.Data.EF.Migrations
 
             migrationBuilder.DropTable(
                 name: "PeriodicPoints");
+
+            migrationBuilder.DropTable(
+                name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "Functions");
 
             migrationBuilder.DropTable(
                 name: "Receipts");
@@ -1289,6 +1356,9 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                 name: "Lecturers");
 
             migrationBuilder.DropTable(
+                name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
                 name: "Learners");
 
             migrationBuilder.DropTable(
@@ -1296,9 +1366,6 @@ namespace LanguageCenterPLC.Data.EF.Migrations
 
             migrationBuilder.DropTable(
                 name: "ReceiptTypes");
-
-            migrationBuilder.DropTable(
-                name: "Users");
 
             migrationBuilder.DropTable(
                 name: "Courses");

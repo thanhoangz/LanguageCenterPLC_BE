@@ -30,6 +30,7 @@ namespace LanguageCenterPLC.Data.Entities
         public bool Sex { get; set; }
 
         [Required]
+        [DataType(DataType.Date)]
         public DateTime Birthday { get; set; }
 
         [Required]

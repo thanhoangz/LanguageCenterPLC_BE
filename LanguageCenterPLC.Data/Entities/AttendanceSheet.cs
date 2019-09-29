@@ -54,7 +54,7 @@ namespace LanguageCenterPLC.Data.Entities
         public int? TutorId { get; set; }
 
         [Required]
-        public int UserId { get; set; }
+        public Guid AppUserId { get; set; }
 
         /*Reference Table*/
 
@@ -66,8 +66,8 @@ namespace LanguageCenterPLC.Data.Entities
 
         public virtual Lecturer Tutor { get; set; }
 
-        [ForeignKey("UserId")]
-        public virtual User User { get; set; }
+        [ForeignKey("AppUserId")]
+        public virtual AppUser AppUser { get; set; }
 
         /*List of References */
         public ICollection<AttendanceSheetDetail> AttendanceSheetDetails { set; get; }

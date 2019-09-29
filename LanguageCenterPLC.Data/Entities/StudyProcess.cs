@@ -11,8 +11,10 @@ namespace LanguageCenterPLC.Data.Entities
     public class StudyProcess : DomainEntity<int>, ISwitchable, IDateTracking
     {
 
+        [DataType(DataType.Date)]
         public DateTime OutDate { get; set; }
 
+        [DataType(DataType.Date)]
         public DateTime InDate { get; set; }
 
         [Required]

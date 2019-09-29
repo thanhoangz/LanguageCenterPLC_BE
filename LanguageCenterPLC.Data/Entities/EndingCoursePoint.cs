@@ -18,12 +18,14 @@ namespace LanguageCenterPLC.Data.Entities
         /// Ngày vào điểm
         /// </summary>
         [Required]
+        [DataType(DataType.Date)]
         public DateTime DateOnPoint { get; set; }
 
         /// <summary>
         /// Ngày tổ chức thi, kiểm tra
         /// </summary>
         [Required]
+        [DataType(DataType.Date)]
         public DateTime ExaminationDate { get; set; }
 
 
@@ -46,7 +48,7 @@ namespace LanguageCenterPLC.Data.Entities
         public int LecturerId { get; set; }
 
         [Required]
-        public int UserId { get; set; }
+        public Guid AppUserId { get; set; }
 
         /*Reference Table*/
         [ForeignKey("LanguageClassId")]
@@ -55,8 +57,8 @@ namespace LanguageCenterPLC.Data.Entities
         [ForeignKey("LecturerId")]
         public virtual Lecturer Lecturer { get; set; }
 
-        [ForeignKey("UserId")]
-        public virtual User User { get; set; }
+        [ForeignKey("AppUserId")]
+        public virtual AppUser AppUser { get; set; }
 
         /*List of References */
         public ICollection<EndingCoursePointDetail> EndingCoursePointDetails { set; get; }

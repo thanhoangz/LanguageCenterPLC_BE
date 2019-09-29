@@ -50,7 +50,7 @@ namespace LanguageCenterPLC.Data.Entities
 
 
         [Required]
-        public int UserId { get; set; }
+        public Guid AppUserId { get; set; }
 
         /*Reference Table*/
 
@@ -58,8 +58,8 @@ namespace LanguageCenterPLC.Data.Entities
         public virtual Personnel Personnel { get; set; }
 
 
-        [ForeignKey("UserId")]
-        public virtual User User { get; set; }
+        [ForeignKey("AppUserId")]
+        public virtual AppUser AppUser { get; set; }
 
 
         [ForeignKey("ReceiptTypeId")]

@@ -1,5 +1,6 @@
 ﻿using LanguageCenterPLC.Data.Entities;
 using LanguageCenterPLC.Infrastructure.Interfaces;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
@@ -11,12 +12,14 @@ using System.Linq;
 
 namespace LanguageCenterPLC.Data.EF
 {
-    public class AppDbContext : IdentityDbContext
+    public class AppDbContext : IdentityDbContext<AppUser,AppRole,Guid>
     {
         public AppDbContext(DbContextOptions options) : base(options)
         {
 
         }
+        public DbSet<AppUser> AppUsers { set; get; }
+        public DbSet<AppRole> AppRoles { set; get; }
 
         public DbSet<AttendanceSheet> AttendanceSheets { set; get; }
 
@@ -68,22 +71,25 @@ namespace LanguageCenterPLC.Data.EF
 
         public DbSet<Timesheet> Timesheets { set; get; }
 
-        public DbSet<User> Users { set; get; }
+        public DbSet<Permission> Permissions { set; get; }
 
+        public DbSet<Function> Functions { set; get; }
+
+        public DbSet<LogWork> LogWorks { set; get; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             #region Identity Config
 
-            //builder.Entity<IdentityUserClaim<Guid>>().ToTable("AppUserClaims").HasKey(x => x.Id);
+            //builder.Entity<IdentityUserClaim<string>>().ToTable("AppUserClaims").HasKey(x => x.Id);
 
-            //builder.Entity<IdentityRoleClaim<Guid>>().ToTable("AppRoleClaims").HasKey(x => x.Id);
+            //builder.Entity<IdentityRoleClaim<string>>().ToTable("AppRoleClaims").HasKey(x => x.Id);
 
-            //builder.Entity<IdentityUserLogin<Guid>>().ToTable("AppUserLogins").HasKey(x => x.UserId);
+            //builder.Entity<IdentityUserLogin<string>>().ToTable("AppUserLogins").HasKey(x => x.UserId);
 
-            //builder.Entity<IdentityUserRole<Guid>>().ToTable("AppUserRoles").HasKey(x => new { x.RoleId, x.UserId });
+            //builder.Entity<IdentityUserRole<string>>().ToTable("AppUserRoles").HasKey(x => new { x.RoleId, x.UserId });
 
-            //builder.Entity<IdentityUserToken<Guid>>().ToTable("AppUserTokens").HasKey(x => new { x.UserId });
+            //builder.Entity<IdentityUserToken<string>>().ToTable("AppUserTokens").HasKey(x => new { x.UserId });
 
             //#endregion Identity Config
 
@@ -124,7 +130,7 @@ namespace LanguageCenterPLC.Data.EF
 
     public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<AppDbContext>
     {
-        
+
         public AppDbContext CreateDbContext(string[] args)
         {
             IConfiguration configuration = new ConfigurationBuilder()

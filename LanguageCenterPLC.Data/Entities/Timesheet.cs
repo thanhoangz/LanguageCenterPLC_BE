@@ -125,7 +125,7 @@ namespace LanguageCenterPLC.Data.Entities
         /* Foreign Key */
 
         [Required]
-        public int UserId { get; set; }
+        public Guid AppUserId { get; set; }
 
         [Required]
         public string PersonnelId { get; set; }
@@ -135,8 +135,8 @@ namespace LanguageCenterPLC.Data.Entities
         [ForeignKey("PersonnelId")]
         public virtual Personnel Personnel { get; set; }
 
-        [ForeignKey("UserId")]
-        public virtual User User { get; set; }
+        [ForeignKey("AppUserId")]
+        public virtual AppUser AppUser { get; set; }
 
 
         /*List of References */

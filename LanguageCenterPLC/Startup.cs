@@ -1,4 +1,5 @@
 using LanguageCenterPLC.Data.EF;
+using LanguageCenterPLC.Data.Entities;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -10,10 +11,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using System;
-using System.Reflection;
-using System.IO;
-using Newtonsoft.Json.Serialization;
-using Newtonsoft.Json;
 
 namespace LanguageCenterPLC
 {
@@ -36,8 +33,30 @@ namespace LanguageCenterPLC
                           options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"),
                           o => o.MigrationsAssembly("ForeignLanguageCenterPLC.Data.EF")));
 
-            services.AddDefaultIdentity<IdentityUser>()
-                .AddEntityFrameworkStores<AppDbContext>();
+            // Authen
+            services.AddIdentity<AppUser, AppRole>()
+                .AddEntityFrameworkStores<AppDbContext>()
+                .AddDefaultTokenProviders();
+
+            services.AddScoped<SignInManager<AppUser>, SignInManager<AppUser>>();
+            services.AddScoped<UserManager<AppUser>, UserManager<AppUser>>();
+            services.AddScoped<RoleManager<AppRole>, RoleManager<AppRole>>();
+            services.Configure<IdentityOptions>(options =>
+            {
+                // Default Password settings.
+                options.Password.RequireDigit = true;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequiredLength = 6;
+
+                //Lockout setting 
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
+                options.Lockout.MaxFailedAccessAttempts = 5;
+
+                //User setting 
+                options.User.RequireUniqueEmail = true;
+            });
 
             // Configure Identity
 

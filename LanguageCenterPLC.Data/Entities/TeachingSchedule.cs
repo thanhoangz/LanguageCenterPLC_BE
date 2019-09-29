@@ -11,9 +11,11 @@ namespace LanguageCenterPLC.Data.Entities
     public class TeachingSchedule : DomainEntity<int>, ISwitchable, IDateTracking
     {
         [Required]
+        [DataType(DataType.Date)]
         public DateTime FromDate { get; set; }
 
         [Required]
+        [DataType(DataType.Date)]
         public DateTime ToDate { get; set; }
 
 

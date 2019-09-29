@@ -29,9 +29,11 @@ namespace LanguageCenterPLC.Data.Entities
         public decimal LessonFee { get; set; }
 
         [Required]
+        [DataType(DataType.Date)]
         public DateTime StartDay { get; set; }
 
         [Required]
+        [DataType(DataType.Date)]
         public DateTime EndDay { get; set; }
 
         [Required]
