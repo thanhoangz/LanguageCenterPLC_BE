@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using LanguageCenterPLC.Data.EF;
 using LanguageCenterPLC.Data.Entities;
+using LanguageCenterPLC.Infrastructure.Enums;
 
 namespace LanguageCenterPLC.Controllers
 {
@@ -48,10 +49,6 @@ namespace LanguageCenterPLC.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCourse(int id, Course course)
         {
-            if (id != course.Id)
-            {
-                return BadRequest();
-            }
 
             _context.Entry(course).State = EntityState.Modified;
 
@@ -84,6 +81,24 @@ namespace LanguageCenterPLC.Controllers
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetCourse", new { id = course.Id }, course);
+        }
+
+        [HttpPost("/api/Course/paging")]
+        public async Task<ActionResult<IEnumerable<Course>>> PagingCourse(string searchString = "", int status = 0, int pageSize = 10, int pageIndex = 0)
+        {
+            var courses = from c in _context.Courses select c;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                courses = courses.Where(c => c.Name.Contains(searchString));
+            }
+
+            Status _status = (Status)status;
+            courses = courses.Where(c => c.Status == _status);
+
+
+
+            return await courses.ToListAsync();
         }
 
         // DELETE: api/Courses/5
