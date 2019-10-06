@@ -12,7 +12,7 @@ namespace LanguageCenterPLC.Data.Entities
     /// Khóa học
     /// </summary>
     [Table("Courses")]
-    public class Course: DomainEntity<int>, ISwitchable, IDateTracking
+    public class Course : DomainEntity<int>, ISwitchable, IDateTracking
     {
         [Required]
         [MaxLength(500)]

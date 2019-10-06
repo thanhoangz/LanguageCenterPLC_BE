@@ -1,5 +1,6 @@
 using LanguageCenterPLC.Data.EF;
 using LanguageCenterPLC.Data.Entities;
+using LanguageCenterPLC.Infrastructure.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -36,6 +37,7 @@ namespace LanguageCenterPLC
             // Authen
             services.AddIdentity<AppUser, AppRole>()
                 .AddEntityFrameworkStores<AppDbContext>()
+                .AddDefaultUI()
                 .AddDefaultTokenProviders();
 
             services.AddScoped<SignInManager<AppUser>, SignInManager<AppUser>>();
@@ -75,7 +77,7 @@ namespace LanguageCenterPLC
                 options.AddPolicy(MyAllowSpecificOrigins,
                 builder =>
                 {
-                    builder.WithOrigins("localhost:4200")
+                    builder.WithOrigins("localhost:4200", "http://192.168.1.5:4200/")
                                         .AllowAnyHeader()
                                         .AllowAnyMethod()
                                         .AllowAnyOrigin();
@@ -86,7 +88,7 @@ namespace LanguageCenterPLC
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
                .AddNewtonsoftJson();
-              
+
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
             {
@@ -97,6 +99,10 @@ namespace LanguageCenterPLC
 
                 });
             });
+
+
+            services.AddTransient(typeof(IUnitOfWork), typeof(EFUnitOfWork));
+            services.AddTransient(typeof(IRepository<,>), typeof(EFRepository<,>));
 
         }
 

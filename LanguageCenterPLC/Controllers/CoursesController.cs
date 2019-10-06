@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using LanguageCenterPLC.Data.EF;
 using LanguageCenterPLC.Data.Entities;
+using LanguageCenterPLC.Infrastructure.Enums;
 
 namespace LanguageCenterPLC.Controllers
 {
@@ -28,9 +29,6 @@ namespace LanguageCenterPLC.Controllers
             return await _context.Courses.ToListAsync();
         }
 
-
-
-
         // GET: api/Courses/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Course>> GetCourse(int id)
@@ -51,10 +49,6 @@ namespace LanguageCenterPLC.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCourse(int id, Course course)
         {
-            if (id != course.Id)
-            {
-                return BadRequest();
-            }
 
             _context.Entry(course).State = EntityState.Modified;
 
@@ -89,22 +83,23 @@ namespace LanguageCenterPLC.Controllers
             return CreatedAtAction("GetCourse", new { id = course.Id }, course);
         }
 
+        [HttpPost("/api/Course/paging")]
+        public async Task<ActionResult<IEnumerable<Course>>> PagingCourse(string searchString = "", int status = 0, int pageSize = 10, int pageIndex = 0)
+        {
+            var courses = from c in _context.Courses select c;
 
-       // [HttpPost]
-       //public async Task<ActionResult<IEnumerable<Course>>> SendCourse(string name = "", int status = 69,int pageSize = 6, int pageNumber = 0)
-       // {
-       //     List<Course> allCourses = (from c in _context.Courses select c).ToList();
-       //     List<Course> courses = new List<Course>();
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                courses = courses.Where(c => c.Name.Contains(searchString));
+            }
 
-       //     for (int i = pageSize*pageNumber; i < pageSize * pageNumber + pageSize; i++)
-       //     {
-       //         courses.Add(allCourses[i]);
-       //     }
-
-       //     return await courses.();
-       // }
+            Status _status = (Status)status;
+            courses = courses.Where(c => c.Status == _status);
 
 
+
+            return await courses.ToListAsync();
+        }
 
         // DELETE: api/Courses/5
         [HttpDelete("{id}")]
