@@ -1,14 +1,12 @@
 ﻿using LanguageCenterPLC.Application.ViewModels.Finances;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace LanguageCenterPLC.Application.ViewModels.Categories
 {
     public class PermissionViewModel
     {
         public int Id { get; set; }
-        
+
         public bool CanCreate { set; get; }
 
         public bool CanRead { set; get; }
@@ -23,6 +21,6 @@ namespace LanguageCenterPLC.Application.ViewModels.Categories
 
         public AppRoleViewModel AppRole { get; set; }
 
-        public  FunctionViewModel Function { get; set; }
+        public FunctionViewModel Function { get; set; }
     }
 }

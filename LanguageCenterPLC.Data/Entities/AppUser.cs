@@ -11,7 +11,7 @@ namespace LanguageCenterPLC.Data.Entities
     public class AppUser : IdentityUser<Guid>, IDateTracking, ISwitchable
     {
         public AppUser() { }
-        public AppUser(string fullName, string userName,
+        public AppUser(Guid id, string fullName, string userName,
             string email, string phoneNumber, string avatar, Status status)
         {
             FullName = fullName;

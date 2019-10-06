@@ -1,35 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using LanguageCenterPLC.Application.ViewModels;
+using LanguageCenterPLC.Infrastructure.Enums;
+using LanguageCenterPLC.Utilities.Dtos;
 
 namespace LanguageCenterPLC.Application.Interfaces
 {
     public interface ICourseService
     {
-        //void Create(BillViewModel billVm);
-        //void Update(BillViewModel billVm);
+        void Create(CourseViewModel courseVm);
 
-        //PagedResult<BillViewModel> GetAllPaging(string keyword, int status,
-        //    int pageIndex, int pageSize);
+        void Update(CourseViewModel courseVm);
 
-        //BillViewModel GetDetail(int billId);
+        PagedResult<CourseViewModel> GetAllPaging(string keyword, int status,
+            int pageIndex, int pageSize);
 
-        //BillDetailViewModel CreateDetail(BillDetailViewModel billDetailVm);
+        CourseViewModel GetDetail(int courseId);
 
-        //void DeleteDetail(int productId, int billId, int colorId, int sizeId);
+        void Delete(int courseId);
 
-        //void UpdateStatus(int orderId, BillStatus status);
+        void UpdateStatus(int courseId, Status status);
 
-        //List<BillDetailViewModel> GetBillDetails(int billId);
-
-        //List<ColorViewModel> GetColors();
-
-        //List<SizeViewModel> GetSizes();
-
-        //ColorViewModel GetColor(int id);
-
-        //SizeViewModel GetSize(int id);
-
-        //void Save();
+        void Save();
     }
 }

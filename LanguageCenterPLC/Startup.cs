@@ -1,3 +1,4 @@
+using AutoMapper;
 using LanguageCenterPLC.Data.EF;
 using LanguageCenterPLC.Data.Entities;
 using LanguageCenterPLC.Infrastructure.Interfaces;
@@ -85,6 +86,8 @@ namespace LanguageCenterPLC
 
                 });
             });
+
+            services.AddAutoMapper();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
                .AddNewtonsoftJson();
