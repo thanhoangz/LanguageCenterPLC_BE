@@ -28,6 +28,9 @@ namespace LanguageCenterPLC.Controllers
             return await _context.Courses.ToListAsync();
         }
 
+
+
+
         // GET: api/Courses/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Course>> GetCourse(int id)
@@ -85,6 +88,23 @@ namespace LanguageCenterPLC.Controllers
 
             return CreatedAtAction("GetCourse", new { id = course.Id }, course);
         }
+
+
+       // [HttpPost]
+       //public async Task<ActionResult<IEnumerable<Course>>> SendCourse(string name = "", int status = 69,int pageSize = 6, int pageNumber = 0)
+       // {
+       //     List<Course> allCourses = (from c in _context.Courses select c).ToList();
+       //     List<Course> courses = new List<Course>();
+
+       //     for (int i = pageSize*pageNumber; i < pageSize * pageNumber + pageSize; i++)
+       //     {
+       //         courses.Add(allCourses[i]);
+       //     }
+
+       //     return await courses.();
+       // }
+
+
 
         // DELETE: api/Courses/5
         [HttpDelete("{id}")]
