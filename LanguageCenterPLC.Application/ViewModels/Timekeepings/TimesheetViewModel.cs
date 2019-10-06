@@ -7,6 +7,7 @@ namespace LanguageCenterPLC.Application.ViewModels.Timekeepings
     public class TimesheetViewModel
     {
         public int Id { get; set; }
+
         public int Month { get; set; }
 
         public int Year { get; set; }
@@ -79,9 +80,6 @@ namespace LanguageCenterPLC.Application.ViewModels.Timekeepings
 
         public decimal Salary { get; set; }
 
-        /// <summary>
-        /// Phụ cấp
-        /// </summary>
         public decimal Allowance { get; set; }
 
         public decimal Bonus { get; set; }
@@ -111,20 +109,13 @@ namespace LanguageCenterPLC.Application.ViewModels.Timekeepings
 
         public string Note { get; set; }
 
-
-        /* Foreign Key */
-
         public Guid AppUserId { get; set; }
 
         public string PersonnelId { get; set; }
 
-        /*Reference Table*/
 
         public  PersonnelViewModel Personnel { get; set; }
 
         public  AppUserViewModel AppUser { get; set; }
-
-
-        /*List of References */
     }
 }

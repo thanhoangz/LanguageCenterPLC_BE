@@ -2,7 +2,6 @@
 using LanguageCenterPLC.Infrastructure.Enums;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace LanguageCenterPLC.Application.ViewModels.Categories
 {
@@ -11,7 +10,6 @@ namespace LanguageCenterPLC.Application.ViewModels.Categories
        public int Id { get; set; }
         public string Name { get; set; }
 
-       
         public Status Status { get; set; }
 
         public DateTime DateCreated { get; set; }
@@ -19,8 +17,6 @@ namespace LanguageCenterPLC.Application.ViewModels.Categories
         public DateTime DateModified { get; set; }
 
         public string Note { get; set; }
-
-        /*List of References */
 
         public ICollection<ReceiptViewModel> Receipts { set; get; }
     }

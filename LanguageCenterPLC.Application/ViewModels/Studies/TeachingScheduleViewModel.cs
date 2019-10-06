@@ -1,8 +1,6 @@
 ﻿using LanguageCenterPLC.Application.ViewModels.Categories;
 using LanguageCenterPLC.Infrastructure.Enums;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace LanguageCenterPLC.Application.ViewModels.Studies
 {
@@ -13,15 +11,7 @@ namespace LanguageCenterPLC.Application.ViewModels.Studies
 
         public DateTime ToDate { get; set; }
 
-
-        /// <summary>
-        /// Ca học
-        /// </summary>
         public string TimeShift { get; set; }
-
-        /// <summary>
-        /// Các ngày học trong tuần
-        /// </summary>
 
         public string DaysOfWeek { get; set; }
 
@@ -43,6 +33,7 @@ namespace LanguageCenterPLC.Application.ViewModels.Studies
         /*Reference Table*/
 
         public  LecturerViewModel Lecturer { get; set; }
+
         public  ClassRoomViewModel ClassRoom { get; set; }
 
         public  LanguageClassViewModel LanguageClass { get; set; }

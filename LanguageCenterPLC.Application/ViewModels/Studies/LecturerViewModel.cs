@@ -2,41 +2,32 @@
 using LanguageCenterPLC.Infrastructure.Enums;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace LanguageCenterPLC.Application.ViewModels.Studies
 {
     public class LecturerViewModel
     {
         public int Id { get; set; }
-        public string CardId { get; set; }
 
+        public string CardId { get; set; }
         
         public string FirstName { get; set; }
-
        
         public string LastName { get; set; }
 
         public bool Sex { get; set; }
 
-       
         public DateTime Birthday { get; set; }
 
-      
         public string Address { get; set; }
-
-        // quốc gia
       
         public string Nationality { get; set; }
 
-        // tình trạng hôn nhân
         public int MarritalStatus { get; set; }
 
-        // kinh nghiệm
         public string ExperienceRecord { get; set; }
 
         public string Email { get; set; }
-
 
         public string Facebook { get; set; }
 
@@ -48,7 +39,6 @@ namespace LanguageCenterPLC.Application.ViewModels.Studies
 
         public string Image { get; set; }
 
-        // lương cơ bản
         public decimal BasicSalary { get; set; }
 
         // phụ cấp
@@ -83,13 +73,6 @@ namespace LanguageCenterPLC.Application.ViewModels.Studies
         //ngày nghỉ việc
         public DateTime QuitWorkDay { get; set; }
 
-
-
-        /* Foreign Key */
-
-        /*Reference Table*/
-
-        /*List of References */
         public ICollection<EndingCoursePointViewModel> EndingCoursePoints { set; get; }
         public ICollection<PeriodicPointViewModel> PeriodicPoints { set; get; }
 

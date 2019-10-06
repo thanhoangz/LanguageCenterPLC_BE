@@ -2,23 +2,15 @@
 using LanguageCenterPLC.Infrastructure.Enums;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace LanguageCenterPLC.Application.ViewModels.Studies
 {
     public class PeriodicPointViewModel
     {
         public int Id { get; set; }
-        /// <summary>
-        /// Ngày vào điểm
-        /// </summary>
-        
+
         public DateTime DateOnPoint { get; set; }
 
-        /// <summary>
-        /// Ngày tổ chức thi, kiểm tra
-        /// </summary>
-       
         public DateTime ExaminationDate { get; set; }
 
         public int Week { get; set; }
@@ -30,8 +22,6 @@ namespace LanguageCenterPLC.Application.ViewModels.Studies
         public DateTime DateModified { get; set; }
 
         public string Note { get; set; }
-
-
 
         public string LanguageClassId { get; set; }
 

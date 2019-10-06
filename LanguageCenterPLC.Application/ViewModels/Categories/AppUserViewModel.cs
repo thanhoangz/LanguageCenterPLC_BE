@@ -1,8 +1,8 @@
 ﻿using LanguageCenterPLC.Application.ViewModels.Studies;
 using LanguageCenterPLC.Application.ViewModels.Timekeepings;
+using LanguageCenterPLC.Infrastructure.Enums;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace LanguageCenterPLC.Application.ViewModels.Categories
 {
@@ -20,7 +20,7 @@ namespace LanguageCenterPLC.Application.ViewModels.Categories
         public string Avatar { get; set; }
         public DateTime DateCreated { get; set; }
         public DateTime DateModified { get; set; }
-        public StatusViewModel Status { get; set; }
+        public Status Status { get; set; }
 
         public ICollection<EndingCoursePointViewModel> EndingCoursePoints { set; get; }
         public ICollection<ReceiptViewModel> Receipts { set; get; }

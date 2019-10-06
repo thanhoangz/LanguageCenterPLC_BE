@@ -1,13 +1,9 @@
-﻿using LanguageCenterPLC.Application.ViewModels.Categories;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using LanguageCenterPLC.Infrastructure.Enums;
 
 namespace LanguageCenterPLC.Application.ViewModels.Studies
 {
     public class ContactViewModel
     {
-
         public string Id { get; set; }
         public string Name { set; get; }
 
@@ -25,6 +21,6 @@ namespace LanguageCenterPLC.Application.ViewModels.Studies
 
         public double? Lng { set; get; }
 
-        public StatusViewModel Status { set; get; }
+        public Status Status { set; get; }
     }
 }
