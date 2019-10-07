@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29324.140
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LanguageCenterPLC", "LanguageCenterPLC\LanguageCenterPLC.csproj", "{799ECE5F-9FB1-4112-82B6-95100842F0B1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LanguageCenterPLC", "LanguageCenterPLC\LanguageCenterPLC.csproj", "{799ECE5F-9FB1-4112-82B6-95100842F0B1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1.Presentation", "1.Presentation", "{5795B687-24AA-4641-BF8B-75EDB24D4F2C}"
 EndProject
@@ -13,15 +13,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3.Domain", "3.Domain", "{14
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4.Infrastructure", "4.Infrastructure", "{09B8CA66-7086-4233-AC54-BC7ED1A349F8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LanguageCenterPLC.Application", "LanguageCenterPLC.Application\LanguageCenterPLC.Application.csproj", "{A68DFFEE-9638-4D0F-9286-EC18077D5D0E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LanguageCenterPLC.Application", "LanguageCenterPLC.Application\LanguageCenterPLC.Application.csproj", "{A68DFFEE-9638-4D0F-9286-EC18077D5D0E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LanguageCenterPLC.Data", "LanguageCenterPLC.Data\LanguageCenterPLC.Data.csproj", "{267EE91B-63AC-4A9E-AB12-1AC4899476E2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LanguageCenterPLC.Data", "LanguageCenterPLC.Data\LanguageCenterPLC.Data.csproj", "{267EE91B-63AC-4A9E-AB12-1AC4899476E2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LanguageCenterPLC.Data.EF", "LanguageCenterPLC.Data.EF\LanguageCenterPLC.Data.EF.csproj", "{A30B8B4E-D5A6-420E-8A3C-43A00E4B2FA3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LanguageCenterPLC.Data.EF", "LanguageCenterPLC.Data.EF\LanguageCenterPLC.Data.EF.csproj", "{A30B8B4E-D5A6-420E-8A3C-43A00E4B2FA3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LanguageCenterPLC.Infrastructure", "LanguageCenterPLC.Infrastructure\LanguageCenterPLC.Infrastructure.csproj", "{93378F7C-59FD-4278-833B-1E38030EF093}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LanguageCenterPLC.Infrastructure", "LanguageCenterPLC.Infrastructure\LanguageCenterPLC.Infrastructure.csproj", "{93378F7C-59FD-4278-833B-1E38030EF093}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LanguageCenterPLC.Utilities", "LanguageCenterPLC.Utilities\LanguageCenterPLC.Utilities.csproj", "{17C97720-B9F7-43C9-B636-3340DA5D09B5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LanguageCenterPLC.Utilities", "LanguageCenterPLC.Utilities\LanguageCenterPLC.Utilities.csproj", "{17C97720-B9F7-43C9-B636-3340DA5D09B5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

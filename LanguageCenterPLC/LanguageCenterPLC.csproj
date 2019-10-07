@@ -7,7 +7,7 @@
 
 
   <ItemGroup>
-    <PackageReference Include="IdentityServer4" Version="3.0.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="3.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.0.0" />
@@ -29,6 +29,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\LanguageCenterPLC.Data.EF\LanguageCenterPLC.Data.EF.csproj" />
+    <ProjectReference Include="..\LanguageCenterPLC.Data\LanguageCenterPLC.Data.csproj" />
+    <ProjectReference Include="..\LanguageCenterPLC.Infrastructure\LanguageCenterPLC.Infrastructure.csproj" />
+    <ProjectReference Include="..\LanguageCenterPLC.Utilities\LanguageCenterPLC.Utilities.csproj" />
   </ItemGroup>
 
 </Project>
