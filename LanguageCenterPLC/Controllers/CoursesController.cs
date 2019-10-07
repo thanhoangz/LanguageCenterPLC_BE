@@ -1,12 +1,11 @@
-﻿using System;
+﻿using LanguageCenterPLC.Data.EF;
+using LanguageCenterPLC.Data.Entities;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using LanguageCenterPLC.Data.EF;
-using LanguageCenterPLC.Data.Entities;
 
 namespace LanguageCenterPLC.Controllers
 {
@@ -80,6 +79,9 @@ namespace LanguageCenterPLC.Controllers
         [HttpPost]
         public async Task<ActionResult<Course>> PostCourse(Course course)
         {
+            course.DateCreated = DateTime.Now;
+            course.DateModified = DateTime.Now;
+
             _context.Courses.Add(course);
             await _context.SaveChangesAsync();
 

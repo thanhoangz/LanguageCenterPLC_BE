@@ -98,6 +98,8 @@ namespace LanguageCenterPLC
                 });
             });
 
+      
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -136,7 +138,7 @@ namespace LanguageCenterPLC
             app.UseAuthorization();
 
 
-
+            
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
