@@ -5,15 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Implementation\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="3.0.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\LanguageCenterPLC.Data\LanguageCenterPLC.Data.csproj" />
+    <ProjectReference Include="..\LanguageCenterPLC.Utilities\LanguageCenterPLC.Utilities.csproj" />
   </ItemGroup>
 
 </Project>

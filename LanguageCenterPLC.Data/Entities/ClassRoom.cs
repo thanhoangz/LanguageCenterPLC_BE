@@ -11,8 +11,8 @@ namespace LanguageCenterPLC.Data.Entities
     /// <summary>
     /// Phòng học
     /// </summary>
-    [Table("ClassRooms")]
-    public class ClassRoom : DomainEntity<int>, ISwitchable, IDateTracking
+    [Table("Classrooms")]
+    public class Classroom : DomainEntity<int>, ISwitchable, IDateTracking
     {
         [Required]
         [StringLength(500)]

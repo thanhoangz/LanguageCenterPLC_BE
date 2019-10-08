@@ -233,7 +233,7 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                     b.ToTable("AttendanceSheetDetails");
                 });
 
-            modelBuilder.Entity("LanguageCenterPLC.Data.Entities.ClassRoom", b =>
+            modelBuilder.Entity("LanguageCenterPLC.Data.Entities.Classroom", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -259,7 +259,7 @@ namespace LanguageCenterPLC.Data.EF.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ClassRooms");
+                    b.ToTable("Classrooms");
                 });
 
             modelBuilder.Entity("LanguageCenterPLC.Data.Entities.Contact", b =>
@@ -1349,7 +1349,7 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("ClassRoomId")
+                    b.Property<int>("ClassroomId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("DateCreated")
@@ -1391,7 +1391,7 @@ namespace LanguageCenterPLC.Data.EF.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ClassRoomId");
+                    b.HasIndex("ClassroomId");
 
                     b.HasIndex("LanguageClassId");
 
@@ -1890,9 +1890,9 @@ namespace LanguageCenterPLC.Data.EF.Migrations
 
             modelBuilder.Entity("LanguageCenterPLC.Data.Entities.TeachingSchedule", b =>
                 {
-                    b.HasOne("LanguageCenterPLC.Data.Entities.ClassRoom", "ClassRoom")
+                    b.HasOne("LanguageCenterPLC.Data.Entities.Classroom", "Classroom")
                         .WithMany("TeachingSchedules")
-                        .HasForeignKey("ClassRoomId")
+                        .HasForeignKey("ClassroomId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

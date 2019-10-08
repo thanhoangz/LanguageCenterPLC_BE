@@ -1,7 +1,5 @@
-﻿using LanguageCenterPLC.Application.ViewModels.Categories;
+﻿using LanguageCenterPLC.Infrastructure.Enums;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace LanguageCenterPLC.Application.ViewModels.Studies
 {
@@ -20,7 +18,7 @@ namespace LanguageCenterPLC.Application.ViewModels.Studies
 
         public decimal AveragePoint { get; set; }
 
-        public StatusViewModel Status { get; set; }
+        public Status Status { get; set; }
 
         public DateTime DateCreated { get; set; }
 
@@ -30,18 +28,12 @@ namespace LanguageCenterPLC.Application.ViewModels.Studies
         public int SortOrder { get; set; }
 
         /* Foreign Key */
-        //[Required]
         public string LearnerId { get; set; }
 
-       // [Required]
         public int EndingCoursePointId { get; set; }
 
-        /*Reference Table*/
-       // [ForeignKey("LearnerId")]
         public  LearnerViewModel Learner { get; set; }
 
-
-        //[ForeignKey("EndingCoursePointId")]
         public EndingCoursePointViewModel EndingCoursePoint { get; set; }
     }
 }

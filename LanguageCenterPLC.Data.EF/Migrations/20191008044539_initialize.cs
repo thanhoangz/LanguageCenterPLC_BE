@@ -55,7 +55,7 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ClassRooms",
+                name: "Classrooms",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -68,7 +68,7 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ClassRooms", x => x.Id);
+                    table.PrimaryKey("PK_Classrooms", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -853,7 +853,7 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                     DateModified = table.Column<DateTime>(nullable: false),
                     Note = table.Column<string>(nullable: true),
                     LecturerId = table.Column<int>(nullable: false),
-                    ClassRoomId = table.Column<int>(nullable: false),
+                    ClassroomId = table.Column<int>(nullable: false),
                     LanguageClassId = table.Column<string>(nullable: false),
                     LearnerId = table.Column<string>(nullable: true)
                 },
@@ -861,9 +861,9 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                 {
                     table.PrimaryKey("PK_TeachingSchedules", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_TeachingSchedules_ClassRooms_ClassRoomId",
-                        column: x => x.ClassRoomId,
-                        principalTable: "ClassRooms",
+                        name: "FK_TeachingSchedules_Classrooms_ClassroomId",
+                        column: x => x.ClassroomId,
+                        principalTable: "Classrooms",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -1236,9 +1236,9 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                 column: "LearnerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TeachingSchedules_ClassRoomId",
+                name: "IX_TeachingSchedules_ClassroomId",
                 table: "TeachingSchedules",
-                column: "ClassRoomId");
+                column: "ClassroomId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_TeachingSchedules_LanguageClassId",
@@ -1347,7 +1347,7 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                 name: "Receipts");
 
             migrationBuilder.DropTable(
-                name: "ClassRooms");
+                name: "Classrooms");
 
             migrationBuilder.DropTable(
                 name: "LanguageClasses");

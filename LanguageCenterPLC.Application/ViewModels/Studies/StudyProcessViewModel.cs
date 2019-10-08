@@ -1,8 +1,6 @@
 ﻿using LanguageCenterPLC.Application.ViewModels.Categories;
 using LanguageCenterPLC.Infrastructure.Enums;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace LanguageCenterPLC.Application.ViewModels.Studies
 {
@@ -21,17 +19,11 @@ namespace LanguageCenterPLC.Application.ViewModels.Studies
 
         public string Note { get; set; }
 
-
-        /* Foreign Key */
-
         public string LanguageClassId { get; set; }
 
         public string LearnerId { get; set; }
 
-        /*Reference Table*/
-
         public  LearnerViewModel Learner { get; set; }
-
 
         public  LanguageClassViewModel LanguageClass { get; set; }
     }

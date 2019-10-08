@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using AutoMapper;
-
+﻿using AutoMapper;
 namespace LanguageCenterPLC.Application.AutoMapper
 {
-    class AutoMapperConfig
+    public class AutoMapperConfig
     {
         public static MapperConfiguration RegisterMappings()
         {

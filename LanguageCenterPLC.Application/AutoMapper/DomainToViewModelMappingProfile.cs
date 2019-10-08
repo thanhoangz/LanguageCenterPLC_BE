@@ -1,19 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using AutoMapper;
+﻿using AutoMapper;
+using LanguageCenterPLC.Application.ViewModels;
 using LanguageCenterPLC.Application.ViewModels.Categories;
-using LanguageCenterPLC.Application.ViewModels.Timekeepings;
 using LanguageCenterPLC.Application.ViewModels.Finances;
 using LanguageCenterPLC.Application.ViewModels.Studies;
-
-
+using LanguageCenterPLC.Application.ViewModels.Timekeepings;
 using LanguageCenterPLC.Data.Entities;
-using LanguageCenterPLC.Application.ViewModels;
 
 namespace LanguageCenterPLC.Application.AutoMapper
 {
-    class DomainToViewModelMappingProfile : Profile
+    public class DomainToViewModelMappingProfile : Profile
     {
         public DomainToViewModelMappingProfile()
         {
@@ -21,7 +16,7 @@ namespace LanguageCenterPLC.Application.AutoMapper
             CreateMap<AppUser, AppUserViewModel>();
             CreateMap<AttendanceSheet, AttendanceSheetViewModel>();
             CreateMap<AttendanceSheetDetail, AttendanceSheetDetailViewModel>();
-            CreateMap<ClassRoom, ClassRoomViewModel>();
+            CreateMap<Classroom, ClassroomViewModel>();
             CreateMap<Contact, ContactViewModel>();
             CreateMap<Course, CourseViewModel>();
             CreateMap<EndingCoursePoint, EndingCoursePointViewModel>();
@@ -47,7 +42,6 @@ namespace LanguageCenterPLC.Application.AutoMapper
             CreateMap<SystemConfig, SystemConfigViewModel>();
             CreateMap<TeachingSchedule, TeachingScheduleViewModel>();
             CreateMap<Timesheet, TimesheetViewModel>();
-
 
         }
     }

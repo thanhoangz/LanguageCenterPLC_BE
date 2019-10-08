@@ -25,7 +25,7 @@ namespace LanguageCenterPLC.Data.EF
 
         public DbSet<AttendanceSheetDetail> AttendanceSheetDetails { set; get; }
 
-        public DbSet<ClassRoom> ClassRooms { set; get; }
+        public DbSet<Classroom> Classrooms { set; get; }
 
         public DbSet<Contact> Contacts { set; get; }
 

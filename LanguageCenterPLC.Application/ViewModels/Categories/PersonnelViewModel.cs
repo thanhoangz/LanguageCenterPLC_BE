@@ -3,40 +3,32 @@ using LanguageCenterPLC.Application.ViewModels.Timekeepings;
 using LanguageCenterPLC.Infrastructure.Enums;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace LanguageCenterPLC.Application.ViewModels.Categories
 {
     public class PersonnelViewModel
     {
         public string Id { get; set; }
+
         public string CardId { get; set; }
 
-        
         public string FirstName { get; set; }
-
         
         public string LastName { get; set; }
 
         public bool Sex { get; set; }
 
-       
         public DateTime Birthday { get; set; }
 
-        
         public string Address { get; set; }
 
-        
         public string Nationality { get; set; }
 
-        
         public int MarritalStatus { get; set; }
 
         public string ExperienceRecord { get; set; }
 
-
         public string Email { get; set; }
-
 
         public string Facebook { get; set; }
 
@@ -66,21 +58,12 @@ namespace LanguageCenterPLC.Application.ViewModels.Categories
 
         public DateTime QuitWorkDay { get; set; }
 
-
-        /* Foreign Key */
-
-        /*Reference Table*/
-
-        /*List of References */
-
         public ICollection<ReceiptViewModel> Receipts { set; get; }
 
         public ICollection<TimesheetViewModel> Timesheets { set; get; }
 
-
         public ICollection<PaySlipViewModel> PersonnelPaySlip { set; get; }
 
- 
         public ICollection<PaySlipViewModel> SendPersonnelPaySlip { set; get; }
     }
 }
