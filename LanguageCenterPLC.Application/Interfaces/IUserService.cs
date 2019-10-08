@@ -9,7 +9,9 @@ namespace LanguageCenterPLC.Application.Interfaces
     {
         Task<bool> AddAsync(AppUserViewModel userVm);
 
-        Task DeleteAsync(string id);
+        Task<bool> UpdateAsync(AppUserViewModel userVm);
+
+        Task<bool> DeleteAsync(string id);
 
         Task<List<AppUserViewModel>> GetAllAsync();
 
@@ -17,7 +19,6 @@ namespace LanguageCenterPLC.Application.Interfaces
 
         Task<AppUserViewModel> GetById(string id);
 
-
-        Task UpdateAsync(AppUserViewModel userVm);
+        void SaveChanges();
     }
 }

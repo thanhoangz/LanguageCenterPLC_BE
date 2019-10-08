@@ -19,6 +19,6 @@ namespace LanguageCenterPLC.Application.Interfaces
 
         void UpdateStatus(int courseId, Status status);
 
-        void Save();
+        void SaveChanges();
     }
 }

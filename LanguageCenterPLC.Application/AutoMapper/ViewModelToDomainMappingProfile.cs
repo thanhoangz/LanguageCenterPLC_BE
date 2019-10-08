@@ -21,7 +21,7 @@ namespace LanguageCenterPLC.Application.AutoMapper
             c.Email, c.PhoneNumber, c.Avatar, c.Status));
             CreateMap<AttendanceSheetViewModel, AttendanceSheet>();
             CreateMap<AttendanceSheetDetailViewModel, AttendanceSheetDetail>();
-            CreateMap<ClassRoomViewModel, ClassRoom>();
+            CreateMap<ClassroomViewModel, Classroom>();
             CreateMap<ContactViewModel, Contact>()
                 .ConstructUsing(c => new Contact(c.Id, c.Name, c.Phone,
             c.Email, c.Website, c.Address, c.Other, c.Lng, c.Lat, c.Status));

@@ -33,7 +33,7 @@ namespace LanguageCenterPLC
         {
             services.AddDbContext<AppDbContext>(options =>
                           options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"),
-                          o => o.MigrationsAssembly("ForeignLanguageCenterPLC.Data.EF")));
+                          o => o.MigrationsAssembly("LanguageCenterPLC.Data.EF")));
 
             // Authen
             services.AddIdentity<AppUser, AppRole>()

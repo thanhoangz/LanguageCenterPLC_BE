@@ -16,7 +16,7 @@ namespace LanguageCenterPLC.Application.AutoMapper
             CreateMap<AppUser, AppUserViewModel>();
             CreateMap<AttendanceSheet, AttendanceSheetViewModel>();
             CreateMap<AttendanceSheetDetail, AttendanceSheetDetailViewModel>();
-            CreateMap<ClassRoom, ClassRoomViewModel>();
+            CreateMap<Classroom, ClassroomViewModel>();
             CreateMap<Contact, ContactViewModel>();
             CreateMap<Course, CourseViewModel>();
             CreateMap<EndingCoursePoint, EndingCoursePointViewModel>();

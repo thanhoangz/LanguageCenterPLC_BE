@@ -26,7 +26,7 @@ namespace LanguageCenterPLC.Application.ViewModels.Studies
         /* Foreign Key */
         public int LecturerId { get; set; }
 
-        public int ClassRoomId { get; set; }
+        public int ClassroomId { get; set; }
 
         public string LanguageClassId { get; set; }
 
@@ -34,7 +34,7 @@ namespace LanguageCenterPLC.Application.ViewModels.Studies
 
         public  LecturerViewModel Lecturer { get; set; }
 
-        public  ClassRoomViewModel ClassRoom { get; set; }
+        public  ClassroomViewModel ClassRoom { get; set; }
 
         public  LanguageClassViewModel LanguageClass { get; set; }
     }

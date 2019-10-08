@@ -4,17 +4,17 @@ using System.Threading.Tasks;
 
 namespace LanguageCenterPLC.Application.Interfaces
 {
-    public interface IClassroomService
+    public interface IReceiptService
     {
-        Task<bool> AddAsync(ClassroomViewModel classroomVm);
+        Task<bool> AddAsync(ReceiptViewModel receiptVm);
 
-        Task<bool> UpdateAsync(ClassroomViewModel classroomVm);
+        Task<bool> UpdateAsync(ReceiptViewModel receiptVm);
 
         Task<bool> DeleteAsync(int id);
 
-        Task<List<ClassroomViewModel>> GetAll();
+        Task<List<ReceiptViewModel>> GetAll();
 
-        Task<ClassroomViewModel> GetById(int id);
+        Task<ReceiptViewModel> GetById(int id);
 
         void SaveChanges();
     }

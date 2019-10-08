@@ -48,7 +48,7 @@ namespace LanguageCenterPLC.Data.Entities
         public int LecturerId { get; set; }
 
         [Required]
-        public int ClassRoomId { get; set; }
+        public int ClassroomId { get; set; }
 
         [Required]
         public string LanguageClassId { get; set; }
@@ -58,8 +58,8 @@ namespace LanguageCenterPLC.Data.Entities
         [ForeignKey("LecturerId")]
         public virtual Lecturer Lecturer { get; set; }
 
-        [ForeignKey("ClassRoomId")]
-        public virtual ClassRoom ClassRoom { get; set; }
+        [ForeignKey("ClassroomId")]
+        public virtual Classroom Classroom { get; set; }
 
         [ForeignKey("LanguageClassId")]
         public virtual LanguageClass LanguageClass { get; set; }

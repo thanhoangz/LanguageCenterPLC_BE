@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace LanguageCenterPLC.Application.ViewModels.Studies
 {
-    public class ClassRoomViewModel
+    public class ClassroomViewModel
     {
         public int Id { get; set; }
 

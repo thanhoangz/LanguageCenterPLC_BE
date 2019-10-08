@@ -1,22 +1,23 @@
 ﻿using LanguageCenterPLC.Application.ViewModels.Studies;
 using LanguageCenterPLC.Utilities.Dtos;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace LanguageCenterPLC.Application.Interfaces
 {
     public interface IFeedbackService
     {
-        void Add(FeedbackViewModel feedbackVm);
+        Task<bool> AddAsync(FeedbackViewModel feedbackVm);
 
-        void Update(FeedbackViewModel feedbackVm);
+        Task<bool> UpdateAsync(FeedbackViewModel feedbackVm);
 
-        void Delete(int id);
+        Task<bool> DeleteAsync(int id);
 
-        List<FeedbackViewModel> GetAll();
+        Task<List<FeedbackViewModel>> GetAll();
 
         PagedResult<FeedbackViewModel> GetAllPaging(string keyword, int page, int pageSize);
 
-        FeedbackViewModel GetById(int id);
+        Task<FeedbackViewModel> GetById(int id);
 
         void SaveChanges();
     }
