@@ -1,3 +1,4 @@
+using AutoMapper;
 using LanguageCenterPLC.Data.EF;
 using LanguageCenterPLC.Data.Entities;
 using LanguageCenterPLC.Infrastructure.Interfaces;
@@ -30,6 +31,8 @@ namespace LanguageCenterPLC
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAutoMapper();
+
             services.AddDbContext<AppDbContext>(options =>
                           options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"),
                           o => o.MigrationsAssembly("ForeignLanguageCenterPLC.Data.EF")));
