@@ -40,9 +40,6 @@ namespace LanguageCenterPLC.Data.Entities
 
         public string Note { get; set; }
 
-        /* Foreign Key */
-        /*Reference Table*/
-        /*List of References */
         public ICollection<LanguageClass> LanguageClasses { set; get; }
     }
 }

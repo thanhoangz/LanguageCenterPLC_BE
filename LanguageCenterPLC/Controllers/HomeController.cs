@@ -6,16 +6,40 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using LanguageCenterPLC.Models;
+using LanguageCenterPLC.Application.Interfaces;
+using LanguageCenterPLC.Application.ViewModels;
+using LanguageCenterPLC.Infrastructure.Enums;
 
 namespace LanguageCenterPLC.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly ICourseService _courseService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, ICourseService courseService)
         {
             _logger = logger;
+            _courseService = courseService;
+        }
+
+        public IActionResult XXX()
+        {
+            CourseViewModel courseViewModel = new CourseViewModel();
+            courseViewModel.Name = "xx";
+            courseViewModel.NumberOfSession = 1;
+            courseViewModel.TraingTime = 4;
+            courseViewModel.Price = 2;
+            courseViewModel.Status = Status.Active;
+            courseViewModel.Content = "";
+            courseViewModel.DateCreated = DateTime.Now;
+            courseViewModel.DateModified = DateTime.Now;
+            _courseService.Create(courseViewModel);
+            _courseService.SaveChanges();
+
+            ViewBag.Name = "qqqq";
+
+            return View();
         }
 
         public IActionResult Index()

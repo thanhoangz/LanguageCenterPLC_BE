@@ -1,11 +1,16 @@
 using AutoMapper;
+using LanguageCenterPLC.Application.Implementation;
+using LanguageCenterPLC.Application.Interfaces;
+using LanguageCenterPLC.Authorization;
 using LanguageCenterPLC.Data.EF;
 using LanguageCenterPLC.Data.Entities;
 using LanguageCenterPLC.Infrastructure.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -13,6 +18,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using System;
+using System.Collections.Generic;
+using System.Globalization;
 
 namespace LanguageCenterPLC
 {
@@ -31,6 +38,8 @@ namespace LanguageCenterPLC
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMemoryCache();
+
             services.AddDbContext<AppDbContext>(options =>
                           options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"),
                           o => o.MigrationsAssembly("LanguageCenterPLC.Data.EF")));
@@ -64,6 +73,7 @@ namespace LanguageCenterPLC
             // Configure Identity
 
             services.AddControllersWithViews();
+
             services.AddRazorPages();
 
             services.Configure<CookiePolicyOptions>(options =>
@@ -92,6 +102,10 @@ namespace LanguageCenterPLC
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
                .AddNewtonsoftJson();
 
+            services.AddSingleton(Mapper.Configuration);
+
+            services.AddScoped<IMapper>(sp => new Mapper(sp.GetRequiredService<AutoMapper.IConfigurationProvider>(), sp.GetService));
+
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
             {
@@ -104,9 +118,37 @@ namespace LanguageCenterPLC
             });
 
 
+           
+
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromHours(2);
+                options.Cookie.HttpOnly = true;
+            });
+
+            services.Configure<RequestLocalizationOptions>(
+              opts =>
+              {
+                  var supportedCultures = new List<CultureInfo>
+                  {
+                        new CultureInfo("en-US"),
+                        new CultureInfo("vi-VN")
+                  };
+
+                  opts.DefaultRequestCulture = new RequestCulture("en-US");
+                  // Formatting numbers, dates, etc.
+                  opts.SupportedCultures = supportedCultures;
+                  // UI strings that we have localized.
+                  opts.SupportedUICultures = supportedCultures;
+              });
+
+
             services.AddTransient(typeof(IUnitOfWork), typeof(EFUnitOfWork));
             services.AddTransient(typeof(IRepository<,>), typeof(EFRepository<,>));
 
+            //Serrvices
+            services.AddTransient<ICourseService, CourseService>();
+            //services.AddTransient<IAuthorizationHandler, BaseResourceAuthorizationHandler>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
