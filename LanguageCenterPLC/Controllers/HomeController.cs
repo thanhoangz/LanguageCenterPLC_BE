@@ -25,19 +25,28 @@ namespace LanguageCenterPLC.Controllers
 
         public IActionResult XXX()
         {
-            CourseViewModel courseViewModel = new CourseViewModel();
-            courseViewModel.Name = "xx";
-            courseViewModel.NumberOfSession = 1;
-            courseViewModel.TraingTime = 4;
-            courseViewModel.Price = 2;
-            courseViewModel.Status = Status.Active;
-            courseViewModel.Content = "";
-            courseViewModel.DateCreated = DateTime.Now;
-            courseViewModel.DateModified = DateTime.Now;
-            _courseService.Create(courseViewModel);
-            _courseService.SaveChanges();
+            //CourseViewModel courseViewModel = new CourseViewModel();
+            //courseViewModel.Id = 11;
+            //courseViewModel.Name = "QQQQQQQQQQQ";
+            //courseViewModel.NumberOfSession = 1;
+            //courseViewModel.TraingTime = 4;
+            //courseViewModel.Price = 2;
+            //courseViewModel.Status = Status.Active;
+            //courseViewModel.Content = "";
+            //courseViewModel.DateCreated = DateTime.Now;
+            //courseViewModel.DateModified = DateTime.Now;
 
-            ViewBag.Name = "qqqq";
+
+            //_courseService.AddAsync(courseViewModel);
+            //_courseService.SaveChanges();
+
+            //_courseService.DeleteAsync(7);
+
+            //_courseService.UpdateAsync(courseViewModel);
+
+            List<CourseViewModel> courseViewModels = _courseService.GetAll();
+
+            ViewBag.Name = courseViewModels[1].Name;
 
             return View();
         }
