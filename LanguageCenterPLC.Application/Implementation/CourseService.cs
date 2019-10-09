@@ -7,6 +7,7 @@ using LanguageCenterPLC.Infrastructure.Interfaces;
 using LanguageCenterPLC.Utilities.Dtos;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace LanguageCenterPLC.Application.Implementation
 {
@@ -23,13 +24,39 @@ namespace LanguageCenterPLC.Application.Implementation
             _unitOfWork = unitOfWork;
         }
 
-        public void Create(CourseViewModel courseVm)
+        public Task<bool> AddSync(CourseViewModel courseVm)
         {
-            var course = Mapper.Map<CourseViewModel, Course>(courseVm);
-            _courseRepository.Add(course);
+            try
+            {
+                var course = Mapper.Map<CourseViewModel, Course>(courseVm);
+                _courseRepository.Add(course);
+                return new Task<bool>(() => true);
+            }
+            catch
+            {
+
+                return new Task<bool>(() => false);
+            }
+
+
         }
 
-        public void Delete(int courseId)
+        public Task<bool> Delete(int courseId)
+        {
+            try
+            {
+                var course = _courseRepository.FindById(courseId);
+                _courseRepository.Remove(course);
+                return new Task<bool>(() => true);
+            }
+            catch
+            {
+                return new Task<bool>(() => false);
+            }
+
+        }
+
+        public Task<List<CourseViewModel>> GetAll()
         {
             throw new NotImplementedException();
         }
@@ -39,7 +66,7 @@ namespace LanguageCenterPLC.Application.Implementation
             throw new NotImplementedException();
         }
 
-        public CourseViewModel GetDetail(int courseId)
+        public Task<CourseViewModel> GetDetail(int courseId)
         {
             throw new NotImplementedException();
         }
@@ -49,14 +76,24 @@ namespace LanguageCenterPLC.Application.Implementation
             _unitOfWork.Commit();
         }
 
-        public void Update(CourseViewModel courseVm)
+        public Task<bool> UpdateStatusSync(int courseId, Status status)
         {
             throw new NotImplementedException();
         }
 
-        public void UpdateStatus(int courseId, Status status)
+        public Task<bool> UpdateSync(CourseViewModel courseVm)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var course = Mapper.Map<CourseViewModel, Course>(courseVm);
+                _courseRepository.Update(course);
+                return new Task<bool>(() => true);
+            }
+            catch
+            {
+
+                return new Task<bool>(() => false);
+            }
         }
     }
 }

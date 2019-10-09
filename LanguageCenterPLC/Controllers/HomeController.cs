@@ -26,7 +26,8 @@ namespace LanguageCenterPLC.Controllers
         public IActionResult XXX()
         {
             CourseViewModel courseViewModel = new CourseViewModel();
-            courseViewModel.Name = "xx";
+            courseViewModel.Id = 2;
+            courseViewModel.Name = "caxxxxxcx";
             courseViewModel.NumberOfSession = 1;
             courseViewModel.TraingTime = 4;
             courseViewModel.Price = 2;
@@ -34,7 +35,10 @@ namespace LanguageCenterPLC.Controllers
             courseViewModel.Content = "";
             courseViewModel.DateCreated = DateTime.Now;
             courseViewModel.DateModified = DateTime.Now;
-            _courseService.Create(courseViewModel);
+            //_courseService.AddSync(courseViewModel);
+            //_courseService.Delete(1);
+
+            _courseService.UpdateSync(courseViewModel);
             _courseService.SaveChanges();
 
             ViewBag.Name = "qqqq";
