@@ -63,13 +63,18 @@ namespace LanguageCenterPLC.Application.Implementation
             return coursesViewModel;
         }
 
-        public PagedResult<CourseViewModel> GetAllPaging(string keyword, int status, int pageIndex, int pageSize)
+        public PagedResult<CourseViewModel> GetAllPaging(string keyword, int status, int pageSize, int pageIndex)
         {
             var query = _courseRepository.FindAll();
             if (!string.IsNullOrEmpty(keyword))
             {
                 query = query.Where(x => x.Name.Contains(keyword));
             }
+
+            Status _status = (Status)status;
+
+            query = query.Where(x => x.Status == _status);
+
             var totalRow = query.Count();
             var data = query.OrderByDescending(x => x.Price)
                 .Skip((pageIndex - 1) * pageSize)
@@ -90,6 +95,12 @@ namespace LanguageCenterPLC.Application.Implementation
             var course = _courseRepository.FindById(courseId);
             var courseViewModel = Mapper.Map<CourseViewModel>(course);
             return courseViewModel;
+        }
+
+        public bool IsExists(int id)
+        {
+            var course = _courseRepository.FindById(id);
+            return (course == null) ? false : true; 
         }
 
         public void SaveChanges()

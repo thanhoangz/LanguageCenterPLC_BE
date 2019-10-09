@@ -17,11 +17,13 @@ namespace LanguageCenterPLC.Application.Interfaces
         List<CourseViewModel> GetAll();
 
         PagedResult<CourseViewModel> GetAllPaging(string keyword, int status,
-            int pageIndex, int pageSize);
+           int pageSize, int pageIndex);
 
         CourseViewModel GetById(int courseId);
 
         bool UpdateStatus(int courseId, Status status);
+
+        bool IsExists(int id);
 
         void SaveChanges();
     }
