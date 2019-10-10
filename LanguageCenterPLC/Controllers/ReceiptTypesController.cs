@@ -1,13 +1,14 @@
-﻿using System;
+﻿using LanguageCenterPLC.Application.Interfaces;
+using LanguageCenterPLC.Application.ViewModels.Categories;
+using LanguageCenterPLC.Data.EF;
+using LanguageCenterPLC.Data.Entities;
+using LanguageCenterPLC.Utilities.Dtos;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using LanguageCenterPLC.Data.EF;
-using LanguageCenterPLC.Data.Entities;
-using LanguageCenterPLC.Application.Interfaces;
 
 namespace LanguageCenterPLC.Controllers
 {
@@ -15,50 +16,56 @@ namespace LanguageCenterPLC.Controllers
     [ApiController]
     public class ReceiptTypesController : ControllerBase
     {
-        //private readonly AppDbContext _context;
+
         private readonly IReceiptTypeService _receiptTypeService;
-        public ReceiptTypesController(AppDbContext context)
+
+        public ReceiptTypesController(IReceiptTypeService receiptTypeService)
         {
-            _context = context;
+            _receiptTypeService = receiptTypeService;
         }
 
         // GET: api/ReceiptTypes
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ReceiptType>>> GetReceiptTypes()
+        public async Task<ActionResult<IEnumerable<ReceiptTypeViewModel>>> GetReceiptTypes()
         {
-            return await _context.ReceiptTypes.ToListAsync();
+            return await Task.FromResult(_receiptTypeService.GetAll());
         }
 
         // GET: api/ReceiptTypes/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<ReceiptType>> GetReceiptType(int id)
+        public async Task<ActionResult<ReceiptTypeViewModel>> GetReceiptType(int id)
         {
-            var receiptType = await _context.ReceiptTypes.FindAsync(id);
+            var receiptType = _receiptTypeService.GetById(id);
 
             if (receiptType == null)
             {
-                return NotFound();
+                return NotFound("Không tìm thấy id = " + id);
             }
 
-            return receiptType;
+            return await Task.FromResult(receiptType);
         }
 
         // PUT: api/ReceiptTypes/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutReceiptType(int id, ReceiptType receiptType)
+        public async Task<IActionResult> PutReceiptType(int id, ReceiptTypeViewModel receiptType)
         {
-            if (id != receiptType.Id)
+            if (receiptType.Id != id)
             {
-                return BadRequest();
+                throw new Exception(string.Format("Id và Id của loại thu không giống nhau!"));
             }
-
-            _context.Entry(receiptType).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync();
+                await Task.Run(() =>
+                {
+                    receiptType.DateModified = DateTime.Now;
+                    _receiptTypeService.Update(receiptType);
+                    _receiptTypeService.SaveChanges();
+                    return Ok("Cập nhập thành công!");
+                });
+
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -75,37 +82,82 @@ namespace LanguageCenterPLC.Controllers
             return NoContent();
         }
 
+        [HttpPost("/api/ReceiptTypes/paging")]
+        public async Task<ActionResult<PagedResult<ReceiptTypeViewModel>>> PagingCourse(string keyword = "", int pageSize = 10, int pageIndex = 0)
+        {
+            try
+            {
+                return await Task.FromResult(_receiptTypeService.GetAllPaging(keyword, pageSize, pageIndex));
+            }
+            catch
+            {
+                throw new Exception(string.Format("Lỗi xảy ra ở phân trang!"));
+            }
+
+
+        }
+
         // POST: api/ReceiptTypes
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
-        public async Task<ActionResult<ReceiptType>> PostReceiptType(ReceiptType receiptType)
+        public async Task<ActionResult<ReceiptTypeViewModel>> PostReceiptType(ReceiptTypeViewModel receiptType)
         {
-            _context.ReceiptTypes.Add(receiptType);
-            await _context.SaveChangesAsync();
+            if (receiptType != null)
+            {
+                try
+                {
+                    await Task.Run(() =>
+                    {
+                        receiptType.DateCreated = DateTime.Now;
+                        receiptType.DateModified = DateTime.Now;
+                        _receiptTypeService.Add(receiptType);
+                        _receiptTypeService.SaveChanges();
+                        return Ok("Thêm loại thu thành công!");
+                    });
 
-            return CreatedAtAction("GetReceiptType", new { id = receiptType.Id }, receiptType);
+                }
+                catch
+                {
+
+                    throw new Exception(string.Format("Lỗi khi thêm dữ liệu"));
+                }
+
+            }
+
+            return CreatedAtAction("GetCourse", new { id = receiptType.Id }, receiptType);
         }
 
         // DELETE: api/ReceiptTypes/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<ReceiptType>> DeleteReceiptType(int id)
+        public async Task<ActionResult> DeleteReceiptType(int id)
         {
-            var receiptType = await _context.ReceiptTypes.FindAsync(id);
+            var receiptType = _receiptTypeService.GetById(id);
             if (receiptType == null)
             {
-                return NotFound();
+                return NotFound("Không tìm thấy Id = " + id);
             }
 
-            _context.ReceiptTypes.Remove(receiptType);
-            await _context.SaveChangesAsync();
+            try
+            {
+                await Task.Run(() =>
+                {
+                    _receiptTypeService.Delete(id);
+                    _receiptTypeService.SaveChanges();
+                });
+            }
+            catch
+            {
 
-            return receiptType;
+                throw new Exception(string.Format("Có lỗi xảy ra không thể xóa!"));
+            }
+
+            return Ok("Xóa thành công");
         }
 
         private bool ReceiptTypeExists(int id)
         {
-            return _context.ReceiptTypes.Any(e => e.Id == id);
+            return _receiptTypeService.IsExists(id);
         }
     }
 }

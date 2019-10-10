@@ -127,7 +127,7 @@ namespace LanguageCenterPLC.Controllers
 
         // DELETE: api/Courses/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<CourseViewModel>> DeleteCourse(int id)
+        public async Task<ActionResult> DeleteCourse(int id)
         {
 
             var course = _courseService.GetById(id);
@@ -150,7 +150,7 @@ namespace LanguageCenterPLC.Controllers
                 throw new Exception(string.Format("Có lỗi xảy ra không thể xóa!"));
             }
 
-            return course;
+            return Ok();
         }
 
         private bool CourseExists(int id)
