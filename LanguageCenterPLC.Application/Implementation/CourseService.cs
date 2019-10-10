@@ -5,17 +5,16 @@ using LanguageCenterPLC.Data.Entities;
 using LanguageCenterPLC.Infrastructure.Enums;
 using LanguageCenterPLC.Infrastructure.Interfaces;
 using LanguageCenterPLC.Utilities.Dtos;
-using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
+using System.Linq;
 
 namespace LanguageCenterPLC.Application.Implementation
 {
     public class CourseService : ICourseService
     {
         private readonly IRepository<Course, int> _courseRepository;
-        private readonly IUnitOfWork _unitOfWork;
 
+        private readonly IUnitOfWork _unitOfWork;
 
         public CourseService(IRepository<Course, int> courseRepository,
            IUnitOfWork unitOfWork)
@@ -24,51 +23,84 @@ namespace LanguageCenterPLC.Application.Implementation
             _unitOfWork = unitOfWork;
         }
 
-        public Task<bool> AddSync(CourseViewModel courseVm)
+        public bool Add(CourseViewModel courseVm)
         {
             try
             {
                 var course = Mapper.Map<CourseViewModel, Course>(courseVm);
+
                 _courseRepository.Add(course);
-                return new Task<bool>(() => true);
+
+                return true;
             }
             catch
             {
-
-                return new Task<bool>(() => false);
+                return false;
             }
-
-
         }
 
-        public Task<bool> Delete(int courseId)
+
+        public bool Delete(int courseId)
         {
             try
             {
                 var course = _courseRepository.FindById(courseId);
+
                 _courseRepository.Remove(course);
-                return new Task<bool>(() => true);
+
+                return true;
             }
             catch
             {
-                return new Task<bool>(() => false);
+                return false;
+            }
+        }
+
+        public List<CourseViewModel> GetAll()
+        {
+            List<Course> courses = _courseRepository.FindAll().ToList();
+            var coursesViewModel = Mapper.Map<List<CourseViewModel>>(courses);
+            return coursesViewModel;
+        }
+
+        public PagedResult<CourseViewModel> GetAllPaging(string keyword, int status, int pageSize, int pageIndex)
+        {
+            var query = _courseRepository.FindAll();
+            if (!string.IsNullOrEmpty(keyword))
+            {
+                query = query.Where(x => x.Name.Contains(keyword));
             }
 
+            Status _status = (Status)status;
+
+            query = query.Where(x => x.Status == _status);
+
+            var totalRow = query.Count();
+            var data = query.OrderByDescending(x => x.Price)
+                .Skip((pageIndex - 1) * pageSize)
+                .Take(pageSize);
+            var resultPaging = Mapper.Map<List<CourseViewModel>>(data);
+
+            return new PagedResult<CourseViewModel>()
+            {
+                CurrentPage = pageIndex,
+                PageSize = pageSize,
+                Results = resultPaging,
+                RowCount = totalRow
+            };
         }
 
-        public Task<List<CourseViewModel>> GetAll()
+        public CourseViewModel GetById(int courseId)
         {
-            throw new NotImplementedException();
+            var course = _courseRepository.FindById(courseId);
+            var courseViewModel = Mapper.Map<CourseViewModel>(course);
+            return courseViewModel;
         }
 
-        public PagedResult<CourseViewModel> GetAllPaging(string keyword, int status, int pageIndex, int pageSize)
+        public bool IsExists(int id)
         {
-            throw new NotImplementedException();
-        }
-
-        public Task<CourseViewModel> GetDetail(int courseId)
-        {
-            throw new NotImplementedException();
+            var course = _courseRepository.FindById(id);
+            return (course == null) ? false : true; 
         }
 
         public void SaveChanges()
@@ -76,24 +108,34 @@ namespace LanguageCenterPLC.Application.Implementation
             _unitOfWork.Commit();
         }
 
-        public Task<bool> UpdateStatusSync(int courseId, Status status)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<bool> UpdateSync(CourseViewModel courseVm)
+        public bool Update(CourseViewModel courseVm)
         {
             try
             {
                 var course = Mapper.Map<CourseViewModel, Course>(courseVm);
                 _courseRepository.Update(course);
-                return new Task<bool>(() => true);
+                return true;
+
             }
             catch
             {
-
-                return new Task<bool>(() => false);
+                return false;
             }
         }
+
+        public bool UpdateStatus(int courseId, Status status)
+        {
+            try
+            {
+                var course = _courseRepository.FindById(courseId);
+                course.Status = status;
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
     }
 }

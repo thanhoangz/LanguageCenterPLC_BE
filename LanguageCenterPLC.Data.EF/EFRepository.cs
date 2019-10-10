@@ -31,15 +31,23 @@ namespace LanguageCenterPLC.Data.EF
         public IQueryable<T> FindAll(params Expression<Func<T, object>>[] includeProperties)
         {
             IQueryable<T> items = _context.Set<T>();
-            if (includeProperties != null)
+
+            foreach (var includeProperty in includeProperties)
             {
-                foreach (var includeProperty in includeProperties)
-                {
-                    items = items.Include(includeProperty);
-                }
+                items = items.Include(includeProperty);
             }
+
             return items;
         }
+
+
+
+
+        public IQueryable<T> GetAll()
+        {
+            return _context.Set<T>();
+        }
+
 
         public IQueryable<T> FindAll(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includeProperties)
         {

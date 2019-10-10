@@ -8,6 +8,10 @@ using Microsoft.EntityFrameworkCore;
 using LanguageCenterPLC.Data.EF;
 using LanguageCenterPLC.Data.Entities;
 using LanguageCenterPLC.Infrastructure.Enums;
+using LanguageCenterPLC.Application.Implementation;
+using LanguageCenterPLC.Application.ViewModels;
+using LanguageCenterPLC.Application.Interfaces;
+using LanguageCenterPLC.Utilities.Dtos;
 
 namespace LanguageCenterPLC.Controllers
 {
@@ -15,46 +19,57 @@ namespace LanguageCenterPLC.Controllers
     [ApiController]
     public class CoursesController : ControllerBase
     {
-        private readonly AppDbContext _context;
+        //private readonly AppDbContext _context;
 
-        public CoursesController(AppDbContext context)
+        private readonly ICourseService _courseService;
+
+        public CoursesController(ICourseService courseService)
         {
-            _context = context;
+            _courseService = courseService;
         }
 
         // GET: api/Courses
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Course>>> GetCourses()
+        public async Task<ActionResult<IEnumerable<CourseViewModel>>> GetCourses()
         {
-            return await _context.Courses.ToListAsync();
+            return await Task.FromResult(_courseService.GetAll());
         }
 
         // GET: api/Courses/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Course>> GetCourse(int id)
+        public async Task<ActionResult<CourseViewModel>> GetCourse(int id)
         {
-            var course = await _context.Courses.FindAsync(id);
+            var course = _courseService.GetById(id);
 
             if (course == null)
             {
-                return NotFound();
+                return NotFound("Không tìm thấy khóa học có id = " + id);
             }
 
-            return course;
+            return await Task.FromResult(course);
         }
 
         // PUT: api/Courses/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCourse(int id, Course course)
+        public async Task<IActionResult> PutCourse(int id, CourseViewModel course)
         {
-
-            _context.Entry(course).State = EntityState.Modified;
+            if (course.Id != id)
+            {
+                throw new Exception(string.Format("Id và Id của khóa học không giống nhau!"));
+            }
 
             try
             {
-                await _context.SaveChangesAsync();
+                await Task.Run(() =>
+                {
+                    course.DateModified = DateTime.Now;
+                    _courseService.Update(course);
+                    _courseService.SaveChanges();
+                    return Ok("Cập nhập khóa học thành công!");
+                });
+                
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -75,51 +90,79 @@ namespace LanguageCenterPLC.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
-        public async Task<ActionResult<Course>> PostCourse(Course course)
+        public async Task<ActionResult<CourseViewModel>> PostCourse(CourseViewModel course)
         {
-            _context.Courses.Add(course);
-            await _context.SaveChangesAsync();
+            if (course != null)
+            {
+                try
+                {
+                    await Task.Run(() =>
+                    {
+                        course.DateCreated = DateTime.Now;
+                        course.DateModified = DateTime.Now;
+                        _courseService.Add(course);
+                        _courseService.SaveChanges();
+                        return Ok("thêm khóa học thành công!");
+                    });
+
+                }
+                catch
+                {
+
+                    throw new Exception(string.Format("Lỗi khi thêm dữ liệu"));
+                }
+
+            }
 
             return CreatedAtAction("GetCourse", new { id = course.Id }, course);
         }
 
         [HttpPost("/api/Course/paging")]
-        public async Task<ActionResult<IEnumerable<Course>>> PagingCourse(string searchString = "", int status = 0, int pageSize = 10, int pageIndex = 0)
+        public async Task<ActionResult<PagedResult<CourseViewModel>>> PagingCourse(string keyword = "", int status = 0, int pageSize = 10, int pageIndex = 0)
         {
-            var courses = from c in _context.Courses select c;
-
-            if (!String.IsNullOrEmpty(searchString))
+            try
             {
-                courses = courses.Where(c => c.Name.Contains(searchString));
+                return await Task.FromResult(_courseService.GetAllPaging(keyword, status, pageSize, pageIndex));
+            }
+            catch
+            {
+                throw new Exception(string.Format("Lỗi xảy ra ở phân trang!"));
             }
 
-            Status _status = (Status)status;
-            courses = courses.Where(c => c.Status == _status);
 
-
-
-            return await courses.ToListAsync();
         }
 
         // DELETE: api/Courses/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Course>> DeleteCourse(int id)
+        public async Task<ActionResult<CourseViewModel>> DeleteCourse(int id)
         {
-            var course = await _context.Courses.FindAsync(id);
+
+            var course = _courseService.GetById(id);
             if (course == null)
             {
-                return NotFound();
+                return NotFound("Không tìm thấy khóa học có Id = " + id);
             }
 
-            _context.Courses.Remove(course);
-            await _context.SaveChangesAsync();
+            try
+            {
+                await Task.Run(() =>
+                {
+                    _courseService.Delete(id);
+                    _courseService.SaveChanges();
+                });
+            }
+            catch
+            {
+
+                throw new Exception(string.Format("Có lỗi xảy ra không thể xóa!"));
+            }
 
             return course;
         }
 
         private bool CourseExists(int id)
         {
-            return _context.Courses.Any(e => e.Id == id);
+            return _courseService.IsExists(id);
         }
     }
 }

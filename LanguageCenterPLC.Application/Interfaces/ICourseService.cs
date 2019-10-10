@@ -8,17 +8,22 @@ namespace LanguageCenterPLC.Application.Interfaces
 {
     public interface ICourseService
     {
-        Task<bool> AddSync(CourseViewModel courseVm);
+        bool Add(CourseViewModel courseVm);
 
-        Task<bool> UpdateSync(CourseViewModel courseVm);
-        Task<bool> Delete(int courseId);
+        bool Update(CourseViewModel courseVm);
+
+        bool Delete(int courseId);
+
+        List<CourseViewModel> GetAll();
 
         PagedResult<CourseViewModel> GetAllPaging(string keyword, int status,
-            int pageIndex, int pageSize);
+           int pageSize, int pageIndex);
 
-        Task<CourseViewModel> GetDetail(int courseId);
-        Task<List<CourseViewModel>> GetAll();
-        Task<bool> UpdateStatusSync(int courseId, Status status);
+        CourseViewModel GetById(int courseId);
+
+        bool UpdateStatus(int courseId, Status status);
+
+        bool IsExists(int id);
 
         void SaveChanges();
     }
