@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using LanguageCenterPLC.Application.Interfaces;
+using LanguageCenterPLC.Application.ViewModels;
+using LanguageCenterPLC.Utilities.Dtos;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using LanguageCenterPLC.Data.EF;
-using LanguageCenterPLC.Data.Entities;
-using LanguageCenterPLC.Infrastructure.Enums;
-using LanguageCenterPLC.Application.Implementation;
-using LanguageCenterPLC.Application.ViewModels;
-using LanguageCenterPLC.Application.Interfaces;
-using LanguageCenterPLC.Utilities.Dtos;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace LanguageCenterPLC.Controllers
 {
@@ -117,7 +111,7 @@ namespace LanguageCenterPLC.Controllers
         }
 
         [HttpPost("/api/Course/paging")]
-        public async Task<ActionResult<PagedResult<CourseViewModel>>> PagingCourse(string keyword = "", int status = 0, int pageSize = 10, int pageIndex = 0)
+        public async Task<ActionResult<PagedResult<CourseViewModel>>> PagingCourse(string keyword = "", int status = 0, int pageSize = 10, int pageIndex = 0 )
         {
             try
             {
