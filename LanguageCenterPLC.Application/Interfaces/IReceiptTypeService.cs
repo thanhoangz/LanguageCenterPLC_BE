@@ -1,4 +1,5 @@
 ﻿using LanguageCenterPLC.Application.ViewModels.Categories;
+using LanguageCenterPLC.Utilities.Dtos;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -6,16 +7,32 @@ namespace LanguageCenterPLC.Application.Interfaces
 {
     public interface IReceiptTypeService
     {
-        Task<bool> AddAsync(ReceiptTypeViewModel receiptTypeVm);
+        bool Add(ReceiptTypeViewModel receiptTypeViewModel );
 
-        Task<bool> UpdateAsync(ReceiptTypeViewModel receiptTypeVm);
+        bool Update(ReceiptTypeViewModel receiptTypeViewModel);
 
-        Task<bool> DeleteAsync(int id);
+        bool Delete(int receiptTypeId);
 
-        Task<List<ReceiptTypeViewModel>> GetAll();
+        List<ReceiptTypeViewModel> GetAll();
 
-        Task<ReceiptTypeViewModel> GetById(int id);
+        PagedResult<ReceiptTypeViewModel> GetAllPaging(string keyword, int status,
+           int pageSize, int pageIndex);
+
+        ReceiptTypeViewModel GetById(int receiptTypeId);   
+
+        bool IsExists(int id);
 
         void SaveChanges();
+        //Task<bool> AddAsync(ReceiptTypeViewModel receiptTypeVm);
+
+        //Task<bool> UpdateAsync(ReceiptTypeViewModel receiptTypeVm);
+
+        //Task<bool> DeleteAsync(int id);
+
+        //Task<List<ReceiptTypeViewModel>> GetAll();
+
+        //Task<ReceiptTypeViewModel> GetById(int id);
+
+        //void SaveChanges();
     }
 }

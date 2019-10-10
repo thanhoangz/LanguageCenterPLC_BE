@@ -19,7 +19,6 @@ namespace LanguageCenterPLC.Controllers
     [ApiController]
     public class CoursesController : ControllerBase
     {
-        //private readonly AppDbContext _context;
 
         private readonly ICourseService _courseService;
 
