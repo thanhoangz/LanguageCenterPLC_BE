@@ -14,6 +14,7 @@ namespace LanguageCenterPLC.Application.Interfaces
 
         bool Delete(int courseId);
 
+
         List<CourseViewModel> GetAll();
 
         PagedResult<CourseViewModel> GetAllPaging(string keyword, int status,

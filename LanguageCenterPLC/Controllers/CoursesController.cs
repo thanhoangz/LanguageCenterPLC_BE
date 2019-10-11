@@ -60,7 +60,7 @@ namespace LanguageCenterPLC.Controllers
                     course.DateModified = DateTime.Now;
                     _courseService.Update(course);
                     _courseService.SaveChanges();
-                    return Ok("Cập nhập khóa học thành công!");
+                    return Ok();
                 });
                 
             }
