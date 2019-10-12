@@ -1,20 +1,28 @@
 ﻿using LanguageCenterPLC.Application.ViewModels.Studies;
+using LanguageCenterPLC.Infrastructure.Enums;
+using LanguageCenterPLC.Utilities.Dtos;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace LanguageCenterPLC.Application.Interfaces
 {
     public interface IPaySlipService
     {
-        Task<bool> AddAsync(PaySlipViewModel payslipVm);
+        bool Add(PaySlipViewModel payslipVm);
 
-        Task<bool> UpdateAsync(PaySlipViewModel payslipVm);
+        bool Update(PaySlipViewModel payslipVm);
 
-        Task<bool> DeleteAsync(int id);
+        bool Delete(string id);
 
-        Task<List<PaySlipViewModel>> GetAll();
+        List<PaySlipViewModel> GetAll();
 
-        Task<PaySlipViewModel> GetById(int id);
+        PagedResult<PaySlipViewModel> GetAllPaging(string keyword, int status,
+           int pageSize, int pageIndex);
+
+        PaySlipViewModel GetById(string id);
+
+        bool UpdateStatus(string payslipId, Status status);
+
+        bool IsExists(string id);
 
         void SaveChanges();
     }

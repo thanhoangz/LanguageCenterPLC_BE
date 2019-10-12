@@ -149,6 +149,8 @@ namespace LanguageCenterPLC
             //Serrvices
             services.AddTransient<ICourseService, CourseService>();
             services.AddTransient<IReceiptTypeService, ReceiptTypeService>();
+            services.AddTransient<IPaySlipTypeService, PaySlipTypeService> ();
+            services.AddTransient<IPaySlipService, PaySlipService>();
             services.AddTransient<IClassroomService, ClassRoomService>();
 
             //services.AddTransient<IAuthorizationHandler, BaseResourceAuthorizationHandler>();
