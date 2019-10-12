@@ -22,6 +22,8 @@ namespace LanguageCenterPLC.Application.Interfaces
 
         CourseViewModel GetById(int courseId);
 
+        List<CourseViewModel> GetAllWithConditions(string keyword, int status);
+
         bool UpdateStatus(int courseId, Status status);
 
         bool IsExists(int id);

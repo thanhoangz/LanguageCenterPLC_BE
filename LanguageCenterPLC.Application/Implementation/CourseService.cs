@@ -63,6 +63,24 @@ namespace LanguageCenterPLC.Application.Implementation
             return coursesViewModel;
         }
 
+        public List<CourseViewModel> GetAllWithConditions(string keyword, int status)
+        {
+            var query = _courseRepository.FindAll();
+
+            if (!string.IsNullOrEmpty(keyword))
+            {
+                query = query.Where(x => x.Name.Contains(keyword));
+            }
+
+            Status _status = (Status)status;
+
+            query = query.Where(x => x.Status == _status).OrderBy(x => x.Name);
+
+            var coursesViewModel = Mapper.Map<List<CourseViewModel>>(query);
+
+            return coursesViewModel;
+        }
+
         public PagedResult<CourseViewModel> GetAllPaging(string keyword, int status, int pageSize, int pageIndex)
         {
             var query = _courseRepository.FindAll();

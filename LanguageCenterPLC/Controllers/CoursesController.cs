@@ -60,7 +60,7 @@ namespace LanguageCenterPLC.Controllers
                     _courseService.SaveChanges();
                     return Ok();
                 });
-                
+
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -108,8 +108,8 @@ namespace LanguageCenterPLC.Controllers
             return CreatedAtAction("GetCourse", new { id = course.Id }, course);
         }
 
-        [HttpPost("/api/Course/paging")]
-        public async Task<ActionResult<PagedResult<CourseViewModel>>> PagingCourse(string keyword = "", int status = 0, int pageSize = 10, int pageIndex = 0 )
+        [HttpPost("/api/Courses/paging")]
+        public async Task<ActionResult<PagedResult<CourseViewModel>>> PagingCourse(string keyword = "", int status = 0, int pageSize = 10, int pageIndex = 0)
         {
             try
             {
@@ -119,8 +119,12 @@ namespace LanguageCenterPLC.Controllers
             {
                 throw new Exception(string.Format("Lỗi xảy ra ở phân trang!"));
             }
+        }
 
-
+        [HttpPost("/api/Courses/get-all-with-conditions")]
+        public async Task<ActionResult<IEnumerable<CourseViewModel>>> GetAllConditions(string keyword = "", int status = 1)
+        {
+            return await Task.FromResult(_courseService.GetAllWithConditions(keyword, status));
         }
 
         // DELETE: api/Courses/5
