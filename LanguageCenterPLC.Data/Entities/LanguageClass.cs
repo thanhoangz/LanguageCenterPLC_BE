@@ -46,7 +46,10 @@ namespace LanguageCenterPLC.Data.Entities
 
         public string Note { get; set; }
 
+        [ForeignKey("CourseId")]
+        public int CourseId { get; set; }
 
+        public virtual Course Course { get; set; }
         /* Foreign Key */
         /*Reference Table*/
 

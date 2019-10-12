@@ -5,10 +5,8 @@ using LanguageCenterPLC.Data.Entities;
 using LanguageCenterPLC.Infrastructure.Enums;
 using LanguageCenterPLC.Infrastructure.Interfaces;
 using LanguageCenterPLC.Utilities.Dtos;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace LanguageCenterPLC.Application.Implementation
 {

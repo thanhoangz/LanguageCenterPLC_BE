@@ -31,7 +31,11 @@ namespace LanguageCenterPLC.Application.ViewModels.Categories
         public DateTime DateModified { get; set; }
 
         public string Note { get; set; }
-     
+
+        public string CourseName { get; set; }
+
+        public int CourseId { get; set; }
+
         public ICollection<StudyProcessViewModel> StudyProcesses { set; get; }
         public ICollection<EndingCoursePointViewModel> EndingCoursePoints { set; get; }
         public ICollection<PeriodicPointViewModel> PeriodicPoints { set; get; }

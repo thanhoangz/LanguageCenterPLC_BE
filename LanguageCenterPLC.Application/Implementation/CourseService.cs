@@ -133,7 +133,6 @@ namespace LanguageCenterPLC.Application.Implementation
                 var course = Mapper.Map<CourseViewModel, Course>(courseVm);
                 _courseRepository.Update(course);
                 return true;
-
             }
             catch
             {
@@ -154,6 +153,5 @@ namespace LanguageCenterPLC.Application.Implementation
                 return false;
             }
         }
-
     }
 }
