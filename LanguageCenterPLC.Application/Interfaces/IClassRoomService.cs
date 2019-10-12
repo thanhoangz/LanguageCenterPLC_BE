@@ -1,4 +1,5 @@
 ﻿using LanguageCenterPLC.Application.ViewModels.Studies;
+using LanguageCenterPLC.Utilities.Dtos;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -6,15 +7,20 @@ namespace LanguageCenterPLC.Application.Interfaces
 {
     public interface IClassroomService
     {
-        Task<bool> AddAsync(ClassroomViewModel classroomVm);
 
-        Task<bool> UpdateAsync(ClassroomViewModel classroomVm);
+        bool Add(ClassroomViewModel classroomVm);
 
-        Task<bool> DeleteAsync(int id);
+       bool Update(ClassroomViewModel classroomVm);
 
-        Task<List<ClassroomViewModel>> GetAll();
+        bool Delete(int classroomId);
 
-        Task<ClassroomViewModel> GetById(int id);
+        List<ClassroomViewModel> GetAll();
+
+        ClassroomViewModel GetById(int classroomId);
+        PagedResult<ClassroomViewModel> GetAllPaging(string keyword,
+          int pageSize, int pageIndex);
+
+        bool IsExists(int classroomId);
 
         void SaveChanges();
     }

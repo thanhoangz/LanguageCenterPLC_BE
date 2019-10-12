@@ -125,7 +125,7 @@ namespace LanguageCenterPLC.Controllers
 
             }
 
-            return CreatedAtAction("GetCourse", new { id = receiptType.Id }, receiptType);
+            return CreatedAtAction("GetReceiptType", new { id = receiptType.Id }, receiptType);
         }
 
         // DELETE: api/ReceiptTypes/5
@@ -152,7 +152,7 @@ namespace LanguageCenterPLC.Controllers
                 throw new Exception(string.Format("Có lỗi xảy ra không thể xóa!"));
             }
 
-            return Ok("Xóa thành công");
+            return Ok();
         }
 
         private bool ReceiptTypeExists(int id)
