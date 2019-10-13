@@ -85,8 +85,10 @@ namespace LanguageCenterPLC.Application.Implementation
             }
 
             Status _status = (Status)status;
-
-            query = query.Where(x => x.Status == _status).OrderBy(x => x.Name);
+            if (_status == Status.Active || _status == Status.InActive)
+            {
+                query = query.Where(x => x.Status == _status).OrderBy(x => x.Name);
+            }
 
             // do something....
 
@@ -98,8 +100,17 @@ namespace LanguageCenterPLC.Application.Implementation
 
         public LanguageClassViewModel GetById(string id)
         {
+            var courses = _courseRepository.FindAll().ToList();
             var languageClasse = _languageClassRepository.FindById(id);
             var languageClassesViewModel = Mapper.Map<LanguageClassViewModel>(languageClasse);
+            foreach (var item in courses)
+            {
+                if (languageClassesViewModel.CourseId == item.Id)
+                {
+                    languageClassesViewModel.CourseName = item.Name;
+                    break;
+                }
+            }
             return languageClassesViewModel;
         }
 

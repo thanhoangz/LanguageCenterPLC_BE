@@ -108,6 +108,12 @@ namespace LanguageCenterPLC.Controllers
             return CreatedAtAction("GetCourse", new { id = languageClass.Id }, languageClass);
         }
 
+
+        [HttpPost("/api/LanguageClasses/get-all-with-conditions")]
+        public async Task<ActionResult<IEnumerable<LanguageClassViewModel>>> GetAllConditions(DateTime dateTime,string keyword = "", int status = 1)
+        {
+            return await Task.FromResult(_languageClassService.GetAllWithConditions(dateTime, keyword, status));
+        }
         // DELETE: api/LanguageClasses/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<LanguageClassViewModel>> DeleteLanguageClass(string id)
