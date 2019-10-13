@@ -1,7 +1,6 @@
 ﻿using LanguageCenterPLC.Application.ViewModels.Studies;
 using LanguageCenterPLC.Utilities.Dtos;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace LanguageCenterPLC.Application.Interfaces
 {
@@ -10,7 +9,7 @@ namespace LanguageCenterPLC.Application.Interfaces
 
         bool Add(ClassroomViewModel classroomVm);
 
-       bool Update(ClassroomViewModel classroomVm);
+        bool Update(ClassroomViewModel classroomVm);
 
         bool Delete(int classroomId);
 
@@ -19,6 +18,7 @@ namespace LanguageCenterPLC.Application.Interfaces
         ClassroomViewModel GetById(int classroomId);
         PagedResult<ClassroomViewModel> GetAllPaging(string keyword,
           int pageSize, int pageIndex);
+        List<ClassroomViewModel> GetAllWithConditions(string keyword, int status);
 
         bool IsExists(int classroomId);
 

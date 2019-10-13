@@ -122,9 +122,14 @@ namespace LanguageCenterPLC.Controllers
             {
                 throw new Exception(string.Format("Lỗi xảy ra ở phân trang!"));
             }
-
-
         }
+
+        [HttpPost("/api/Classrooms/get-all-with-conditions")]
+        public async Task<ActionResult<IEnumerable<ClassroomViewModel>>> GetAllConditions(string keyword = "", int status = 1)
+        {
+            return await Task.FromResult(_classroomService.GetAllWithConditions(keyword, status));
+        }
+
         // DELETE: api/Classrooms/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<ClassroomViewModel>> DeleteClassroom(int id)
