@@ -93,6 +93,27 @@ namespace LanguageCenterPLC.Application.Implementation
             };
         }
 
+        public List<PaySlipTypeViewModel> GetAllWithConditions(string keyword, int status)
+        {
+            var query = _paysliptypeRepository.FindAll();
+
+            if (!string.IsNullOrEmpty(keyword))
+            {
+                query = query.Where(x => x.Name.Contains(keyword));
+            }
+
+            Status _status = (Status)status;
+
+            if (_status == Status.Active || _status == Status.InActive)
+            {
+                query = query.Where(x => x.Status == _status).OrderBy(x => x.Name);
+            }
+
+            var paySliptypeViewModel = Mapper.Map<List<PaySlipTypeViewModel>>(query);
+
+            return paySliptypeViewModel;
+        }
+
         public PaySlipTypeViewModel GetById(int id)
         {
             var paysliptype = _paysliptypeRepository.FindById(id);

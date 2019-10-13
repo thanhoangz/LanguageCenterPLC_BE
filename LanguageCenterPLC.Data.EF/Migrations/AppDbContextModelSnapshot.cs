@@ -567,7 +567,7 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                     b.Property<decimal>("CourseFee")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int?>("CourseId")
+                    b.Property<int>("CourseId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("DateCreated")
@@ -1743,9 +1743,11 @@ namespace LanguageCenterPLC.Data.EF.Migrations
 
             modelBuilder.Entity("LanguageCenterPLC.Data.Entities.LanguageClass", b =>
                 {
-                    b.HasOne("LanguageCenterPLC.Data.Entities.Course", null)
+                    b.HasOne("LanguageCenterPLC.Data.Entities.Course", "Course")
                         .WithMany("LanguageClasses")
-                        .HasForeignKey("CourseId");
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("LanguageCenterPLC.Data.Entities.Learner", b =>

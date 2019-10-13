@@ -1,4 +1,5 @@
 ﻿using LanguageCenterPLC.Application.ViewModels.Categories;
+using LanguageCenterPLC.Data.Entities;
 using System;
 using System.Collections.Generic;
 
@@ -6,6 +7,7 @@ namespace LanguageCenterPLC.Application.Interfaces
 {
     public interface ILanguageClassService
     {
+
         bool Add(LanguageClassViewModel languageClassVm);
 
         bool Update(LanguageClassViewModel languageClassVm);

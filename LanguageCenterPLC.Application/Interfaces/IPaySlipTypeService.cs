@@ -16,6 +16,8 @@ namespace LanguageCenterPLC.Application.Interfaces
 
         List<PaySlipTypeViewModel> GetAll();
 
+        List<PaySlipTypeViewModel> GetAllWithConditions(string keyword, int status);
+
         PagedResult<PaySlipTypeViewModel> GetAllPaging(string keyword, int status,
            int pageSize, int pageIndex);
 
@@ -26,5 +28,6 @@ namespace LanguageCenterPLC.Application.Interfaces
         bool IsExists(int id);
 
         void SaveChanges();
+
     }
 }

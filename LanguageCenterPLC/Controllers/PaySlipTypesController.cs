@@ -124,6 +124,14 @@ namespace LanguageCenterPLC.Controllers
         }
 
 
+        [HttpPost("/api/PaySlipTypes/get-all-with-conditions")]
+        public async Task<ActionResult<IEnumerable<PaySlipTypeViewModel>>> GetAllConditions(string keyword = "", int status = 1)
+        {
+            return await Task.FromResult(_paysliptypeService.GetAllWithConditions(keyword, status));
+        }
+
+
+
         // DELETE: api/PaySlipTypes/5
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeletePaySlipType(int id)
