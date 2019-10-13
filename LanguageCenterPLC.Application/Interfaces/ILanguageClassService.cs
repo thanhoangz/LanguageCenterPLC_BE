@@ -1,4 +1,5 @@
 ﻿using LanguageCenterPLC.Application.ViewModels.Categories;
+using LanguageCenterPLC.Data.Entities;
 using System;
 using System.Collections.Generic;
 
@@ -6,6 +7,8 @@ namespace LanguageCenterPLC.Application.Interfaces
 {
     public interface ILanguageClassService
     {
+        object LanguageClasses { get; }
+
         bool Add(LanguageClassViewModel languageClassVm);
 
         bool Update(LanguageClassViewModel languageClassVm);
@@ -19,5 +22,6 @@ namespace LanguageCenterPLC.Application.Interfaces
         void SaveChanges();
 
         public List<LanguageClassViewModel> GetAllWithConditions(string keyword, int status, DateTime start,DateTime end);
+        bool IsExists(string id);
     }
 }

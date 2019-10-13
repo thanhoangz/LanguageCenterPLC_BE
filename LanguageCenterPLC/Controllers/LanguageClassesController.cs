@@ -3,6 +3,7 @@ using LanguageCenterPLC.Application.ViewModels.Categories;
 using LanguageCenterPLC.Data.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,7 +14,7 @@ namespace LanguageCenterPLC.Controllers
     [ApiController]
     public class LanguageClassesController : ControllerBase
     {
-        ILanguageClassService _languageClassService;
+        private readonly ILanguageClassService _languageClassService;
 
         public LanguageClassesController(ILanguageClassService languageClassService)
         {
@@ -31,32 +32,37 @@ namespace LanguageCenterPLC.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<LanguageClassViewModel>> GetLanguageClass(string id)
         {
-            var languageClass = await _context.LanguageClasses.FindAsync(id);
+            var receiptType = _languageClassService.GetById(id);
 
-            if (languageClass == null)
+            if (receiptType == null)
             {
-                return NotFound();
+                return NotFound("Không tìm thấy id = " + id);
             }
 
-            return languageClass;
+            return await Task.FromResult(receiptType);
         }
 
         // PUT: api/LanguageClasses/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutLanguageClass(string id, LanguageClass languageClass)
+        public async Task<IActionResult> PutLanguageClass(string id, LanguageClassViewModel languageClass)
         {
-            if (id != languageClass.Id)
+            if (languageClass.Id != id)
             {
-                return BadRequest();
+                throw new Exception(string.Format("Id và Id của loại thu không giống nhau!"));
             }
-
-            _context.Entry(languageClass).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync();
+                await Task.Run(() =>
+                {
+                    languageClass.DateModified = DateTime.Now;
+                    _languageClassService.Update(languageClass);
+                    _languageClassService.SaveChanges();
+                    return Ok("Cập nhập thành công!");
+                });
+
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -77,23 +83,28 @@ namespace LanguageCenterPLC.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
-        public async Task<ActionResult<LanguageClass>> PostLanguageClass(LanguageClass languageClass)
+        public async Task<ActionResult<LanguageClassViewModel>> PostLanguageClass(LanguageClassViewModel languageClass)
         {
-            _context.LanguageClasses.Add(languageClass);
-            try
+            if (languageClass != null)
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateException)
-            {
-                if (LanguageClassExists(languageClass.Id))
+                try
                 {
-                    return Conflict();
+                    await Task.Run(() =>
+                    {
+                        languageClass.DateCreated = DateTime.Now;
+                        languageClass.DateModified = DateTime.Now;
+                        _languageClassService.Add(languageClass);
+                        _languageClassService.SaveChanges();
+                        return Ok("Thêm lớp học thành công!");
+                    });
+
                 }
-                else
+                catch
                 {
-                    throw;
+
+                    throw new Exception(string.Format("Lỗi khi thêm dữ liệu"));
                 }
+
             }
 
             return CreatedAtAction("GetLanguageClass", new { id = languageClass.Id }, languageClass);
@@ -101,23 +112,35 @@ namespace LanguageCenterPLC.Controllers
 
         // DELETE: api/LanguageClasses/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<LanguageClass>> DeleteLanguageClass(string id)
+        public async Task<ActionResult<LanguageClassViewModel>> DeleteLanguageClass(string id)
         {
-            var languageClass = await _context.LanguageClasses.FindAsync(id);
-            if (languageClass == null)
+            var receiptType = _languageClassService.GetById(id);
+            if (receiptType == null)
             {
-                return NotFound();
+                return NotFound("Không tìm thấy Id = " + id);
             }
 
-            _context.LanguageClasses.Remove(languageClass);
-            await _context.SaveChangesAsync();
+            try
+            {
+                await Task.Run(() =>
+                {
+                    _languageClassService.Delete(id);
+                    _languageClassService.SaveChanges();
+                });
+            }
+            catch
+            {
 
-            return languageClass;
+                throw new Exception(string.Format("Có lỗi xảy ra không thể xóa!"));
+            }
+
+            return Ok();
         }
 
         private bool LanguageClassExists(string id)
         {
-            return _context.LanguageClasses.Any(e => e.Id == id);
+            return _languageClassService.IsExists(id);
+
         }
     }
 }
