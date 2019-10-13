@@ -71,9 +71,10 @@ namespace LanguageCenterPLC.Application.Implementation
             {
                 query = query.Where(x => x.Name.Contains(keyword));
             }
-
+            
             Status _status = (Status)status;
 
+            
             query = query.Where(x => x.Status == _status).OrderBy(x => x.Name);
 
             var coursesViewModel = Mapper.Map<List<CourseViewModel>>(query);
