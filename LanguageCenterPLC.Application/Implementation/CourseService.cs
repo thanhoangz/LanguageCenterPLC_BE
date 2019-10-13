@@ -74,7 +74,10 @@ namespace LanguageCenterPLC.Application.Implementation
 
             Status _status = (Status)status;
 
-            query = query.Where(x => x.Status == _status).OrderBy(x => x.Name);
+            if (_status == Status.Active || _status == Status.InActive)
+            {
+                query = query.Where(x => x.Status == _status).OrderBy(x => x.Name);
+            }
 
             var coursesViewModel = Mapper.Map<List<CourseViewModel>>(query);
 

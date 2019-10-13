@@ -7,7 +7,6 @@ namespace LanguageCenterPLC.Application.Interfaces
 {
     public interface ILanguageClassService
     {
-        object LanguageClasses { get; }
 
         bool Add(LanguageClassViewModel languageClassVm);
 

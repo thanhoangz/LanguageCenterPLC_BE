@@ -24,6 +24,8 @@ namespace LanguageCenterPLC.Application.Implementation
             _unitOfWork = unitOfWork;
         }
 
+
+
         public bool Add(LanguageClassViewModel languageClassVm)
         {
             try
