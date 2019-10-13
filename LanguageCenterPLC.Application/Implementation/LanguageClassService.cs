@@ -95,10 +95,6 @@ namespace LanguageCenterPLC.Application.Implementation
             return languageClassViewModel;
         }
 
-        public List<LanguageClassViewModel> GetAllWithConditions(string keyword, int status, DateTime start, DateTime end)
-        {
-            throw new NotImplementedException();
-        }
 
         public LanguageClassViewModel GetById(string id)
         {
