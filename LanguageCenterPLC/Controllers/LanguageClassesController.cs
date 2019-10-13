@@ -1,11 +1,9 @@
 ﻿using LanguageCenterPLC.Application.Interfaces;
 using LanguageCenterPLC.Application.ViewModels.Categories;
-using LanguageCenterPLC.Data.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace LanguageCenterPLC.Controllers
@@ -14,7 +12,7 @@ namespace LanguageCenterPLC.Controllers
     [ApiController]
     public class LanguageClassesController : ControllerBase
     {
-        private readonly ILanguageClassService _languageClassService;
+        ILanguageClassService _languageClassService;
 
         public LanguageClassesController(ILanguageClassService languageClassService)
         {
@@ -32,35 +30,35 @@ namespace LanguageCenterPLC.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<LanguageClassViewModel>> GetLanguageClass(string id)
         {
-            var receiptType = _languageClassService.GetById(id);
+            var languageClass = _languageClassService.GetById(id);
 
-            if (receiptType == null)
+            if (languageClass == null)
             {
-                return NotFound("Không tìm thấy id = " + id);
+                return NotFound("Không tìm thấy lớp học có id = " + id);
             }
 
-            return await Task.FromResult(receiptType);
+            return await Task.FromResult(languageClass);
         }
 
         // PUT: api/LanguageClasses/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutLanguageClass(string id, LanguageClassViewModel languageClass)
+        public async Task<IActionResult> PutLanguageClass(string id, LanguageClassViewModel languageClassViewModel)
         {
-            if (languageClass.Id != id)
+            if (languageClassViewModel.Id != id)
             {
-                throw new Exception(string.Format("Id và Id của loại thu không giống nhau!"));
+                throw new Exception(string.Format("Id và Id của lớp học không giống nhau!"));
             }
 
             try
             {
                 await Task.Run(() =>
                 {
-                    languageClass.DateModified = DateTime.Now;
-                    _languageClassService.Update(languageClass);
+                    languageClassViewModel.DateModified = DateTime.Now;
+                    _languageClassService.Update(languageClassViewModel);
                     _languageClassService.SaveChanges();
-                    return Ok("Cập nhập thành công!");
+                    return Ok();
                 });
 
             }
@@ -95,7 +93,7 @@ namespace LanguageCenterPLC.Controllers
                         languageClass.DateModified = DateTime.Now;
                         _languageClassService.Add(languageClass);
                         _languageClassService.SaveChanges();
-                        return Ok("Thêm lớp học thành công!");
+                        return Ok("thêm lớp học thành công!");
                     });
 
                 }
@@ -107,17 +105,17 @@ namespace LanguageCenterPLC.Controllers
 
             }
 
-            return CreatedAtAction("GetLanguageClass", new { id = languageClass.Id }, languageClass);
+            return CreatedAtAction("GetCourse", new { id = languageClass.Id }, languageClass);
         }
 
         // DELETE: api/LanguageClasses/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<LanguageClassViewModel>> DeleteLanguageClass(string id)
         {
-            var receiptType = _languageClassService.GetById(id);
-            if (receiptType == null)
+            var languageClass = _languageClassService.GetById(id);
+            if (languageClass == null)
             {
-                return NotFound("Không tìm thấy Id = " + id);
+                return NotFound("Không tìm thấy khóa học có Id = " + id);
             }
 
             try
@@ -140,7 +138,6 @@ namespace LanguageCenterPLC.Controllers
         private bool LanguageClassExists(string id)
         {
             return _languageClassService.IsExists(id);
-
         }
     }
 }

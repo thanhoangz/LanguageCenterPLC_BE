@@ -24,8 +24,6 @@ namespace LanguageCenterPLC.Application.Implementation
             _unitOfWork = unitOfWork;
         }
 
-        public object LanguageClasses => throw new NotImplementedException();
-
         public bool Add(LanguageClassViewModel languageClassVm)
         {
             try
@@ -109,8 +107,8 @@ namespace LanguageCenterPLC.Application.Implementation
 
         public bool IsExists(string id)
         {
-            var languageClass = _languageClassRepository.FindById(id);
-            return (languageClass == null) ? false : true;
+            var languageClasse = _languageClassRepository.FindById(id);
+            return (languageClasse == null) ? false : true;
         }
 
         public void SaveChanges()
@@ -131,7 +129,5 @@ namespace LanguageCenterPLC.Application.Implementation
                 return false;
             }
         }
-
-      
     }
 }
