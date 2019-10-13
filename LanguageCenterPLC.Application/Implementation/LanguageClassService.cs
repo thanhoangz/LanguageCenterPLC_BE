@@ -105,6 +105,12 @@ namespace LanguageCenterPLC.Application.Implementation
             return languageClassesViewModel;
         }
 
+        public bool IsExists(string id)
+        {
+            var languageClasse = _languageClassRepository.FindById(id);
+            return (languageClasse == null) ? false : true;
+        }
+
         public void SaveChanges()
         {
             _unitOfWork.Commit();
