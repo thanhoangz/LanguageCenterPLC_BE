@@ -20,7 +20,7 @@ namespace LanguageCenterPLC.Application.Interfaces
 
         void SaveChanges();
 
-        public List<LanguageClassViewModel> GetAllWithConditions(DateTime start, string keyword = "", int status = 1);
+        public List<LanguageClassViewModel> GetAllWithConditions(DateTime? start, DateTime? end, string keyword = "", int status = 1);
 
         bool IsExists(string id);
     }
