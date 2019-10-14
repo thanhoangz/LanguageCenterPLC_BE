@@ -108,9 +108,9 @@ namespace LanguageCenterPLC.Controllers
 
 
         [HttpPost("/api/LanguageClasses/get-all-with-conditions")]
-        public async Task<ActionResult<IEnumerable<LanguageClassViewModel>>> GetAllConditions(DateTime? dateTime,string keyword = "", int status = 1)
+        public async Task<ActionResult<IEnumerable<LanguageClassViewModel>>> GetAllConditions(DateTime? start, DateTime? end,string keyword = "", int status = 1)
         {
-            return await Task.FromResult(_languageClassService.GetAllWithConditions(dateTime, keyword, status));
+            return await Task.FromResult(_languageClassService.GetAllWithConditions(start,end, keyword, status));
         }
 
         // DELETE: api/LanguageClasses/5
