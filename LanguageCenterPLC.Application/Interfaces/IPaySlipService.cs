@@ -15,6 +15,8 @@ namespace LanguageCenterPLC.Application.Interfaces
 
         List<PaySlipViewModel> GetAll();
 
+        List<PaySlipViewModel> GetAllWithConditions(string keyword, int status);
+
         PagedResult<PaySlipViewModel> GetAllPaging(string keyword, int status,
            int pageSize, int pageIndex);
 

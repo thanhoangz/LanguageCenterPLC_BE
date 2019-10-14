@@ -12,14 +12,14 @@ namespace LanguageCenterPLC.Application.Implementation
 {
     public class PaySlipService : IPaySlipService
     {
-        private readonly IRepository<PaySlip, string> _payslipRepository;               
-
+        private readonly IRepository<PaySlip, string> _payslipRepository;
+        private readonly IRepository<PaySlipType, int> _paysliptypeRepository;
         private readonly IUnitOfWork _unitOfWork;
 
-        public PaySlipService(IRepository<PaySlip, string> payslipRepository,           
-           IUnitOfWork unitOfWork)
+        public PaySlipService(IRepository<PaySlip, string> payslipRepository, IRepository<PaySlipType, int> paySlipTypeRepository, IUnitOfWork unitOfWork)
         {
             _payslipRepository = payslipRepository;
+            _paysliptypeRepository = paySlipTypeRepository;
             _unitOfWork = unitOfWork;
         }
 
@@ -57,8 +57,40 @@ namespace LanguageCenterPLC.Application.Implementation
 
         public List<PaySlipViewModel> GetAll()
         {
-            List<PaySlip> payslip = _payslipRepository.FindAll().ToList();
-            var payslipViewModel = Mapper.Map<List<PaySlipViewModel>>(payslip);
+            var paysliptypes = _paysliptypeRepository.FindAll().ToList();
+
+            var payslips = _payslipRepository.FindAll().ToList();
+
+            var payslipViewModel = Mapper.Map<List<PaySlipViewModel>>(payslips);
+
+            foreach (var item in payslipViewModel)
+            {
+                string name = _paysliptypeRepository.FindById(item.PaySlipTypeId).Name;
+                item.PaySlipTypeName = name;
+            }
+
+            return payslipViewModel;
+
+        }
+
+        public List<PaySlipViewModel> GetAllWithConditions(string keyword, int status)
+        {
+            var query = _payslipRepository.FindAll();
+
+            if (!string.IsNullOrEmpty(keyword))
+            {
+                query = query.Where(x => x.Id.Contains(keyword));
+            }
+
+            Status _status = (Status)status;
+
+            if (_status == Status.Active || _status == Status.InActive)
+            {
+                query = query.Where(x => x.Status == _status).OrderBy(x => x.DateCreated);
+            }
+
+            var payslipViewModel = Mapper.Map<List<PaySlipViewModel>>(query);
+
             return payslipViewModel;
         }
 
@@ -88,6 +120,8 @@ namespace LanguageCenterPLC.Application.Implementation
                 RowCount = totalRow
             };
         }
+
+        
 
         public PaySlipViewModel GetById(string id)
         {

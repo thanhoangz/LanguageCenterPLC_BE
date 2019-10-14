@@ -25,19 +25,13 @@ namespace LanguageCenterPLC.Application.ViewModels.Studies
         public string Note { get; set; }
 
         public int PaySlipTypeId { get; set; }
-       
+
+        public string PaySlipTypeName { get; set; }
+
         public string PersonnelId { get; set; }
         
         public string SendPersonnelId { get; set; }
 
         public Guid AppUserId { get; set; }
-
-        public  PersonnelViewModel Personnel { get; set; }
-
-        public  PersonnelViewModel SendPersonnel { get; set; }
-
-        public PaySlipTypeViewModel PaySlipType { get; set; }
-
-        public AppUserViewModel AppUser { get; set; }
     }
 }
