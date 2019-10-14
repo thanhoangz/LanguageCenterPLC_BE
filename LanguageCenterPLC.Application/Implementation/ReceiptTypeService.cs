@@ -89,6 +89,25 @@ namespace LanguageCenterPLC.Application.Implementation
             };
         }
 
+        public List<ReceiptTypeViewModel> GetAllWithConditions(string keyword, int status)
+        {
+            var query = _receiptTypeRepository.FindAll();
+
+            if (!string.IsNullOrEmpty(keyword))
+            {
+                query = query.Where(x => x.Name.Contains(keyword));
+            }
+
+            Status _status = (Status)status;
+
+            query = query.Where(x => x.Status == _status).OrderBy(x => x.Name);
+
+            var receiptTypeViewModel = Mapper.Map<List<ReceiptTypeViewModel>>(query);
+
+            return receiptTypeViewModel;
+        }
+
+
         public ReceiptTypeViewModel GetById(int receiptTypeId)
         {
             var receiptType = _receiptTypeRepository.FindById(receiptTypeId);

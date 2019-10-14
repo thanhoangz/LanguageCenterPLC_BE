@@ -78,8 +78,6 @@ namespace LanguageCenterPLC.Controllers
         }
 
         // POST: api/LanguageClasses
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
         public async Task<ActionResult<LanguageClassViewModel>> PostLanguageClass(LanguageClassViewModel languageClass)
         {
@@ -106,6 +104,13 @@ namespace LanguageCenterPLC.Controllers
             }
 
             return CreatedAtAction("GetCourse", new { id = languageClass.Id }, languageClass);
+        }
+
+
+        [HttpPost("/api/LanguageClasses/get-all-with-conditions")]
+        public async Task<ActionResult<IEnumerable<LanguageClassViewModel>>> GetAllConditions(DateTime? start, DateTime? end,string keyword = "", int status = 1)
+        {
+            return await Task.FromResult(_languageClassService.GetAllWithConditions(start,end, keyword, status));
         }
 
         // DELETE: api/LanguageClasses/5

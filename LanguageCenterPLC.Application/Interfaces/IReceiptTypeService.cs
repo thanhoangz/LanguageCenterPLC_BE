@@ -1,5 +1,6 @@
 ﻿using LanguageCenterPLC.Application.ViewModels.Categories;
 using LanguageCenterPLC.Utilities.Dtos;
+using System;
 using System.Collections.Generic;
 
 namespace LanguageCenterPLC.Application.Interfaces
@@ -16,6 +17,7 @@ namespace LanguageCenterPLC.Application.Interfaces
 
         PagedResult<ReceiptTypeViewModel> GetAllPaging(string keyword,
            int pageSize, int pageIndex);
+        List<ReceiptTypeViewModel> GetAllWithConditions(string keyword, int status);
 
         ReceiptTypeViewModel GetById(int receiptTypeId);
 

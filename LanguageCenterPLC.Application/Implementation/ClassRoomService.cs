@@ -2,6 +2,7 @@
 using LanguageCenterPLC.Application.Interfaces;
 using LanguageCenterPLC.Application.ViewModels.Studies;
 using LanguageCenterPLC.Data.Entities;
+using LanguageCenterPLC.Infrastructure.Enums;
 using LanguageCenterPLC.Infrastructure.Interfaces;
 using LanguageCenterPLC.Utilities.Dtos;
 using System;
@@ -84,6 +85,24 @@ namespace LanguageCenterPLC.Application.Implementation
                 Results = resultPaging,
                 RowCount = totalRow
             };
+        }
+
+        public List<ClassroomViewModel> GetAllWithConditions(string keyword, int status)
+        {
+            var query = _classRoomRepository.FindAll();
+
+            if (!string.IsNullOrEmpty(keyword))
+            {
+                query = query.Where(x => x.Name.Contains(keyword));
+            }
+
+            Status _status = (Status)status;
+
+            query = query.Where(x => x.Status == _status).OrderBy(x => x.Name);
+
+            var classRoomViewModel = Mapper.Map<List<ClassroomViewModel>>(query);
+
+            return classRoomViewModel;
         }
 
         public ClassroomViewModel GetById(int classroomId)

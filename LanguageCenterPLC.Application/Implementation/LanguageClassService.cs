@@ -75,7 +75,7 @@ namespace LanguageCenterPLC.Application.Implementation
             return languageClassViewModel;
         }
 
-        public List<LanguageClassViewModel> GetAllWithConditions(DateTime start, string keyword = "", int status = 1)
+        public List<LanguageClassViewModel> GetAllWithConditions(DateTime? start, DateTime? end, string keyword = "", int status = 1)
         {
             var query = _languageClassRepository.FindAll();
 
@@ -85,25 +85,36 @@ namespace LanguageCenterPLC.Application.Implementation
             }
 
             Status _status = (Status)status;
+            if (_status == Status.Active || _status == Status.InActive)
+            {
+                query = query.Where(x => x.Status == _status).OrderBy(x => x.Name);
+            }
 
-            query = query.Where(x => x.Status == _status).OrderBy(x => x.Name);
-
-            // do something....
+            /*tìm các lớp học có ngày bắt đầu nằm trong khoảng ngày truyền vào. */
+            if (start != null && end != null)
+            {
+                query = query.Where(x => x.StartDay >= start && x.EndDay <= end);
+            }
 
             var languageClassViewModel = Mapper.Map<List<LanguageClassViewModel>>(query);
 
             return languageClassViewModel;
         }
 
-        public List<LanguageClassViewModel> GetAllWithConditions(string keyword, int status, DateTime start, DateTime end)
-        {
-            throw new NotImplementedException();
-        }
 
         public LanguageClassViewModel GetById(string id)
         {
+            var courses = _courseRepository.FindAll().ToList();
             var languageClasse = _languageClassRepository.FindById(id);
             var languageClassesViewModel = Mapper.Map<LanguageClassViewModel>(languageClasse);
+            foreach (var item in courses)
+            {
+                if (languageClassesViewModel.CourseId == item.Id)
+                {
+                    languageClassesViewModel.CourseName = item.Name;
+                    break;
+                }
+            }
             return languageClassesViewModel;
         }
 

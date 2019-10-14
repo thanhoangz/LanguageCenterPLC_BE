@@ -1,20 +1,23 @@
 ﻿using LanguageCenterPLC.Application.ViewModels.Categories;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace LanguageCenterPLC.Application.Interfaces
 {
     public interface IGuestTypeService
     {
-        Task<bool> AddAsync(GuestTypeViewModel guestTypeVm);
+        bool Add(GuestTypeViewModel guestTypeVm);
 
-        Task<bool> UpdateAsync(GuestTypeViewModel guestTypeVm);
+        bool Update(GuestTypeViewModel guestTypeVm);
 
-        Task<bool> DeleteAsync(int id);
+        bool Delete(int id);
 
-        Task<List<GuestTypeViewModel>> GetAll();
+        List<GuestTypeViewModel> GetAll();
 
-        Task<GuestTypeViewModel> GetById(int id);
+        List<GuestTypeViewModel> GetAllWithConditions(string keyword, int status);
+
+        bool IsExists(int id);
+
+        GuestTypeViewModel GetById(int id);
 
         void SaveChanges();
     }

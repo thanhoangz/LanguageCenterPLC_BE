@@ -90,8 +90,12 @@ namespace LanguageCenterPLC.Controllers
             {
                 throw new Exception(string.Format("Lỗi xảy ra ở phân trang!"));
             }
+        }
 
-
+        [HttpPost("/api/ReceiptTypes/get-all-with-conditions")]
+        public async Task<ActionResult<IEnumerable<ReceiptTypeViewModel>>> GetAllConditions(string keyword = "", int status = 1)
+        {
+            return await Task.FromResult(_receiptTypeService.GetAllWithConditions(keyword, status));
         }
 
         // POST: api/ReceiptTypes
