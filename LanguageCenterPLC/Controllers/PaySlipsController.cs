@@ -61,7 +61,7 @@ namespace LanguageCenterPLC.Controllers
                     paySlip.DateModified = DateTime.Now;
                     _payslipService.Update(paySlip);
                     _payslipService.SaveChanges();
-                    return Ok("Cập nhập phiếu chi thành công!");
+                    return Ok();
                 });
 
             }
@@ -111,7 +111,7 @@ namespace LanguageCenterPLC.Controllers
             return CreatedAtAction("GetPaySlip", new { id = paySlip.Id }, paySlip);
         }
 
-        [HttpPost("/api/PaySlip/paging")]
+        [HttpPost("/api/PaySlips/paging")]
         public async Task<ActionResult<PagedResult<PaySlipViewModel>>> PagingPaySlip(string keyword = "", int status = 0, int pageSize = 10, int pageIndex = 0)
         {
             try
@@ -122,8 +122,12 @@ namespace LanguageCenterPLC.Controllers
             {
                 throw new Exception(string.Format("Lỗi xảy ra ở phân trang!"));
             }
+        }
 
-
+        [HttpPost("/api/PaySlips/get-all-with-conditions")]
+        public async Task<ActionResult<IEnumerable<PaySlipViewModel>>> GetAllConditions(string keyword = "", int status = 1)
+        {
+            return await Task.FromResult(_payslipService.GetAllWithConditions(keyword, status));
         }
 
         // DELETE: api/PaySlips/5

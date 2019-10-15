@@ -75,7 +75,7 @@ namespace LanguageCenterPLC.Application.Implementation
             return languageClassViewModel;
         }
 
-        public List<LanguageClassViewModel> GetAllWithConditions(DateTime start, string keyword = "", int status = 1)
+        public List<LanguageClassViewModel> GetAllWithConditions(DateTime? start, DateTime? end, string keyword = "", int status = 1)
         {
             var query = _languageClassRepository.FindAll();
 
@@ -90,7 +90,11 @@ namespace LanguageCenterPLC.Application.Implementation
                 query = query.Where(x => x.Status == _status).OrderBy(x => x.Name);
             }
 
-            // do something....
+            /*tìm các lớp học có ngày bắt đầu nằm trong khoảng ngày truyền vào. */
+            if (start != null && end != null)
+            {
+                query = query.Where(x => x.StartDay >= start && x.EndDay <= end);
+            }
 
             var languageClassViewModel = Mapper.Map<List<LanguageClassViewModel>>(query);
 
