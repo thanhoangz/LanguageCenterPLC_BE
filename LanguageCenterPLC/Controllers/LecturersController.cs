@@ -123,7 +123,7 @@ namespace LanguageCenterPLC.Controllers
 
         // DELETE: api/Lecturers/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Lecturer>> DeleteLecturer(int id)
+        public async Task<ActionResult<LecturerViewModel>> DeleteLecturer(int id)
         {
             var lecturer = _lecturerService.GetById(id);
             if (lecturer == null)

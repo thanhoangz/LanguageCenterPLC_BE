@@ -1,5 +1,6 @@
 ﻿using LanguageCenterPLC.Application.ViewModels.Timekeepings;
 using LanguageCenterPLC.Utilities.Dtos;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -7,17 +8,19 @@ namespace LanguageCenterPLC.Application.Interfaces
 {
     public interface ITimesheetService
     {
-        Task<bool> AddAsync(TimesheetViewModel timesheetVm);
+        bool Add(TimesheetViewModel timesheetVm);
 
-        Task<bool> UpdateAsync(TimesheetViewModel timesheetVm);
+        bool Update(TimesheetViewModel timesheetVm);
 
-        Task<bool> DeleteAsync(int id);
+        bool Delete(int id);
 
-        Task<List<TimesheetViewModel>> GetAllAsync();
+        List<TimesheetViewModel> GetAll();
 
-        PagedResult<TimesheetViewModel> GetAllPagingAsync(string keyword, int page, int pageSize);
+        List<TimesheetViewModel> GetAllWithConditions(DateTime month, DateTime year);
 
-        Task<TimesheetViewModel> GetById(int id);
+        TimesheetViewModel GetById(int id);
+        bool IsExists(int id);
+
 
         void SaveChanges();
     }
