@@ -118,6 +118,7 @@ namespace LanguageCenterPLC.Data.Entities
 
         /*List of References */
         public ICollection<EndingCoursePoint> EndingCoursePoints { set; get; }
+
         public ICollection<PeriodicPoint> PeriodicPoints { set; get; }
 
         [InverseProperty(nameof(AttendanceSheet.Lecturer))]

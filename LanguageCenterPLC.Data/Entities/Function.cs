@@ -13,6 +13,7 @@ namespace LanguageCenterPLC.Data.Entities
         {
 
         }
+
         public Function(string name, string url, string parentId, string iconCss, int sortOrder)
         {
             this.Name = name;
@@ -22,6 +23,7 @@ namespace LanguageCenterPLC.Data.Entities
             this.SortOrder = sortOrder;
             this.Status = Status.Active;
         }
+
         [Required]
         [StringLength(128)]
         public string Name { set; get; }
@@ -35,7 +37,9 @@ namespace LanguageCenterPLC.Data.Entities
         public string ParentId { set; get; }
 
         public string IconCss { get; set; }
+
         public int SortOrder { set; get; }
+
         public Status Status { set; get; }
     }
 }

@@ -28,8 +28,11 @@ namespace LanguageCenterPLC.Data.Entities
         public decimal Balance { get; set; }
 
         public string Avatar { get; set; }
+
         public DateTime DateCreated { get; set; }
+
         public DateTime DateModified { get; set; }
+
         public Status Status { get; set; }
 
         public ICollection<EndingCoursePoint> EndingCoursePoints { set; get; }

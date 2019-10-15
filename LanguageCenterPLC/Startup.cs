@@ -88,7 +88,7 @@ namespace LanguageCenterPLC
                 options.AddPolicy(MyAllowSpecificOrigins,
                 builder =>
                 {
-                    builder.WithOrigins("localhost:4200", "http://192.168.1.5:4200/")
+                    builder.WithOrigins("localhost:4200", "http://192.168.1.7:4200")
                                         .AllowAnyHeader()
                                         .AllowAnyMethod()
                                         .AllowAnyOrigin();
