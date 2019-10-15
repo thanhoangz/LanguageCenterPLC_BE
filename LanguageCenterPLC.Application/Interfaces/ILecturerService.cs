@@ -6,15 +6,18 @@ namespace LanguageCenterPLC.Application.Interfaces
 {
     public interface ILecturerService
     {
-        Task<bool> AddAsync(LecturerViewModel lecturerVm);
+        bool Add(LecturerViewModel lecturerVm);
 
-        Task<bool> UpdateAsync(LecturerViewModel lecturerVm);
+        bool Update(LecturerViewModel lecturerVm);
 
-        Task<bool> DeleteAsync(int id);
+        bool Delete(int id);
 
-        Task<List<LecturerViewModel>> GetAll();
+        List<LecturerViewModel> GetAll();
 
-         Task<LecturerViewModel> GetById(int id);
+         LecturerViewModel GetById(int id);
+        bool IsExists(int id);
+        List<LecturerViewModel> GetAllWithConditions(string cardId, string keyword, int status, string position);
+
 
         void SaveChanges();
     }
