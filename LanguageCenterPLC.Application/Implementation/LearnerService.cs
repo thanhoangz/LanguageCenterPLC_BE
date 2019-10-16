@@ -61,6 +61,12 @@ namespace LanguageCenterPLC.Application.Implementation
             return learnerViewModel;
         }
 
+        public bool IsExists(string id)
+        {
+            var learner = _learnerRepository.FindById(id);
+            return (learner == null) ? false : true;
+        }
+
         public void SaveChanges()
         {
             _unitOfWork.Commit();

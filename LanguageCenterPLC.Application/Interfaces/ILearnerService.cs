@@ -16,5 +16,7 @@ namespace LanguageCenterPLC.Application.Interfaces
         LearnerViewModel GetById(string id);
 
         void SaveChanges();
+
+        bool IsExists(string id);
     }
 }
