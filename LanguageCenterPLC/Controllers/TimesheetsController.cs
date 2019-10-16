@@ -113,11 +113,11 @@ namespace LanguageCenterPLC.Controllers
             return CreatedAtAction("GetLecturer()", new { id = timesheet.Id }, timesheet);
         }
 
-        [HttpPost("/api/Timesheets/get-all-with-conditions")]
-        public async Task<ActionResult<IEnumerable<TimesheetViewModel>>> GetAllConditions(DateTime month,DateTime year)
-        {
-            throw new Exception();
-        }
+        //[HttpPost("/api/Timesheets/get-all-with-conditions")]
+        //public async Task<ActionResult<IEnumerable<TimesheetViewModel>>> GetAllConditions(DateTime month,DateTime year)
+        //{
+        //    throw new Exception();
+        //}
 
         // DELETE: api/Timesheets/5
         [HttpDelete("{id}")]
