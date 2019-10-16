@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using AutoMapper;
+﻿using AutoMapper;
 using LanguageCenterPLC.Application.Interfaces;
 using LanguageCenterPLC.Application.ViewModels.Studies;
 using LanguageCenterPLC.Data.Entities;
 using LanguageCenterPLC.Infrastructure.Interfaces;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace LanguageCenterPLC.Application.Implementation
 {
@@ -13,6 +13,13 @@ namespace LanguageCenterPLC.Application.Implementation
         private readonly IRepository<Learner, string> _learnerRepository;
 
         private readonly IUnitOfWork _unitOfWork;
+
+        public LearnerService(IRepository<Learner, string> learnerRepository,
+         IUnitOfWork unitOfWork)
+        {
+            _learnerRepository = learnerRepository;
+            _unitOfWork = unitOfWork;
+        }
 
         public bool Add(LearnerViewModel leanerVm)
         {
