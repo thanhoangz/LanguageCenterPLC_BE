@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using LanguageCenterPLC.Data.EF;
-using LanguageCenterPLC.Data.Entities;
-using LanguageCenterPLC.Application.Interfaces;
+﻿using LanguageCenterPLC.Application.Interfaces;
 using LanguageCenterPLC.Application.ViewModels.Studies;
 using LanguageCenterPLC.Utilities.Dtos;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace LanguageCenterPLC.Controllers
 {
@@ -133,24 +129,24 @@ namespace LanguageCenterPLC.Controllers
             return Ok();
         }
 
-        [HttpPost("/api/PaySlips/paging")]
-        public async Task<ActionResult<PagedResult<StudyProcessViewModel>>> PagingPaySlip(string keyword = "", int status = 0, int pageSize = 10, int pageIndex = 0)
-        {
-            try
-            {
-                return await Task.FromResult(_studyProcessService.GetAllPaging(keyword, status, pageSize, pageIndex));
-            }
-            catch
-            {
-                throw new Exception(string.Format("Lỗi xảy ra ở phân trang!"));
-            }
-        }
+        //[HttpPost("/api/PaySlips/paging")]
+        //public async Task<ActionResult<PagedResult<StudyProcessViewModel>>> PagingPaySlip(string keyword = "", int status = 0, int pageSize = 10, int pageIndex = 0)
+        //{
+        //    try
+        //    {
+        //        return await Task.FromResult(_studyProcessService.GetAllPaging(keyword, status, pageSize, pageIndex));
+        //    }
+        //    catch
+        //    {
+        //        throw new Exception(string.Format("Lỗi xảy ra ở phân trang!"));
+        //    }
+        //}
 
-        [HttpPost("/api/PaySlips/get-all-with-conditions")]
-        public async Task<ActionResult<IEnumerable<StudyProcessViewModel>>> GetAllConditions(string LanguageClassId="", string LearnerId="", int status = 1)
-        {
-            return await Task.FromResult(_studyProcessService.GetAllWithConditions(LanguageClassId, LearnerId, status));
-        }
+        //[HttpPost("/api/PaySlips/get-all-with-conditions")]
+        //public async Task<ActionResult<IEnumerable<StudyProcessViewModel>>> GetAllConditions(string LanguageClassId="", string LearnerId="", int status = 1)
+        //{
+        //    return await Task.FromResult(_studyProcessService.GetAllWithConditions(LanguageClassId, LearnerId, status));
+        //}
 
         private bool StudyProcessExists(int id)
         {
