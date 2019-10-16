@@ -45,6 +45,11 @@ namespace LanguageCenterPLC.Application.Implementation
             throw new NotImplementedException();
         }
 
+        public bool IsExists(int id)
+        {
+            throw new NotImplementedException();
+        }
+
         public void SaveChanges()
         {
             throw new NotImplementedException();

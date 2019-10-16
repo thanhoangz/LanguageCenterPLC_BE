@@ -22,10 +22,7 @@ namespace LanguageCenterPLC.Application.ViewModels.Studies
         public string LanguageClassId { get; set; }
         public string LanguageClassName { get; set; }
         public string LearnerId { get; set; }
-        public string LearnerName { get; set; }
+        
 
-        ///   public  LearnerViewModel Learner { get; set; }
-
-        ///  public  LanguageClassViewModel LanguageClass { get; set; }
     }
 }
