@@ -4,7 +4,8 @@
     {
         InActive,
         Active,
+        Pause,
         Stop,
-        Pause
+        
     }
 }

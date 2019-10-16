@@ -5,6 +5,7 @@ using LanguageCenterPLC.Data.Entities;
 using LanguageCenterPLC.Infrastructure.Enums;
 using LanguageCenterPLC.Infrastructure.Interfaces;
 using LanguageCenterPLC.Utilities.Dtos;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -73,26 +74,7 @@ namespace LanguageCenterPLC.Application.Implementation
 
         }
 
-        public List<PaySlipViewModel> GetAllWithConditions(string keyword, int status)
-        {
-            var query = _payslipRepository.FindAll();
-
-            if (!string.IsNullOrEmpty(keyword))
-            {
-                query = query.Where(x => x.Id.Contains(keyword));
-            }
-
-            Status _status = (Status)status;
-
-            if (_status == Status.Active || _status == Status.InActive)
-            {
-                query = query.Where(x => x.Status == _status).OrderBy(x => x.DateCreated);
-            }
-
-            var payslipViewModel = Mapper.Map<List<PaySlipViewModel>>(query);
-
-            return payslipViewModel;
-        }
+        
 
         public PagedResult<PaySlipViewModel> GetAllPaging(string keyword, int status, int pageSize, int pageIndex)
         {
@@ -169,6 +151,36 @@ namespace LanguageCenterPLC.Application.Implementation
                 return false;
             }
         }
+
+       
+
+        public List<PaySlipViewModel> GetAllWithConditions(DateTime? startDate, DateTime? endDate, string keyword, int status)
+        {
+            var query = _payslipRepository.FindAll();
+
+            if (!string.IsNullOrEmpty(keyword))
+            {
+                query = query.Where(x => x.Id.Contains(keyword));
+            }
+
+            Status _status = (Status)status;
+
+            if (_status == Status.Active || _status == Status.InActive || _status == Status.Pause)
+            {
+                query = query.Where(x => x.Status == _status).OrderBy(x => x.DateCreated);
+            }
+
+            if (startDate != null && endDate !=null )
+            {
+                query = query.Where(x => x.Date >= startDate && x.Date <= endDate);
+            }
+            
+            var payslipViewModel = Mapper.Map<List<PaySlipViewModel>>(query);
+
+            return payslipViewModel;
+        }
+
+        
     }
 }
 

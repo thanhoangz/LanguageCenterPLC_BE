@@ -49,7 +49,7 @@ namespace LanguageCenterPLC.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutPaySlip(string id, PaySlipViewModel paySlip)
         {
-            if (string.Compare(paySlip.Id, id) == 0)   
+            if (string.Compare(paySlip.Id, id) != 0)   
             {
                 throw new Exception(string.Format("Id và Id của phiếu chi không giống nhau!"));
             }
@@ -125,9 +125,9 @@ namespace LanguageCenterPLC.Controllers
         }
 
         [HttpPost("/api/PaySlips/get-all-with-conditions")]
-        public async Task<ActionResult<IEnumerable<PaySlipViewModel>>> GetAllConditions(string keyword = "", int status = 1)
+        public async Task<ActionResult<IEnumerable<PaySlipViewModel>>> GetAllConditions(DateTime? startDate, DateTime? endDate, string keyword = "", int status = 1)
         {
-            return await Task.FromResult(_payslipService.GetAllWithConditions(keyword, status));
+            return await Task.FromResult(_payslipService.GetAllWithConditions(startDate, endDate, keyword, status));
         }
 
         // DELETE: api/PaySlips/5

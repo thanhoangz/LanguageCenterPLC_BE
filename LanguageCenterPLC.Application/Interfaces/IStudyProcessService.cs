@@ -1,21 +1,30 @@
 ﻿using LanguageCenterPLC.Application.ViewModels.Studies;
+using LanguageCenterPLC.Infrastructure.Enums;
+using LanguageCenterPLC.Utilities.Dtos;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace LanguageCenterPLC.Application.Interfaces
 {
     public interface IStudyProcessService
     {
-        Task<bool> AddAsync(StudyProcessViewModel studyProcessVm);
+        bool Add(StudyProcessViewModel studyProcessVm);
 
-        Task<bool> UpdateAsync(StudyProcessViewModel studyProcessVm);
+        bool Update(StudyProcessViewModel studyProcessVm);
 
-        Task<bool> DeleteAsync(int id);
+        bool Delete(int id);
 
-        Task<List<StudyProcessViewModel>> GetAll();
+        List<StudyProcessViewModel> GetAll();
 
-        Task<StudyProcessViewModel> GetById(int id);
+        List<StudyProcessViewModel> GetAllWithConditions(string languageClassId, string LearnerId, int status);
+
+        PagedResult<StudyProcessViewModel> GetAllPaging(string keyword, int status, int pageSize, int pageIndex);
+
+        StudyProcessViewModel GetById(int id);
 
         void SaveChanges();
+
+        bool UpdateStatus(int studyProcessId, Status status);
+
+        bool IsExists(int id);
     }
 }
