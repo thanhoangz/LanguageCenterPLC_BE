@@ -76,7 +76,7 @@ namespace LanguageCenterPLC.Application.ViewModels.Timekeepings
         public float Day_31 { get; set; }
         #endregion
 
-        public int TotalWorkday { get; set; }
+        public float TotalWorkday { get; set; }
 
         public decimal Salary { get; set; }
 
