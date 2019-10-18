@@ -1,4 +1,5 @@
 ﻿using LanguageCenterPLC.Application.ViewModels.Categories;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -6,15 +7,18 @@ namespace LanguageCenterPLC.Application.Interfaces
 {
     public interface IPersonnelService
     {
-        Task<bool> AddAsync(PersonnelViewModel personnelVm);
+        bool Add(PersonnelViewModel personnelVm);
 
-        Task<bool> UpdateAsync(PersonnelViewModel personnelVm);
+        bool Update(PersonnelViewModel personnelVm);
 
-        Task<bool> DeleteAsync(int id);
+        bool Delete(string id);
 
-        Task<List<PersonnelViewModel>> GetAll();
 
-        Task<PersonnelViewModel> GetById(int id);
+        List<PersonnelViewModel> GetAll();
+        List<PersonnelViewModel> GetAllWithConditions(DateTime briday, string keyword, int status, int sex);
+
+        PersonnelViewModel GetById(string id);
+        bool IsExists(string id);
 
         void SaveChanges();
     }

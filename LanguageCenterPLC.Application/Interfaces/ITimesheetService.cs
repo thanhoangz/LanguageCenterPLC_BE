@@ -16,7 +16,7 @@ namespace LanguageCenterPLC.Application.Interfaces
 
         List<TimesheetViewModel> GetAll();
 
-        List<TimesheetViewModel> GetAllWithConditions(DateTime month, DateTime year);
+        List<TimesheetViewModel> GetAllWithConditions(int month, int year);
 
         TimesheetViewModel GetById(int id);
         bool IsExists(int id);

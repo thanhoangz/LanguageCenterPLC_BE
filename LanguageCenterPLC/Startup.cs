@@ -156,6 +156,10 @@ namespace LanguageCenterPLC
             services.AddTransient<ILecturerService, LecturerService>();
             services.AddTransient<ILearnerService, LearnerService>();
             services.AddTransient<IGuestTypeService, GuestTypeService>();
+            services.AddTransient<ITimesheetService, TimesheetService>();
+            services.AddTransient<IPersonnelService, PersonnelService>();
+
+
 
 
 

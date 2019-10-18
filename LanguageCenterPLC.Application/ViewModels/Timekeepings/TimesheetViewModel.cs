@@ -111,7 +111,13 @@ namespace LanguageCenterPLC.Application.ViewModels.Timekeepings
 
         public Guid AppUserId { get; set; }
 
+        public string PersonnelName { get; set; }
+        public string PersonnelLastName { get; set; }
+
+
         public string PersonnelId { get; set; }
+
+       
 
 
         public  PersonnelViewModel Personnel { get; set; }
