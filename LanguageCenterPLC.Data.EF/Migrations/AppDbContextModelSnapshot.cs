@@ -1545,8 +1545,8 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                     b.Property<decimal>("TotalSalary")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("TotalWorkday")
-                        .HasColumnType("int");
+                    b.Property<float>("TotalWorkday")
+                        .HasColumnType("real");
 
                     b.Property<int>("Year")
                         .HasColumnType("int");

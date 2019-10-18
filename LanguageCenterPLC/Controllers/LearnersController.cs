@@ -1,12 +1,10 @@
 ﻿using LanguageCenterPLC.Application.Interfaces;
 using LanguageCenterPLC.Application.ViewModels.Studies;
-using LanguageCenterPLC.Data.EF;
 using LanguageCenterPLC.Data.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace LanguageCenterPLC.Controllers
