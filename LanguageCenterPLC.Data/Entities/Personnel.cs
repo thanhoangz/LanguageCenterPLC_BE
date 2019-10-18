@@ -70,6 +70,10 @@ namespace LanguageCenterPLC.Data.Entities
         [Required]
         public decimal BasicSalary { get; set; }
 
+
+        [Required]
+        public decimal SalaryOfDay { get; set; }
+
         [Required]
         public decimal Allowance { get; set; }
 

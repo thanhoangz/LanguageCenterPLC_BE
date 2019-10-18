@@ -111,6 +111,10 @@ namespace LanguageCenterPLC.Data.Entities
         /// </summary>
         public decimal TotalActualSalary { get; set; }
 
+
+        [Required]
+        public decimal SalaryOfDay { get; set; }
+
         [Required]
         public Status Status { get; set; }
 

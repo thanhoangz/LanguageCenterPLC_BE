@@ -101,6 +101,8 @@ namespace LanguageCenterPLC.Application.ViewModels.Timekeepings
         /// </summary>
         public decimal TotalActualSalary { get; set; }
 
+        public decimal SalaryOfDay { get; set; }
+
         public Status Status { get; set; }
 
         public DateTime DateCreated { get; set; }

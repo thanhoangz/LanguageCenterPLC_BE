@@ -42,6 +42,8 @@ namespace LanguageCenterPLC.Application.ViewModels.Categories
 
         public decimal BasicSalary { get; set; }
 
+        public decimal SalaryOfDay { get; set; }
+
         public decimal Allowance { get; set; }
 
         public decimal Bonus { get; set; }

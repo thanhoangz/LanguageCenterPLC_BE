@@ -2,6 +2,7 @@
 using LanguageCenterPLC.Application.Interfaces;
 using LanguageCenterPLC.Application.ViewModels.Timekeepings;
 using LanguageCenterPLC.Data.Entities;
+using LanguageCenterPLC.Infrastructure.Enums;
 using LanguageCenterPLC.Infrastructure.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -15,7 +16,7 @@ namespace LanguageCenterPLC.Application.Implementation
         private readonly IRepository<Personnel, string> _peronelRepository;
 
         private readonly IUnitOfWork _unitOfWork;
-        public TimesheetService(IRepository<Timesheet, int> timesheetRepository,IRepository<Personnel,string> peronelRepository, IUnitOfWork unitOfWork)
+        public TimesheetService(IRepository<Timesheet, int> timesheetRepository, IRepository<Personnel, string> peronelRepository, IUnitOfWork unitOfWork)
         {
             _timesheetRepository = timesheetRepository;
             _peronelRepository = peronelRepository;
@@ -28,6 +29,83 @@ namespace LanguageCenterPLC.Application.Implementation
                 var timeSheet = Mapper.Map<TimesheetViewModel, Timesheet>(timesheetVm);
 
                 _timesheetRepository.Add(timeSheet);
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public bool AddRange(int month, int year)
+        {
+
+            try
+            {
+                var personnelList = _peronelRepository.FindAll();
+                personnelList = personnelList.Where(x => x.Status == (Status)1);
+
+
+
+                foreach (var personnel in personnelList)
+                {
+                    var timeSheet = new Timesheet();
+                    timeSheet.Month = month;
+                    timeSheet.Year = year;
+                    timeSheet.Day_1 = 0;
+                    timeSheet.Day_2 = 0;
+                    timeSheet.Day_3 = 0;
+                    timeSheet.Day_4 = 0;
+                    timeSheet.Day_5 = 0;
+                    timeSheet.Day_6 = 0;
+                    timeSheet.Day_7 = 0;
+                    timeSheet.Day_8 = 0;
+                    timeSheet.Day_9 = 0;
+                    timeSheet.Day_10 = 0;
+                    timeSheet.Day_11 = 0;
+                    timeSheet.Day_12 = 0;
+                    timeSheet.Day_13 = 0;
+                    timeSheet.Day_14 = 0;
+                    timeSheet.Day_15 = 0;
+                    timeSheet.Day_16 = 0;
+                    timeSheet.Day_17 = 0;
+                    timeSheet.Day_18 = 0;
+                    timeSheet.Day_19 = 0;
+                    timeSheet.Day_20 = 0;
+                    timeSheet.Day_21 = 0;
+                    timeSheet.Day_22 = 0;
+                    timeSheet.Day_23 = 0;
+                    timeSheet.Day_24 = 0;
+                    timeSheet.Day_25 = 0;
+                    timeSheet.Day_26 = 0;
+                    timeSheet.Day_27 = 0;
+                    timeSheet.Day_28 = 0;
+                    timeSheet.Day_29 = 0;
+                    timeSheet.Day_30 = 0;
+                    timeSheet.Day_31 = 0;
+
+                    timeSheet.Salary = personnel.BasicSalary;
+                    timeSheet.Salary = personnel.BasicSalary;
+                    timeSheet.Allowance = personnel.Allowance;
+                    timeSheet.Bonus = personnel.Bonus;
+                    timeSheet.InsurancePremiums = personnel.InsurancePremium;
+                    timeSheet.AdvancePayment = 0;
+                    timeSheet.TotalActualSalary = 0;
+                    timeSheet.TotalSalary = 0;
+                    timeSheet.Status = (Status)1;
+                    timeSheet.DateCreated = DateTime.Now;
+                    timeSheet.DateModified = DateTime.Now;
+                    timeSheet.AppUserId = new Guid("3f2504e0-4f89-11d3-9a0c-0305e82c3301"); // need fix
+                    timeSheet.PersonnelId = personnel.Id;
+                    timeSheet.SalaryOfDay = personnel.SalaryOfDay;
+
+                    _timesheetRepository.Add(timeSheet);
+                    _unitOfWork.Commit();
+                }
+
+
+
 
                 return true;
             }
@@ -61,16 +139,16 @@ namespace LanguageCenterPLC.Application.Implementation
 
             foreach (var item in timesheetViewModels)
             {
-                string name = _peronelRepository.FindById(item.PersonnelId).FirstName+' '+_peronelRepository.FindById(item.PersonnelId).LastName;
+                string name = _peronelRepository.FindById(item.PersonnelId).FirstName + ' ' + _peronelRepository.FindById(item.PersonnelId).LastName;
                 item.PersonnelName = name;
             }
             return timesheetViewModels;
         }
 
-        public List<TimesheetViewModel> GetAllWithConditions(int month , int year)
+        public List<TimesheetViewModel> GetAllWithConditions(int month, int year)
         {
             var timeSheets = _timesheetRepository.FindAll();
-            if (month != 0 && year!=0)
+            if (month != 0 && year != 0)
             {
                 timeSheets = timeSheets.Where(x => x.Month == month && x.Year == year);
             }
