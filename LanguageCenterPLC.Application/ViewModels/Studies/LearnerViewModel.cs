@@ -42,6 +42,7 @@ namespace LanguageCenterPLC.Application.ViewModels.Studies
 
         public DateTime DateModified { get; set; }
 
+        public int GuestTypeId { get; set; } 
         public GuestTypeViewModel GuestType { get; set; }
 
         public ICollection<StudyProcessViewModel> StudyProcesses { set; get; }

@@ -93,6 +93,12 @@ namespace LanguageCenterPLC.Controllers
                     {
                         learner.DateCreated = DateTime.Now;
                         learner.DateModified = DateTime.Now;
+                        if (String.IsNullOrEmpty(learner.ParentFullName) || String.IsNullOrEmpty(learner.ParentPhone))
+                        {
+                            learner.ParentFullName = "";
+                            learner.ParentPhone = "";
+                        }
+
                         _learnerService.Add(learner);
                         _learnerService.SaveChanges();
                         return Ok("thêm khóa học thành công!");

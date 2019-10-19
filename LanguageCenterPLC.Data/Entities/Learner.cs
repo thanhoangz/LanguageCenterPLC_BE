@@ -16,6 +16,7 @@ namespace LanguageCenterPLC.Data.Entities
     {
         [StringLength(100)]
         public string CardId { get; set; }
+
         [Required]
         [StringLength(50)]
         public string FirstName { get; set; }
@@ -44,11 +45,11 @@ namespace LanguageCenterPLC.Data.Entities
         [Column(TypeName = "VARCHAR(16)")]
         public string Phone { get; set; }
 
-        [Required]
+
         [StringLength(100)]
         public string ParentFullName { get; set; }
 
-        [Required]
+
         [Column(TypeName = "VARCHAR(16)")]
         public string ParentPhone { get; set; }
 
