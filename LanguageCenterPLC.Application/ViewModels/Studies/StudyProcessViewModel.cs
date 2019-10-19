@@ -1,5 +1,4 @@
-﻿using LanguageCenterPLC.Application.ViewModels.Categories;
-using LanguageCenterPLC.Infrastructure.Enums;
+﻿using LanguageCenterPLC.Infrastructure.Enums;
 using System;
 
 namespace LanguageCenterPLC.Application.ViewModels.Studies
@@ -22,7 +21,7 @@ namespace LanguageCenterPLC.Application.ViewModels.Studies
         public string LanguageClassId { get; set; }
         public string LanguageClassName { get; set; }
         public string LearnerId { get; set; }
-        
+
 
     }
 }

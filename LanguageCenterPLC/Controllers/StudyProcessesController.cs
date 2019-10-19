@@ -133,7 +133,7 @@ namespace LanguageCenterPLC.Controllers
             return Ok();
         }
 
-        [HttpPost("/api/PaySlips/paging")]
+        [HttpPost("/api/StudyProcesses/paging")]
         public async Task<ActionResult<PagedResult<StudyProcessViewModel>>> PagingPaySlip(string keyword = "", int status = 0, int pageSize = 10, int pageIndex = 0)
         {
             try
@@ -146,10 +146,16 @@ namespace LanguageCenterPLC.Controllers
             }
         }
 
-        [HttpPost("/api/PaySlips/get-all-with-conditions")]
-        public async Task<ActionResult<IEnumerable<StudyProcessViewModel>>> GetAllConditions(string LanguageClassId="", string LearnerId="", int status = 1)
+        [HttpPost("/api/StudyProcesses/get-all-with-conditions")]
+        public async Task<ActionResult<IEnumerable<StudyProcessViewModel>>> GetAllConditions(string LanguageClassId = "", string LearnerId = "", int status = 1)
         {
             return await Task.FromResult(_studyProcessService.GetAllWithConditions(LanguageClassId, LearnerId, status));
+        }
+
+        [HttpPost("/api/StudyProcesses/get-study-by-classid")]
+        public async Task<ActionResult<IEnumerable<StudyProcessViewModel>>> GetStudyByClassId(string LanguageClassId = "",  int status = 1)
+        {
+            return await Task.FromResult(_studyProcessService.GetStudyProcessByClassId(LanguageClassId, status));
         }
 
         private bool StudyProcessExists(int id)

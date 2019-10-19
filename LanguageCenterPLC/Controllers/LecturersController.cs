@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using LanguageCenterPLC.Application.Interfaces;
+using LanguageCenterPLC.Application.ViewModels.Studies;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using LanguageCenterPLC.Data.EF;
-using LanguageCenterPLC.Data.Entities;
-using LanguageCenterPLC.Infrastructure.Interfaces;
-using LanguageCenterPLC.Application.Interfaces;
-using LanguageCenterPLC.Application.ViewModels.Studies;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace LanguageCenterPLC.Controllers
 {
@@ -114,11 +109,11 @@ namespace LanguageCenterPLC.Controllers
         }
 
 
-        //[HttpPost("/api/Lecturers/get-all-with-conditions")]
-        //public async Task<ActionResult<IEnumerable<LecturerViewModel>>>GetAllConditions(string cardId = "", string keyword = "", int status = 1, string position = "")
-        //{
-        //    throw new Exception(); 
-        //}
+        [HttpPost("/api/Lecturers/get-all-with-conditions")]
+        public async Task<ActionResult<IEnumerable<LecturerViewModel>>> GetAllConditions(string cardId = "", string keyword = "", int status = 1, string position = "")
+        {
+            throw new Exception();
+        }
 
 
         // DELETE: api/Lecturers/5

@@ -27,6 +27,7 @@ namespace LanguageCenterPLC.Application.Implementation
             _unitOfWork = unitOfWork;
         }
 
+
         public bool Add(StudyProcessViewModel studyProcessVm)
         {
             try
@@ -42,6 +43,11 @@ namespace LanguageCenterPLC.Application.Implementation
                 return false;
             }
         }
+
+        //public bool Add(StudyProcessViewModel studyProcessVm)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         public bool Delete(int id)
         {
@@ -135,6 +141,26 @@ namespace LanguageCenterPLC.Application.Implementation
             return studyProcessViewModel;
         }
 
+        public List<StudyProcessViewModel> GetStudyProcessByClassId(string languageClassId, int status)
+        {
+            var query = _studyProcessRepository.FindAll();
+
+            if (!string.IsNullOrEmpty(languageClassId))
+            {
+                query = query.Where(x => x.LanguageClassId.Contains(languageClassId));
+            }
+
+            Status _status = (Status)status;
+            if (_status == Status.Active || _status == Status.InActive || _status == Status.Pause)
+            {
+                query = query.Where(x => x.Status == _status).OrderBy(x => x.DateCreated);
+            }
+
+            var studyProcessViewModel = Mapper.Map<List<StudyProcessViewModel>>(query);
+
+            return studyProcessViewModel;
+        }
+
         public bool IsExists(int id)
         {
             var studyProcess = _studyProcessRepository.FindById(id);
@@ -175,5 +201,7 @@ namespace LanguageCenterPLC.Application.Implementation
                 return false;
             }
         }
+
+      
     }
 }

@@ -21,6 +21,8 @@ namespace LanguageCenterPLC.Application.Interfaces
 
         StudyProcessViewModel GetById(int id);
 
+        List<StudyProcessViewModel> GetStudyProcessByClassId(string languageClassId, int status);
+
         void SaveChanges();
 
         bool UpdateStatus(int studyProcessId, Status status);
