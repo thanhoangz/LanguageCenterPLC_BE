@@ -1112,6 +1112,9 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                     b.Property<DateTime>("QuitWorkDay")
                         .HasColumnType("datetime2");
 
+                    b.Property<decimal>("SalaryOfDay")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<bool>("Sex")
                         .HasColumnType("bit");
 
@@ -1534,6 +1537,9 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<decimal>("Salary")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("SalaryOfDay")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("Status")
