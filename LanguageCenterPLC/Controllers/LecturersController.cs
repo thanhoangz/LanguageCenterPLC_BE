@@ -109,11 +109,7 @@ namespace LanguageCenterPLC.Controllers
         }
 
 
-        [HttpPost("/api/Lecturers/get-all-with-conditions")]
-        public async Task<ActionResult<IEnumerable<LecturerViewModel>>> GetAllConditions(string cardId = "", string keyword = "", int status = 1, string position = "")
-        {
-            throw new Exception();
-        }
+       
 
 
         // DELETE: api/Lecturers/5

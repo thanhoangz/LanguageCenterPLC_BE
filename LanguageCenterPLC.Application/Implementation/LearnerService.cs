@@ -2,6 +2,7 @@
 using LanguageCenterPLC.Application.Interfaces;
 using LanguageCenterPLC.Application.ViewModels.Studies;
 using LanguageCenterPLC.Data.Entities;
+using LanguageCenterPLC.Infrastructure.Enums;
 using LanguageCenterPLC.Infrastructure.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -15,10 +16,11 @@ namespace LanguageCenterPLC.Application.Implementation
         private readonly IRepository<StudyProcess, int> _studyProcessRepository;
         private readonly IUnitOfWork _unitOfWork;
 
-        public LearnerService(IRepository<Learner, string> learnerRepository,
+        public LearnerService(IRepository<Learner, string> learnerRepository, IRepository<StudyProcess, int> studyProcessRepository,
          IUnitOfWork unitOfWork)
         {
             _learnerRepository = learnerRepository;
+            _studyProcessRepository = studyProcessRepository;
             _unitOfWork = unitOfWork;
         }
 
@@ -56,16 +58,10 @@ namespace LanguageCenterPLC.Application.Implementation
 
         public List<LearnerViewModel> GetAllInClass(string classId)
         {
-            var Learners = (from l in _learnerRepository.FindAll()
-                            join sp in _studyProcessRepository.FindAll().Where(x => x.LanguageClassId == classId)
-                            on l.Id equals sp.LearnerId
-                            select new
-                            {
-                                l.Id,
-                                FullName = l.FirstName + l.LastName,
-                                l.Sex,
-                                Year = l.Birthday.Year,
-                            }).ToList();
+            var Learners = from l in _learnerRepository.FindAll().Where(x => x.Status == Status.Active)
+                           join sp in _studyProcessRepository.FindAll().Where(x => x.LanguageClassId == classId && x.Status == Status.Active)
+                           on l.Id equals sp.LearnerId
+                           select l;
 
             var learnerViewModel = Mapper.Map<List<LearnerViewModel>>(Learners);
 
@@ -74,12 +70,12 @@ namespace LanguageCenterPLC.Application.Implementation
 
         public List<LearnerViewModel> GetAllOutClass(string classId)
         {
-            var inLearners = from l in _learnerRepository.FindAll()
+            var inLearners = from l in _learnerRepository.FindAll().Where(x => x.Status == Status.Active)
                              join sp in _studyProcessRepository.FindAll().Where(x => x.LanguageClassId == classId)
                              on l.Id equals sp.LearnerId
                              select l;
 
-            var fullLeaners = _learnerRepository.FindAll();
+            var fullLeaners = _learnerRepository.FindAll().Where(x => x.Status == Status.Active);
 
             var outLeaners = new List<Learner>();
 

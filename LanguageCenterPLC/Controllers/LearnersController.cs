@@ -42,17 +42,17 @@ namespace LanguageCenterPLC.Controllers
         }
 
         // GET: api/Learners/get-in-class
-        [HttpGet("/api/Learners/get-in-class")]
-        public async Task<ActionResult<IEnumerable<LearnerViewModel>>> GetLearnersInClass(string classId)
+        [HttpGet("/api/Learners/get-in-class/{id}")]
+        public async Task<ActionResult<IEnumerable<LearnerViewModel>>> GetLearnersInClass(string id)
         {
-            return await Task.FromResult(_learnerService.GetAllInClass(classId));
+            return await Task.FromResult(_learnerService.GetAllInClass(id));
         }
 
-        // GET: api/Learners/get-in-class
-        [HttpGet("/api/Learners/get-out-class")]
-        public async Task<ActionResult<IEnumerable<LearnerViewModel>>> GetLearnersOutClass(string classId)
+        // GET: api/Learners/get-out-class
+        [HttpGet("/api/Learners/get-out-class/{id}")]
+        public async Task<ActionResult<IEnumerable<LearnerViewModel>>> GetLearnersOutClass(string id)
         {
-            return await Task.FromResult(_learnerService.GetAllOutClass(classId));
+            return await Task.FromResult(_learnerService.GetAllOutClass(id));
         }
 
         // PUT: api/Learners/5
