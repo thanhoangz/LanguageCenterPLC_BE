@@ -142,7 +142,7 @@ namespace LanguageCenterPLC
             services.AddTransient<IGuestTypeService, GuestTypeService>();
             services.AddTransient<ITimesheetService, TimesheetService>();
             services.AddTransient<IPersonnelService, PersonnelService>();
-
+            services.AddTransient<IStudyProcessService, StudyProcessService>();
 
 
 
