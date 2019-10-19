@@ -1,8 +1,5 @@
 ﻿using LanguageCenterPLC.Application.ViewModels.Timekeepings;
-using LanguageCenterPLC.Utilities.Dtos;
-using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace LanguageCenterPLC.Application.Interfaces
 {
@@ -16,12 +13,13 @@ namespace LanguageCenterPLC.Application.Interfaces
 
         List<TimesheetViewModel> GetAll();
 
-        List<TimesheetViewModel> GetAllWithConditions(DateTime month, DateTime year);
+        List<TimesheetViewModel> GetAllWithConditions(int month, int year);
 
         TimesheetViewModel GetById(int id);
         bool IsExists(int id);
 
-
+        bool AddRange(int month, int year);
+        
         void SaveChanges();
     }
 }

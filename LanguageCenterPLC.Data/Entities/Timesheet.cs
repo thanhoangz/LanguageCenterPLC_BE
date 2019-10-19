@@ -83,7 +83,7 @@ namespace LanguageCenterPLC.Data.Entities
         public float Day_31 { get; set; }
         #endregion
 
-        public int TotalWorkday { get; set; }
+        public float TotalWorkday { get; set; }
 
         public decimal Salary { get; set; }
 
@@ -110,6 +110,10 @@ namespace LanguageCenterPLC.Data.Entities
         /// Tổng tiền lương thực lĩnh
         /// </summary>
         public decimal TotalActualSalary { get; set; }
+
+
+        [Required]
+        public decimal SalaryOfDay { get; set; }
 
         [Required]
         public Status Status { get; set; }

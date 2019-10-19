@@ -76,7 +76,7 @@ namespace LanguageCenterPLC.Application.ViewModels.Timekeepings
         public float Day_31 { get; set; }
         #endregion
 
-        public int TotalWorkday { get; set; }
+        public float TotalWorkday { get; set; }
 
         public decimal Salary { get; set; }
 
@@ -101,6 +101,8 @@ namespace LanguageCenterPLC.Application.ViewModels.Timekeepings
         /// </summary>
         public decimal TotalActualSalary { get; set; }
 
+        public decimal SalaryOfDay { get; set; }
+
         public Status Status { get; set; }
 
         public DateTime DateCreated { get; set; }
@@ -111,7 +113,13 @@ namespace LanguageCenterPLC.Application.ViewModels.Timekeepings
 
         public Guid AppUserId { get; set; }
 
+        public string PersonnelName { get; set; }
+        public string PersonnelLastName { get; set; }
+
+
         public string PersonnelId { get; set; }
+
+       
 
 
         public  PersonnelViewModel Personnel { get; set; }

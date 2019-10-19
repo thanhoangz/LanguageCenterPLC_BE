@@ -1,11 +1,9 @@
 using AutoMapper;
 using LanguageCenterPLC.Application.Implementation;
 using LanguageCenterPLC.Application.Interfaces;
-using LanguageCenterPLC.Authorization;
 using LanguageCenterPLC.Data.EF;
 using LanguageCenterPLC.Data.Entities;
 using LanguageCenterPLC.Infrastructure.Interfaces;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -88,7 +86,7 @@ namespace LanguageCenterPLC
                 options.AddPolicy(MyAllowSpecificOrigins,
                 builder =>
                 {
-                    builder.WithOrigins("localhost:4200", "http://192.168.1.7:4200")
+                    builder.WithOrigins("localhost:4200", "http://192.168.1.6:4200")
                                         .AllowAnyHeader()
                                         .AllowAnyMethod()
                                         .AllowAnyOrigin();
@@ -126,21 +124,7 @@ namespace LanguageCenterPLC
                 options.Cookie.HttpOnly = true;
             });
 
-            services.Configure<RequestLocalizationOptions>(
-              opts =>
-              {
-                  var supportedCultures = new List<CultureInfo>
-                  {
-                        new CultureInfo("en-US"),
-                        new CultureInfo("vi-VN")
-                  };
-
-                  opts.DefaultRequestCulture = new RequestCulture("en-US");
-                  // Formatting numbers, dates, etc.
-                  opts.SupportedCultures = supportedCultures;
-                  // UI strings that we have localized.
-                  opts.SupportedUICultures = supportedCultures;
-              });
+    
 
 
             services.AddTransient(typeof(IUnitOfWork), typeof(EFUnitOfWork));
@@ -155,12 +139,17 @@ namespace LanguageCenterPLC
             services.AddTransient<ILanguageClassService, LanguageClassService>();
             services.AddTransient<ILecturerService, LecturerService>();
             services.AddTransient<ILearnerService, LearnerService>();
+            services.AddTransient<IGuestTypeService, GuestTypeService>();
+            services.AddTransient<ITimesheetService, TimesheetService>();
+            services.AddTransient<IPersonnelService, PersonnelService>();
+
+
+
+
+
+
+
             services.AddTransient<IStudyProcessService, StudyProcessService>();
-
-
-
-
-            
             //services.AddTransient<IAuthorizationHandler, BaseResourceAuthorizationHandler>();
         }
 

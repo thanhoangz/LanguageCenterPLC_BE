@@ -1,10 +1,14 @@
-﻿using LanguageCenterPLC.Application.Interfaces;
-using LanguageCenterPLC.Application.ViewModels.Timekeepings;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+using LanguageCenterPLC.Data.EF;
+using LanguageCenterPLC.Data.Entities;
+using LanguageCenterPLC.Application.Interfaces;
+using LanguageCenterPLC.Application.ViewModels.Timekeepings;
 
 namespace LanguageCenterPLC.Controllers
 {
@@ -105,14 +109,14 @@ namespace LanguageCenterPLC.Controllers
                 }
 
             }
-
+            
             return CreatedAtAction("GetLecturer()", new { id = timesheet.Id }, timesheet);
         }
 
         [HttpPost("/api/Timesheets/get-all-with-conditions")]
-        public async Task<ActionResult<IEnumerable<TimesheetViewModel>>> GetAllConditions(DateTime month, DateTime year)
+        public async Task<ActionResult<IEnumerable<TimesheetViewModel>>> GetAllConditions(int month,int year)
         {
-            throw new Exception();
+            return await Task.FromResult(_timesheetService.GetAllWithConditions(month,year));
         }
 
         // DELETE: api/Timesheets/5

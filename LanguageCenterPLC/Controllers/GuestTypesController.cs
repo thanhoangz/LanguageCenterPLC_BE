@@ -1,72 +1,72 @@
 ﻿using LanguageCenterPLC.Application.Interfaces;
-using LanguageCenterPLC.Application.ViewModels.Studies;
+using LanguageCenterPLC.Application.ViewModels.Categories;
 using LanguageCenterPLC.Data.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace LanguageCenterPLC.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class LearnersController : ControllerBase
+    public class GuestTypesController : ControllerBase
     {
-        private readonly ILearnerService _learnerService;
+        private readonly IGuestTypeService _guestTypeService;
 
-        public LearnersController(ILearnerService learnerService)
+        public GuestTypesController(IGuestTypeService guestTypeService)
         {
-            _learnerService = learnerService;
+            _guestTypeService = guestTypeService;
         }
 
-        // GET: api/Learners
+        // GET: api/GuestTypes
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<LearnerViewModel>>> GetLearners()
+        public async Task<ActionResult<IEnumerable<GuestTypeViewModel>>> GetGuestTypes()
         {
-            return await Task.FromResult(_learnerService.GetAll());
+            return await Task.FromResult(_guestTypeService.GetAll());
         }
 
-        // GET: api/Learners/5
+        // GET: api/GuestTypes/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<LearnerViewModel>> GetLearner(string id)
+        public async Task<ActionResult<GuestTypeViewModel>> GetGuestType(int id)
         {
-            var leaner = _learnerService.GetById(id);
+            var guestType = _guestTypeService.GetById(id);
 
-            if (leaner == null)
+            if (guestType == null)
             {
                 return NotFound("Không tìm thấy khóa học có id = " + id);
             }
 
-            return await Task.FromResult(leaner);
+            return await Task.FromResult(guestType);
         }
 
-
-        // PUT: api/Learners/5
+        // PUT: api/GuestTypes/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutLearner(string id, LearnerViewModel learner)
+        public async Task<IActionResult> PutGuestType(int id, GuestTypeViewModel guestType)
         {
-            if (learner.Id != id)
+            if (guestType.Id != id)
             {
-                throw new Exception(string.Format("Id và Id của người học không giống nhau!"));
+                throw new Exception(string.Format("Id và Id của khóa học không giống nhau!"));
             }
 
             try
             {
                 await Task.Run(() =>
                 {
-                    learner.DateModified = DateTime.Now;
-                    _learnerService.Update(learner);
-                    _learnerService.SaveChanges();
+                    guestType.DateModified = DateTime.Now;
+                    _guestTypeService.Update(guestType);
+                    _guestTypeService.SaveChanges();
                     return Ok();
                 });
 
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!LearnerExists(id))
+                if (!GuestTypeExists(id))
                 {
                     return NotFound();
                 }
@@ -79,22 +79,22 @@ namespace LanguageCenterPLC.Controllers
             return NoContent();
         }
 
-        // POST: api/Learners
+        // POST: api/GuestTypes
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
-        public async Task<ActionResult<Learner>> PostLearner(LearnerViewModel learner)
+        public async Task<ActionResult<GuestTypeViewModel>> PostGuestType(GuestTypeViewModel guestType)
         {
-            if (learner != null)
+            if (guestType != null)
             {
                 try
                 {
                     await Task.Run(() =>
                     {
-                        learner.DateCreated = DateTime.Now;
-                        learner.DateModified = DateTime.Now;
-                        _learnerService.Add(learner);
-                        _learnerService.SaveChanges();
+                        guestType.DateCreated = DateTime.Now;
+                        guestType.DateModified = DateTime.Now;
+                        _guestTypeService.Add(guestType);
+                        _guestTypeService.SaveChanges();
                         return Ok("thêm khóa học thành công!");
                     });
 
@@ -107,15 +107,15 @@ namespace LanguageCenterPLC.Controllers
 
             }
 
-            return CreatedAtAction("GetLearner", new { id = learner.Id }, learner);
+            return CreatedAtAction("GetGuestType", new { id = guestType.Id }, guestType);
         }
 
-        // DELETE: api/Learners/5
+        // DELETE: api/GuestTypes/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Learner>> DeleteLearner(string id)
+        public async Task<ActionResult<GuestType>> DeleteGuestType(int id)
         {
-            var learner = _learnerService.GetById(id);
-            if (learner == null)
+            var guestType = _guestTypeService.GetById(id);
+            if (guestType == null)
             {
                 return NotFound("Không tìm thấy khóa học có Id = " + id);
             }
@@ -124,8 +124,8 @@ namespace LanguageCenterPLC.Controllers
             {
                 await Task.Run(() =>
                 {
-                    _learnerService.Delete(id);
-                    _learnerService.SaveChanges();
+                    _guestTypeService.Delete(id);
+                    _guestTypeService.SaveChanges();
                 });
             }
             catch
@@ -137,9 +137,9 @@ namespace LanguageCenterPLC.Controllers
             return Ok();
         }
 
-        private bool LearnerExists(string id)
+        private bool GuestTypeExists(int id)
         {
-            return _learnerService.IsExists(id);
+            return _guestTypeService.IsExists(id);
         }
     }
 }

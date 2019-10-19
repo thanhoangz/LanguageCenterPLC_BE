@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LanguageCenterPLC.Data.EF.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20191013072743_initialize_db")]
-    partial class initialize_db
+    [Migration("20191019024344_initialize")]
+    partial class initialize
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -1114,6 +1114,9 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                     b.Property<DateTime>("QuitWorkDay")
                         .HasColumnType("datetime2");
 
+                    b.Property<decimal>("SalaryOfDay")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<bool>("Sex")
                         .HasColumnType("bit");
 
@@ -1538,6 +1541,9 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                     b.Property<decimal>("Salary")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<decimal>("SalaryOfDay")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
@@ -1547,8 +1553,8 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                     b.Property<decimal>("TotalSalary")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("TotalWorkday")
-                        .HasColumnType("int");
+                    b.Property<float>("TotalWorkday")
+                        .HasColumnType("real");
 
                     b.Property<int>("Year")
                         .HasColumnType("int");
