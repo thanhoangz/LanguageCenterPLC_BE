@@ -110,6 +110,13 @@ namespace LanguageCenterPLC.Controllers
             return CreatedAtAction("GetGuestType", new { id = guestType.Id }, guestType);
         }
 
+        [HttpPost("/api/GuestTypes/get-all-with-conditions")]
+        public async Task<ActionResult<IEnumerable<GuestTypeViewModel>>> GetAllConditions(string keyword = "", int status = 1)
+        {
+            return await Task.FromResult(_guestTypeService.GetAllWithConditions(keyword, status));
+        }
+
+
         // DELETE: api/GuestTypes/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<GuestType>> DeleteGuestType(int id)
