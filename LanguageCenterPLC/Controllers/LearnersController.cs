@@ -41,6 +41,19 @@ namespace LanguageCenterPLC.Controllers
             return await Task.FromResult(leaner);
         }
 
+        // GET: api/Learners/get-in-class
+        [HttpGet("/api/Learners/get-in-class")]
+        public async Task<ActionResult<IEnumerable<LearnerViewModel>>> GetLearnersInClass(string classId)
+        {
+            return await Task.FromResult(_learnerService.GetAllInClass(classId));
+        }
+
+        // GET: api/Learners/get-in-class
+        [HttpGet("/api/Learners/get-out-class")]
+        public async Task<ActionResult<IEnumerable<LearnerViewModel>>> GetLearnersOutClass(string classId)
+        {
+            return await Task.FromResult(_learnerService.GetAllOutClass(classId));
+        }
 
         // PUT: api/Learners/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
@@ -143,6 +156,7 @@ namespace LanguageCenterPLC.Controllers
             return Ok();
         }
 
+      
         private bool LearnerExists(string id)
         {
             return _learnerService.IsExists(id);

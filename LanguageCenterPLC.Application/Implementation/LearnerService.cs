@@ -3,6 +3,7 @@ using LanguageCenterPLC.Application.Interfaces;
 using LanguageCenterPLC.Application.ViewModels.Studies;
 using LanguageCenterPLC.Data.Entities;
 using LanguageCenterPLC.Infrastructure.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -11,7 +12,7 @@ namespace LanguageCenterPLC.Application.Implementation
     public class LearnerService : ILearnerService
     {
         private readonly IRepository<Learner, string> _learnerRepository;
-
+        private readonly IRepository<StudyProcess, int> _studyProcessRepository;
         private readonly IUnitOfWork _unitOfWork;
 
         public LearnerService(IRepository<Learner, string> learnerRepository,
@@ -53,6 +54,47 @@ namespace LanguageCenterPLC.Application.Implementation
             }
         }
 
+        public List<LearnerViewModel> GetAllInClass(string classId)
+        {
+            var Learners = (from l in _learnerRepository.FindAll()
+                            join sp in _studyProcessRepository.FindAll().Where(x => x.LanguageClassId == classId)
+                            on l.Id equals sp.LearnerId
+                            select new
+                            {
+                                l.Id,
+                                FullName = l.FirstName + l.LastName,
+                                l.Sex,
+                                Year = l.Birthday.Year,
+                            }).ToList();
+
+            var learnerViewModel = Mapper.Map<List<LearnerViewModel>>(Learners);
+
+            return learnerViewModel;
+        }
+
+        public List<LearnerViewModel> GetAllOutClass(string classId)
+        {
+            var inLearners = from l in _learnerRepository.FindAll()
+                             join sp in _studyProcessRepository.FindAll().Where(x => x.LanguageClassId == classId)
+                             on l.Id equals sp.LearnerId
+                             select l;
+
+            var fullLeaners = _learnerRepository.FindAll();
+
+            var outLeaners = new List<Learner>();
+
+            foreach (var item in fullLeaners)
+            {
+                if (!inLearners.Contains(item))
+                {
+                    outLeaners.Add(item);
+                }
+            }
+
+            var learnerViewModel = Mapper.Map<List<LearnerViewModel>>(outLeaners);
+
+            return learnerViewModel;
+        }
 
         public List<LearnerViewModel> GetAll()
         {

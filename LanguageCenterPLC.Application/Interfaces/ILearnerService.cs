@@ -18,5 +18,8 @@ namespace LanguageCenterPLC.Application.Interfaces
         void SaveChanges();
 
         bool IsExists(string id);
+
+        public List<LearnerViewModel> GetAllInClass(string classId);
+        public List<LearnerViewModel> GetAllOutClass(string classId);
     }
 }
