@@ -77,7 +77,6 @@ namespace LanguageCenterPLC.Data.Entities
         public ICollection<StudyProcess> StudyProcesses { set; get; }
         public ICollection<EndingCoursePointDetail> EndingCoursePointDetails { set; get; }
         public ICollection<PeriodicPointDetail> PeriodicPointDetails { set; get; }
-        public ICollection<TeachingSchedule> TeachingSchedules { set; get; }
         public ICollection<Receipt> Receipts { set; get; }
         public ICollection<AttendanceSheetDetail> AttendanceSheetDetails { set; get; }
     }
