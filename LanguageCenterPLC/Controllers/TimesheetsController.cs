@@ -112,7 +112,26 @@ namespace LanguageCenterPLC.Controllers
             
             return CreatedAtAction("GetLecturer()", new { id = timesheet.Id }, timesheet);
         }
+        [HttpPost("/api/Timesheets/post-timesheet-conditions")]
+        public async Task<ActionResult<IEnumerable<TimesheetViewModel>>> PostTimesheetConditions(int month, int year)
+        {
+            try
+            {
+                await Task.Run(() =>
+                {                  
+                    _timesheetService.AddRange(month +1,year);
+                    _timesheetService.SaveChanges();
+                    return Ok("Thêm thành công!");
+                });
 
+            }
+            catch
+            {
+
+                throw new Exception(string.Format("Lỗi khi thêm dữ liệu"));
+            }
+            return Ok();
+        }
         [HttpPost("/api/Timesheets/get-all-with-conditions")]
         public async Task<ActionResult<IEnumerable<TimesheetViewModel>>> GetAllConditions(int month,int year)
         {
@@ -149,6 +168,11 @@ namespace LanguageCenterPLC.Controllers
         private bool TimesheetExists(int id)
         {
             return _timesheetService.IsExists(id);
+        }
+
+        private bool TimesheetExistsCondition(int month, int year, string personelId)
+        {
+            return _timesheetService.IsExistsTimeSheetCondition(month,year,personelId);
         }
     }
 }

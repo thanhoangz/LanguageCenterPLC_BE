@@ -17,6 +17,7 @@ namespace LanguageCenterPLC.Application.Interfaces
 
         TimesheetViewModel GetById(int id);
         bool IsExists(int id);
+        bool IsExistsTimeSheetCondition(int month, int year, string personnelId);
 
         bool AddRange(int month, int year);
         

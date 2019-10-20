@@ -44,64 +44,67 @@ namespace LanguageCenterPLC.Application.Implementation
             try
             {
                 var personnelList = _peronelRepository.FindAll();
-                personnelList = personnelList.Where(x => x.Status == (Status)1);
+                var personnelList1 = personnelList.Where(x => x.Status == (Status)1).ToList();
 
 
 
-                foreach (var personnel in personnelList)
+                foreach (var personnel in personnelList1)
                 {
-                    var timeSheet = new Timesheet();
-                    timeSheet.Month = month;
-                    timeSheet.Year = year;
-                    timeSheet.Day_1 = 0;
-                    timeSheet.Day_2 = 0;
-                    timeSheet.Day_3 = 0;
-                    timeSheet.Day_4 = 0;
-                    timeSheet.Day_5 = 0;
-                    timeSheet.Day_6 = 0;
-                    timeSheet.Day_7 = 0;
-                    timeSheet.Day_8 = 0;
-                    timeSheet.Day_9 = 0;
-                    timeSheet.Day_10 = 0;
-                    timeSheet.Day_11 = 0;
-                    timeSheet.Day_12 = 0;
-                    timeSheet.Day_13 = 0;
-                    timeSheet.Day_14 = 0;
-                    timeSheet.Day_15 = 0;
-                    timeSheet.Day_16 = 0;
-                    timeSheet.Day_17 = 0;
-                    timeSheet.Day_18 = 0;
-                    timeSheet.Day_19 = 0;
-                    timeSheet.Day_20 = 0;
-                    timeSheet.Day_21 = 0;
-                    timeSheet.Day_22 = 0;
-                    timeSheet.Day_23 = 0;
-                    timeSheet.Day_24 = 0;
-                    timeSheet.Day_25 = 0;
-                    timeSheet.Day_26 = 0;
-                    timeSheet.Day_27 = 0;
-                    timeSheet.Day_28 = 0;
-                    timeSheet.Day_29 = 0;
-                    timeSheet.Day_30 = 0;
-                    timeSheet.Day_31 = 0;
+                    if (!IsExistsTimeSheetCondition(month, year, personnel.Id))
+                    {
+                        var timeSheet = new Timesheet();
+                        timeSheet.Month = month;
+                        timeSheet.Year = year;
+                        timeSheet.Day_1 = 0;
+                        timeSheet.Day_2 = 0;
+                        timeSheet.Day_3 = 0;
+                        timeSheet.Day_4 = 0;
+                        timeSheet.Day_5 = 0;
+                        timeSheet.Day_6 = 0;
+                        timeSheet.Day_7 = 0;
+                        timeSheet.Day_8 = 0;
+                        timeSheet.Day_9 = 0;
+                        timeSheet.Day_10 = 0;
+                        timeSheet.Day_11 = 0;
+                        timeSheet.Day_12 = 0;
+                        timeSheet.Day_13 = 0;
+                        timeSheet.Day_14 = 0;
+                        timeSheet.Day_15 = 0;
+                        timeSheet.Day_16 = 0;
+                        timeSheet.Day_17 = 0;
+                        timeSheet.Day_18 = 0;
+                        timeSheet.Day_19 = 0;
+                        timeSheet.Day_20 = 0;
+                        timeSheet.Day_21 = 0;
+                        timeSheet.Day_22 = 0;
+                        timeSheet.Day_23 = 0;
+                        timeSheet.Day_24 = 0;
+                        timeSheet.Day_25 = 0;
+                        timeSheet.Day_26 = 0;
+                        timeSheet.Day_27 = 0;
+                        timeSheet.Day_28 = 0;
+                        timeSheet.Day_29 = 0;
+                        timeSheet.Day_30 = 0;
+                        timeSheet.Day_31 = 0;
 
-                    timeSheet.Salary = personnel.BasicSalary;
-                    timeSheet.Salary = personnel.BasicSalary;
-                    timeSheet.Allowance = personnel.Allowance;
-                    timeSheet.Bonus = personnel.Bonus;
-                    timeSheet.InsurancePremiums = personnel.InsurancePremium;
-                    timeSheet.AdvancePayment = 0;
-                    timeSheet.TotalActualSalary = 0;
-                    timeSheet.TotalSalary = 0;
-                    timeSheet.Status = (Status)1;
-                    timeSheet.DateCreated = DateTime.Now;
-                    timeSheet.DateModified = DateTime.Now;
-                    timeSheet.AppUserId = new Guid("3f2504e0-4f89-11d3-9a0c-0305e82c3301"); // need fix
-                    timeSheet.PersonnelId = personnel.Id;
-                    timeSheet.SalaryOfDay = personnel.SalaryOfDay;
+                        timeSheet.Salary = personnel.BasicSalary;
+                        timeSheet.Salary = personnel.BasicSalary;
+                        timeSheet.Allowance = personnel.Allowance;
+                        timeSheet.Bonus = personnel.Bonus;
+                        timeSheet.InsurancePremiums = personnel.InsurancePremium;
+                        timeSheet.AdvancePayment = 0;
+                        timeSheet.TotalActualSalary = 0;
+                        timeSheet.TotalSalary = 0;
+                        timeSheet.Status = (Status)1;
+                        timeSheet.DateCreated = DateTime.Now;
+                        timeSheet.DateModified = DateTime.Now;
+                        timeSheet.AppUserId = new Guid("3f2504e0-4f89-11d3-9a0c-0305e82c3301"); // need fix
+                        timeSheet.PersonnelId = personnel.Id;
+                        timeSheet.SalaryOfDay = personnel.SalaryOfDay;
 
-                    _timesheetRepository.Add(timeSheet);
-                    _unitOfWork.Commit();
+                        _timesheetRepository.Add(timeSheet);
+                        _unitOfWork.Commit();
+                    }
                 }
 
 
@@ -174,6 +177,12 @@ namespace LanguageCenterPLC.Application.Implementation
             var timeSheet = _timesheetRepository.FindById(id);
             return (timeSheet == null) ? false : true;
         }
+        public bool IsExistsTimeSheetCondition(int month, int year, string personnelId)
+        {
+            var timeSheet = _timesheetRepository.FindAll();
+            var queryTimeSheet = timeSheet.Where(x => x.Month == month && x.Year == year && x.PersonnelId == personnelId).ToList();
+            return (queryTimeSheet.Count == 0) ? false : true;
+        }
 
         public void SaveChanges()
         {
@@ -184,7 +193,7 @@ namespace LanguageCenterPLC.Application.Implementation
         {
             try
             {
-                //timesheetVm.TotalWorkday = timesheetVm.Day_1 + timesheetVm.Day_2 + timesheetVm.Day_3 + timesheetVm.Day_4 + timesheetVm.Day_5 + timesheetVm.Day_6 + timesheetVm.Day_7 + timesheetVm.Day_8 + timesheetVm.Day_9 + timesheetVm.Day_10 + timesheetVm.Day_11 + timesheetVm.Day_12 + timesheetVm.Day_13 + timesheetVm.Day_14 + timesheetVm.Day_15 + timesheetVm.Day_16 + timesheetVm.Day_17 + timesheetVm.Day_18 + timesheetVm.Day_19 + timesheetVm.Day_20 + timesheetVm.Day_21 + timesheetVm.Day_22 + timesheetVm.Day_23 + timesheetVm.Day_24 + timesheetVm.Day_25 + timesheetVm.Day_26 + timesheetVm.Day_27 + timesheetVm.Day_28 + timesheetVm.Day_29 + timesheetVm.Day_30 + timesheetVm.Day_31 ;
+                timesheetVm.TotalWorkday = timesheetVm.Day_1 + timesheetVm.Day_2 + timesheetVm.Day_3 + timesheetVm.Day_4 + timesheetVm.Day_5 + timesheetVm.Day_6 + timesheetVm.Day_7 + timesheetVm.Day_8 + timesheetVm.Day_9 + timesheetVm.Day_10 + timesheetVm.Day_11 + timesheetVm.Day_12 + timesheetVm.Day_13 + timesheetVm.Day_14 + timesheetVm.Day_15 + timesheetVm.Day_16 + timesheetVm.Day_17 + timesheetVm.Day_18 + timesheetVm.Day_19 + timesheetVm.Day_20 + timesheetVm.Day_21 + timesheetVm.Day_22 + timesheetVm.Day_23 + timesheetVm.Day_24 + timesheetVm.Day_25 + timesheetVm.Day_26 + timesheetVm.Day_27 + timesheetVm.Day_28 + timesheetVm.Day_29 + timesheetVm.Day_30 + timesheetVm.Day_31 ;
                 var timeSheet = Mapper.Map<TimesheetViewModel, Timesheet>(timesheetVm);
                 _timesheetRepository.Update(timeSheet);
                 return true;
