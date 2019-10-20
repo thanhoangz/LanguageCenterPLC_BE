@@ -121,7 +121,8 @@ namespace LanguageCenterPLC.Controllers
             }
         }
 
-        [HttpPost("/api/Courses/get-all-with-conditions")]
+        [HttpPost]
+        [Route("get-all-with-conditions")]
         public async Task<ActionResult<IEnumerable<CourseViewModel>>> GetAllConditions(string keyword = "", int status = 1)
         {
             return await Task.FromResult(_courseService.GetAllWithConditions(keyword, status));

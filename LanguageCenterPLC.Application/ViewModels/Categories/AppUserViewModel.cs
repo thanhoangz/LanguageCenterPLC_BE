@@ -14,7 +14,7 @@ namespace LanguageCenterPLC.Application.ViewModels.Categories
         }
         public Guid Id { get; set; }
         public string FullName { get; set; }
-        public string UserName { get; }
+        public string UserName { get; set; }
         public string Password { set; get; }
         public string Email { get; }
         public string PhoneNumber { get; }

@@ -5,7 +5,6 @@ using LanguageCenterPLC.Application.ViewModels.Finances;
 using LanguageCenterPLC.Application.ViewModels.Studies;
 using LanguageCenterPLC.Application.ViewModels.Timekeepings;
 using LanguageCenterPLC.Data.Entities;
-using System;
 
 namespace LanguageCenterPLC.Application.AutoMapper
 {
@@ -17,8 +16,7 @@ namespace LanguageCenterPLC.Application.AutoMapper
             CreateMap<AppRoleViewModel, AppRole>()
                 .ConstructUsing(c => new AppRole(c.Name, c.Description));
             CreateMap<AppUserViewModel, AppUser>()
-                .ConstructUsing(c => new AppUser(c.Id, c.FullName, c.UserName,
-            c.Email, c.PhoneNumber, c.Avatar, c.Status));
+                .ConstructUsing(c => new AppUser());
             CreateMap<AttendanceSheetViewModel, AttendanceSheet>();
             CreateMap<AttendanceSheetDetailViewModel, AttendanceSheetDetail>();
             CreateMap<ClassroomViewModel, Classroom>();
