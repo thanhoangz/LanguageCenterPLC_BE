@@ -10,6 +10,7 @@ using LanguageCenterPLC.Data.Entities;
 using LanguageCenterPLC.Application.Interfaces;
 using LanguageCenterPLC.Application.ViewModels.Studies;
 using LanguageCenterPLC.Utilities.Dtos;
+using LanguageCenterPLC.Infrastructure.Enums;
 
 namespace LanguageCenterPLC.Controllers
 {
@@ -96,6 +97,9 @@ namespace LanguageCenterPLC.Controllers
                     {
                         studyProcess.DateCreated = DateTime.Now;
                         studyProcess.DateModified = DateTime.Now;
+                        studyProcess.Status = Status.Active;
+                        studyProcess.InDate = DateTime.Now;
+                        studyProcess.OutDate = DateTime.Now;               
                         _studyProcessService.Add(studyProcess);
                         _studyProcessService.SaveChanges();
                         return Ok("Thêm thành công!");
@@ -133,6 +137,27 @@ namespace LanguageCenterPLC.Controllers
             return Ok();
         }
 
+        // DELETE: api/StudyProcesses/delete-by-learnerId
+        [HttpDelete]
+        [Route("delete-by-classId-learnerId")]
+        public async Task<ActionResult> DeleteStudyProcessByLearner(string classId, string learnerId)
+        {
+            try
+            {
+                await Task.Run(() =>
+                {
+                    _studyProcessService.DeleteByLearner(classId, learnerId);
+                    _studyProcessService.SaveChanges();
+                });
+            }
+            catch
+            {
+                throw new Exception(string.Format("Có lỗi xảy ra không thể xóa!"));
+            }
+            return Ok();
+        }
+
+
         [HttpPost("/api/StudyProcesses/paging")]
         public async Task<ActionResult<PagedResult<StudyProcessViewModel>>> PagingPaySlip(string keyword = "", int status = 0, int pageSize = 10, int pageIndex = 0)
         {
@@ -153,14 +178,30 @@ namespace LanguageCenterPLC.Controllers
         }
 
         [HttpPost("/api/StudyProcesses/get-study-by-classid")]
-        public async Task<ActionResult<IEnumerable<StudyProcessViewModel>>> GetStudyByClassId(string LanguageClassId = "",  int status = 1)
+        public async Task<ActionResult<IEnumerable<StudyProcessViewModel>>> GetStudyByClassId(string LanguageClassId = "", int status = 1)
         {
             return await Task.FromResult(_studyProcessService.GetStudyProcessByClassId(LanguageClassId, status));
         }
 
+        [HttpPost]
+        [Route("get-by-classId-learnerId")]
+        public async Task<ActionResult<StudyProcessViewModel>> GetStudyByClass(string classId = "", string learnerId = "")
+        {
+            return await Task.FromResult(_studyProcessService.GetByClassLearner(classId, learnerId));
+        }
+
+     
+
         private bool StudyProcessExists(int id)
         {
             return _studyProcessService.IsExists(id);
+        }
+
+        [HttpPost]
+        [Route("get-by-classId")]
+        public async Task<ActionResult<IEnumerable<StudyProcessViewModel>>> GetByClassId(string classId = "", int status=1)
+        {
+            return await Task.FromResult(_studyProcessService.GetAllInClass(classId, status));
         }
     }
 }

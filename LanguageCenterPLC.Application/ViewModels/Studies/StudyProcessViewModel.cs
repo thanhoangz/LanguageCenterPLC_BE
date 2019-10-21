@@ -5,6 +5,7 @@ namespace LanguageCenterPLC.Application.ViewModels.Studies
 {
     public class StudyProcessViewModel
     {
+   
         public int Id { get; set; }
         public DateTime OutDate { get; set; }
 
@@ -22,6 +23,6 @@ namespace LanguageCenterPLC.Application.ViewModels.Studies
         public string LanguageClassName { get; set; }
         public string LearnerId { get; set; }
 
-
+        public LearnerViewModel Learner { get; set; }
     }
 }

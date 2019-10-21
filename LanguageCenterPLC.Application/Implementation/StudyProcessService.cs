@@ -6,6 +6,7 @@ using LanguageCenterPLC.Infrastructure.Enums;
 using LanguageCenterPLC.Infrastructure.Interfaces;
 using LanguageCenterPLC.Utilities.Dtos;
 using System.Collections.Generic;
+using System;
 using System.Linq;
 
 namespace LanguageCenterPLC.Application.Implementation
@@ -62,6 +63,23 @@ namespace LanguageCenterPLC.Application.Implementation
                 return false;
             }
         }
+
+        public bool DeleteByLearner(string languageClassId, string LearnerId)
+        {
+            try
+            {
+                var id = GetStudyProByLearner(languageClassId, LearnerId);
+                var studyProcess = _studyProcessRepository.FindById(id);
+                _studyProcessRepository.Remove(studyProcess);
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
 
         public List<StudyProcessViewModel> GetAll()
         {
@@ -128,6 +146,44 @@ namespace LanguageCenterPLC.Application.Implementation
             }
 
             var studyProcessViewModel = Mapper.Map<List<StudyProcessViewModel>>(query);
+
+            return studyProcessViewModel;
+        }
+
+        public int GetStudyProByLearner(string languageClassId, string LearnerId)
+        {
+            var query = _studyProcessRepository.FindAll();
+
+            if (!string.IsNullOrEmpty(languageClassId))
+            {
+                query = query.Where(x => x.LanguageClassId == languageClassId);
+            }
+
+            if (!string.IsNullOrEmpty(LearnerId))
+            {
+                query = query.Where(x => x.LearnerId == LearnerId);
+            }
+
+            var studyProcessViewModel = Mapper.Map<StudyProcessViewModel>(query.FirstOrDefault());
+
+            return studyProcessViewModel.Id;
+        }
+
+        public StudyProcessViewModel GetByClassLearner(string classId, string learnerId)
+        {
+            var query = _studyProcessRepository.FindAll();
+
+            if (!string.IsNullOrEmpty(classId))
+            {
+                query = query.Where(x => x.LanguageClassId == classId);
+            }
+
+            if (!string.IsNullOrEmpty(learnerId))
+            {
+                query = query.Where(x => x.LearnerId == learnerId);
+            }
+
+            var studyProcessViewModel = Mapper.Map<StudyProcessViewModel>(query.FirstOrDefault());
 
             return studyProcessViewModel;
         }
@@ -200,6 +256,33 @@ namespace LanguageCenterPLC.Application.Implementation
             }
         }
 
-      
+       
+        public List<StudyProcessViewModel> GetAllInClass(string classId, int status)
+        {
+            var studyprocess = _studyProcessRepository.FindAll().Where(x => x.LanguageClassId == classId);
+
+            Status _status = (Status)status;    //
+            if (_status == Status.Active || _status == Status.InActive || _status == Status.Pause)
+            {
+                studyprocess = studyprocess.Where(x => x.Status == _status).OrderBy(x => x.Learner.LastName);
+            }
+
+            var studyprocessViewModel = Mapper.Map<List<StudyProcessViewModel>>(studyprocess);
+
+            foreach (var item in studyprocessViewModel)
+            {
+                var learner = _learnerRepository.FindById(item.LearnerId);
+                var learnerViewModel = new LearnerViewModel();
+                learnerViewModel.Id = learner.Id;
+                learnerViewModel.FirstName = learner.FirstName;
+                learnerViewModel.LastName = learner.LastName;
+                learnerViewModel.Sex = learner.Sex;
+                learnerViewModel.Birthday = learner.Birthday;
+                learnerViewModel.Address = learner.Address;
+                item.Learner = learnerViewModel;
+
+            }
+            return studyprocessViewModel;
+        }
     }
 }

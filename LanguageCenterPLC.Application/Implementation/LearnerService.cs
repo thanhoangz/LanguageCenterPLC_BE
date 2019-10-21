@@ -62,6 +62,7 @@ namespace LanguageCenterPLC.Application.Implementation
                            join sp in _studyProcessRepository.FindAll().Where(x => x.LanguageClassId == classId && x.Status == Status.Active)
                            on l.Id equals sp.LearnerId
                            select l;
+                           
 
             var learnerViewModel = Mapper.Map<List<LearnerViewModel>>(Learners);
 

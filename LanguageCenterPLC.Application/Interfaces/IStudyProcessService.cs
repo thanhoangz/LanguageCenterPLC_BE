@@ -13,11 +13,15 @@ namespace LanguageCenterPLC.Application.Interfaces
 
         bool Delete(int id);
 
+        bool DeleteByLearner(string languageClassId, string LearnerId);
+
         List<StudyProcessViewModel> GetAll();
 
         List<StudyProcessViewModel> GetAllWithConditions(string languageClassId, string LearnerId, int status);
 
         PagedResult<StudyProcessViewModel> GetAllPaging(string keyword, int status, int pageSize, int pageIndex);
+
+        int GetStudyProByLearner(string languageClassId, string LearnerId);
 
         StudyProcessViewModel GetById(int id);
 
@@ -28,5 +32,8 @@ namespace LanguageCenterPLC.Application.Interfaces
         bool UpdateStatus(int studyProcessId, Status status);
 
         bool IsExists(int id);
+        StudyProcessViewModel GetByClassLearner(string classId, string learnerId);
+
+        List<StudyProcessViewModel> GetAllInClass(string classId,int status);
     }
 }
