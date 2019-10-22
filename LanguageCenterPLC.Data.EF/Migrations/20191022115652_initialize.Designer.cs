@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LanguageCenterPLC.Data.EF.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20191019035454_intialize")]
-    partial class intialize
+    [Migration("20191022115652_initialize")]
+    partial class initialize
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,6 +20,63 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                 .HasAnnotation("ProductVersion", "3.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("LanguageCenterPLC.Data.Entities.Announcement", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<Guid>("AppUserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Content")
+                        .HasColumnType("nvarchar(250)")
+                        .HasMaxLength(250);
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DateModified")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(250)")
+                        .HasMaxLength(250);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppUserId");
+
+                    b.ToTable("Announcements");
+                });
+
+            modelBuilder.Entity("LanguageCenterPLC.Data.Entities.AnnouncementUser", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("AnnouncementId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<Guid>("AppUserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool?>("HasRead")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AnnouncementId");
+
+                    b.ToTable("AnnouncementUsers");
+                });
 
             modelBuilder.Entity("LanguageCenterPLC.Data.Entities.AppRole", b =>
                 {
@@ -78,7 +135,7 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateModified")
+                    b.Property<DateTime?>("DateModified")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
@@ -156,7 +213,7 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateModified")
+                    b.Property<DateTime?>("DateModified")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("LanguageClassId")
@@ -208,7 +265,7 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateModified")
+                    b.Property<DateTime?>("DateModified")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("LanguageClassId")
@@ -245,7 +302,7 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateModified")
+                    b.Property<DateTime?>("DateModified")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
@@ -321,7 +378,7 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateModified")
+                    b.Property<DateTime?>("DateModified")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
@@ -362,7 +419,7 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateModified")
+                    b.Property<DateTime?>("DateModified")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("DateOnPoint")
@@ -408,7 +465,7 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateModified")
+                    b.Property<DateTime?>("DateModified")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("EndingCoursePointId")
@@ -461,7 +518,7 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateModified")
+                    b.Property<DateTime?>("DateModified")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
@@ -542,7 +599,7 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateModified")
+                    b.Property<DateTime?>("DateModified")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
@@ -575,7 +632,7 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateModified")
+                    b.Property<DateTime?>("DateModified")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("EndDay")
@@ -628,7 +685,7 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateModified")
+                    b.Property<DateTime?>("DateModified")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
@@ -659,12 +716,10 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ParentFullName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
                     b.Property<string>("ParentPhone")
-                        .IsRequired()
                         .HasColumnType("VARCHAR(16)");
 
                     b.Property<string>("Phone")
@@ -718,7 +773,7 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateModified")
+                    b.Property<DateTime?>("DateModified")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
@@ -773,7 +828,7 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("QuitWorkDay")
+                    b.Property<DateTime?>("QuitWorkDay")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("Sex")
@@ -830,7 +885,7 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateModified")
+                    b.Property<DateTime?>("DateModified")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Note")
@@ -879,7 +934,7 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateModified")
+                    b.Property<DateTime?>("DateModified")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
@@ -910,7 +965,7 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateModified")
+                    b.Property<DateTime?>("DateModified")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("DateOnPoint")
@@ -959,7 +1014,7 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateModified")
+                    b.Property<DateTime?>("DateModified")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("LearnerId")
@@ -1056,13 +1111,12 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                         .HasMaxLength(100);
 
                     b.Property<string>("Certificate")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateModified")
+                    b.Property<DateTime?>("DateModified")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
@@ -1082,7 +1136,6 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                         .HasMaxLength(50);
 
                     b.Property<string>("Image")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("InsurancePremium")
@@ -1111,7 +1164,7 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("QuitWorkDay")
+                    b.Property<DateTime?>("QuitWorkDay")
                         .HasColumnType("datetime2");
 
                     b.Property<decimal>("SalaryOfDay")
@@ -1142,7 +1195,7 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateModified")
+                    b.Property<DateTime?>("DateModified")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ForReason")
@@ -1196,7 +1249,7 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateModified")
+                    b.Property<DateTime?>("DateModified")
                         .HasColumnType("datetime2");
 
                     b.Property<decimal>("FundMoney")
@@ -1253,7 +1306,7 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateModified")
+                    b.Property<DateTime?>("DateModified")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
@@ -1282,7 +1335,7 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateModified")
+                    b.Property<DateTime?>("DateModified")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("InDate")
@@ -1360,7 +1413,7 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateModified")
+                    b.Property<DateTime?>("DateModified")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("DaysOfWeek")
@@ -1373,9 +1426,6 @@ namespace LanguageCenterPLC.Data.EF.Migrations
 
                     b.Property<string>("LanguageClassId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("LearnerId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("LecturerId")
@@ -1399,8 +1449,6 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                     b.HasIndex("ClassroomId");
 
                     b.HasIndex("LanguageClassId");
-
-                    b.HasIndex("LearnerId");
 
                     b.HasIndex("LecturerId");
 
@@ -1429,7 +1477,7 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateModified")
+                    b.Property<DateTime?>("DateModified")
                         .HasColumnType("datetime2");
 
                     b.Property<float>("Day_1")
@@ -1667,6 +1715,24 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("LanguageCenterPLC.Data.Entities.Announcement", b =>
+                {
+                    b.HasOne("LanguageCenterPLC.Data.Entities.AppUser", "AppUser")
+                        .WithMany()
+                        .HasForeignKey("AppUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("LanguageCenterPLC.Data.Entities.AnnouncementUser", b =>
+                {
+                    b.HasOne("LanguageCenterPLC.Data.Entities.Announcement", "Announcement")
+                        .WithMany("AnnouncementUsers")
+                        .HasForeignKey("AnnouncementId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("LanguageCenterPLC.Data.Entities.AttendanceSheet", b =>
@@ -1911,10 +1977,6 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                         .HasForeignKey("LanguageClassId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("LanguageCenterPLC.Data.Entities.Learner", null)
-                        .WithMany("TeachingSchedules")
-                        .HasForeignKey("LearnerId");
 
                     b.HasOne("LanguageCenterPLC.Data.Entities.Lecturer", "Lecturer")
                         .WithMany()

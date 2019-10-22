@@ -46,7 +46,7 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                     Balance = table.Column<decimal>(nullable: false),
                     Avatar = table.Column<string>(nullable: true),
                     DateCreated = table.Column<DateTime>(nullable: false),
-                    DateModified = table.Column<DateTime>(nullable: false),
+                    DateModified = table.Column<DateTime>(nullable: true),
                     Status = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -63,7 +63,7 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                     Name = table.Column<string>(maxLength: 500, nullable: false),
                     Status = table.Column<int>(nullable: false),
                     DateCreated = table.Column<DateTime>(nullable: false),
-                    DateModified = table.Column<DateTime>(nullable: false),
+                    DateModified = table.Column<DateTime>(nullable: true),
                     Note = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -103,7 +103,7 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                     TraingTime = table.Column<int>(nullable: false),
                     NumberOfSession = table.Column<int>(nullable: false),
                     DateCreated = table.Column<DateTime>(nullable: false),
-                    DateModified = table.Column<DateTime>(nullable: false),
+                    DateModified = table.Column<DateTime>(nullable: true),
                     Status = table.Column<int>(nullable: false),
                     Note = table.Column<string>(nullable: true)
                 },
@@ -123,7 +123,7 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                     Message = table.Column<string>(maxLength: 500, nullable: true),
                     Status = table.Column<int>(nullable: false),
                     DateCreated = table.Column<DateTime>(nullable: false),
-                    DateModified = table.Column<DateTime>(nullable: false)
+                    DateModified = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -167,7 +167,7 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(maxLength: 250, nullable: false),
                     DateCreated = table.Column<DateTime>(nullable: false),
-                    DateModified = table.Column<DateTime>(nullable: false),
+                    DateModified = table.Column<DateTime>(nullable: true),
                     Status = table.Column<int>(nullable: false),
                     Note = table.Column<string>(nullable: true)
                 },
@@ -202,14 +202,14 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                     Bonus = table.Column<decimal>(nullable: false),
                     InsurancePremium = table.Column<decimal>(nullable: false),
                     DateCreated = table.Column<DateTime>(nullable: false),
-                    DateModified = table.Column<DateTime>(nullable: false),
+                    DateModified = table.Column<DateTime>(nullable: true),
                     WageOfLecturer = table.Column<decimal>(nullable: false),
                     WageOfTutor = table.Column<decimal>(nullable: false),
                     IsVisitingLecturer = table.Column<bool>(nullable: false),
                     IsTutor = table.Column<bool>(nullable: false),
                     Status = table.Column<int>(nullable: false),
                     Note = table.Column<string>(nullable: true),
-                    QuitWorkDay = table.Column<DateTime>(nullable: false)
+                    QuitWorkDay = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -239,7 +239,7 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                     Name = table.Column<string>(nullable: false),
                     Status = table.Column<int>(nullable: false),
                     DateCreated = table.Column<DateTime>(nullable: false),
-                    DateModified = table.Column<DateTime>(nullable: false),
+                    DateModified = table.Column<DateTime>(nullable: true),
                     Note = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -265,18 +265,18 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                     Facebook = table.Column<string>(maxLength: 200, nullable: true),
                     Phone = table.Column<string>(type: "VARCHAR(16)", nullable: true),
                     Position = table.Column<string>(nullable: false),
-                    Certificate = table.Column<string>(nullable: false),
-                    Image = table.Column<string>(nullable: false),
+                    Certificate = table.Column<string>(nullable: true),
+                    Image = table.Column<string>(nullable: true),
                     BasicSalary = table.Column<decimal>(nullable: false),
                     SalaryOfDay = table.Column<decimal>(nullable: false),
                     Allowance = table.Column<decimal>(nullable: false),
                     Bonus = table.Column<decimal>(nullable: false),
                     InsurancePremium = table.Column<decimal>(nullable: false),
                     DateCreated = table.Column<DateTime>(nullable: false),
-                    DateModified = table.Column<DateTime>(nullable: false),
+                    DateModified = table.Column<DateTime>(nullable: true),
                     Status = table.Column<int>(nullable: false),
                     Note = table.Column<string>(nullable: true),
-                    QuitWorkDay = table.Column<DateTime>(nullable: false)
+                    QuitWorkDay = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -292,7 +292,7 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                     Name = table.Column<string>(maxLength: 200, nullable: false),
                     Status = table.Column<int>(nullable: false),
                     DateCreated = table.Column<DateTime>(nullable: false),
-                    DateModified = table.Column<DateTime>(nullable: false),
+                    DateModified = table.Column<DateTime>(nullable: true),
                     Note = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -335,6 +335,29 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                         name: "FK_AspNetRoleClaims_AspNetRoles_RoleId",
                         column: x => x.RoleId,
                         principalTable: "AspNetRoles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Announcements",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    Title = table.Column<string>(maxLength: 250, nullable: false),
+                    Content = table.Column<string>(maxLength: 250, nullable: true),
+                    AppUserId = table.Column<Guid>(nullable: false),
+                    DateCreated = table.Column<DateTime>(nullable: false),
+                    DateModified = table.Column<DateTime>(nullable: true),
+                    Status = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Announcements", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Announcements_AspNetUsers_AppUserId",
+                        column: x => x.AppUserId,
+                        principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -437,7 +460,7 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                     EndDay = table.Column<DateTime>(nullable: false),
                     Status = table.Column<int>(nullable: false),
                     DateCreated = table.Column<DateTime>(nullable: false),
-                    DateModified = table.Column<DateTime>(nullable: false),
+                    DateModified = table.Column<DateTime>(nullable: true),
                     Note = table.Column<string>(nullable: true),
                     CourseId = table.Column<int>(nullable: false)
                 },
@@ -502,7 +525,7 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                     Status = table.Column<int>(nullable: false),
                     Note = table.Column<string>(nullable: true),
                     DateCreated = table.Column<DateTime>(nullable: false),
-                    DateModified = table.Column<DateTime>(nullable: false),
+                    DateModified = table.Column<DateTime>(nullable: true),
                     GuestTypeId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -527,7 +550,7 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                     Receiver = table.Column<string>(maxLength: 200, nullable: true),
                     Status = table.Column<int>(nullable: false),
                     DateCreated = table.Column<DateTime>(nullable: false),
-                    DateModified = table.Column<DateTime>(nullable: false),
+                    DateModified = table.Column<DateTime>(nullable: true),
                     Note = table.Column<string>(nullable: true),
                     PaySlipTypeId = table.Column<int>(nullable: false),
                     PersonnelId = table.Column<string>(nullable: false),
@@ -613,7 +636,7 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                     SalaryOfDay = table.Column<decimal>(nullable: false),
                     Status = table.Column<int>(nullable: false),
                     DateCreated = table.Column<DateTime>(nullable: false),
-                    DateModified = table.Column<DateTime>(nullable: false),
+                    DateModified = table.Column<DateTime>(nullable: true),
                     Note = table.Column<string>(nullable: true),
                     AppUserId = table.Column<Guid>(nullable: false),
                     PersonnelId = table.Column<string>(nullable: false)
@@ -636,6 +659,27 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "AnnouncementUsers",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    AnnouncementId = table.Column<string>(nullable: false),
+                    AppUserId = table.Column<Guid>(nullable: false),
+                    HasRead = table.Column<bool>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AnnouncementUsers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AnnouncementUsers_Announcements_AnnouncementId",
+                        column: x => x.AnnouncementId,
+                        principalTable: "Announcements",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AttendanceSheets",
                 columns: table => new
                 {
@@ -646,7 +690,7 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                     Date = table.Column<DateTime>(nullable: false),
                     Status = table.Column<int>(nullable: false),
                     DateCreated = table.Column<DateTime>(nullable: false),
-                    DateModified = table.Column<DateTime>(nullable: false),
+                    DateModified = table.Column<DateTime>(nullable: true),
                     Note = table.Column<string>(nullable: true),
                     LanguageClassId = table.Column<string>(nullable: false),
                     LecturerId = table.Column<int>(nullable: false),
@@ -692,7 +736,7 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                     ExaminationDate = table.Column<DateTime>(nullable: false),
                     Status = table.Column<int>(nullable: false),
                     DateCreated = table.Column<DateTime>(nullable: false),
-                    DateModified = table.Column<DateTime>(nullable: false),
+                    DateModified = table.Column<DateTime>(nullable: true),
                     Note = table.Column<string>(nullable: true),
                     LanguageClassId = table.Column<string>(nullable: false),
                     LecturerId = table.Column<int>(nullable: false),
@@ -732,7 +776,7 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                     Week = table.Column<int>(nullable: false),
                     Status = table.Column<int>(nullable: false),
                     DateCreated = table.Column<DateTime>(nullable: false),
-                    DateModified = table.Column<DateTime>(nullable: false),
+                    DateModified = table.Column<DateTime>(nullable: true),
                     Note = table.Column<string>(nullable: true),
                     LanguageClassId = table.Column<string>(nullable: false),
                     LecturerId = table.Column<int>(nullable: false),
@@ -773,7 +817,7 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                     DaysOfWeek = table.Column<string>(maxLength: 500, nullable: false),
                     Status = table.Column<int>(nullable: false),
                     DateCreated = table.Column<DateTime>(nullable: false),
-                    DateModified = table.Column<DateTime>(nullable: false),
+                    DateModified = table.Column<DateTime>(nullable: true),
                     Note = table.Column<string>(nullable: true),
                     LecturerId = table.Column<int>(nullable: false),
                     ClassroomId = table.Column<int>(nullable: false),
@@ -813,7 +857,7 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                     TotalAmount = table.Column<decimal>(nullable: false),
                     Status = table.Column<int>(nullable: false),
                     DateCreated = table.Column<DateTime>(nullable: false),
-                    DateModified = table.Column<DateTime>(nullable: false),
+                    DateModified = table.Column<DateTime>(nullable: true),
                     Note = table.Column<string>(nullable: true),
                     ReceiptTypeId = table.Column<int>(nullable: false),
                     PersonnelId = table.Column<string>(nullable: false),
@@ -859,7 +903,7 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                     InDate = table.Column<DateTime>(nullable: false),
                     Status = table.Column<int>(nullable: false),
                     DateCreated = table.Column<DateTime>(nullable: false),
-                    DateModified = table.Column<DateTime>(nullable: false),
+                    DateModified = table.Column<DateTime>(nullable: true),
                     Note = table.Column<string>(nullable: true),
                     LanguageClassId = table.Column<string>(nullable: false),
                     LearnerId = table.Column<string>(nullable: false)
@@ -889,7 +933,7 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Status = table.Column<int>(nullable: false),
                     DateCreated = table.Column<DateTime>(nullable: false),
-                    DateModified = table.Column<DateTime>(nullable: false),
+                    DateModified = table.Column<DateTime>(nullable: true),
                     Note = table.Column<string>(nullable: true),
                     LearnerId = table.Column<string>(nullable: false),
                     LanguageClassId = table.Column<string>(nullable: true),
@@ -932,7 +976,7 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                     AveragePoint = table.Column<decimal>(nullable: false),
                     Status = table.Column<int>(nullable: false),
                     DateCreated = table.Column<DateTime>(nullable: false),
-                    DateModified = table.Column<DateTime>(nullable: false),
+                    DateModified = table.Column<DateTime>(nullable: true),
                     Note = table.Column<string>(nullable: true),
                     SortOrder = table.Column<int>(nullable: false),
                     LearnerId = table.Column<string>(nullable: false),
@@ -967,7 +1011,7 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                     SortedByPoint = table.Column<decimal>(nullable: false),
                     Status = table.Column<int>(nullable: false),
                     DateCreated = table.Column<DateTime>(nullable: false),
-                    DateModified = table.Column<DateTime>(nullable: false),
+                    DateModified = table.Column<DateTime>(nullable: true),
                     Note = table.Column<string>(nullable: true),
                     LearnerId = table.Column<string>(nullable: false),
                     PeriodicPointId = table.Column<int>(nullable: false)
@@ -1004,7 +1048,7 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                     TotalMoney = table.Column<decimal>(nullable: false),
                     Status = table.Column<int>(nullable: false),
                     DateCreated = table.Column<DateTime>(nullable: false),
-                    DateModified = table.Column<DateTime>(nullable: false),
+                    DateModified = table.Column<DateTime>(nullable: true),
                     Note = table.Column<string>(nullable: true),
                     LanguageClassId = table.Column<string>(nullable: false),
                     ReceiptId = table.Column<string>(nullable: false)
@@ -1025,6 +1069,16 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Announcements_AppUserId",
+                table: "Announcements",
+                column: "AppUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AnnouncementUsers_AnnouncementId",
+                table: "AnnouncementUsers",
+                column: "AnnouncementId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -1259,6 +1313,9 @@ namespace LanguageCenterPLC.Data.EF.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "AnnouncementUsers");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
             migrationBuilder.DropTable(
@@ -1314,6 +1371,9 @@ namespace LanguageCenterPLC.Data.EF.Migrations
 
             migrationBuilder.DropTable(
                 name: "Timesheets");
+
+            migrationBuilder.DropTable(
+                name: "Announcements");
 
             migrationBuilder.DropTable(
                 name: "AttendanceSheets");

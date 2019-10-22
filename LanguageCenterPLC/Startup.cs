@@ -128,7 +128,7 @@ namespace LanguageCenterPLC
                 options.Cookie.HttpOnly = true;
             });
 
-    
+            services.AddTransient<DbInitializer>();
 
 
             services.AddTransient(typeof(IUnitOfWork), typeof(EFUnitOfWork));

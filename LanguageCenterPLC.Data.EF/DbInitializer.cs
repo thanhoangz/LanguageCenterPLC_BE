@@ -67,6 +67,7 @@ namespace LanguageCenterPLC.Data.EF
                 var user = await _userManager.FindByNameAsync("admin");
                 await _userManager.AddToRoleAsync(user, "Admin");
             }
+
             if (!_context.Contacts.Any())
             {
                 _context.Contacts.Add(new Contact()
@@ -82,6 +83,7 @@ namespace LanguageCenterPLC.Data.EF
                     Lng = 105.7894758
                 });
             }
+
             if (_context.Footers.Count(x => x.Id == CommonConstants.DefaultFooterId) == 0)
             {
                 string content = "Footer";
@@ -181,7 +183,6 @@ namespace LanguageCenterPLC.Data.EF
                     new Classroom() { Name="Phòng C5", DateCreated = DateTime.Now, DateModified = DateTime.Now, Status = Status.Active},
                     new Classroom() { Name="Phòng C6", DateCreated = DateTime.Now, DateModified = DateTime.Now, Status = Status.Active},
                     new Classroom() { Name="Phòng C7", DateCreated = DateTime.Now, DateModified = DateTime.Now, Status = Status.Active},
-
                 };
                 _context.Classrooms.AddRange(listClassrooms);
             }
@@ -199,6 +200,7 @@ namespace LanguageCenterPLC.Data.EF
                 };
                 _context.GuestTypes.AddRange(listGuest);
             }
+            await _context.SaveChangesAsync();
         }
     }
 }
