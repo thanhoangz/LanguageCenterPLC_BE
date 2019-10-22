@@ -21,7 +21,7 @@ namespace LanguageCenterPLC.Data.Entities
         [Required]
         public DateTime DateCreated { get; set; }
 
-        public DateTime DateModified { get; set; }
+        public DateTime? DateModified { get; set; }
 
         [Required]
         public Status Status { get; set; }

@@ -94,7 +94,6 @@ namespace LanguageCenterPLC.Controllers
                     await Task.Run(() =>
                     {
                         classroom.DateCreated = DateTime.Now;
-                        classroom.DateModified = DateTime.Now;
                         _classroomService.Add(classroom);
                         _classroomService.SaveChanges();
                         return Ok("Thêm phòng học thành công!");

@@ -52,7 +52,7 @@ namespace LanguageCenterPLC.Application.ViewModels.Studies
 
         public DateTime DateCreated { get; set; }
 
-        public DateTime DateModified { get; set; }
+        public DateTime? DateModified { get; set; }
 
         // tiền công giảng dạy với giáo viên
         public decimal WageOfLecturer { get; set; }

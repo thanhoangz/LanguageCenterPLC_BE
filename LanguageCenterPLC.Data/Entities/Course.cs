@@ -14,6 +14,11 @@ namespace LanguageCenterPLC.Data.Entities
     [Table("Courses")]
     public class Course : DomainEntity<int>, ISwitchable, IDateTracking
     {
+        public Course()
+        {
+            LanguageClasses = new List<LanguageClass>();
+        }
+
         [Required]
         [MaxLength(500)]
         public string Name { get; set; }
@@ -33,7 +38,7 @@ namespace LanguageCenterPLC.Data.Entities
         [Required]
         public DateTime DateCreated { get; set; }
 
-        public DateTime DateModified { get; set; }
+        public DateTime? DateModified { get; set; }
 
         [Required]
         public Status Status { get; set; }

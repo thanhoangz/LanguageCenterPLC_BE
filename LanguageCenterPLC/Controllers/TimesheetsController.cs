@@ -95,7 +95,6 @@ namespace LanguageCenterPLC.Controllers
                     await Task.Run(() =>
                     {
                         timesheet.DateCreated = DateTime.Now;
-                        timesheet.DateModified = DateTime.Now;
                         _timesheetService.Add(timesheet);
                         _timesheetService.SaveChanges();
                         return Ok("Thêm thành công!");

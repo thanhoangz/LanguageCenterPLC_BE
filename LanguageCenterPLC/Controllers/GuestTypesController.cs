@@ -92,7 +92,6 @@ namespace LanguageCenterPLC.Controllers
                     await Task.Run(() =>
                     {
                         guestType.DateCreated = DateTime.Now;
-                        guestType.DateModified = DateTime.Now;
                         _guestTypeService.Add(guestType);
                         _guestTypeService.SaveChanges();
                         return Ok("thêm khóa học thành công!");

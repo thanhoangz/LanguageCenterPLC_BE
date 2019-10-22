@@ -105,7 +105,6 @@ namespace LanguageCenterPLC.Controllers
                     await Task.Run(() =>
                     {
                         learner.DateCreated = DateTime.Now;
-                        learner.DateModified = DateTime.Now;
                         if (String.IsNullOrEmpty(learner.ParentFullName) || String.IsNullOrEmpty(learner.ParentPhone))
                         {
                             learner.ParentFullName = "";

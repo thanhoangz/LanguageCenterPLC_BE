@@ -98,7 +98,50 @@ namespace LanguageCenterPLC.Data.EF
             {
                 List<Course> listCourses = new List<Course>()
                 {
-                    new Course() { Name="Toiec",Content="", TraingTime = 4, Price = 20000,NumberOfSession = 32, DateCreated = DateTime.Now, DateModified = DateTime.Now, Status = Status.Active},
+                    new Course() { Name="Toiec",Content="", TraingTime = 4, Price = 20000,NumberOfSession = 32, DateCreated = DateTime.Now, DateModified = DateTime.Now, Status = Status.Active,
+                        LanguageClasses = new List<LanguageClass>()
+                        {
+                            new LanguageClass()
+                            {
+                                Name ="Lớp Toiec 450",
+                                StartDay =  new DateTime(2019, 2, 3),
+                                EndDay = new DateTime(2019, 5, 5),
+                                CourseFee = 20000,
+                                LessonFee = 200,
+                                MonthlyFee = 6000,
+                                Note = "",
+                                DateCreated = DateTime.Now,
+                                DateModified = DateTime.Now,
+                                Status = Status.Active
+                            },
+                            new LanguageClass()
+                            {
+                                Name ="Lớp Toiec 600",
+                                StartDay =  new DateTime(2019, 2, 3),
+                                EndDay = new DateTime(2019, 5, 5),
+                                CourseFee = 20000,
+                                LessonFee = 200,
+                                MonthlyFee = 6000,
+                                Note = "",
+                                DateCreated = DateTime.Now,
+                                DateModified = DateTime.Now,
+                                Status = Status.Active
+                            },
+                            new LanguageClass()
+                            {
+                                Name ="Lớp Toiec 900",
+                                StartDay =  new DateTime(2019, 6, 9),
+                                EndDay = new DateTime(2019, 9, 6),
+                                CourseFee = 20000,
+                                LessonFee = 300,
+                                MonthlyFee = 9000,
+                                Note = "",
+                                DateCreated = DateTime.Now,
+                                DateModified = DateTime.Now,
+                                Status = Status.Active
+                            }
+                        }
+                    },
                     new Course() { Name="Ielts",Content="", TraingTime = 4, Price = 690000,NumberOfSession = 32, DateCreated = DateTime.Now, DateModified = DateTime.Now, Status = Status.Active},
                     new Course() { Name="Anh văn cơ bản 1",Content="", TraingTime = 4, Price = 208000,NumberOfSession = 32, DateCreated = DateTime.Now, DateModified = DateTime.Now, Status = Status.Active},
                     new Course() { Name="Giao tiếp A2",Content="", TraingTime = 4, Price = 202000,NumberOfSession = 32, DateCreated = DateTime.Now, DateModified = DateTime.Now, Status = Status.Active},
@@ -122,7 +165,7 @@ namespace LanguageCenterPLC.Data.EF
             {
                 List<Classroom> listClassrooms = new List<Classroom>()
                 {
-                    new Classroom() { Name="Phòng A1", DateCreated = DateTime.Now, DateModified = DateTime.Now, Status = Status.Active},
+                    new Classroom() { Name="Phòng A1", DateCreated = DateTime.Now, DateModified = DateTime.Now, Status = Status.Active, },
                     new Classroom() { Name="Phòng A2", DateCreated = DateTime.Now, DateModified = DateTime.Now, Status = Status.Active},
                     new Classroom() { Name="Phòng A3", DateCreated = DateTime.Now, DateModified = DateTime.Now, Status = Status.Active},
                     new Classroom() { Name="Phòng A4", DateCreated = DateTime.Now, DateModified = DateTime.Now, Status = Status.Active},

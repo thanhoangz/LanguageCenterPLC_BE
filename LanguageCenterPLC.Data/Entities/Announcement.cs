@@ -38,7 +38,7 @@ namespace LanguageCenterPLC.Data.Entities
 
         public virtual ICollection<AnnouncementUser> AnnouncementUsers { get; set; }
         public DateTime DateCreated { set; get; }
-        public DateTime DateModified { set; get; }
+        public DateTime? DateModified { set; get; }
         public Status Status { set; get; }
     }
 }

@@ -61,23 +61,20 @@ namespace LanguageCenterPLC.Data.Entities
         [Required]
         public string Position { get; set; }
 
-        [Required]
+
         public string Certificate { get; set; }
 
-        [Required]
+
         public string Image { get; set; }
 
-        [Required]
         public decimal BasicSalary { get; set; }
 
 
-        [Required]
         public decimal SalaryOfDay { get; set; }
 
-        [Required]
         public decimal Allowance { get; set; }
 
-        [Required]
+
         public decimal Bonus { get; set; }
 
         [Required]
@@ -86,14 +83,14 @@ namespace LanguageCenterPLC.Data.Entities
         [Required]
         public DateTime DateCreated { get; set; }
 
-        public DateTime DateModified { get; set; }
+        public DateTime? DateModified { get; set; }
 
         [Required]
         public Status Status { get; set; }
 
         public string Note { get; set; }
 
-        public DateTime QuitWorkDay { get; set; }
+        public DateTime? QuitWorkDay { get; set; }
 
 
         /* Foreign Key */

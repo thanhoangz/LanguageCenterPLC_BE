@@ -111,7 +111,6 @@ namespace LanguageCenterPLC.Controllers
                     await Task.Run(() =>
                     {
                         receiptType.DateCreated = DateTime.Now;
-                        receiptType.DateModified = DateTime.Now;
                         _receiptTypeService.Add(receiptType);
                         _receiptTypeService.SaveChanges();
                         return Ok("Thêm loại thu thành công!");
