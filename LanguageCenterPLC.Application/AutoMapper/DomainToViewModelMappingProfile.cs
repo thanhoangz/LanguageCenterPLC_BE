@@ -3,6 +3,7 @@ using LanguageCenterPLC.Application.ViewModels;
 using LanguageCenterPLC.Application.ViewModels.Categories;
 using LanguageCenterPLC.Application.ViewModels.Finances;
 using LanguageCenterPLC.Application.ViewModels.Studies;
+using LanguageCenterPLC.Application.ViewModels.System;
 using LanguageCenterPLC.Application.ViewModels.Timekeepings;
 using LanguageCenterPLC.Data.Entities;
 
@@ -42,6 +43,7 @@ namespace LanguageCenterPLC.Application.AutoMapper
             CreateMap<SystemConfig, SystemConfigViewModel>();
             CreateMap<TeachingSchedule, TeachingScheduleViewModel>();
             CreateMap<Timesheet, TimesheetViewModel>();
+            CreateMap<Announcement, AnnouncementViewModel>().MaxDepth(2);
 
         }
     }

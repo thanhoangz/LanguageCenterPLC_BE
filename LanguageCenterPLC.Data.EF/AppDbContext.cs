@@ -76,6 +76,8 @@ namespace LanguageCenterPLC.Data.EF
         public DbSet<Function> Functions { set; get; }
 
         public DbSet<LogWork> LogWorks { set; get; }
+        public DbSet<Announcement> Announcements { set; get; }
+        public DbSet<AnnouncementUser> AnnouncementUsers { set; get; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

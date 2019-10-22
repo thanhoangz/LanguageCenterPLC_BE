@@ -148,7 +148,7 @@ namespace LanguageCenterPLC
             services.AddTransient<IPersonnelService, PersonnelService>();
             services.AddTransient<IStudyProcessService, StudyProcessService>();
             services.AddTransient<IStudyProcessService, StudyProcessService>();
-            
+            services.AddTransient<IAnnouncementService, AnnouncementService>();
 
             //Jwt Authentication
 
