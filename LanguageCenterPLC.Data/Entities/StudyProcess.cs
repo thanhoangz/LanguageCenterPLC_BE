@@ -12,7 +12,7 @@ namespace LanguageCenterPLC.Data.Entities
     {
 
         [DataType(DataType.Date)]
-        public DateTime OutDate { get; set; }
+        public DateTime? OutDate { get; set; }
 
         [DataType(DataType.Date)]
         public DateTime InDate { get; set; }

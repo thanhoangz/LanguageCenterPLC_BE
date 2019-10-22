@@ -7,7 +7,7 @@ namespace LanguageCenterPLC.Application.ViewModels.Studies
     {
    
         public int Id { get; set; }
-        public DateTime OutDate { get; set; }
+        public DateTime? OutDate { get; set; }
 
         public DateTime InDate { get; set; }
 
