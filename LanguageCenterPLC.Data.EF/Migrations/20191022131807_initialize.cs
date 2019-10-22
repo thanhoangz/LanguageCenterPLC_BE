@@ -899,7 +899,7 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    OutDate = table.Column<DateTime>(nullable: false),
+                    OutDate = table.Column<DateTime>(nullable: true),
                     InDate = table.Column<DateTime>(nullable: false),
                     Status = table.Column<int>(nullable: false),
                     DateCreated = table.Column<DateTime>(nullable: false),

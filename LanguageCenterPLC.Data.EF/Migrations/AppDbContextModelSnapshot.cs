@@ -1350,7 +1350,7 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                     b.Property<string>("Note")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("OutDate")
+                    b.Property<DateTime?>("OutDate")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("Status")

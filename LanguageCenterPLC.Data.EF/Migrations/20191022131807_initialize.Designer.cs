@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LanguageCenterPLC.Data.EF.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20191022115652_initialize")]
+    [Migration("20191022131807_initialize")]
     partial class initialize
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -1352,7 +1352,7 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                     b.Property<string>("Note")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("OutDate")
+                    b.Property<DateTime?>("OutDate")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("Status")
