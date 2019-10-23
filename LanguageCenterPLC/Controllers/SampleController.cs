@@ -27,6 +27,7 @@ namespace LanguageCenterPLC.Controllers
             _roleManager = roleManager;
         }
 
+        #region dữ liệu mẫu 
         public List<string> _images = new List<string>()
         {
             "data:image/jpeg;base64,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",
@@ -58,7 +59,18 @@ namespace LanguageCenterPLC.Controllers
 
         };
 
+        public List<string> _national = new List<string>()
+        {
+            "Việt Nam",
+            "Mỹ",
+            "Úc",
+            "Canada",
+            "Pháp",
+            "Nhật",
+            "Trung quốc"
+        };
 
+        #endregion
         [HttpGet]
         [Route("CreateSample")]
         public async Task<Object> CreateSampleData()
@@ -107,6 +119,32 @@ namespace LanguageCenterPLC.Controllers
                 }, "123@abcABC");
                 var user = await _userManager.FindByNameAsync("admin");
                 await _userManager.AddToRoleAsync(user, "Admin");
+
+                await _userManager.CreateAsync(new AppUser()
+                {
+                    UserName = "staff",
+                    FullName = "Hoàng Tiến Dũng",
+                    Email = "dungbo.97@gmail.com",
+                    Balance = 0,
+                    DateCreated = DateTime.Now,
+                    DateModified = DateTime.Now,
+                    Status = Status.Active
+                }, "123@abcABC");
+                var user1 = await _userManager.FindByNameAsync("staff");
+                await _userManager.AddToRoleAsync(user1, "Staff");
+
+                await _userManager.CreateAsync(new AppUser()
+                {
+                    UserName = "lecturer",
+                    FullName = "Nguyễn Viết Phương",
+                    Email = "nguyenvietphuong10@gmail.com",
+                    Balance = 0,
+                    DateCreated = DateTime.Now,
+                    DateModified = DateTime.Now,
+                    Status = Status.Active
+                }, "123@abcABC");
+                var user2 = await _userManager.FindByNameAsync("lecturer");
+                await _userManager.AddToRoleAsync(user2, "Lecturer");
             }
 
             if (!_context.Contacts.Any())
@@ -310,8 +348,6 @@ namespace LanguageCenterPLC.Controllers
                     learner.ParentFullName = TextHelper.GenerateName(5) + TextHelper.GenerateName(4) + TextHelper.GenerateName(3);
                     learner.ParentPhone = TextHelper.RandomNumber(10);
 
-
-
                     Random rnd = new Random();
                     int temp = rnd.Next(1, 7);
                     learner.Image = _images[temp];
@@ -327,12 +363,115 @@ namespace LanguageCenterPLC.Controllers
                 _context.Learners.AddRange(learners);
             }
 
+            /* Giảng viên0*/
+            if (_context.Lecturers.Count() == 0)
+            {
+
+                List<Lecturer> lecturers = new List<Lecturer>();
+                for (int j = 0; j < 20; j++)
+                {
+                    Lecturer lecturer = new Lecturer()
+                    {
+                        CardId = TextHelper.RandomNumber(10),
+                        FirstName = TextHelper.GenerateName(5),
+                        LastName = TextHelper.GenerateName(4) + " " + TextHelper.GenerateName(4)
+                    };
+
+                    Random gen = new Random();
+                    bool result = gen.Next(100) < 50 ? true : false;
+                    lecturer.Sex = result;
+
+                    Random r = new Random();
+                    DateTime rDate = new DateTime(r.Next(1900, 2010), r.Next(1, 12), r.Next(1, 28));
+
+                    lecturer.Birthday = rDate;
+                    lecturer.Address = "Số 4c26, Khu 1, Lê Hồng Phong, Ngô Quyền, Hải Phòng";
+                    lecturer.Email = TextHelper.EmailAddress(16);
+                    lecturer.Facebook = @"https://www.facebook.com/" + TextHelper.RandomString(10);
+                    lecturer.Phone = TextHelper.RandomNumber(10);
+
+                    Random rnd = new Random();
+                    int temp = rnd.Next(1, 7);
+                    lecturer.Image = _images[temp];
+                    lecturer.Nationality = _national[temp];
+                    lecturer.MarritalStatus = gen.Next(100) < 50 ? 1 : 0;
+                    lecturer.ExperienceRecord = "";
+                    lecturer.Position = "Giáo viên";
+                    lecturer.Certificate = "";
+
+                    lecturer.BasicSalary = temp * 100000;
+                    lecturer.Allowance = 50000;
+                    lecturer.Bonus = temp * 200;
+                    lecturer.InsurancePremium = temp * 15;
+                    lecturer.WageOfLecturer = 30000;
+                    lecturer.WageOfTutor = 15000;
+                    lecturer.IsTutor = gen.Next(100) < 50 ? true : false;
+                    lecturer.IsVisitingLecturer = gen.Next(100) < 50 ? true : false;
+
+                    lecturer.Note = "";
+                    lecturer.DateCreated = DateTime.Now;
+                    lecturer.DateModified = DateTime.Now;
+                    lecturer.Status = Status.Active;
+
+                    lecturers.Add(lecturer);
+                }
+                _context.Lecturers.AddRange(lecturers);
+            }
+
+            /* Nhân viên */
+            if (_context.Personnels.Count() == 0)
+            {
+                List<Personnel> personnels = new List<Personnel>();
+                for (int j = 0; j < 20; j++)
+                {
+                    Personnel personnel = new Personnel()
+                    {
+                        CardId = TextHelper.RandomNumber(10),
+                        FirstName = TextHelper.GenerateName(5),
+                        LastName = TextHelper.GenerateName(4) + " " + TextHelper.GenerateName(4)
+                    };
+
+                    personnel.Id = TextHelper.RandomString(50);
+                    Random gen = new Random();
+                    bool result = gen.Next(100) < 50 ? true : false;
+                    personnel.Sex = result;
+
+                    Random r = new Random();
+                    DateTime rDate = new DateTime(r.Next(1900, 2010), r.Next(1, 12), r.Next(1, 28));
+
+                    personnel.Birthday = rDate;
+                    personnel.Address = "Số 4c26, Khu 1, Lê Hồng Phong, Ngô Quyền, Hải Phòng";
+                    personnel.Email = TextHelper.EmailAddress(16);
+                    personnel.Facebook = @"https://www.facebook.com/" + TextHelper.RandomString(10);
+                    personnel.Phone = TextHelper.RandomNumber(10);
+
+                    Random rnd = new Random();
+                    int temp = rnd.Next(1, 7);
+                    personnel.Image = _images[temp];
+                    personnel.Nationality = _national[temp];
+                    personnel.MarritalStatus = gen.Next(100) < 50 ? 1 : 0;
+                    personnel.ExperienceRecord = "";
+                    personnel.Position = "Nhân viên";
+                    personnel.Certificate = "";
+
+                    personnel.BasicSalary = temp * 100000;
+                    personnel.Allowance = 50000;
+                    personnel.Bonus = temp * 200;
+                    personnel.InsurancePremium = temp * 15;
 
 
+                    personnel.Note = "";
+                    personnel.DateCreated = DateTime.Now;
+                    personnel.DateModified = DateTime.Now;
+                    personnel.Status = Status.Active;
+
+                    personnels.Add(personnel);
+                }
+                _context.Personnels.AddRange(personnels);
+            }
             await _context.SaveChangesAsync();
 
-            return Ok();
-
+            return Ok("Đã tạo dữ liệu thành công!");
         }
 
 
