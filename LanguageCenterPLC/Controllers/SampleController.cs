@@ -284,13 +284,13 @@ namespace LanguageCenterPLC.Controllers
             {
 
                 List<Learner> learners = new List<Learner>();
-                for (int j = 0; j < 50; j++)
+                for (int j = 0; j < 200; j++)
                 {
                     Learner learner = new Learner()
                     {
                         CardId = TextHelper.RandomNumber(10),
                         FirstName = TextHelper.GenerateName(5),
-                        LastName = TextHelper.GenerateName(4) + TextHelper.GenerateName(4)
+                        LastName = TextHelper.GenerateName(4) + " " + TextHelper.GenerateName(4)
                     };
 
                     learner.Id = TextHelper.RandomString(50);
