@@ -5,17 +5,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Implementation\NewFolder1\**" />
+    <Compile Remove="Implementation\NewFolder\**" />
+    <EmbeddedResource Remove="Implementation\NewFolder1\**" />
+    <EmbeddedResource Remove="Implementation\NewFolder\**" />
+    <None Remove="Implementation\NewFolder1\**" />
+    <None Remove="Implementation\NewFolder\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="3.0.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\LanguageCenterPLC.Data\LanguageCenterPLC.Data.csproj" />
     <ProjectReference Include="..\LanguageCenterPLC.Utilities\LanguageCenterPLC.Utilities.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Implementation\NewFolder1\" />
-    <Folder Include="Implementation\NewFolder\" />
   </ItemGroup>
 
 </Project>
