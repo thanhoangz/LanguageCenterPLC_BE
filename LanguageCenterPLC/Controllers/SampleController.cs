@@ -445,7 +445,7 @@ namespace LanguageCenterPLC.Controllers
             }
             await _context.SaveChangesAsync();
 
-            return Ok();
+            return Ok("Đã tạo dữ liệu thành công!");
         }
 
 
