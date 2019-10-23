@@ -13,9 +13,4 @@
     <ProjectReference Include="..\LanguageCenterPLC.Utilities\LanguageCenterPLC.Utilities.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Implementation\NewFolder1\" />
-    <Folder Include="Implementation\NewFolder\" />
-  </ItemGroup>
-
 </Project>
