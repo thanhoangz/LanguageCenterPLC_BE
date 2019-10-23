@@ -177,11 +177,7 @@ namespace LanguageCenterPLC
             {
                 app.UseDeveloperExceptionPage();
                 // Enable middleware to serve generated Swagger as a JSON endpoint.
-                app.UseSwagger();
-                app.UseSwaggerUI(c =>
-                {
-                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "MyAPI V1");
-                });
+             
             }
             else
             {
