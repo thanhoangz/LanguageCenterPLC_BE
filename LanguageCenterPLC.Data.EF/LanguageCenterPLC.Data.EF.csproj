@@ -5,6 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20191023120309_initialize.cs" />
+    <Compile Remove="Migrations\20191023120309_initialize.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Configurations\" />
     <Folder Include="Repositories\" />
   </ItemGroup>
