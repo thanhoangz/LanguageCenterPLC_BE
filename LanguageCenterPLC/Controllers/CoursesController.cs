@@ -90,7 +90,6 @@ namespace LanguageCenterPLC.Controllers
                     await Task.Run(() =>
                     {
                         course.DateCreated = DateTime.Now;
-                        course.DateModified = DateTime.Now;
                         _courseService.Add(course);
                         _courseService.SaveChanges();
                         return Ok("thêm khóa học thành công!");

@@ -17,6 +17,6 @@ namespace LanguageCenterPLC.Application.ViewModels.Studies
 
         public DateTime DateCreated { set; get; }
 
-        public DateTime DateModified { set; get; }
+        public DateTime? DateModified { get; set; }
     }
 }

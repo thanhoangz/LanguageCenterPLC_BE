@@ -14,6 +14,11 @@ namespace LanguageCenterPLC.Data.Entities
     [Table("Learners")]
     public class Learner : DomainEntity<string>, ISwitchable, IDateTracking
     {
+        public Learner()
+        {
+
+        }
+
         [StringLength(100)]
         public string CardId { get; set; }
 
@@ -63,7 +68,7 @@ namespace LanguageCenterPLC.Data.Entities
         [Required]
         public DateTime DateCreated { get; set; }
 
-        public DateTime DateModified { get; set; }
+        public DateTime? DateModified { get; set; }
 
         /* Foreign Key */
         [Required]

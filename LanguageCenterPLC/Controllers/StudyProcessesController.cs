@@ -96,7 +96,6 @@ namespace LanguageCenterPLC.Controllers
                     await Task.Run(() =>
                     {
                         studyProcess.DateCreated = DateTime.Now;
-                        studyProcess.DateModified = DateTime.Now;
                         studyProcess.Status = Status.Active;
                         studyProcess.InDate = DateTime.Now;
                         studyProcess.OutDate = DateTime.Now;               

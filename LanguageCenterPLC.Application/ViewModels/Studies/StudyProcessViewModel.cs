@@ -7,7 +7,7 @@ namespace LanguageCenterPLC.Application.ViewModels.Studies
     {
    
         public int Id { get; set; }
-        public DateTime OutDate { get; set; }
+        public DateTime? OutDate { get; set; }
 
         public DateTime InDate { get; set; }
 
@@ -15,12 +15,14 @@ namespace LanguageCenterPLC.Application.ViewModels.Studies
 
         public DateTime DateCreated { get; set; }
 
-        public DateTime DateModified { get; set; }
+        public DateTime? DateModified { get; set; }
 
         public string Note { get; set; }
 
         public string LanguageClassId { get; set; }
+
         public string LanguageClassName { get; set; }
+
         public string LearnerId { get; set; }
 
         public LearnerViewModel Learner { get; set; }

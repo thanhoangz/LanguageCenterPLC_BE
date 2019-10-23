@@ -86,7 +86,7 @@ namespace LanguageCenterPLC.Data.Entities
         [Required]
         public DateTime DateCreated { get; set; }
 
-        public DateTime DateModified { get; set; }
+        public DateTime? DateModified { get; set; }
 
         // tiền công giảng dạy với giáo viên
         public decimal WageOfLecturer { get; set; }
@@ -108,7 +108,7 @@ namespace LanguageCenterPLC.Data.Entities
         public string Note { get; set; }
 
         //ngày nghỉ việc
-        public DateTime QuitWorkDay { get; set; }
+        public DateTime? QuitWorkDay { get; set; }
 
 
 

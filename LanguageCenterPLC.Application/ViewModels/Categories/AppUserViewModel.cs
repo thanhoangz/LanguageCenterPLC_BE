@@ -26,7 +26,7 @@ namespace LanguageCenterPLC.Application.ViewModels.Categories
 
         public string Avatar { get; set; }
         public DateTime DateCreated { get; set; }
-        public DateTime DateModified { get; set; }
+        public DateTime? DateModified { get; set; }
         public Status Status { get; set; }
         public List<string> Roles { get; set; }
 

@@ -192,6 +192,20 @@ namespace LanguageCenterPLC.Application.Implementation
         {
             var studyProcess = _studyProcessRepository.FindById(id);
             var studyProcessViewModel = Mapper.Map<StudyProcessViewModel>(studyProcess);
+            //////// tìm kiếm thêm học viên
+            var item = studyProcessViewModel;
+
+            var learner = _learnerRepository.FindById(item.LearnerId);
+            var learnerViewModel = new LearnerViewModel();
+            learnerViewModel.Id = learner.Id;
+            learnerViewModel.FirstName = learner.FirstName;
+            learnerViewModel.LastName = learner.LastName;
+            learnerViewModel.Sex = learner.Sex;
+            learnerViewModel.Birthday = learner.Birthday;
+            learnerViewModel.Address = learner.Address;
+            item.Learner = learnerViewModel;
+
+
             return studyProcessViewModel;
         }
 
@@ -256,7 +270,7 @@ namespace LanguageCenterPLC.Application.Implementation
             }
         }
 
-       
+
         public List<StudyProcessViewModel> GetAllInClass(string classId, int status)
         {
             var studyprocess = _studyProcessRepository.FindAll().Where(x => x.LanguageClassId == classId);

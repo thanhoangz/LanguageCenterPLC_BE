@@ -93,7 +93,6 @@ namespace LanguageCenterPLC.Controllers
                     await Task.Run(() =>
                     {
                         paySlip.DateCreated = DateTime.Now;
-                        paySlip.DateModified = DateTime.Now;
                         _payslipService.Add(paySlip);
                         _payslipService.SaveChanges();
                         return Ok("Thêm phiếu chi thành công!");

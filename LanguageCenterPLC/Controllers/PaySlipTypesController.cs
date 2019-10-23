@@ -90,7 +90,6 @@ namespace LanguageCenterPLC.Controllers
                     await Task.Run(() =>
                     {
                         paySlipType.DateCreated = DateTime.Now;
-                        paySlipType.DateModified = DateTime.Now;
                         _paysliptypeService.Add(paySlipType);
                         _paysliptypeService.SaveChanges();
                         return Ok("thêm loại chi thành công!");

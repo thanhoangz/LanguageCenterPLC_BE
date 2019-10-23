@@ -39,8 +39,7 @@ namespace LanguageCenterPLC.Application.ViewModels.Studies
         public string Note { get; set; }
 
         public DateTime DateCreated { get; set; }
-
-        public DateTime DateModified { get; set; }
+        public DateTime? DateModified { get; set; }
 
         public int GuestTypeId { get; set; } 
 

@@ -12,7 +12,7 @@ namespace LanguageCenterPLC.Data.Entities
     {
 
         [DataType(DataType.Date)]
-        public DateTime OutDate { get; set; }
+        public DateTime? OutDate { get; set; }
 
         [DataType(DataType.Date)]
         public DateTime InDate { get; set; }
@@ -23,7 +23,7 @@ namespace LanguageCenterPLC.Data.Entities
         [Required]
         public DateTime DateCreated { get; set; }
 
-        public DateTime DateModified { get; set; }
+        public DateTime? DateModified { get; set; }
 
         public string Note { get; set; }
 

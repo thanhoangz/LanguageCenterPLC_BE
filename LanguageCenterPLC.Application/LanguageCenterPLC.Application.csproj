@@ -5,6 +5,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Implementation\NewFolder1\**" />
+    <Compile Remove="Implementation\NewFolder\**" />
+    <EmbeddedResource Remove="Implementation\NewFolder1\**" />
+    <EmbeddedResource Remove="Implementation\NewFolder\**" />
+    <None Remove="Implementation\NewFolder1\**" />
+    <None Remove="Implementation\NewFolder\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="3.0.1" />
   </ItemGroup>
 

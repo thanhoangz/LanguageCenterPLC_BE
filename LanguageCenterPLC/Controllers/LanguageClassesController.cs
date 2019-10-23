@@ -88,7 +88,6 @@ namespace LanguageCenterPLC.Controllers
                     await Task.Run(() =>
                     {
                         languageClass.DateCreated = DateTime.Now;
-                        languageClass.DateModified = DateTime.Now;
                         _languageClassService.Add(languageClass);
                         _languageClassService.SaveChanges();
                         return Ok("thêm lớp học thành công!");

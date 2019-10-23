@@ -94,7 +94,6 @@ namespace LanguageCenterPLC.Controllers
                     await Task.Run(() =>
                     {
                         personnel.DateCreated = DateTime.Now;
-                        personnel.DateModified = DateTime.Now;
                         _personnelService.Add(personnel);
                         _personnelService.SaveChanges();
                         return Ok("Thêm nhân viên thành công!");
