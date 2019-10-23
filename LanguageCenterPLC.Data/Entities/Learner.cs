@@ -14,6 +14,11 @@ namespace LanguageCenterPLC.Data.Entities
     [Table("Learners")]
     public class Learner : DomainEntity<string>, ISwitchable, IDateTracking
     {
+        public Learner()
+        {
+
+        }
+
         [StringLength(100)]
         public string CardId { get; set; }
 

@@ -28,9 +28,9 @@ namespace LanguageCenterPLC.Controllers
             var user = await _userManager.FindByIdAsync(userId);
             return new
             {
-                user.FullName,
-                user.Email,
-                user.UserName
+               user,
+
+               
             };
         }
     }

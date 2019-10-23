@@ -101,8 +101,7 @@ namespace LanguageCenterPLC
 
             services.AddAutoMapper();
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
-               .AddNewtonsoftJson();
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0).AddNewtonsoftJson();
 
             services.AddSingleton(Mapper.Configuration);
 
@@ -115,9 +114,10 @@ namespace LanguageCenterPLC
                 {
                     Title = "Language Center PLC API",
                     Version = "v1",
-
                 });
+
             });
+            
 
 
 
@@ -127,8 +127,6 @@ namespace LanguageCenterPLC
                 options.IdleTimeout = TimeSpan.FromHours(2);
                 options.Cookie.HttpOnly = true;
             });
-
-            services.AddTransient<DbInitializer>();
 
 
             services.AddTransient(typeof(IUnitOfWork), typeof(EFUnitOfWork));
@@ -195,6 +193,8 @@ namespace LanguageCenterPLC
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "PLC Project API V1");
+                c.OAuthClientId("demo_api_swagger");
+                c.OAuthAppName("Demo API - Swagger");
                 c.RoutePrefix = string.Empty;
             });
 
