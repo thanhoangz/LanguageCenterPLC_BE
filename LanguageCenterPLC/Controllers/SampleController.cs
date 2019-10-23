@@ -332,7 +332,7 @@ namespace LanguageCenterPLC.Controllers
                         LastName = TextHelper.GenerateName(4) + " " + TextHelper.GenerateName(4)
                     };
 
-                    learner.Id = TextHelper.RandomString(50);
+                    learner.Id = "HV" + "0000" + ((j < 10) ? "00" + j.ToString() : (j < 100) ? "0" + j.ToString() : j.ToString());
                     Random gen = new Random();
                     bool result = gen.Next(100) < 50 ? true : false;
                     learner.Sex = result;

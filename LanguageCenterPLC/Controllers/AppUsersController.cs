@@ -1,15 +1,12 @@
-﻿using LanguageCenterPLC.Application.Interfaces;
-using LanguageCenterPLC.Application.ViewModels.Categories;
+﻿using LanguageCenterPLC.Application.ViewModels.Categories;
 using LanguageCenterPLC.Data.Entities;
 using LanguageCenterPLC.Infrastructure.Enums;
 using LanguageCenterPLC.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
