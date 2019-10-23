@@ -40,7 +40,7 @@ namespace LanguageCenterPLC
             //Inject AppSettings
             services.Configure<ApplicationSettings>(Configuration.GetSection("ApplicationSettings"));
 
-            //services.AddMemoryCache();
+            services.AddMemoryCache();
 
             services.AddDbContext<AppDbContext>(options =>
                           options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"),
@@ -76,7 +76,7 @@ namespace LanguageCenterPLC
 
             services.AddControllersWithViews();
 
-            //services.AddRazorPages();
+            services.AddRazorPages();
 
             services.Configure<CookiePolicyOptions>(options =>
             {
@@ -101,7 +101,7 @@ namespace LanguageCenterPLC
 
             services.AddAutoMapper();
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0).AddNewtonsoftJson();
 
             services.AddSingleton(Mapper.Configuration);
 
@@ -177,11 +177,6 @@ namespace LanguageCenterPLC
             {
                 app.UseDeveloperExceptionPage();
                 // Enable middleware to serve generated Swagger as a JSON endpoint.
-                app.UseSwagger();
-                app.UseSwaggerUI(c =>
-                {
-                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "MyAPI V1");
-                });
             }
             else
             {

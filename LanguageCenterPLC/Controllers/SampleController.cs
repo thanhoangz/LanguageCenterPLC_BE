@@ -277,9 +277,10 @@ namespace LanguageCenterPLC.Controllers
                 _context.PaySlipTypes.AddRange(paySlipTypes);
             }
 
-            /* Người học */
+
 
             #endregion
+            /* Người học */
             if (_context.Learners.Count() == 0)
             {
 
@@ -325,6 +326,8 @@ namespace LanguageCenterPLC.Controllers
                 }
                 _context.Learners.AddRange(learners);
             }
+
+
 
             await _context.SaveChangesAsync();
 
