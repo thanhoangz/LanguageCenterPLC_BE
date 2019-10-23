@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LanguageCenterPLC.Data.EF.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20191022143230_initialize")]
+    [Migration("20191023120309_initialize")]
     partial class initialize
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -1055,7 +1055,7 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<Guid>("AppRoleId")
+                    b.Property<Guid>("AppUserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("CanCreate")
@@ -1075,9 +1075,12 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                         .HasColumnType("nvarchar(450)")
                         .HasMaxLength(450);
 
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("AppRoleId");
+                    b.HasIndex("AppUserId");
 
                     b.HasIndex("FunctionId");
 
@@ -1896,9 +1899,9 @@ namespace LanguageCenterPLC.Data.EF.Migrations
 
             modelBuilder.Entity("LanguageCenterPLC.Data.Entities.Permission", b =>
                 {
-                    b.HasOne("LanguageCenterPLC.Data.Entities.AppRole", "AppRole")
+                    b.HasOne("LanguageCenterPLC.Data.Entities.AppUser", "AppUser")
                         .WithMany()
-                        .HasForeignKey("AppRoleId")
+                        .HasForeignKey("AppUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

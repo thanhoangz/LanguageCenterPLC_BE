@@ -119,6 +119,32 @@ namespace LanguageCenterPLC.Controllers
                 }, "123@abcABC");
                 var user = await _userManager.FindByNameAsync("admin");
                 await _userManager.AddToRoleAsync(user, "Admin");
+
+                await _userManager.CreateAsync(new AppUser()
+                {
+                    UserName = "staff",
+                    FullName = "Hoàng Tiến Dũng",
+                    Email = "dungbo.97@gmail.com",
+                    Balance = 0,
+                    DateCreated = DateTime.Now,
+                    DateModified = DateTime.Now,
+                    Status = Status.Active
+                }, "123@abcABC");
+                var user1 = await _userManager.FindByNameAsync("staff");
+                await _userManager.AddToRoleAsync(user1, "Staff");
+
+                await _userManager.CreateAsync(new AppUser()
+                {
+                    UserName = "lecturer",
+                    FullName = "Nguyễn Viết Phương",
+                    Email = "nguyenvietphuong10@gmail.com",
+                    Balance = 0,
+                    DateCreated = DateTime.Now,
+                    DateModified = DateTime.Now,
+                    Status = Status.Active
+                }, "123@abcABC");
+                var user2 = await _userManager.FindByNameAsync("lecturer");
+                await _userManager.AddToRoleAsync(user2, "Lecturer");
             }
 
             if (!_context.Contacts.Any())

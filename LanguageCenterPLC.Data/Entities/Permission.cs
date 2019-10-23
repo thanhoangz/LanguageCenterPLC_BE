@@ -1,4 +1,6 @@
-﻿using LanguageCenterPLC.Infrastructure.SharedKernel;
+﻿using LanguageCenterPLC.Infrastructure.Enums;
+using LanguageCenterPLC.Infrastructure.Interfaces;
+using LanguageCenterPLC.Infrastructure.SharedKernel;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -6,13 +8,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace LanguageCenterPLC.Data.Entities
 {
     [Table("Permissions")]
-    public class Permission : DomainEntity<int>
+    public class Permission : DomainEntity<int>, ISwitchable
     {
         public Permission() { }
-        public Permission(Guid appRoleId, string functionId, bool canCreate,
+        public Permission(Guid appUserId, string functionId, bool canCreate,
             bool canRead, bool canUpdate, bool canDelete)
         {
-            AppRoleId = appRoleId;
+            AppUserId = appUserId;
             FunctionId = functionId;
             CanCreate = canCreate;
             CanRead = canRead;
@@ -20,7 +22,7 @@ namespace LanguageCenterPLC.Data.Entities
             CanDelete = canDelete;
         }
         [Required]
-        public Guid AppRoleId { get; set; }
+        public Guid AppUserId { get; set; }
 
         [StringLength(450)]
         [Required]
@@ -33,10 +35,13 @@ namespace LanguageCenterPLC.Data.Entities
         public bool CanDelete { set; get; }
 
 
-        [ForeignKey("AppRoleId")]
-        public virtual AppRole AppRole { get; set; }
+        [ForeignKey("AppUserId")]
+        public virtual AppUser AppUser { get; set; }
 
         [ForeignKey("FunctionId")]
         public virtual Function Function { get; set; }
+
+        [Required]
+        public Status Status { get; set; }
     }
 }

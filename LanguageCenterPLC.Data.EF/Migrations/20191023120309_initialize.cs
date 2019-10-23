@@ -481,20 +481,21 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    AppRoleId = table.Column<Guid>(nullable: false),
+                    AppUserId = table.Column<Guid>(nullable: false),
                     FunctionId = table.Column<string>(maxLength: 450, nullable: false),
                     CanCreate = table.Column<bool>(nullable: false),
                     CanRead = table.Column<bool>(nullable: false),
                     CanUpdate = table.Column<bool>(nullable: false),
-                    CanDelete = table.Column<bool>(nullable: false)
+                    CanDelete = table.Column<bool>(nullable: false),
+                    Status = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Permissions", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Permissions_AspNetRoles_AppRoleId",
-                        column: x => x.AppRoleId,
-                        principalTable: "AspNetRoles",
+                        name: "FK_Permissions_AspNetUsers_AppUserId",
+                        column: x => x.AppUserId,
+                        principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -1235,9 +1236,9 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                 column: "LecturerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Permissions_AppRoleId",
+                name: "IX_Permissions_AppUserId",
                 table: "Permissions",
-                column: "AppRoleId");
+                column: "AppUserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Permissions_FunctionId",
@@ -1376,6 +1377,9 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                 name: "Announcements");
 
             migrationBuilder.DropTable(
+                name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
                 name: "AttendanceSheets");
 
             migrationBuilder.DropTable(
@@ -1386,9 +1390,6 @@ namespace LanguageCenterPLC.Data.EF.Migrations
 
             migrationBuilder.DropTable(
                 name: "PeriodicPoints");
-
-            migrationBuilder.DropTable(
-                name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "Functions");
