@@ -2,6 +2,7 @@
 using LanguageCenterPLC.Application.Interfaces;
 using LanguageCenterPLC.Application.ViewModels.Categories;
 using LanguageCenterPLC.Data.Entities;
+using LanguageCenterPLC.Infrastructure.Enums;
 using LanguageCenterPLC.Infrastructure.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -60,10 +61,27 @@ namespace LanguageCenterPLC.Application.Implementation
             return personnelViewModels;
         }
 
-        public List<PersonnelViewModel> GetAllWithConditions(DateTime briday, string keyword, int status, int sex)
+        public List<PersonnelViewModel> GetAllWithConditions(string keyword, int status)
         {
-            throw new NotImplementedException();
+            var query = _personelRepository.FindAll();
+
+            if (!string.IsNullOrEmpty(keyword))
+            {
+                query = query.Where(x => x.Id.Contains(keyword) || x.LastName.Contains(keyword) || x.FirstName.Contains(keyword) || x.Phone.Contains(keyword) || x.Email.Contains(keyword));
+
+            }
+
+            Status _status = (Status)status;
+            if (_status == Status.Active || _status == Status.InActive )    // hoạt động or nghỉ    // kp thì là tất cả
+            {
+                query = query.Where(x => x.Status == _status);
+            }
+
+            var personnelViewModels = Mapper.Map<List<PersonnelViewModel>>(query);
+            return personnelViewModels;
         }
+
+
 
         public PersonnelViewModel GetById(string id)
         {

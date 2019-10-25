@@ -85,7 +85,7 @@ namespace LanguageCenterPLC.Application.Implementation
             }
 
             Status _status = (Status)status;
-            if (_status == Status.Active || _status == Status.InActive)
+            if (_status == Status.Active || _status == Status.InActive || _status == Status.Pause)
             {
                 query = query.Where(x => x.Status == _status).OrderBy(x => x.Name);
             }

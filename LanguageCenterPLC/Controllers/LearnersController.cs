@@ -55,6 +55,13 @@ namespace LanguageCenterPLC.Controllers
             return await Task.FromResult(_learnerService.GetAllOutClass(id));
         }
 
+        
+        [HttpGet("/api/Learners/get-out-class-with-condition/{classId}/{keyword}")]
+        public async Task<ActionResult<IEnumerable<LearnerViewModel>>> GetLearnersOutClassWithCondition(string classId, string keyword)
+        {
+            return await Task.FromResult(_learnerService.GetOutClassWithCondition(classId, keyword));
+        }
+
         // PUT: api/Learners/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.

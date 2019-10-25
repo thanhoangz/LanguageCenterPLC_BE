@@ -21,5 +21,6 @@ namespace LanguageCenterPLC.Application.Interfaces
 
         public List<LearnerViewModel> GetAllInClass(string classId);
         public List<LearnerViewModel> GetAllOutClass(string classId);
+        public List<LearnerViewModel> GetOutClassWithCondition(string classId, string keyword);
     }
 }
