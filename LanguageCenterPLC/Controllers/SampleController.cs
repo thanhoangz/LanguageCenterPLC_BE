@@ -350,8 +350,9 @@ namespace LanguageCenterPLC.Controllers
                     learner.ParentPhone = TextHelper.RandomNumber(10);
 
                     Random rnd = new Random();
-                    int temp = rnd.Next(1, 7);
+                    int temp = rnd.Next(1, 25);
                     learner.Image = _images[temp];
+                    temp = rnd.Next(1, 7);
                     learner.GuestTypeId = temp;
 
                     learner.Note = "";
@@ -392,7 +393,7 @@ namespace LanguageCenterPLC.Controllers
                     lecturer.Phone = TextHelper.RandomNumber(10);
 
                     Random rnd = new Random();
-                    int temp = rnd.Next(1, 7);
+                    int temp = rnd.Next(1, 25);
                     lecturer.Image = _images[temp];
                     lecturer.Nationality = _national[temp];
                     lecturer.MarritalStatus = gen.Next(100) < 50 ? 1 : 0;
@@ -448,7 +449,7 @@ namespace LanguageCenterPLC.Controllers
                     personnel.Phone = TextHelper.RandomNumber(10);
 
                     Random rnd = new Random();
-                    int temp = rnd.Next(1, 7);
+                    int temp = rnd.Next(1, 25);
                     personnel.Image = _images[temp];
                     personnel.Nationality = _national[temp];
                     personnel.MarritalStatus = gen.Next(100) < 50 ? 1 : 0;
