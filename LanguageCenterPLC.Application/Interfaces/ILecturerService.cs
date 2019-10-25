@@ -16,7 +16,7 @@ namespace LanguageCenterPLC.Application.Interfaces
 
          LecturerViewModel GetById(int id);
         bool IsExists(int id);
-        List<LecturerViewModel> GetAllWithConditions(string cardId, string name , string phone, bool sex, int status);
+        List<LecturerViewModel> GetAllWithConditions(string cardId, string name , string phone, bool? sex, int status);
 
 
         void SaveChanges();

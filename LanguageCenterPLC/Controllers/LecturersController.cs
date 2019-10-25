@@ -109,10 +109,11 @@ namespace LanguageCenterPLC.Controllers
 
 
 
-        [HttpPost("/api/Lecturers/get-all-with-conditions")]
-        public async Task<ActionResult<IEnumerable<LecturerViewModel>>> GetAllConditions(string cardId="", string name="", string phone="", bool sex= true, int status =1)
+        [HttpPost]
+        [Route("get-all-with-conditions")]
+        public async Task<ActionResult<IEnumerable<LecturerViewModel>>> GetAllConditions(string cardId = "", string name = "", string phone = "", bool? sex = null, int status = 1)
         {
-            return await Task.FromResult(_lecturerService.GetAllWithConditions(cardId, name,phone,sex,status));
+            return await Task.FromResult(_lecturerService.GetAllWithConditions(cardId, name, phone, sex, status));
         }
 
         // DELETE: api/Lecturers/5
