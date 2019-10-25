@@ -1,4 +1,5 @@
 ﻿using LanguageCenterPLC.Application.ViewModels.Categories;
+using LanguageCenterPLC.Data.EF;
 using LanguageCenterPLC.Data.Entities;
 using LanguageCenterPLC.Infrastructure.Enums;
 using LanguageCenterPLC.Models;
@@ -7,7 +8,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,16 +24,26 @@ namespace LanguageCenterPLC.Controllers
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _singInManager;
         private readonly ApplicationSettings _appSettings;
+        private readonly AppDbContext _context;
 
-
-        public AppUsersController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IOptions<ApplicationSettings> appSettings)
+        public AppUsersController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IOptions<ApplicationSettings> appSettings, AppDbContext context)
         {
             _userManager = userManager;
             _singInManager = signInManager;
             _appSettings = appSettings.Value;
+            _context = context;
         }
 
-    
+        // GET: api/AppUsers
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<AppUser>>> GetUsers()
+        {
+            var users = _context.AppUsers.ToList();
+            return await Task.FromResult(users);
+        }
+
+        
+
 
         [HttpPost]
         [Route("Register")]
