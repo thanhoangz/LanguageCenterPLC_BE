@@ -64,21 +64,37 @@ namespace LanguageCenterPLC.Application.Implementation
             return lecturerViewModels;
         }
 
-        public List<LecturerViewModel> GetAllWithConditions(string cardId, string keyword, int status, string position)
+        public List<LecturerViewModel> GetAllWithConditions(string cardId = "", string name = "", string phone = "", bool? sex = null, int status = -1)
         {
             var query = _lecturerRepository.FindAll();
-
-            if (!string.IsNullOrEmpty(keyword))
+            if (!string.IsNullOrEmpty(cardId))
             {
-                query = query.Where(x => x.LastName.Contains(keyword));
+                query = query.Where(x => x.CardId.Contains(cardId));
             }
 
+            if (!string.IsNullOrEmpty(name))
+            {
+                query = query.Where(x => x.LastName.Contains(name) || x.FirstName.Contains(name));
+            }
+
+            if (!string.IsNullOrEmpty(phone))
+            {
+                query = query.Where(x => x.Phone.Contains(phone));
+            }
+
+            if (sex != null)
+            {
+                query = query.Where(x => x.Sex == sex).OrderBy(x => x.LastName);
+            }
             Status _status = (Status)status;
+
 
             if (_status == Status.Active || _status == Status.InActive)
             {
                 query = query.Where(x => x.Status == _status).OrderBy(x => x.LastName);
             }
+
+
 
             var lecturerViewModels = Mapper.Map<List<LecturerViewModel>>(query);
 

@@ -28,6 +28,11 @@ namespace LanguageCenterPLC.Application.Implementation
             {
                 var personnel = Mapper.Map<PersonnelViewModel, Personnel>(personnelVm);
 
+                personnel.DateCreated = DateTime.Now;
+
+                string id = _personelRepository.FindAll().OrderByDescending(x => x.DateCreated).First().Id;
+
+
                 _personelRepository.Add(personnel);
 
                 return true;
