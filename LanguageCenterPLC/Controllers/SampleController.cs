@@ -333,6 +333,7 @@ namespace LanguageCenterPLC.Controllers
                     };
 
                     learner.Id = TextHelper.RandomString(50);
+                    learner.CardId = "HV" + "00000" + ((j < 10) ? "000" + j.ToString() : (j < 100) ? "00" + j.ToString() : (j < 1000) ? "0" + j.ToString() : j.ToString());
                     Random gen = new Random();
                     bool result = gen.Next(100) < 50 ? true : false;
                     learner.Sex = result;
@@ -380,7 +381,7 @@ namespace LanguageCenterPLC.Controllers
                     Random gen = new Random();
                     bool result = gen.Next(100) < 50 ? true : false;
                     lecturer.Sex = result;
-
+                    lecturer.CardId = "GV" + "00000" + ((j < 10) ? "000" + j.ToString() : (j < 100) ? "00" + j.ToString() : (j < 1000) ? "0" + j.ToString() : j.ToString());
                     Random r = new Random();
                     DateTime rDate = new DateTime(r.Next(1900, 2010), r.Next(1, 12), r.Next(1, 28));
 
@@ -432,6 +433,7 @@ namespace LanguageCenterPLC.Controllers
                     };
 
                     personnel.Id = TextHelper.RandomString(50);
+                    personnel.CardId = "NV" + "00000" + ((j < 10) ? "000" + j.ToString() : (j < 100) ? "00" + j.ToString() : (j < 1000) ? "0" + j.ToString() : j.ToString());
                     Random gen = new Random();
                     bool result = gen.Next(100) < 50 ? true : false;
                     personnel.Sex = result;
