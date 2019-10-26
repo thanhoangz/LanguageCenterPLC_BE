@@ -93,6 +93,31 @@ namespace LanguageCenterPLC.Application.Implementation
             return learnerViewModel;
         }
 
+        public List<LearnerViewModel> GetOutClassWithCondition(string classId, string keyword)
+        {
+            var inLearners = from l in _learnerRepository.FindAll().Where(x => x.Status == Status.Active)
+                             join sp in _studyProcessRepository.FindAll().Where(x => x.LanguageClassId == classId)
+                             on l.Id equals sp.LearnerId
+                             select l;
+
+            var fullLeaners = _learnerRepository.FindAll().Where(x => x.Status == Status.Active && (x.Id.Contains(keyword) || x.LastName.Contains(keyword) || x.FirstName.Contains(keyword)) );
+
+            var outLeaners = new List<Learner>();
+
+            foreach (var item in fullLeaners)
+            {
+                if (!inLearners.Contains(item))
+                {
+                    outLeaners.Add(item);
+                }
+            }
+
+
+            var learnerViewModel = Mapper.Map<List<LearnerViewModel>>(outLeaners);
+
+            return learnerViewModel;
+        }
+
         public List<LearnerViewModel> GetAll()
         {
             List<Learner> Learners = _learnerRepository.FindAll().ToList();

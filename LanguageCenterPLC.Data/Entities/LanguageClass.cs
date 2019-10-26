@@ -36,6 +36,8 @@ namespace LanguageCenterPLC.Data.Entities
         [DataType(DataType.Date)]
         public DateTime EndDay { get; set; }
 
+        public int MaxNumber { get; set; }
+
         [Required]
         public Status Status { get; set; }
 

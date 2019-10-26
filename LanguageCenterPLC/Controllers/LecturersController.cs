@@ -55,7 +55,6 @@ namespace LanguageCenterPLC.Controllers
             {
                 await Task.Run(() =>
                 {
-                    lecturer.DateModified = DateTime.Now;
                     _lecturerService.Update(lecturer);
                     _lecturerService.SaveChanges();
                     return Ok("Cập nhập thành công!");
@@ -89,7 +88,6 @@ namespace LanguageCenterPLC.Controllers
                 {
                     await Task.Run(() =>
                     {
-                        lecturer.DateCreated = DateTime.Now;
                         _lecturerService.Add(lecturer);
                         _lecturerService.SaveChanges();
                         return Ok("Thêm giáo viên thành công!");

@@ -4,6 +4,7 @@ using LanguageCenterPLC.Application.ViewModels.Studies;
 using LanguageCenterPLC.Data.Entities;
 using LanguageCenterPLC.Infrastructure.Enums;
 using LanguageCenterPLC.Infrastructure.Interfaces;
+using LanguageCenterPLC.Utilities.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,6 +31,18 @@ namespace LanguageCenterPLC.Application.Implementation
             try
             {
                 var lecturer = Mapper.Map<LecturerViewModel, Lecturer>(lecturerVm);
+                lecturer.DateCreated = DateTime.Now;
+                string cardId = _lecturerRepository.FindAll().OrderByDescending(x => x.DateCreated).First().CardId;
+                lecturer.CardId = cardId.Substring(2);
+
+                int newCardId = Convert.ToInt32(lecturer.CardId) + 1;
+
+                cardId = newCardId.ToString();
+                while (cardId.Length < 9)
+                {
+                    cardId = "0" + cardId;
+                }
+                lecturer.CardId = "GV" + cardId;
 
                 _lecturerRepository.Add(lecturer);
 
@@ -122,6 +135,7 @@ namespace LanguageCenterPLC.Application.Implementation
             try
             {
                 var lecturer = Mapper.Map<LecturerViewModel, Lecturer>(lecturerVm);
+                lecturer.DateModified = DateTime.Now;
                 _lecturerRepository.Update(lecturer);
                 return true;
             }

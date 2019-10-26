@@ -59,7 +59,6 @@ namespace LanguageCenterPLC.Controllers
             {
                 await Task.Run(() =>
                 {
-                    personnel.DateModified = DateTime.Now;
                     _personnelService.Update(personnel);
                     _personnelService.SaveChanges();
                     return Ok("Cập nhập thành công!");
@@ -110,10 +109,10 @@ namespace LanguageCenterPLC.Controllers
         }
 
 
-        [HttpPost("/api/Personnels/get-all-with-conditions")]
-        public async Task<ActionResult<IEnumerable<PersonnelViewModel>>> GetAllConditions(DateTime briday, string keyword = "", int status = 1 , int sex = 1)
+        [HttpPost("/api/Personnels/get-all-with-conditions/")]
+        public async Task<ActionResult<IEnumerable<PersonnelViewModel>>> GetAllConditions(string keyword = "", int status = 2)
         {
-            return await Task.FromResult(_personnelService.GetAllWithConditions( briday, keyword, status,sex));
+            return await Task.FromResult(_personnelService.GetAllWithConditions(keyword, status));
         }
         // DELETE: api/Personnels/5
         [HttpDelete("{id}")]
