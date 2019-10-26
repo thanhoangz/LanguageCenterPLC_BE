@@ -31,7 +31,6 @@ namespace LanguageCenterPLC.Application.Implementation
             try
             {
                 var lecturer = Mapper.Map<LecturerViewModel, Lecturer>(lecturerVm);
-
                 lecturer.DateCreated = DateTime.Now;
                 string cardId = _lecturerRepository.FindAll().OrderByDescending(x => x.DateCreated).First().CardId;
                 lecturer.CardId = cardId.Substring(2);
@@ -138,6 +137,7 @@ namespace LanguageCenterPLC.Application.Implementation
             try
             {
                 var lecturer = Mapper.Map<LecturerViewModel, Lecturer>(lecturerVm);
+                lecturer.DateModified = DateTime.Now;
                 _lecturerRepository.Update(lecturer);
                 return true;
             }
