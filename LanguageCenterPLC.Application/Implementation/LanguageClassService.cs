@@ -98,6 +98,12 @@ namespace LanguageCenterPLC.Application.Implementation
 
             var languageClassViewModel = Mapper.Map<List<LanguageClassViewModel>>(query);
 
+            foreach (var item in languageClassViewModel)
+            {
+                string name = _courseRepository.FindById(item.CourseId).Name;
+                item.CourseName = name;
+            }
+
             return languageClassViewModel;
         }
 

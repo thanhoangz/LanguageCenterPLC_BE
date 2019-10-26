@@ -22,7 +22,7 @@ namespace LanguageCenterPLC.Application.Implementation
             _unitOfWork = unitOfWork;
         }
 
-        public bool Add(PersonnelViewModel personnelVm)
+        public bool Add(PersonnelViewModel personnelVm)     // add nhân viên
         {
             try
             {
