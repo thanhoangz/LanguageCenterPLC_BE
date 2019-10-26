@@ -36,6 +36,7 @@ namespace LanguageCenterPLC.Application.ViewModels.Categories
 
         public int CourseId { get; set; }
 
+        public int MaxNumber { get; set; }
         public ICollection<StudyProcessViewModel> StudyProcesses { set; get; }
         public ICollection<EndingCoursePointViewModel> EndingCoursePoints { set; get; }
         public ICollection<PeriodicPointViewModel> PeriodicPoints { set; get; }
