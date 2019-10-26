@@ -395,12 +395,15 @@ namespace LanguageCenterPLC.Controllers
                     Random rnd = new Random();
                     int temp = rnd.Next(1, 25);
                     lecturer.Image = _images[temp];
+
+                    temp = rnd.Next(1, 7);
                     lecturer.Nationality = _national[temp];
                     lecturer.MarritalStatus = gen.Next(100) < 50 ? 1 : 0;
                     lecturer.ExperienceRecord = "";
                     lecturer.Position = "Giáo viên";
                     lecturer.Certificate = "";
 
+                    temp = rnd.Next(1, 30);
                     lecturer.BasicSalary = temp * 100000;
                     lecturer.Allowance = 50000;
                     lecturer.Bonus = temp * 200;
@@ -451,12 +454,14 @@ namespace LanguageCenterPLC.Controllers
                     Random rnd = new Random();
                     int temp = rnd.Next(1, 25);
                     personnel.Image = _images[temp];
+                    temp = rnd.Next(1, 7);
                     personnel.Nationality = _national[temp];
+
                     personnel.MarritalStatus = gen.Next(100) < 50 ? 1 : 0;
                     personnel.ExperienceRecord = "";
                     personnel.Position = "Nhân viên";
                     personnel.Certificate = "";
-
+                    temp = rnd.Next(1, 30);
                     personnel.BasicSalary = temp * 100000;
                     personnel.Allowance = 50000;
                     personnel.Bonus = temp * 200;
