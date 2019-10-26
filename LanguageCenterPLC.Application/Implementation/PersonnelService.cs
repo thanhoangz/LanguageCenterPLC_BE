@@ -4,6 +4,7 @@ using LanguageCenterPLC.Application.ViewModels.Categories;
 using LanguageCenterPLC.Data.Entities;
 using LanguageCenterPLC.Infrastructure.Enums;
 using LanguageCenterPLC.Infrastructure.Interfaces;
+using LanguageCenterPLC.Utilities.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,11 +29,21 @@ namespace LanguageCenterPLC.Application.Implementation
             {
                 var personnel = Mapper.Map<PersonnelViewModel, Personnel>(personnelVm);
 
+                #region sinh mã cardId tăng tự động
                 personnel.DateCreated = DateTime.Now;
+                personnel.Id = TextHelper.RandomString(50);
+                string cardId = _personelRepository.FindAll().OrderByDescending(x => x.DateCreated).First().CardId;
+                personnel.CardId = cardId.Substring(2);
 
-                string id = _personelRepository.FindAll().OrderByDescending(x => x.DateCreated).First().Id;
-
-
+                int newCardId = Convert.ToInt32(personnel.CardId) + 1;
+                
+                cardId = newCardId.ToString();
+                while (cardId.Length < 9)
+                {
+                    cardId = "0" + cardId;
+                }
+                personnel.CardId = "NV" + cardId;
+                #endregion
                 _personelRepository.Add(personnel);
 
                 return true;
@@ -77,7 +88,7 @@ namespace LanguageCenterPLC.Application.Implementation
             }
 
             Status _status = (Status)status;
-            if (_status == Status.Active || _status == Status.InActive )    // hoạt động or nghỉ    // kp thì là tất cả
+            if (_status == Status.Active || _status == Status.InActive)    // hoạt động or nghỉ    // kp thì là tất cả
             {
                 query = query.Where(x => x.Status == _status);
             }

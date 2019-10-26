@@ -59,7 +59,6 @@ namespace LanguageCenterPLC.Controllers
             {
                 await Task.Run(() =>
                 {
-                    personnel.DateModified = DateTime.Now;
                     _personnelService.Update(personnel);
                     _personnelService.SaveChanges();
                     return Ok("Cập nhập thành công!");

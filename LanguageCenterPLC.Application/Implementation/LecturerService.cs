@@ -4,6 +4,7 @@ using LanguageCenterPLC.Application.ViewModels.Studies;
 using LanguageCenterPLC.Data.Entities;
 using LanguageCenterPLC.Infrastructure.Enums;
 using LanguageCenterPLC.Infrastructure.Interfaces;
+using LanguageCenterPLC.Utilities.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,6 +31,18 @@ namespace LanguageCenterPLC.Application.Implementation
             try
             {
                 var lecturer = Mapper.Map<LecturerViewModel, Lecturer>(lecturerVm);
+                lecturer.DateCreated = DateTime.Now;
+                string cardId = _lecturerRepository.FindAll().OrderByDescending(x => x.DateCreated).First().CardId;
+                lecturer.CardId = cardId.Substring(2);
+
+                int newCardId = Convert.ToInt32(lecturer.CardId) + 1;
+
+                cardId = newCardId.ToString();
+                while (cardId.Length < 9)
+                {
+                    cardId = "0" + cardId;
+                }
+                lecturer.CardId = "GV" + cardId;
 
                 _lecturerRepository.Add(lecturer);
 
@@ -64,7 +77,7 @@ namespace LanguageCenterPLC.Application.Implementation
             return lecturerViewModels;
         }
 
-        public List<LecturerViewModel> GetAllWithConditions(string cardId = "", string name = "", string phone = "", bool? sex = null, int status = -1)
+        public List<LecturerViewModel> GetAllWithConditions(string cardId = "", string name = "", bool? sex = true, int status = -1)
         {
             var query = _lecturerRepository.FindAll();
             if (!string.IsNullOrEmpty(cardId))
@@ -75,26 +88,24 @@ namespace LanguageCenterPLC.Application.Implementation
             if (!string.IsNullOrEmpty(name))
             {
                 query = query.Where(x => x.LastName.Contains(name) || x.FirstName.Contains(name));
-            }
-
-            if (!string.IsNullOrEmpty(phone))
-            {
-                query = query.Where(x => x.Phone.Contains(phone));
-            }
+            }         
 
             if (sex != null)
             {
                 query = query.Where(x => x.Sex == sex).OrderBy(x => x.LastName);
             }
-            Status _status = (Status)status;
-
-
-            if (_status == Status.Active || _status == Status.InActive)
+            else
             {
-                query = query.Where(x => x.Status == _status).OrderBy(x => x.LastName);
+                query = query.Where(x => x.Sex == true || x.Sex == false ).OrderBy(x => x.LastName);
             }
-
-
+            Status _status = (Status)status;
+            if (status != -1)
+            {
+                if (_status == Status.Active || _status == Status.InActive)
+                {
+                    query = query.Where(x => x.Status == _status).OrderBy(x => x.LastName);
+                }
+            }
 
             var lecturerViewModels = Mapper.Map<List<LecturerViewModel>>(query);
 
@@ -124,6 +135,7 @@ namespace LanguageCenterPLC.Application.Implementation
             try
             {
                 var lecturer = Mapper.Map<LecturerViewModel, Lecturer>(lecturerVm);
+                lecturer.DateModified = DateTime.Now;
                 _lecturerRepository.Update(lecturer);
                 return true;
             }

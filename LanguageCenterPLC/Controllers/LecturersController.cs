@@ -55,7 +55,6 @@ namespace LanguageCenterPLC.Controllers
             {
                 await Task.Run(() =>
                 {
-                    lecturer.DateModified = DateTime.Now;
                     _lecturerService.Update(lecturer);
                     _lecturerService.SaveChanges();
                     return Ok("Cập nhập thành công!");
@@ -89,7 +88,6 @@ namespace LanguageCenterPLC.Controllers
                 {
                     await Task.Run(() =>
                     {
-                        lecturer.DateCreated = DateTime.Now;
                         _lecturerService.Add(lecturer);
                         _lecturerService.SaveChanges();
                         return Ok("Thêm giáo viên thành công!");
@@ -111,9 +109,9 @@ namespace LanguageCenterPLC.Controllers
 
         [HttpPost]
         [Route("get-all-with-conditions")]
-        public async Task<ActionResult<IEnumerable<LecturerViewModel>>> GetAllConditions(string cardId = "", string name = "", string phone = "", bool? sex = null, int status = 1)
+        public async Task<ActionResult<IEnumerable<LecturerViewModel>>> GetAllConditions(string cardId = "", string name = "", bool? sex = null, int status = -1)
         {
-            return await Task.FromResult(_lecturerService.GetAllWithConditions(cardId, name, phone, sex, status));
+            return await Task.FromResult(_lecturerService.GetAllWithConditions(cardId, name, sex, status));
         }
 
         // DELETE: api/Lecturers/5
