@@ -29,6 +29,7 @@ namespace LanguageCenterPLC.Application.Implementation
             {
                 var personnel = Mapper.Map<PersonnelViewModel, Personnel>(personnelVm);
 
+                #region sinh mã cardId tăng tự động
                 personnel.DateCreated = DateTime.Now;
                 personnel.Id = TextHelper.RandomString(50);
                 string cardId = _personelRepository.FindAll().OrderByDescending(x => x.DateCreated).First().CardId;
@@ -42,6 +43,7 @@ namespace LanguageCenterPLC.Application.Implementation
                     cardId = "0" + cardId;
                 }
                 personnel.CardId = "NV" + cardId;
+                #endregion
                 _personelRepository.Add(personnel);
 
                 return true;
