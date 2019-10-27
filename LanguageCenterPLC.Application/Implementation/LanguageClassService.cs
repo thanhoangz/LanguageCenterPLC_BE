@@ -4,6 +4,7 @@ using LanguageCenterPLC.Application.ViewModels.Categories;
 using LanguageCenterPLC.Data.Entities;
 using LanguageCenterPLC.Infrastructure.Enums;
 using LanguageCenterPLC.Infrastructure.Interfaces;
+using LanguageCenterPLC.Utilities.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,6 +32,8 @@ namespace LanguageCenterPLC.Application.Implementation
             try
             {
                 var languageClass = Mapper.Map<LanguageClassViewModel, LanguageClass>(languageClassVm);
+                languageClass.Id = TextHelper.GetUpcaseChars(languageClass.Name).Trim() + "-" + TextHelper.RandomNumber(6);
+                languageClass.DateCreated = DateTime.Now;
 
                 _languageClassRepository.Add(languageClass);
 
@@ -139,7 +142,9 @@ namespace LanguageCenterPLC.Application.Implementation
         {
             try
             {
+
                 var languageClasse = Mapper.Map<LanguageClassViewModel, LanguageClass>(languageClassVm);
+                languageClasse.DateModified = DateTime.Now;
                 _languageClassRepository.Update(languageClasse);
                 return true;
             }
