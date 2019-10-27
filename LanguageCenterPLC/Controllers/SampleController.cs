@@ -477,6 +477,24 @@ namespace LanguageCenterPLC.Controllers
                 }
                 _context.Personnels.AddRange(personnels);
             }
+
+            if (_context.Functions.Count() == 0)
+            {
+                List<Function> functions = new List<Function>()
+                {
+                    new Function()
+                    {
+                        Id = TextHelper.RandomString(10),
+                      
+
+                    },
+                };
+
+            }
+
+
+
+
             await _context.SaveChangesAsync();
 
             return Ok("Đã tạo dữ liệu thành công!");
