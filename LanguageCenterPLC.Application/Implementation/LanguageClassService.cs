@@ -32,7 +32,8 @@ namespace LanguageCenterPLC.Application.Implementation
             try
             {
                 var languageClass = Mapper.Map<LanguageClassViewModel, LanguageClass>(languageClassVm);
-                languageClass.Id = TextHelper.GetUpcaseChars(languageClass.Name).Trim() + "-" + TextHelper.RandomNumber(6);
+                string courseName = _courseRepository.FindAll().Where(x => x.Id == languageClass.CourseId).FirstOrDefault().Name;
+                languageClass.Id = TextHelper.GetUpcaseChars(courseName).Trim() + "-" + TextHelper.RandomNumber(6);
                 languageClass.DateCreated = DateTime.Now;
 
                 _languageClassRepository.Add(languageClass);
