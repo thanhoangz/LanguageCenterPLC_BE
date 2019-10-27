@@ -477,6 +477,55 @@ namespace LanguageCenterPLC.Controllers
                 }
                 _context.Personnels.AddRange(personnels);
             }
+
+            if (_context.Functions.Count() == 0)
+            {
+                List<Function> functions = new List<Function>()
+                {
+                    new Function()
+                    {
+                        Id = TextHelper.RandomString(10),
+                        Name = "Danh sách lớp",
+                        URL = "admin/class-list",
+                        SortOrder = 1,
+                        Status = Status.Active,
+                    },
+                    new Function()
+                    {
+                        Id = TextHelper.RandomString(10),
+                        Name = "Cấu hình trung tâm",
+                        URL = "",
+                        SortOrder = 2,
+                        Status = Status.Active,
+                    },
+                    new Function()
+                    {
+                        Id = TextHelper.RandomString(10),
+                        Name = "Lớp học",
+                        URL = "admin/language-classes",
+                        SortOrder = 3,
+                        Status = Status.Active,
+                        ParentId = "",
+
+                    },
+                    new Function()
+                    {
+                        Id = TextHelper.RandomString(10),
+                        Name = "Phòng học",
+                        URL = "admin/classroom",
+                        SortOrder = 4,
+                        Status = Status.Active,
+                        ParentId = "",
+
+                    },
+
+                };
+                _context.Functions.AddRange(functions);
+            }
+
+
+
+
             await _context.SaveChangesAsync();
 
             return Ok("Đã tạo dữ liệu thành công!");

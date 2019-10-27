@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LanguageCenterPLC.Data.EF.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20191023045219_initialize")]
+    [Migration("20191027014353_initialize")]
     partial class initialize
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -641,6 +641,9 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                     b.Property<decimal>("LessonFee")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<int>("MaxNumber")
+                        .HasColumnType("int");
+
                     b.Property<decimal>("MonthlyFee")
                         .HasColumnType("decimal(18,2)");
 
@@ -846,6 +849,72 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Lecturers");
+                });
+
+            modelBuilder.Entity("LanguageCenterPLC.Data.Entities.LogStudyProcess", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ClassId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClassName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CourseId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CourseName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LearnerId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Manipulation")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Note")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("LogStudyProcesses");
+                });
+
+            modelBuilder.Entity("LanguageCenterPLC.Data.Entities.LogTuitionRecord", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("AmountOfMoney")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Content")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LearnerId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Manipulation")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Note")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("LogTuitionRecords");
                 });
 
             modelBuilder.Entity("LanguageCenterPLC.Data.Entities.LogWork", b =>
@@ -1055,7 +1124,7 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<Guid>("AppRoleId")
+                    b.Property<Guid>("AppUserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("CanCreate")
@@ -1075,9 +1144,12 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                         .HasColumnType("nvarchar(450)")
                         .HasMaxLength(450);
 
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("AppRoleId");
+                    b.HasIndex("AppUserId");
 
                     b.HasIndex("FunctionId");
 
@@ -1896,9 +1968,9 @@ namespace LanguageCenterPLC.Data.EF.Migrations
 
             modelBuilder.Entity("LanguageCenterPLC.Data.Entities.Permission", b =>
                 {
-                    b.HasOne("LanguageCenterPLC.Data.Entities.AppRole", "AppRole")
+                    b.HasOne("LanguageCenterPLC.Data.Entities.AppUser", "AppUser")
                         .WithMany()
-                        .HasForeignKey("AppRoleId")
+                        .HasForeignKey("AppUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

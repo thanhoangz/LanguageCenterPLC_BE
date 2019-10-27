@@ -1,6 +1,5 @@
 ﻿using LanguageCenterPLC.Data.Entities;
 using LanguageCenterPLC.Infrastructure.Interfaces;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
@@ -79,6 +78,9 @@ namespace LanguageCenterPLC.Data.EF
         public DbSet<Announcement> Announcements { set; get; }
         public DbSet<AnnouncementUser> AnnouncementUsers { set; get; }
 
+        public DbSet<LogStudyProcess> LogStudyProcesses { set; get; }
+
+        public DbSet<LogTuitionRecord> LogTuitionRecords { set; get; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             #region Identity Config

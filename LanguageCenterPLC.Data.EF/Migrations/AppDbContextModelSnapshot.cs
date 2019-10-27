@@ -639,6 +639,9 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                     b.Property<decimal>("LessonFee")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<int>("MaxNumber")
+                        .HasColumnType("int");
+
                     b.Property<decimal>("MonthlyFee")
                         .HasColumnType("decimal(18,2)");
 
@@ -844,6 +847,72 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Lecturers");
+                });
+
+            modelBuilder.Entity("LanguageCenterPLC.Data.Entities.LogStudyProcess", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ClassId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClassName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CourseId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CourseName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LearnerId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Manipulation")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Note")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("LogStudyProcesses");
+                });
+
+            modelBuilder.Entity("LanguageCenterPLC.Data.Entities.LogTuitionRecord", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("AmountOfMoney")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Content")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LearnerId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Manipulation")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Note")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("LogTuitionRecords");
                 });
 
             modelBuilder.Entity("LanguageCenterPLC.Data.Entities.LogWork", b =>

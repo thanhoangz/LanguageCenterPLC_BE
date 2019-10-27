@@ -1,4 +1,5 @@
-﻿using LanguageCenterPLC.Application.ViewModels.Categories;
+﻿using AutoMapper;
+using LanguageCenterPLC.Application.ViewModels.Categories;
 using LanguageCenterPLC.Data.EF;
 using LanguageCenterPLC.Data.Entities;
 using LanguageCenterPLC.Infrastructure.Enums;
@@ -42,7 +43,14 @@ namespace LanguageCenterPLC.Controllers
             return await Task.FromResult(users);
         }
 
-        
+        // DELETE: api/AppUsers
+        [HttpDelete("{id}")]
+        public async Task<Object> DeleteUsers(Guid id)
+        {
+            var user = await _context.AppUsers.FindAsync(id);
+            var result = await _userManager.DeleteAsync(user);
+            return await Task.FromResult(result);
+        }
 
 
         [HttpPost]
@@ -76,6 +84,32 @@ namespace LanguageCenterPLC.Controllers
                 throw ex;
             }
         }
+
+        [HttpPut]
+        [Route("Update")]
+        //POST : api/AppUsers/Register
+        public async Task<Object> PutApplicationUser(AppUserViewModel user)
+        {
+
+            try
+            {
+                var userUpdate = await _userManager.FindByNameAsync(user.UserName);
+                if (userUpdate.PasswordHash != null)
+                {
+                   await _userManager.RemovePasswordAsync(userUpdate);
+                }
+
+                await _userManager.AddPasswordAsync(userUpdate, user.Password);
+                //var result = await _userManager.UpdateAsync(user);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
 
         [HttpPost]
         [Route("Login")]

@@ -155,6 +155,19 @@ namespace LanguageCenterPLC.Utilities.Helpers
             return EmailAddress;
         }
 
+        public static string GetUpcaseChars(string str)
+        {
+            char[] chars = str.ToCharArray(0, str.Length);
+            string result = "";
+            for (int i = 0; i < str.Length; i++)
+            {
+                if (char.IsUpper(chars[i]))
+                {
+                    result += chars[i];
+                }
+            }
+            return result;
+        }
         #endregion
     }
 }

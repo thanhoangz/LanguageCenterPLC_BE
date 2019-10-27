@@ -55,7 +55,6 @@ namespace LanguageCenterPLC.Controllers
             {
                 await Task.Run(() =>
                 {
-                    languageClassViewModel.DateModified = DateTime.Now;
                     _languageClassService.Update(languageClassViewModel);
                     _languageClassService.SaveChanges();
                     return Ok();
@@ -87,7 +86,6 @@ namespace LanguageCenterPLC.Controllers
                 {
                     await Task.Run(() =>
                     {
-                        languageClass.DateCreated = DateTime.Now;
                         _languageClassService.Add(languageClass);
                         _languageClassService.SaveChanges();
                         return Ok("thêm lớp học thành công!");
