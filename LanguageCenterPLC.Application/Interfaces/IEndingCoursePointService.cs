@@ -6,16 +6,18 @@ namespace LanguageCenterPLC.Application.Interfaces
 {
     public interface IEndingCoursePointService
     {
-        Task<bool> AddAsync(EndingCoursePointViewModel endingCoursePointVm);
+        bool Add(EndingCoursePointViewModel endingCoursePointVm);
 
-        Task<bool> UpdateAsync(EndingCoursePointViewModel endingCoursePointVm);
+        bool Update(EndingCoursePointViewModel endingCoursePointVm);
 
-        Task<bool> DeleteAsync(int id);
+        bool Delete(int id);
 
-        Task<List<EndingCoursePointViewModel>> GetAll();
+        List<EndingCoursePointViewModel> GetAll();
 
-        Task<EndingCoursePointViewModel> GetById(int id);
+        EndingCoursePointViewModel GetById(int id);
+        List<EndingCoursePointViewModel> GetAllWithConditions();
 
+        bool IsExists(int id);
         void SaveChanges();
     }
 }

@@ -7,16 +7,18 @@ namespace LanguageCenterPLC.Application.Interfaces
     public interface IEndingCoursePointDetailService
     {
 
-        Task<bool> AddAsync(EndingCoursePointDetailViewModel endingCoursePointDetailVm);
+        bool Add(EndingCoursePointDetailViewModel endingCoursePointDetailVm);
 
-        Task<bool> UpdateAsync(EndingCoursePointDetailViewModel endingCoursePointDetailVm);
+        bool Update(EndingCoursePointDetailViewModel endingCoursePointDetailVm);
 
-        Task<bool> DeleteAsync(int id);
+        bool Delete(int id);
 
-        Task<List<EndingCoursePointDetailViewModel>> GetAll();
+        List<EndingCoursePointDetailViewModel> GetAll();
 
-        Task<EndingCoursePointDetailViewModel> GetById(int id);
+        EndingCoursePointDetailViewModel GetById(int id);
+        List<EndingCoursePointDetailViewModel> GetAllWithConditions();
 
+        bool IsExists(int id);
         void SaveChanges();
     }
 }
