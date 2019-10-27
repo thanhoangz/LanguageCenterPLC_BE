@@ -6,16 +6,18 @@ namespace LanguageCenterPLC.Application.Interfaces
 {
     public interface IPeriodicPointService
     {
-        Task<bool> AddAsync(PeriodicPointViewModel periodicPointVm);
+        bool Add(PeriodicPointViewModel periodicPointVm);
 
-        Task<bool> UpdateAsync(PeriodicPointViewModel periodicPointVm);
+        bool Update(PeriodicPointViewModel periodicPointVm);
 
-        Task<bool> DeleteAsync(int id);
+        bool Delete(int id);
 
-        Task<List<PeriodicPointViewModel>> GetAll();
+        List<PeriodicPointViewModel> GetAll();
 
-        Task<PeriodicPointViewModel> GetById(int id);
+        PeriodicPointViewModel GetById(int id);
+        List<PeriodicPointViewModel> GetAllWithConditions();
 
+        bool IsExists(int id);
         void SaveChanges();
     }
 }

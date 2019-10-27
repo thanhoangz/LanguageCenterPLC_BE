@@ -150,6 +150,14 @@ namespace LanguageCenterPLC
             services.AddTransient<IPermissionService, PermissionService>();
 
 
+            services.AddTransient<IEndingCoursePointService, EndingCoursePointService>();
+            services.AddTransient<IEndingCoursePointDetailService, EndingCoursePointDetailService>();
+
+            services.AddTransient<IPeriodicPointService, PeriodicPointService>();
+            services.AddTransient<IPeriodicPointDetailService, PeriodicPointDetailService>();
+
+
+
             //Jwt Authentication
 
             var key = Encoding.UTF8.GetBytes(Configuration["ApplicationSettings:JWT_Secret"].ToString());
