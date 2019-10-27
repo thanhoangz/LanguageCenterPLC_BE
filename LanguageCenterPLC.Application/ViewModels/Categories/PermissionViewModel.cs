@@ -15,12 +15,13 @@ namespace LanguageCenterPLC.Application.ViewModels.Categories
 
         public bool CanDelete { set; get; }
 
-        public Guid AppRoleId { get; set; }
+        public Guid AppUserId { get; set; }
 
         public string FunctionId { get; set; }
 
-        public AppRoleViewModel AppRole { get; set; }
+        public string UserName { get; set; }
 
-        public FunctionViewModel Function { get; set; }
+        public string FunctionName { get; set; }
+
     }
 }

@@ -1,21 +1,26 @@
 ﻿using LanguageCenterPLC.Application.ViewModels.Categories;
+using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace LanguageCenterPLC.Application.Interfaces
 {
     public interface IPermissionService
     {
-        Task<bool> AddAsync(PermissionViewModel permissionVm);
+        bool Add(PermissionViewModel permissionVm);
 
-        Task<bool> UpdateAsync(PermissionViewModel permissionVm);
+        bool Update(PermissionViewModel permissionVm);
 
-        Task<bool> DeleteAsync(int id);
+        bool Delete(int id);
 
-        Task<List<PermissionViewModel>> GetAll();
+        List<PermissionViewModel> GetAll();
 
-        Task<PermissionViewModel> GetById(int id);
+        List<PermissionViewModel> GetAllByUser(Guid userId);
+
+        PermissionViewModel GetById(int id);
 
         void SaveChanges();
+        bool IsExists(int id);
+
+
     }
 }

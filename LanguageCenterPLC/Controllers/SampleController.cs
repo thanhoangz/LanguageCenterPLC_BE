@@ -113,6 +113,9 @@ namespace LanguageCenterPLC.Controllers
                     FullName = "Administrator",
                     Email = "xuanhoang.ks6@gmail.com",
                     Balance = 0,
+                    Avatar = "https://scontent.fhan5-5.fna.fbcdn.net/v/t1.0-9/52082273_1989923987978968" +
+                    "_1959613751179083776_n.jpg?_nc_cat=108&_nc_oc=AQk93G0qSS8w6k_AgIwyP1r2vIEhf2a5fis-pX8JAzlSIZ-Gl5YRvfOoWAwXoMvb7" +
+                    "2WwiMscWvXq0ZUFf5u0PULR&_nc_ht=scontent.fhan5-5.fna&oh=8a4cab9d2f3c88697ff99f10b5ba3d9c&oe=5E53E27B",
                     DateCreated = DateTime.Now,
                     DateModified = DateTime.Now,
                     Status = Status.Active
@@ -126,6 +129,9 @@ namespace LanguageCenterPLC.Controllers
                     FullName = "Hoàng Tiến Dũng",
                     Email = "dungbo.97@gmail.com",
                     Balance = 0,
+                    Avatar = "https://scontent.fhan5-6.fna.fbcdn.net/v/t31.0-8/22104773_1960221297599474_6856562694427714577_o.jpg?_nc_c" +
+                    "at=105&_nc_oc=AQmDSn9Z89MfHotI2z6EFYe_2T1UQnS1FcT_wpFakXGcIpquCDhvPK_9oTU_7ytcvZUMxrA8q1MZ1UVNp5JurNAJ&_nc_ht=scontent.fhan5-6" +
+                    ".fna&oh=54b7c2470c85e8e043ba916459043189&oe=5E257381",
                     DateCreated = DateTime.Now,
                     DateModified = DateTime.Now,
                     Status = Status.Active
@@ -139,6 +145,9 @@ namespace LanguageCenterPLC.Controllers
                     FullName = "Nguyễn Viết Phương",
                     Email = "nguyenvietphuong10@gmail.com",
                     Balance = 0,
+                    Avatar = "https://scontent.fhan5-4.fna.fbcdn.net/v/t1.0-9/57016879_2299835780304689_8351403043366895616_o.jpg" +
+                    "?_nc_cat=104&_nc_oc=AQnKozlDuU5L-b49v_WCOOGTcpADQyh87YA8Wis6jhGtoL63mdtJ_LjBnAr7bJO43NEF4qLB9b51HvNw5eGFbxNE&_nc_ht=scontent.fhan5-4." +
+                    "fna&oh=0be678dc839a72de1542e8c16476bfc6&oe=5E5EC3BF",
                     DateCreated = DateTime.Now,
                     DateModified = DateTime.Now,
                     Status = Status.Active
@@ -484,7 +493,7 @@ namespace LanguageCenterPLC.Controllers
                 {
                     new Function()
                     {
-                        Id = TextHelper.RandomString(10),
+                        Id = "7rjHufjhgg",
                         Name = "Danh sách lớp",
                         URL = "admin/class-list",
                         SortOrder = 1,
@@ -492,7 +501,7 @@ namespace LanguageCenterPLC.Controllers
                     },
                     new Function()
                     {
-                        Id = TextHelper.RandomString(10),
+                        Id = "82fxsSM76d",
                         Name = "Cấu hình trung tâm",
                         URL = "",
                         SortOrder = 2,
@@ -500,33 +509,115 @@ namespace LanguageCenterPLC.Controllers
                     },
                     new Function()
                     {
-                        Id = TextHelper.RandomString(10),
+                        Id = "cZ5kTRruS4",
                         Name = "Lớp học",
                         URL = "admin/language-classes",
                         SortOrder = 3,
                         Status = Status.Active,
-                        ParentId = "",
+                        ParentId = "82fxsSM76d",
 
                     },
                     new Function()
                     {
-                        Id = TextHelper.RandomString(10),
+                        Id = "uZh6mCgxL7",
                         Name = "Phòng học",
                         URL = "admin/classroom",
                         SortOrder = 4,
                         Status = Status.Active,
-                        ParentId = "",
-
+                        ParentId = "82fxsSM76d",
                     },
-
+                    new Function()
+                    {
+                        Id = "fgfghtyu5654fgj",
+                        Name = "Đối tượng",
+                        URL = "admin/guest-type",
+                        SortOrder = 5,
+                        Status = Status.Active,
+                        ParentId = "82fxsSM76d",
+                    },
+                    new Function()
+                    {
+                        Id = "dfgfu67y867745jkghhdfg",
+                        Name = "Khóa học",
+                        URL = "admin/course",
+                        SortOrder = 6,
+                        Status = Status.Active,
+                        ParentId = "82fxsSM76d",
+                    },
+                    new Function()
+                    {
+                        Id = "9658741253",
+                        Name = "Loại phiếu thu",
+                        URL = "admin/course",
+                        SortOrder = 7,
+                        Status = Status.Active,
+                        ParentId = "82fxsSM76d",
+                    },
+                    new Function()
+                    {
+                        Id = "8745895142dfg",
+                        Name = "Loại phiếu chi",
+                        URL = "admin/course",
+                        SortOrder = 8,
+                        Status = Status.Active,
+                        ParentId = "82fxsSM76d",
+                    },
+                    new Function()
+                    {
+                        Id = "dkjfhreij5h234598ufdfh",
+                        Name = "Quản lý học tập",
+                        URL = "",
+                        SortOrder = 9,
+                        Status = Status.Active,
+                    },
+                    new Function()
+                    {
+                        Id = "dfgfkfglkjet6hgu",
+                        Name = "Xếp lịch học",
+                        URL = "",
+                        SortOrder = 10,
+                        Status = Status.Active,
+                        ParentId = "dkjfhreij5h234598ufdfh"
+                    },
+                    new Function()
+                    {
+                        Id = "lkjdfgjk4j5456kj",
+                        Name = "Quản lý điểm định kỳ",
+                        URL = "",
+                        SortOrder = 11,
+                        Status = Status.Active,
+                        ParentId = "dkjfhreij5h234598ufdfh"
+                    },
                 };
                 _context.Functions.AddRange(functions);
             }
 
+            if (_context.Permissions.Count() == 0)
+            {
+                List<Permission> permissions = new List<Permission>();
+
+                var functionc = _context.Functions;
+                var users = _context.AppUsers;
+                foreach (var item in users)
+                {
+                    foreach (var fun in functionc)
+                    {
+                        Permission permission = new Permission();
+                        permission.AppUserId = item.Id;
+                        permission.FunctionId = fun.Id;
+                        permission.CanCreate = false;
+                        permission.CanDelete = false;
+                        permission.CanRead = false;
+                        permission.CanUpdate = false;
+                        permission.Status = Status.Active;
+                        permissions.Add(permission);
+                    }
+                }
+                _context.Permissions.AddRange(permissions);
+            }
 
 
-
-            await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
 
             return Ok("Đã tạo dữ liệu thành công!");
         }

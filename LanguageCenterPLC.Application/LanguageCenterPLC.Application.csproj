@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\LanguageCenterPLC.Data.EF\LanguageCenterPLC.Data.EF.csproj" />
     <ProjectReference Include="..\LanguageCenterPLC.Data\LanguageCenterPLC.Data.csproj" />
     <ProjectReference Include="..\LanguageCenterPLC.Utilities\LanguageCenterPLC.Utilities.csproj" />
   </ItemGroup>

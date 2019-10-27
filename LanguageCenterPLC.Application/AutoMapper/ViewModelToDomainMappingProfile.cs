@@ -44,7 +44,7 @@ namespace LanguageCenterPLC.Application.AutoMapper
             CreateMap<PeriodicPointViewModel, PeriodicPoint>();
             CreateMap<PeriodicPointDetailViewModel, PeriodicPointDetail>();
             CreateMap<PermissionViewModel, Permission>()
-                .ConstructUsing(c => new Permission(c.AppRoleId, c.FunctionId,
+                .ConstructUsing(c => new Permission(c.AppUserId, c.FunctionId,
             c.CanCreate, c.CanRead, c.CanUpdate, c.CanDelete));
             CreateMap<PersonnelViewModel, Personnel>();
             CreateMap<ReceiptViewModel, Receipt>();
