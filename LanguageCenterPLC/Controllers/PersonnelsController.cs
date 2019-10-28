@@ -110,9 +110,9 @@ namespace LanguageCenterPLC.Controllers
 
 
         [HttpPost("/api/Personnels/get-all-with-conditions/")]
-        public async Task<ActionResult<IEnumerable<PersonnelViewModel>>> GetAllConditions(string keyword = "", int status = 2)
+        public async Task<ActionResult<IEnumerable<PersonnelViewModel>>> GetAllConditions(string keyword = "",string position = "", int status = 2)
         {
-            return await Task.FromResult(_personnelService.GetAllWithConditions(keyword, status));
+            return await Task.FromResult(_personnelService.GetAllWithConditions(keyword, position, status));
         }
         // DELETE: api/Personnels/5
         [HttpDelete("{id}")]

@@ -16,7 +16,7 @@ namespace LanguageCenterPLC.Application.Interfaces
 
         List<PaySlipViewModel> GetAll();
 
-        List<PaySlipViewModel> GetAllWithConditions(DateTime? startDate, DateTime? endDate,string keyword, int status);
+        List<PaySlipViewModel> GetAllWithConditions(DateTime? startDate, DateTime? endDate,string keyword, int phieuchi, int status);
 
         PagedResult<PaySlipViewModel> GetAllPaging(string keyword, int status, int pageSize, int pageIndex);
 

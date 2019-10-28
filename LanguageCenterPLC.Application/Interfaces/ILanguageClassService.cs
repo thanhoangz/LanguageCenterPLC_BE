@@ -15,12 +15,13 @@ namespace LanguageCenterPLC.Application.Interfaces
         bool Delete(string id);
 
         List<LanguageClassViewModel> GetAll();
+        List<LanguageClassViewModel> GetStatus12(string classId);
 
         LanguageClassViewModel GetById(string id);
 
         void SaveChanges();
 
-        public List<LanguageClassViewModel> GetAllWithConditions(DateTime? start, DateTime? end, string keyword = "", int status = 1);
+        public List<LanguageClassViewModel> GetAllWithConditions(DateTime? start, DateTime? end, string keyword = "", int courseKeyword = -1, int status = 1);
 
         bool IsExists(string id);
     }

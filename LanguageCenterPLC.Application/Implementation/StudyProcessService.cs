@@ -288,6 +288,7 @@ namespace LanguageCenterPLC.Application.Implementation
                 var learner = _learnerRepository.FindById(item.LearnerId);
                 var learnerViewModel = new LearnerViewModel();
                 learnerViewModel.Id = learner.Id;
+                learnerViewModel.CardId = learner.CardId;
                 learnerViewModel.FirstName = learner.FirstName;
                 learnerViewModel.LastName = learner.LastName;
                 learnerViewModel.Sex = learner.Sex;

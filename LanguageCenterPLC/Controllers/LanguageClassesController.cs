@@ -26,6 +26,14 @@ namespace LanguageCenterPLC.Controllers
             return await Task.FromResult(_languageClassService.GetAll());
         }
 
+
+        [HttpPost("/api/LanguageClasses/get-class-status12")]
+        public async Task<ActionResult<IEnumerable<LanguageClassViewModel>>> GetStatus12(string classId)
+        {
+            return await Task.FromResult(_languageClassService.GetStatus12(classId));
+        }
+        
+
         //GET: api/LanguageClasses/5
         [HttpGet("{id}")]
         public async Task<ActionResult<LanguageClassViewModel>> GetLanguageClass(string id)
@@ -105,9 +113,9 @@ namespace LanguageCenterPLC.Controllers
 
 
         [HttpPost("/api/LanguageClasses/get-all-with-conditions")]
-        public async Task<ActionResult<IEnumerable<LanguageClassViewModel>>> GetAllConditions(DateTime? start, DateTime? end,string keyword = "", int status = 1)
+        public async Task<ActionResult<IEnumerable<LanguageClassViewModel>>> GetAllConditions(DateTime? start, DateTime? end,string keyword = "", int courseKeyword = -1, int status = 1)
         {
-            return await Task.FromResult(_languageClassService.GetAllWithConditions(start,end, keyword, status));
+            return await Task.FromResult(_languageClassService.GetAllWithConditions(start,end, keyword, courseKeyword, status));
         }
 
         // DELETE: api/LanguageClasses/5

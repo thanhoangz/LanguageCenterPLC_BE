@@ -77,21 +77,26 @@ namespace LanguageCenterPLC.Application.Implementation
             return personnelViewModels;
         }
 
-        public List<PersonnelViewModel> GetAllWithConditions(string keyword, int status)
+        public List<PersonnelViewModel> GetAllWithConditions(string keyword,string position, int status)
         {
             var query = _personelRepository.FindAll();
 
-            if (!string.IsNullOrEmpty(keyword))
+            if (!string.IsNullOrEmpty(keyword))                 // tìm kiếm tên
             {
-                query = query.Where(x => x.Id.Contains(keyword) || x.LastName.Contains(keyword) || x.FirstName.Contains(keyword) || x.Phone.Contains(keyword) || x.Email.Contains(keyword));
+                query = query.Where(x => x.CardId.Contains(keyword) || x.LastName.Contains(keyword) || x.FirstName.Contains(keyword) || x.Phone.Contains(keyword) || x.Email.Contains(keyword));
 
             }
 
-            Status _status = (Status)status;
+            Status _status = (Status)status;                      // tìm kiếm trạng thái
             if (_status == Status.Active || _status == Status.InActive)    // hoạt động or nghỉ    // kp thì là tất cả
             {
                 query = query.Where(x => x.Status == _status);
             }
+            if (!string.IsNullOrEmpty(position))                 // tìm kiếm chức vụ
+            {
+                query = query.Where(x => x.Position.Contains(position));
+            }
+
 
             var personnelViewModels = Mapper.Map<List<PersonnelViewModel>>(query);
             return personnelViewModels;

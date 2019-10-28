@@ -15,7 +15,7 @@ namespace LanguageCenterPLC.Application.Interfaces
 
 
         List<PersonnelViewModel> GetAll();
-        List<PersonnelViewModel> GetAllWithConditions(string keyword, int status);
+        List<PersonnelViewModel> GetAllWithConditions(string keyword, string position, int status);
 
         PersonnelViewModel GetById(string id);
         bool IsExists(string id);

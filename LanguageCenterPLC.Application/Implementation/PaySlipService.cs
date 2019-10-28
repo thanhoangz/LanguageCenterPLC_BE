@@ -30,6 +30,18 @@ namespace LanguageCenterPLC.Application.Implementation
             {
                 var payslip = Mapper.Map<PaySlipViewModel, PaySlip>(payslipVm);
 
+                string id = _payslipRepository.FindAll().OrderByDescending(x => x.DateCreated).First().Id;
+                payslip.Id = id.Substring(2);
+
+                int newid = Convert.ToInt32(payslip.Id) + 1;
+
+                id = newid.ToString();
+                while (id.Length < 9)
+                {
+                    id = "0" + id;
+                }
+                payslip.Id = "PC" + id;
+
                 _payslipRepository.Add(payslip);
 
                 return true;
@@ -154,7 +166,7 @@ namespace LanguageCenterPLC.Application.Implementation
 
        
 
-        public List<PaySlipViewModel> GetAllWithConditions(DateTime? startDate, DateTime? endDate, string keyword, int status)
+        public List<PaySlipViewModel> GetAllWithConditions(DateTime? startDate, DateTime? endDate, string keyword,int phieuchi, int status)
         {
             var query = _payslipRepository.FindAll();
 
@@ -174,7 +186,11 @@ namespace LanguageCenterPLC.Application.Implementation
             {
                 query = query.Where(x => x.Date >= startDate && x.Date <= endDate);
             }
-            
+            if (phieuchi !=-1)
+            {
+                query = query.Where(x => x.PaySlipTypeId == phieuchi);
+            }
+               
             var payslipViewModel = Mapper.Map<List<PaySlipViewModel>>(query);
 
             return payslipViewModel;

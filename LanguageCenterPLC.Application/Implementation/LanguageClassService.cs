@@ -79,7 +79,24 @@ namespace LanguageCenterPLC.Application.Implementation
             return languageClassViewModel;
         }
 
-        public List<LanguageClassViewModel> GetAllWithConditions(DateTime? start, DateTime? end, string keyword = "", int status = 1)
+        public List<LanguageClassViewModel> GetStatus12(string classId)
+        {
+            var courses = _courseRepository.FindAll().ToList();
+
+            var languageClasses = _languageClassRepository.FindAll().Where(x =>  x.Status != 0 && x.Id != classId).ToList();
+
+            var languageClassViewModel = Mapper.Map<List<LanguageClassViewModel>>(languageClasses);
+
+            foreach (var item in languageClassViewModel)
+            {
+                string name = _courseRepository.FindById(item.CourseId).Name;
+                item.CourseName = name;
+            }
+
+            return languageClassViewModel;
+        }
+
+        public List<LanguageClassViewModel> GetAllWithConditions(DateTime? start, DateTime? end, string keyword = "",int courseKeyword = -1, int status = 1)
         {
             var query = _languageClassRepository.FindAll();
 
@@ -87,9 +104,13 @@ namespace LanguageCenterPLC.Application.Implementation
             {
                 query = query.Where(x => x.Name.Contains(keyword));
             }
+            if (courseKeyword != -1)
+            {
+                query = query.Where(x => x.CourseId == courseKeyword);
+            }
 
             Status _status = (Status)status;
-            if (_status == Status.Active || _status == Status.InActive || _status == Status.Pause)
+            if (_status == Status.Active || _status == Status.InActive || _status == Status.Pause || _status == Status.Stop)
             {
                 query = query.Where(x => x.Status == _status).OrderBy(x => x.Name);
             }

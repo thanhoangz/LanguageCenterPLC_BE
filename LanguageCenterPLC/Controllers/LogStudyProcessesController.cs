@@ -40,6 +40,17 @@ namespace LanguageCenterPLC.Controllers
             return logStudyProcess;
         }
 
+        [HttpPost]
+        [Route("GetAllConditions")]
+        public async Task<ActionResult<IEnumerable<LogStudyProcess>>> GetAllConditions(string keyword)
+        {
+            var logStudyProcess = _context.LogStudyProcesses.Where(x => x.LearnerId == keyword).ToListAsync();
+
+
+            return await logStudyProcess;
+        }
+
+
         // PUT: api/LogStudyProcesses/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
@@ -83,6 +94,8 @@ namespace LanguageCenterPLC.Controllers
 
             return CreatedAtAction("GetLogStudyProcess", new { id = logStudyProcess.Id }, logStudyProcess);
         }
+
+
 
         // DELETE: api/LogStudyProcesses/5
         [HttpDelete("{id}")]
