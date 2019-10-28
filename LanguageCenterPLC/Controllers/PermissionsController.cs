@@ -29,7 +29,7 @@ namespace LanguageCenterPLC.Controllers
 
 
         // GET: api/Permissions
-        [HttpPost]
+        [HttpGet]
         [Route("get-permission-by-user")]
         public async Task<ActionResult<IEnumerable<PermissionViewModel>>> GetPermissionsByUser(string Id)
         {

@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using LanguageCenterPLC.Application.Interfaces;
+using LanguageCenterPLC.Application.ViewModels.Studies;
+using LanguageCenterPLC.Infrastructure.Enums;
+using LanguageCenterPLC.Utilities.Dtos;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using LanguageCenterPLC.Data.EF;
-using LanguageCenterPLC.Data.Entities;
-using LanguageCenterPLC.Application.Interfaces;
-using LanguageCenterPLC.Application.ViewModels.Studies;
-using LanguageCenterPLC.Utilities.Dtos;
-using LanguageCenterPLC.Infrastructure.Enums;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace LanguageCenterPLC.Controllers
 {
