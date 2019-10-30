@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LanguageCenterPLC.Data.EF.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20191027103056_initialize")]
+    [Migration("20191030125859_initialize")]
     partial class initialize
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -290,6 +290,29 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                     b.HasIndex("LearnerId");
 
                     b.ToTable("AttendanceSheetDetails");
+                });
+
+            modelBuilder.Entity("LanguageCenterPLC.Data.Entities.ClassSession", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("TeachingScheduleId")
+                        .HasColumnType("int");
+
+                    b.Property<TimeSpan>("Time")
+                        .HasColumnType("time");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TeachingScheduleId");
+
+                    b.ToTable("ClassSessions");
                 });
 
             modelBuilder.Entity("LanguageCenterPLC.Data.Entities.Classroom", b =>
@@ -1489,7 +1512,6 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("DaysOfWeek")
-                        .IsRequired()
                         .HasColumnType("nvarchar(500)")
                         .HasMaxLength(500);
 
@@ -1847,6 +1869,15 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                     b.HasOne("LanguageCenterPLC.Data.Entities.Learner", "Learner")
                         .WithMany("AttendanceSheetDetails")
                         .HasForeignKey("LearnerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("LanguageCenterPLC.Data.Entities.ClassSession", b =>
+                {
+                    b.HasOne("LanguageCenterPLC.Data.Entities.TeachingSchedule", "TeachingSchedule")
+                        .WithMany("ClassSessions")
+                        .HasForeignKey("TeachingScheduleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

@@ -81,6 +81,9 @@ namespace LanguageCenterPLC.Data.EF
         public DbSet<LogStudyProcess> LogStudyProcesses { set; get; }
 
         public DbSet<LogTuitionRecord> LogTuitionRecords { set; get; }
+
+        public DbSet<ClassSession> ClassSessions { set; get; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             #region Identity Config
