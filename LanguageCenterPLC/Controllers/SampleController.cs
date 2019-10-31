@@ -617,8 +617,121 @@ namespace LanguageCenterPLC.Controllers
                 _context.Permissions.AddRange(permissions);
             }
 
+            if (_context.TimeShifts.Count() == 0)
+            {
+                List<TimeShift> timeShifts = new List<TimeShift>();
 
-                await _context.SaveChangesAsync();
+                TimeSpan timeStart = new TimeSpan(7, 0, 0);
+                TimeSpan timeEnd = new TimeSpan(9, 0, 0);
+                for (int i = 0; i < 6; i++)
+                {
+                    TimeShift timeShift = new TimeShift();
+                    timeShift.Name = "Ca " + (i + 1).ToString();
+                    timeShift.FromTime = timeStart;
+                    timeStart.Add(new TimeSpan(2, 0, 0));
+                    timeShift.ToTime = timeEnd;
+                    timeEnd.Add(new TimeSpan(2, 0, 0));
+
+                    timeShifts.Add(timeShift);
+                }
+                _context.TimeShifts.AddRange(timeShifts);
+            }
+
+
+            if (_context.TeachingSchedules.Count() == 0)
+            {
+                List<TeachingSchedule> teachingSchedules = new List<TeachingSchedule>();
+
+                for (int i = 0; i < 100; i++)
+                {
+                    TeachingSchedule teachingSchedule = new TeachingSchedule();
+                    teachingSchedule.FromDate = DateTime.Now;
+
+                    Random rnd = new Random();
+                    int temp = rnd.Next(1, 60);
+                    teachingSchedule.ToDate = teachingSchedule.FromDate.AddDays(temp);
+                    temp = rnd.Next(1, 3);
+                    teachingSchedule.DaysOfWeek = temp;
+                    teachingSchedule.Status = Status.Active;
+                    teachingSchedule.DateCreated = DateTime.Now;
+                    teachingSchedule.DateModified = DateTime.Now;
+                    temp = rnd.Next(1, 19);
+                    teachingSchedule.LecturerId = _context.Lecturers.ToList()[temp].Id;
+                    temp = rnd.Next(1, 15);
+                    teachingSchedule.ClassroomId = _context.Classrooms.ToList()[temp].Id;
+                    temp = rnd.Next(1, 100);
+                    teachingSchedule.LanguageClassId = _context.LanguageClasses.ToList()[temp].Id;
+
+                    teachingSchedules.Add(teachingSchedule);
+                }
+                _context.TeachingSchedules.AddRange(teachingSchedules);
+            }
+
+
+
+            if (_context.ClassSessions.Count() == 0)
+            {
+                List<ClassSession> classSessions = new List<ClassSession>();
+                var teachingSchedules = _context.TeachingSchedules.ToList();
+                foreach (var item in teachingSchedules)
+                {
+
+                    TimeSpan Time = item.ToDate - item.FromDate;
+                    int totalDay = Time.Days;
+                    Random rnd = new Random();
+                    int temp = rnd.Next(1, 3);
+                    var learnDate = item.FromDate;
+                    int timeshiftTemp = rnd.Next(0, 6);
+                    var timeshift = _context.TimeShifts.ToList()[timeshiftTemp];
+                    for (int i = 1; i <= totalDay; i++)
+                    {
+
+                        if (temp == 1)
+                        {
+                            if (
+                                learnDate.DayOfWeek.ToString() == "Monday"
+                                || learnDate.DayOfWeek.ToString() == "Wednesday"
+                                || learnDate.DayOfWeek.ToString() == "Friday"
+                                )
+                            {
+                                ClassSession classSession1 = new ClassSession();
+                                classSession1.Date = learnDate;
+                                classSession1.FromTime = timeshift.FromTime;
+                                classSession1.ToTime = timeshift.ToTime;
+                                classSession1.TeachingScheduleId = item.Id;
+                                classSessions.Add(classSession1);
+                            }
+
+                        }
+                        else
+                        {
+                            if (
+                                learnDate.DayOfWeek.ToString() == "Tuesday"
+                                || learnDate.DayOfWeek.ToString() == "Thursday"
+                                || learnDate.DayOfWeek.ToString() == "Saturday"
+                                )
+                            {
+                                ClassSession classSession1 = new ClassSession();
+                                classSession1.Date = learnDate;
+                                classSession1.FromTime = timeshift.FromTime;
+                                classSession1.ToTime = timeshift.ToTime;
+                                classSession1.TeachingScheduleId = item.Id;
+                                classSessions.Add(classSession1);
+                            }
+                        }
+                        learnDate = learnDate.AddDays(1);
+                    }
+                }
+
+
+                _context.ClassSessions.AddRange(classSessions);
+            }
+
+
+
+
+
+            await _context.SaveChangesAsync();
 
             return Ok("Đã tạo dữ liệu thành công!");
         }

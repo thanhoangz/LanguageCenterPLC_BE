@@ -9,8 +9,9 @@ namespace LanguageCenterPLC.Data.Entities
     {
         public DateTime Date { get; set; }
 
-        public TimeSpan Time { get; set; }
+        public TimeSpan FromTime { get; set; }
 
+        public TimeSpan ToTime { get; set; }
 
         public int TeachingScheduleId { get; set; }
 
