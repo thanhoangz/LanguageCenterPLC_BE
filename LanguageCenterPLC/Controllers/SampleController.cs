@@ -72,7 +72,7 @@ namespace LanguageCenterPLC.Controllers
 
         #endregion
         [HttpGet]
-        [Route("CreateSample")]
+        [Route("CreateSample_Category")]
         public async Task<Object> CreateSampleData()
         {
 
@@ -249,6 +249,20 @@ namespace LanguageCenterPLC.Controllers
                 _context.GuestTypes.AddRange(listGuest);
             }
 
+
+
+          
+
+
+
+            await _context.SaveChangesAsync();
+
+            return Ok("Đã tạo dữ liệu thành công!");
+        }
+        [HttpGet]
+        [Route("CreateSample_Category_2")]
+        public async Task<Object> CreateSampleData_2()
+        {
             /* Lớp học */
             if (_context.LanguageClasses.Count() == 0)
             {
@@ -258,11 +272,11 @@ namespace LanguageCenterPLC.Controllers
 
                 foreach (var item in Course)
                 {
-                    for (int j = 0; j < 10; j++)
+                    for (int j = 0; j < 5; j++)
                     {
                         LanguageClass _class = new LanguageClass()
                         {
-                            Id = TextHelper.RandomString(50),
+                            Id = TextHelper.RandomString(10),
                             Name = "Lớp " + item.Name + " " + j.ToString(),
                             StartDay = new DateTime(2019, 6, 9),
                             EndDay = new DateTime(2019, 9, 6),
@@ -333,7 +347,7 @@ namespace LanguageCenterPLC.Controllers
             {
 
                 List<Learner> learners = new List<Learner>();
-                for (int j = 0; j < 200; j++)
+                for (int j = 0; j < 50; j++)
                 {
                     Learner learner = new Learner()
                     {
@@ -342,7 +356,7 @@ namespace LanguageCenterPLC.Controllers
                         LastName = TextHelper.GenerateName(4) + " " + TextHelper.GenerateName(4)
                     };
 
-                    learner.Id = TextHelper.RandomString(50);
+                    learner.Id = TextHelper.RandomString(10);
                     learner.CardId = "HV" + "00000" + ((j < 10) ? "000" + j.ToString() : (j < 100) ? "00" + j.ToString() : (j < 1000) ? "0" + j.ToString() : j.ToString());
                     Random gen = new Random();
                     bool result = gen.Next(100) < 50 ? true : false;
@@ -380,7 +394,7 @@ namespace LanguageCenterPLC.Controllers
             {
 
                 List<Lecturer> lecturers = new List<Lecturer>();
-                for (int j = 0; j < 20; j++)
+                for (int j = 0; j < 15; j++)
                 {
                     Lecturer lecturer = new Lecturer()
                     {
@@ -437,7 +451,7 @@ namespace LanguageCenterPLC.Controllers
             if (_context.Personnels.Count() == 0)
             {
                 List<Personnel> personnels = new List<Personnel>();
-                for (int j = 0; j < 20; j++)
+                for (int j = 0; j < 17; j++)
                 {
                     Personnel personnel = new Personnel()
                     {
@@ -446,7 +460,7 @@ namespace LanguageCenterPLC.Controllers
                         LastName = TextHelper.GenerateName(4) + " " + TextHelper.GenerateName(4)
                     };
 
-                    personnel.Id = TextHelper.RandomString(50);
+                    personnel.Id = TextHelper.RandomString(10);
                     personnel.CardId = "NV" + "00000" + ((j < 10) ? "000" + j.ToString() : (j < 100) ? "00" + j.ToString() : (j < 1000) ? "0" + j.ToString() : j.ToString());
                     Random gen = new Random();
                     bool result = gen.Next(100) < 50 ? true : false;
@@ -488,6 +502,20 @@ namespace LanguageCenterPLC.Controllers
                 _context.Personnels.AddRange(personnels);
             }
 
+
+
+
+            await _context.SaveChangesAsync();
+
+            return Ok("Đã tạo dữ liệu thành công!");
+
+        }
+
+
+        [HttpGet]
+        [Route("CreateSample_Category_3")]
+        public async Task<Object> CreateSampleData_3()
+        {
             if (_context.Functions.Count() == 0)
             {
                 List<Function> functions = new List<Function>()
@@ -637,6 +665,18 @@ namespace LanguageCenterPLC.Controllers
                 _context.TimeShifts.AddRange(timeShifts);
             }
 
+            await _context.SaveChangesAsync();
+
+            return Ok("Đã tạo dữ liệu thành công!");
+
+        }
+
+
+
+        [HttpGet]
+        [Route("CreateSample_Category_4")]
+        public async Task<Object> CreateSampleData_4()
+        {
 
             if (_context.TeachingSchedules.Count() == 0)
             {
@@ -655,11 +695,11 @@ namespace LanguageCenterPLC.Controllers
                     teachingSchedule.Status = Status.Active;
                     teachingSchedule.DateCreated = DateTime.Now;
                     teachingSchedule.DateModified = DateTime.Now;
-                    temp = rnd.Next(1, 19);
+                    temp = rnd.Next(1, 14);
                     teachingSchedule.LecturerId = _context.Lecturers.ToList()[temp].Id;
                     temp = rnd.Next(1, 15);
                     teachingSchedule.ClassroomId = _context.Classrooms.ToList()[temp].Id;
-                    temp = rnd.Next(1, 100);
+                    temp = rnd.Next(1, 59);
                     teachingSchedule.LanguageClassId = _context.LanguageClasses.ToList()[temp].Id;
 
                     teachingSchedules.Add(teachingSchedule);
@@ -728,14 +768,10 @@ namespace LanguageCenterPLC.Controllers
             }
 
 
-
-
-
             await _context.SaveChangesAsync();
 
             return Ok("Đã tạo dữ liệu thành công!");
+
         }
-
-
     }
 }
