@@ -148,7 +148,10 @@ namespace LanguageCenterPLC
             services.AddTransient<IStudyProcessService, StudyProcessService>();
             services.AddTransient<IAnnouncementService, AnnouncementService>();
             services.AddTransient<IPermissionService, PermissionService>();
+            
+            services.AddTransient<IReceiptService, ReceiptService>();
 
+            services.AddTransient<IReceiptDetailService, ReceiptDetailService>();
 
             services.AddTransient<IEndingCoursePointService, EndingCoursePointService>();
             services.AddTransient<IEndingCoursePointDetailService, EndingCoursePointDetailService>();

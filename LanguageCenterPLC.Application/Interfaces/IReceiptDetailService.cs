@@ -1,4 +1,5 @@
 ﻿using LanguageCenterPLC.Application.ViewModels.Finances;
+using LanguageCenterPLC.Infrastructure.Enums;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -6,16 +7,21 @@ namespace LanguageCenterPLC.Application.Interfaces
 {
     public interface IReceiptDetailService
     {
-        Task<bool> AddAsync(ReceiptDetailViewModel personnelVm);
+        bool Add(ReceiptDetailViewModel receiptDetailVm);
 
-        Task<bool> UpdateAsync(ReceiptDetailViewModel personnelVm);
+        bool Update(ReceiptDetailViewModel receiptDetailVm);
 
-        Task<bool> DeleteAsync(int id);
+       bool Delete(int id);
 
-        Task<List<ReceiptDetailViewModel>> GetAll();
+        List<ReceiptDetailViewModel> GetAll();
+        List<ReceiptDetailViewModel> GetAllWithConditions(string receiptsId);
 
-        Task<ReceiptDetailViewModel> GetById(int id);
+        ReceiptDetailViewModel GetById(int id);
 
         void SaveChanges();
+
+        bool UpdateStatus(int id, Status status);
+
+        bool IsExists(int id);
     }
 }
