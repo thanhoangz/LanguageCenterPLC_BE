@@ -34,8 +34,5 @@ namespace LanguageCenterPLC.Application.ViewModels.Studies
 
         public int PeriodicPointId { get; set; }
 
-        public  LearnerViewModel Learner { get; set; }
-
-        public  PeriodicPointViewModel PeriodicPoint { get; set; }
     }
 }

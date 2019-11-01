@@ -95,7 +95,7 @@ namespace LanguageCenterPLC.Controllers
                         periodicPoint.DateCreated = DateTime.Now;
                         periodicPoint.DateOnPoint = DateTime.Now;
 
-                        periodicPoint.AppUserId = Guid.Parse("9bbf1041-fe59-45d3-4e58-08d75bb961d2");
+                        periodicPoint.AppUserId = Guid.Parse("bfb51478-8c23-4fe2-3f0b-08d75eddf107");
                         _periodicPointService.Add(periodicPoint);
                         _periodicPointService.SaveChanges();
                         return Ok("Thêm giáo viên thành công!");

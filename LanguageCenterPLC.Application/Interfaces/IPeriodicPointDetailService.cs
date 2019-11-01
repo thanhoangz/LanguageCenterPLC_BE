@@ -8,7 +8,7 @@ namespace LanguageCenterPLC.Application.Interfaces
     {
         bool Add(PeriodicPointDetailViewModel periodicPointDetailVm);
 
-        bool Update(PeriodicPointDetailViewModel periodicPointDetailVm);
+        bool Update(PeriodicPointDetailViewModel periodicPointDetailVm,string classID);
 
         bool Delete(int id);
 
@@ -18,7 +18,6 @@ namespace LanguageCenterPLC.Application.Interfaces
 
         List<PeriodicPointDetailViewModel> GetAllWithConditions(int periodicPointId);
         bool AddRange();
-        bool UpdateRange(int periodicPointId, string classId);
 
         bool IsExists(int id);
         void SaveChanges();

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using LanguageCenterPLC.Application.Interfaces;
 using LanguageCenterPLC.Application.ViewModels.Studies;
+using LanguageCenterPLC.Data.EF;
 using LanguageCenterPLC.Data.Entities;
 using LanguageCenterPLC.Infrastructure.Enums;
 using LanguageCenterPLC.Infrastructure.Interfaces;
@@ -17,7 +18,7 @@ namespace LanguageCenterPLC.Application.Implementation
         private readonly IRepository<PeriodicPoint, int> _periodicPointRepository;
         private readonly IRepository<Learner, string> _learnerRepository;
         private readonly IRepository<StudyProcess, int> _studyProcessRepository;
-
+        private readonly AppDbContext _context;
 
 
 
@@ -25,19 +26,21 @@ namespace LanguageCenterPLC.Application.Implementation
 
         public PeriodicPointDetailService(IRepository<PeriodicPointDetail, int> periodicPointDetailRepository, IRepository<PeriodicPoint,
             int> periodicPointRepository, IRepository<Learner, string> learnerRepository, IRepository<StudyProcess, int> studyProcessRepository,
-          IUnitOfWork unitOfWork)
+          IUnitOfWork unitOfWork, AppDbContext context)
         {
             _periodicPointDetailRepository = periodicPointDetailRepository;
             _periodicPointRepository = periodicPointRepository;
             _learnerRepository = learnerRepository;
             _studyProcessRepository = studyProcessRepository;
             _unitOfWork = unitOfWork;
+            _context = context;
+
         }
         public bool Add(PeriodicPointDetailViewModel periodicPointDetailVm)
         {
             try
             {
-               
+
                 var periodicPointDetail = Mapper.Map<PeriodicPointDetailViewModel, PeriodicPointDetail>(periodicPointDetailVm);
 
                 _periodicPointDetailRepository.Add(periodicPointDetail);
@@ -122,8 +125,8 @@ namespace LanguageCenterPLC.Application.Implementation
 
         public List<PeriodicPointDetailViewModel> GetAllWithConditions(int periodicPointId)
         {
-            
-            var periodicPointDetail = _periodicPointDetailRepository.FindAll().Where(x=>x.PeriodicPointId==periodicPointId);
+
+            var periodicPointDetail = _periodicPointDetailRepository.FindAll().Where(x => x.PeriodicPointId == periodicPointId);
             var periodicPointDetailViewModels = Mapper.Map<List<PeriodicPointDetailViewModel>>(periodicPointDetail);
             foreach (var item in periodicPointDetailViewModels)
             {
@@ -158,78 +161,76 @@ namespace LanguageCenterPLC.Application.Implementation
         {
             _unitOfWork.Commit();
         }
-        
-        public bool Update(PeriodicPointDetailViewModel periodicPointDetailVm)
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="periodicPointDetailVm"></param>
+        /// <param name="classId"></param>
+        /// <returns></returns>
+        public bool Update(PeriodicPointDetailViewModel periodicPointDetailVm, string classId)
         {
-            try
+
+            List<PeriodicPointDetail> details = new List<PeriodicPointDetail>();
+            var periodicPointDetail = _context.PeriodicPointDetails.ToList().Where(x => x.Id == periodicPointDetailVm.Id).Single();
+         
+            periodicPointDetail.DateModified = DateTime.Now;
+
+            // đang xử lý test cập nhật điểm tb tổng
+            var periodicPointInClass = _periodicPointRepository.FindAll().Where(x => x.LanguageClassId == classId && x.Id <= periodicPointDetailVm.PeriodicPointId);
+            foreach (var item in periodicPointInClass)
             {
-                var periodicPointDetail = Mapper.Map<PeriodicPointDetailViewModel, PeriodicPointDetail>(periodicPointDetailVm);
-
-                 List<PeriodicPointDetail> details = new List<PeriodicPointDetail>();
-                 periodicPointDetail.DateModified = DateTime.Now;
-                 _periodicPointDetailRepository.Update(periodicPointDetail);
-
-                /*// đang xử lý test cập nhật điểm tb tổng
-                var periodicPointOfClass = _periodicPointRepository.FindAll().Where(x => x.LanguageClassId == classId && x.Id <= periodicPointDetailVm.PeriodicPointId);
-                foreach (var item in periodicPointOfClass)
-                {
-                    var periodicPointDetailOfLearner = _periodicPointDetailRepository.FindAll().Where(x => x.PeriodicPointId == item.Id && x.LearnerId == periodicPointDetailVm.LearnerId);
-                    details.AddRange(periodicPointDetailOfLearner);
-                }
-                foreach (var item in details)
-                {
-                    if (item.Id != periodicPointDetailVm.Id)
-                    {
-                        periodicPointDetailVm.AveragePoint += item.Point;
-                    }
-                }
-                periodicPointDetailVm.AveragePoint = (periodicPointDetailVm.AveragePoint + periodicPointDetailVm.Point) / (details.Count());*/
-
-                return true;
+                var PointDetail = _periodicPointDetailRepository.FindAll().Where(x => x.PeriodicPointId == item.Id && x.LearnerId == periodicPointDetailVm.LearnerId);
+                details.AddRange(PointDetail);
             }
-            catch
+
+            periodicPointDetail.AveragePoint = 0;
+            foreach (var item in details)
             {
-                return false;
+                if (item.Id != periodicPointDetail.Id)
+                {
+                    periodicPointDetail.AveragePoint += item.Point;
+
+                }
             }
+            periodicPointDetail.AveragePoint = (periodicPointDetail.AveragePoint + periodicPointDetailVm.Point) / details.Count();
+            periodicPointDetail.Point = periodicPointDetailVm.Point;
+            _context.PeriodicPointDetails.Update(periodicPointDetail);
+            UpdateSortIndexRange(periodicPointDetail.PeriodicPointId);
+
+            _context.SaveChanges();
+
+            return false;
+
         }
 
+        
 
-        public bool UpdateRange(int periodicPointId, string classId)
+        public bool UpdateSortIndexRange(int periodicPointId)
         {
             try
             {
-                List<PeriodicPointDetail> details = new List<PeriodicPointDetail>();
-                var periodicPointDetail = _periodicPointDetailRepository.FindAll().Where(x => x.PeriodicPointId == periodicPointId);
+                var allAverPoint = _context.PeriodicPointDetails.Where(x => x.PeriodicPointId == periodicPointId && x.Status == Status.Active).OrderByDescending(x => x.AveragePoint).ToList();
+              
 
-                var periodicPointDetailSX = _periodicPointDetailRepository.FindAll().Where(x => x.PeriodicPointId == periodicPointId).OrderByDescending(x=>x.SortedByPoint);
-
-                var periodicPointDetailSXTB = _periodicPointDetailRepository.FindAll().Where(x => x.PeriodicPointId == periodicPointId).OrderByDescending(x => x.SortedByAveragePoint);
-
-                var periodicPointOfClass = _periodicPointRepository.FindAll().Where(x => x.LanguageClassId == classId && x.Id <= periodicPointId);
-                foreach (var item in periodicPointOfClass)
+                for (int i = 0; i < allAverPoint.Count(); i++)
                 {
-                    var periodicPointDetailOfLearner = _periodicPointDetailRepository.FindAll().Where(x => x.PeriodicPointId == item.Id);
-                    details.AddRange(periodicPointDetailOfLearner);
+
+                    var temp = allAverPoint[i];
+                    temp.SortedByAveragePoint = i+1;
+                    _context.PeriodicPointDetails.Update(temp);
+                }
+                _context.SaveChanges();
+
+                var allPoint = _context.PeriodicPointDetails.Where(x => x.PeriodicPointId == periodicPointId && x.Status == Status.Active).OrderByDescending(x => x.Point).ToList();
+                for (int i = 0; i < allPoint.Count(); i++)
+                {
+                    var temp = allPoint[i];
+                    temp.SortedByPoint= i+1;
+                    _context.PeriodicPointDetails.Update(temp);
                 }
 
-                foreach (var item in periodicPointDetail)
-                {
-                    
-                    decimal pointTB = 0;
-                    var learner = new PeriodicPointDetail();
-                    learner.Id = item.Id;
-                    foreach (var detail in details)
-                    {
-                        if (detail.LearnerId == item.LearnerId)
-                        {
-                            pointTB += detail.Point;
-                        }
-                    }
-                    learner.AveragePoint = pointTB;
-                 // ngu người
-
-
-                }
+                _context.SaveChanges();
                 return true;
             }
             catch
