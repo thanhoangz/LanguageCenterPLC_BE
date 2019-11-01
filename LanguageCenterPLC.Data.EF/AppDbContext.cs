@@ -83,6 +83,7 @@ namespace LanguageCenterPLC.Data.EF
         public DbSet<LogTuitionRecord> LogTuitionRecords { set; get; }
 
         public DbSet<ClassSession> ClassSessions { set; get; }
+        public DbSet<TimeShift> TimeShifts { set; get; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

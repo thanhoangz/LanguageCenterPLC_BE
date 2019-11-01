@@ -72,7 +72,7 @@ namespace LanguageCenterPLC.Controllers
 
         #endregion
         [HttpGet]
-        [Route("CreateSample")]
+        [Route("CreateSample_Category")]
         public async Task<Object> CreateSampleData()
         {
 
@@ -249,6 +249,20 @@ namespace LanguageCenterPLC.Controllers
                 _context.GuestTypes.AddRange(listGuest);
             }
 
+
+
+          
+
+
+
+            await _context.SaveChangesAsync();
+
+            return Ok("Đã tạo dữ liệu thành công!");
+        }
+        [HttpGet]
+        [Route("CreateSample_Category_2")]
+        public async Task<Object> CreateSampleData_2()
+        {
             /* Lớp học */
             if (_context.LanguageClasses.Count() == 0)
             {
@@ -258,11 +272,11 @@ namespace LanguageCenterPLC.Controllers
 
                 foreach (var item in Course)
                 {
-                    for (int j = 0; j < 10; j++)
+                    for (int j = 0; j < 5; j++)
                     {
                         LanguageClass _class = new LanguageClass()
                         {
-                            Id = TextHelper.RandomString(50),
+                            Id = TextHelper.RandomString(10),
                             Name = "Lớp " + item.Name + " " + j.ToString(),
                             StartDay = new DateTime(2019, 6, 9),
                             EndDay = new DateTime(2019, 9, 6),
@@ -333,7 +347,7 @@ namespace LanguageCenterPLC.Controllers
             {
 
                 List<Learner> learners = new List<Learner>();
-                for (int j = 0; j < 200; j++)
+                for (int j = 0; j < 50; j++)
                 {
                     Learner learner = new Learner()
                     {
@@ -342,7 +356,7 @@ namespace LanguageCenterPLC.Controllers
                         LastName = TextHelper.GenerateName(4) + " " + TextHelper.GenerateName(4)
                     };
 
-                    learner.Id = TextHelper.RandomString(50);
+                    learner.Id = TextHelper.RandomString(10);
                     learner.CardId = "HV" + "00000" + ((j < 10) ? "000" + j.ToString() : (j < 100) ? "00" + j.ToString() : (j < 1000) ? "0" + j.ToString() : j.ToString());
                     Random gen = new Random();
                     bool result = gen.Next(100) < 50 ? true : false;
@@ -380,7 +394,7 @@ namespace LanguageCenterPLC.Controllers
             {
 
                 List<Lecturer> lecturers = new List<Lecturer>();
-                for (int j = 0; j < 20; j++)
+                for (int j = 0; j < 15; j++)
                 {
                     Lecturer lecturer = new Lecturer()
                     {
@@ -437,7 +451,7 @@ namespace LanguageCenterPLC.Controllers
             if (_context.Personnels.Count() == 0)
             {
                 List<Personnel> personnels = new List<Personnel>();
-                for (int j = 0; j < 20; j++)
+                for (int j = 0; j < 17; j++)
                 {
                     Personnel personnel = new Personnel()
                     {
@@ -446,7 +460,7 @@ namespace LanguageCenterPLC.Controllers
                         LastName = TextHelper.GenerateName(4) + " " + TextHelper.GenerateName(4)
                     };
 
-                    personnel.Id = TextHelper.RandomString(50);
+                    personnel.Id = TextHelper.RandomString(10);
                     personnel.CardId = "NV" + "00000" + ((j < 10) ? "000" + j.ToString() : (j < 100) ? "00" + j.ToString() : (j < 1000) ? "0" + j.ToString() : j.ToString());
                     Random gen = new Random();
                     bool result = gen.Next(100) < 50 ? true : false;
@@ -488,6 +502,20 @@ namespace LanguageCenterPLC.Controllers
                 _context.Personnels.AddRange(personnels);
             }
 
+
+
+
+            await _context.SaveChangesAsync();
+
+            return Ok("Đã tạo dữ liệu thành công!");
+
+        }
+
+
+        [HttpGet]
+        [Route("CreateSample_Category_3")]
+        public async Task<Object> CreateSampleData_3()
+        {
             if (_context.Functions.Count() == 0)
             {
                 List<Function> functions = new List<Function>()
@@ -617,12 +645,133 @@ namespace LanguageCenterPLC.Controllers
                 _context.Permissions.AddRange(permissions);
             }
 
+            if (_context.TimeShifts.Count() == 0)
+            {
+                List<TimeShift> timeShifts = new List<TimeShift>();
 
-                await _context.SaveChangesAsync();
+                TimeSpan timeStart = new TimeSpan(7, 0, 0);
+                TimeSpan timeEnd = new TimeSpan(9, 0, 0);
+                for (int i = 0; i < 6; i++)
+                {
+                    TimeShift timeShift = new TimeShift();
+                    timeShift.Name = "Ca " + (i + 1).ToString();
+                    timeShift.FromTime = timeStart;
+                    timeStart.Add(new TimeSpan(2, 0, 0));
+                    timeShift.ToTime = timeEnd;
+                    timeEnd.Add(new TimeSpan(2, 0, 0));
+
+                    timeShifts.Add(timeShift);
+                }
+                _context.TimeShifts.AddRange(timeShifts);
+            }
+
+            await _context.SaveChangesAsync();
 
             return Ok("Đã tạo dữ liệu thành công!");
+
         }
 
 
+
+        [HttpGet]
+        [Route("CreateSample_Category_4")]
+        public async Task<Object> CreateSampleData_4()
+        {
+
+            if (_context.TeachingSchedules.Count() == 0)
+            {
+                List<TeachingSchedule> teachingSchedules = new List<TeachingSchedule>();
+
+                for (int i = 0; i < 100; i++)
+                {
+                    TeachingSchedule teachingSchedule = new TeachingSchedule();
+                    teachingSchedule.FromDate = DateTime.Now;
+
+                    Random rnd = new Random();
+                    int temp = rnd.Next(1, 60);
+                    teachingSchedule.ToDate = teachingSchedule.FromDate.AddDays(temp);
+                    temp = rnd.Next(1, 3);
+                    teachingSchedule.DaysOfWeek = temp;
+                    teachingSchedule.Status = Status.Active;
+                    teachingSchedule.DateCreated = DateTime.Now;
+                    teachingSchedule.DateModified = DateTime.Now;
+                    temp = rnd.Next(1, 14);
+                    teachingSchedule.LecturerId = _context.Lecturers.ToList()[temp].Id;
+                    temp = rnd.Next(1, 15);
+                    teachingSchedule.ClassroomId = _context.Classrooms.ToList()[temp].Id;
+                    temp = rnd.Next(1, 59);
+                    teachingSchedule.LanguageClassId = _context.LanguageClasses.ToList()[temp].Id;
+
+                    teachingSchedules.Add(teachingSchedule);
+                }
+                _context.TeachingSchedules.AddRange(teachingSchedules);
+            }
+
+
+
+            if (_context.ClassSessions.Count() == 0)
+            {
+                List<ClassSession> classSessions = new List<ClassSession>();
+                var teachingSchedules = _context.TeachingSchedules.ToList();
+                foreach (var item in teachingSchedules)
+                {
+
+                    TimeSpan Time = item.ToDate - item.FromDate;
+                    int totalDay = Time.Days;
+                    Random rnd = new Random();
+                    int temp = rnd.Next(1, 3);
+                    var learnDate = item.FromDate;
+                    int timeshiftTemp = rnd.Next(0, 6);
+                    var timeshift = _context.TimeShifts.ToList()[timeshiftTemp];
+                    for (int i = 1; i <= totalDay; i++)
+                    {
+
+                        if (temp == 1)
+                        {
+                            if (
+                                learnDate.DayOfWeek.ToString() == "Monday"
+                                || learnDate.DayOfWeek.ToString() == "Wednesday"
+                                || learnDate.DayOfWeek.ToString() == "Friday"
+                                )
+                            {
+                                ClassSession classSession1 = new ClassSession();
+                                classSession1.Date = learnDate;
+                                classSession1.FromTime = timeshift.FromTime;
+                                classSession1.ToTime = timeshift.ToTime;
+                                classSession1.TeachingScheduleId = item.Id;
+                                classSessions.Add(classSession1);
+                            }
+
+                        }
+                        else
+                        {
+                            if (
+                                learnDate.DayOfWeek.ToString() == "Tuesday"
+                                || learnDate.DayOfWeek.ToString() == "Thursday"
+                                || learnDate.DayOfWeek.ToString() == "Saturday"
+                                )
+                            {
+                                ClassSession classSession1 = new ClassSession();
+                                classSession1.Date = learnDate;
+                                classSession1.FromTime = timeshift.FromTime;
+                                classSession1.ToTime = timeshift.ToTime;
+                                classSession1.TeachingScheduleId = item.Id;
+                                classSessions.Add(classSession1);
+                            }
+                        }
+                        learnDate = learnDate.AddDays(1);
+                    }
+                }
+
+
+                _context.ClassSessions.AddRange(classSessions);
+            }
+
+
+            await _context.SaveChangesAsync();
+
+            return Ok("Đã tạo dữ liệu thành công!");
+
+        }
     }
 }

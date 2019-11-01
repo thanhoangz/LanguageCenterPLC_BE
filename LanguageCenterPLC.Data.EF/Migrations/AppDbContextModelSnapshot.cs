@@ -300,10 +300,13 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
+                    b.Property<TimeSpan>("FromTime")
+                        .HasColumnType("time");
+
                     b.Property<int>("TeachingScheduleId")
                         .HasColumnType("int");
 
-                    b.Property<TimeSpan>("Time")
+                    b.Property<TimeSpan>("ToTime")
                         .HasColumnType("time");
 
                     b.HasKey("Id");
@@ -1503,15 +1506,17 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                     b.Property<int>("ClassroomId")
                         .HasColumnType("int");
 
+                    b.Property<string>("Content")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("DateModified")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("DaysOfWeek")
-                        .HasColumnType("nvarchar(500)")
-                        .HasMaxLength(500);
+                    b.Property<int>("DaysOfWeek")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("FromDate")
                         .HasColumnType("datetime2");
@@ -1545,6 +1550,27 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                     b.HasIndex("LecturerId");
 
                     b.ToTable("TeachingSchedules");
+                });
+
+            modelBuilder.Entity("LanguageCenterPLC.Data.Entities.TimeShift", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<TimeSpan>("FromTime")
+                        .HasColumnType("time");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<TimeSpan>("ToTime")
+                        .HasColumnType("time");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TimeShifts");
                 });
 
             modelBuilder.Entity("LanguageCenterPLC.Data.Entities.Timesheet", b =>

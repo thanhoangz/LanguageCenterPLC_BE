@@ -13,13 +13,17 @@ namespace LanguageCenterPLC.Application.ViewModels.Studies
 
         public string TimeShift { get; set; }
 
-        public string DaysOfWeek { get; set; }
+        public int DaysOfWeek { get; set; }
 
         public Status Status { get; set; }
 
         public DateTime DateCreated { get; set; }
 
+
+        public string Content { get; set; }
+
         public DateTime? DateModified { get; set; }
+
 
         public string Note { get; set; }
 

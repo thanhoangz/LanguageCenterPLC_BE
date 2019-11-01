@@ -19,16 +19,8 @@ namespace LanguageCenterPLC.Data.Entities
         [DataType(DataType.Date)]
         public DateTime ToDate { get; set; }
 
-
-        /// <summary>
-        /// Ca học
-        /// </summary>
         [StringLength(500)]
         public string TimeShift { get; set; }
-
-        /// <summary>
-        /// Các ngày học trong tuần
-        /// </summary>
 
         public int DaysOfWeek { get; set; }
 
@@ -45,6 +37,8 @@ namespace LanguageCenterPLC.Data.Entities
         /* Foreign Key */
         [Required]
         public int LecturerId { get; set; }
+
+        public string Content { get; set; }
 
         [Required]
         public int ClassroomId { get; set; }
@@ -63,6 +57,6 @@ namespace LanguageCenterPLC.Data.Entities
         [ForeignKey("LanguageClassId")]
         public virtual LanguageClass LanguageClass { get; set; }
 
-        public virtual ICollection<ClassSession> ClassSessions { set; get; }
+        public ICollection<ClassSession> ClassSessions { set; get; }
     }
 }
