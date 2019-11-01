@@ -1,4 +1,5 @@
-﻿using LanguageCenterPLC.Data.Entities;
+﻿using LanguageCenterPLC.Application.Interfaces;
+using LanguageCenterPLC.Data.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -14,9 +15,11 @@ namespace LanguageCenterPLC.Controllers
     public class UserProfileController : ControllerBase
     {
         private UserManager<AppUser> _userManager;
-        public UserProfileController(UserManager<AppUser> userManager)
+        private readonly IPermissionService _permissionService;
+        public UserProfileController(UserManager<AppUser> userManager, IPermissionService permissionService)
         {
             _userManager = userManager;
+            _permissionService = permissionService;
         }
 
         [HttpGet]
@@ -26,11 +29,12 @@ namespace LanguageCenterPLC.Controllers
         {
             string userId = User.Claims.First(c => c.Type == "UserID").Value;
             var user = await _userManager.FindByIdAsync(userId);
+
+            var permission = _permissionService.GetAllByUser(new Guid(userId));
             return new
             {
-               user,
-
-               
+                user,
+                permission
             };
         }
     }

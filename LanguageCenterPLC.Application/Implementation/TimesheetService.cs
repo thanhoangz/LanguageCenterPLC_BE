@@ -98,7 +98,7 @@ namespace LanguageCenterPLC.Application.Implementation
                         timeSheet.Status = (Status)1;
                         timeSheet.DateCreated = DateTime.Now;
                         timeSheet.DateModified = DateTime.Now;
-                        timeSheet.AppUserId = new Guid("3f2504e0-4f89-11d3-9a0c-0305e82c3301"); // need fix
+                        timeSheet.AppUserId = new Guid("af00337b-7278-46d5-4e50-08d75e211f20"); // need fix
                         timeSheet.PersonnelId = personnel.Id;
                         timeSheet.SalaryOfDay = personnel.SalaryOfDay;
 
