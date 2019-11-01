@@ -79,12 +79,12 @@ namespace LanguageCenterPLC.Application.Implementation
             return languageClassViewModel;
         }
 
-        public List<LanguageClassViewModel> GetStatus12(string classId)
+        public List<LanguageClassViewModel> LopDeChuyen(string classId, int courseId)
         {
             var courses = _courseRepository.FindAll().ToList();
 
-            var languageClasses = _languageClassRepository.FindAll().Where(x =>  x.Status != 0 && x.Id != classId).ToList();
-
+            var languageClasses = _languageClassRepository.FindAll().Where(x =>  x.Status != 0 && x.Id != classId && x.CourseId == courseId).ToList();
+      
             var languageClassViewModel = Mapper.Map<List<LanguageClassViewModel>>(languageClasses);
 
             foreach (var item in languageClassViewModel)

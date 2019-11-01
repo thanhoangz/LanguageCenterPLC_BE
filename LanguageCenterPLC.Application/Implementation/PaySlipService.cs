@@ -179,7 +179,7 @@ namespace LanguageCenterPLC.Application.Implementation
 
             if (_status == Status.Active || _status == Status.InActive || _status == Status.Pause)
             {
-                query = query.Where(x => x.Status == _status).OrderBy(x => x.DateCreated);
+                query = query.Where(x => x.Status == _status).OrderByDescending(x => x.DateCreated);
             }
 
             if (startDate != null && endDate !=null )

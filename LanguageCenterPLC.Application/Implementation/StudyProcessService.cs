@@ -33,7 +33,19 @@ namespace LanguageCenterPLC.Application.Implementation
             {
                 var studyProcess = Mapper.Map<StudyProcessViewModel, StudyProcess>(studyProcessVm);
 
+
                 _studyProcessRepository.Add(studyProcess);
+
+                SaveChanges();
+                var countInClass = _studyProcessRepository.FindAll().Where(x => x.LanguageClassId == studyProcess.LanguageClassId && x.Status == Status.Active).ToList().Count;
+                var languageClass = _languageClassRepository.FindById(studyProcess.LanguageClassId);
+                int max = languageClass.MaxNumber;
+
+                if(countInClass >= max)  
+                {
+                    languageClass.Status = Status.Pause;
+                    _languageClassRepository.Update(languageClass);
+                }
 
                 return true;
             }
@@ -53,8 +65,19 @@ namespace LanguageCenterPLC.Application.Implementation
             try
             {
                 var studyProcess = _studyProcessRepository.FindById(id);
-
                 _studyProcessRepository.Remove(studyProcess);
+
+                var countInClass = _studyProcessRepository.FindAll().Where(x => x.LanguageClassId == studyProcess.LanguageClassId && x.Status == Status.Active).ToList().Count;
+                var languageClass = _languageClassRepository.FindById(studyProcess.LanguageClassId);
+                int max = languageClass.MaxNumber;
+
+                if (countInClass < max)
+                {
+                    languageClass.Status = Status.Active;
+                    _languageClassRepository.Update(languageClass);
+                }
+
+
 
                 return true;
             }
@@ -70,8 +93,18 @@ namespace LanguageCenterPLC.Application.Implementation
             {
                 var id = GetStudyProByLearner(languageClassId, LearnerId);
                 var studyProcess = _studyProcessRepository.FindById(id);
-                _studyProcessRepository.Remove(studyProcess);
 
+                _studyProcessRepository.Remove(studyProcess);
+                SaveChanges();
+                var countInClass = _studyProcessRepository.FindAll().Where(x => x.LanguageClassId == studyProcess.LanguageClassId && x.Status == Status.Active).ToList().Count;
+                var languageClass = _languageClassRepository.FindById(studyProcess.LanguageClassId);
+                int max = languageClass.MaxNumber;
+
+                if (countInClass < max)
+                {
+                    languageClass.Status = Status.Active;
+                    _languageClassRepository.Update(languageClass);
+                }
                 return true;
             }
             catch
@@ -247,6 +280,22 @@ namespace LanguageCenterPLC.Application.Implementation
                 var studyProcess = Mapper.Map<StudyProcessViewModel, StudyProcess>(studyProcessVm);
 
                 _studyProcessRepository.Update(studyProcess);
+                SaveChanges();
+
+                var countInClass = _studyProcessRepository.FindAll().Where(x => x.LanguageClassId == studyProcess.LanguageClassId && x.Status == Status.Active).ToList().Count;
+                var languageClass = _languageClassRepository.FindById(studyProcess.LanguageClassId);
+                int max = languageClass.MaxNumber;
+
+                if (countInClass < max)
+                {
+                    languageClass.Status = Status.Active;
+                    _languageClassRepository.Update(languageClass);
+                }
+                else
+                {
+                    languageClass.Status = Status.Pause;
+                    _languageClassRepository.Update(languageClass);
+                }
 
                 return true;
             }

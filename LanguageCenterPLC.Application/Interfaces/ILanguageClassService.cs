@@ -15,7 +15,7 @@ namespace LanguageCenterPLC.Application.Interfaces
         bool Delete(string id);
 
         List<LanguageClassViewModel> GetAll();
-        List<LanguageClassViewModel> GetStatus12(string classId);
+        List<LanguageClassViewModel> LopDeChuyen(string classId, int courseId);
 
         LanguageClassViewModel GetById(string id);
 

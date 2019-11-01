@@ -41,6 +41,13 @@ namespace LanguageCenterPLC.Controllers
             return await Task.FromResult(leaner);
         }
 
+        // GET: api/Learners/get-by-cardid
+        [HttpGet("/api/Learners/get-by-cardid/{id}")]
+        public async Task<ActionResult<LearnerViewModel>> GetByCardId(string id)
+        {
+            return await Task.FromResult(_learnerService.GetByCardId(id));
+        }
+
         // GET: api/Learners/get-in-class
         [HttpGet("/api/Learners/get-in-class/{id}")]
         public async Task<ActionResult<IEnumerable<LearnerViewModel>>> GetLearnersInClass(string id)

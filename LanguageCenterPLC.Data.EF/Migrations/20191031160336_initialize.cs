@@ -357,6 +357,21 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "TimeShifts",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(nullable: true),
+                    FromTime = table.Column<TimeSpan>(nullable: false),
+                    ToTime = table.Column<TimeSpan>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TimeShifts", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
@@ -854,12 +869,13 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                     FromDate = table.Column<DateTime>(nullable: false),
                     ToDate = table.Column<DateTime>(nullable: false),
                     TimeShift = table.Column<string>(maxLength: 500, nullable: true),
-                    DaysOfWeek = table.Column<string>(maxLength: 500, nullable: false),
+                    DaysOfWeek = table.Column<int>(nullable: false),
                     Status = table.Column<int>(nullable: false),
                     DateCreated = table.Column<DateTime>(nullable: false),
                     DateModified = table.Column<DateTime>(nullable: true),
                     Note = table.Column<string>(nullable: true),
                     LecturerId = table.Column<int>(nullable: false),
+                    Content = table.Column<string>(nullable: true),
                     ClassroomId = table.Column<int>(nullable: false),
                     LanguageClassId = table.Column<string>(nullable: false)
                 },
@@ -1074,6 +1090,28 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ClassSessions",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Date = table.Column<DateTime>(nullable: false),
+                    FromTime = table.Column<TimeSpan>(nullable: false),
+                    ToTime = table.Column<TimeSpan>(nullable: false),
+                    TeachingScheduleId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ClassSessions", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ClassSessions_TeachingSchedules_TeachingScheduleId",
+                        column: x => x.TeachingScheduleId,
+                        principalTable: "TeachingSchedules",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ReceiptDetails",
                 columns: table => new
                 {
@@ -1193,6 +1231,11 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                 name: "IX_AttendanceSheets_TutorId",
                 table: "AttendanceSheets",
                 column: "TutorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ClassSessions_TeachingScheduleId",
+                table: "ClassSessions",
+                column: "TeachingScheduleId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_EndingCoursePointDetails_EndingCoursePointId",
@@ -1374,6 +1417,9 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                 name: "AttendanceSheetDetails");
 
             migrationBuilder.DropTable(
+                name: "ClassSessions");
+
+            migrationBuilder.DropTable(
                 name: "ContactDetails");
 
             migrationBuilder.DropTable(
@@ -1413,10 +1459,10 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                 name: "SystemConfigs");
 
             migrationBuilder.DropTable(
-                name: "TeachingSchedules");
+                name: "Timesheets");
 
             migrationBuilder.DropTable(
-                name: "Timesheets");
+                name: "TimeShifts");
 
             migrationBuilder.DropTable(
                 name: "Announcements");
@@ -1426,6 +1472,9 @@ namespace LanguageCenterPLC.Data.EF.Migrations
 
             migrationBuilder.DropTable(
                 name: "AttendanceSheets");
+
+            migrationBuilder.DropTable(
+                name: "TeachingSchedules");
 
             migrationBuilder.DropTable(
                 name: "EndingCoursePoints");

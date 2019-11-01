@@ -90,7 +90,7 @@ namespace LanguageCenterPLC
                 options.AddPolicy(MyAllowSpecificOrigins,
                 builder =>
                 {
-                    builder.WithOrigins(Configuration["ApplicationSettings:Client_URL"].ToString(), "http://192.168.1.7:4200")
+                    builder.WithOrigins(Configuration["ApplicationSettings:Client_URL"].ToString(), "http://192.168.1.7:4200", "http://localhost:1834")
                                         .AllowAnyHeader()
                                         .AllowAnyMethod()
                                         .AllowAnyOrigin();
@@ -148,7 +148,10 @@ namespace LanguageCenterPLC
             services.AddTransient<IStudyProcessService, StudyProcessService>();
             services.AddTransient<IAnnouncementService, AnnouncementService>();
             services.AddTransient<IPermissionService, PermissionService>();
+            
+            services.AddTransient<IReceiptService, ReceiptService>();
 
+            services.AddTransient<IReceiptDetailService, ReceiptDetailService>();
 
             services.AddTransient<IEndingCoursePointService, EndingCoursePointService>();
             services.AddTransient<IEndingCoursePointDetailService, EndingCoursePointDetailService>();

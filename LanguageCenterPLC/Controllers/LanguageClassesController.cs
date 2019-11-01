@@ -27,10 +27,10 @@ namespace LanguageCenterPLC.Controllers
         }
 
 
-        [HttpPost("/api/LanguageClasses/get-class-status12")]
-        public async Task<ActionResult<IEnumerable<LanguageClassViewModel>>> GetStatus12(string classId)
+        [HttpPost("/api/LanguageClasses/get-class-chuyen-lop")]
+        public async Task<ActionResult<IEnumerable<LanguageClassViewModel>>> LopDeChuyen(string classId, int courseId)
         {
-            return await Task.FromResult(_languageClassService.GetStatus12(classId));
+            return await Task.FromResult(_languageClassService.LopDeChuyen(classId, courseId));
         }
         
 

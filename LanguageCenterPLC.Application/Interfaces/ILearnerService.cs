@@ -13,6 +13,8 @@ namespace LanguageCenterPLC.Application.Interfaces
 
         List<LearnerViewModel> GetAll();
 
+        LearnerViewModel GetByCardId(string cardId);
+
         LearnerViewModel GetById(string id);
 
         void SaveChanges();

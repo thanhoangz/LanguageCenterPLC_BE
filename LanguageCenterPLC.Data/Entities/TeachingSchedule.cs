@@ -2,6 +2,7 @@
 using LanguageCenterPLC.Infrastructure.Interfaces;
 using LanguageCenterPLC.Infrastructure.SharedKernel;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -18,20 +19,10 @@ namespace LanguageCenterPLC.Data.Entities
         [DataType(DataType.Date)]
         public DateTime ToDate { get; set; }
 
-
-        /// <summary>
-        /// Ca học
-        /// </summary>
         [StringLength(500)]
         public string TimeShift { get; set; }
 
-        /// <summary>
-        /// Các ngày học trong tuần
-        /// </summary>
-        [Required]
-
-        [StringLength(500)]
-        public string DaysOfWeek { get; set; }
+        public int DaysOfWeek { get; set; }
 
         [Required]
         public Status Status { get; set; }
@@ -46,6 +37,8 @@ namespace LanguageCenterPLC.Data.Entities
         /* Foreign Key */
         [Required]
         public int LecturerId { get; set; }
+
+        public string Content { get; set; }
 
         [Required]
         public int ClassroomId { get; set; }
@@ -63,5 +56,7 @@ namespace LanguageCenterPLC.Data.Entities
 
         [ForeignKey("LanguageClassId")]
         public virtual LanguageClass LanguageClass { get; set; }
+
+        public ICollection<ClassSession> ClassSessions { set; get; }
     }
 }

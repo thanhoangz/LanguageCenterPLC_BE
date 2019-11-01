@@ -28,9 +28,17 @@ namespace LanguageCenterPLC.Application.ViewModels.Studies
 
         public int ReceiptTypeId { get; set; }
 
+        public string ReceiptTypeName { get; set; }
+
         public string PersonnelId { get; set; }
 
+        public string LearnerId { get; set; }
+
+        public string LearnerName { get; set; }
+
         public Guid AppUserId { get; set; }
+
+        public LearnerViewModel Learner { get; set; }
 
         public PersonnelViewModel Personnel { get; set; }
 

@@ -10,11 +10,19 @@ namespace LanguageCenterPLC.Application.ViewModels.Finances
     {
         public int Id { get; set; }
 
-        public DateTime DateOnPoint { get; set; }
+        public int Month { get; set; }
 
-        public DateTime ExaminationDate { get; set; }
+        public int Year { get; set; }
 
-        public int Week { get; set; }
+        public decimal Tuition { get; set; }
+
+        public decimal FundMoney { get; set; }
+
+        public decimal InfrastructureMoney { get; set; }
+
+        public decimal OtherMoney { get; set; }
+
+        public decimal TotalMoney { get; set; }
 
         public Status Status { get; set; }
 
@@ -23,19 +31,10 @@ namespace LanguageCenterPLC.Application.ViewModels.Finances
         public DateTime? DateModified { get; set; }
 
         public string Note { get; set; }
-
+        public string ReceiptId { get; set; }
         public string LanguageClassId { get; set; }
+        public string LanguageClassName { get; set; }
 
-        public int LecturerId { get; set; }
 
-        public Guid AppUserId { get; set; }
-
-        public  LanguageClassViewModel LanguageClass { get; set; }
-
-        public  LecturerViewModel Lecturer { get; set; }
-
-        public  AppUserViewModel AppUser { get; set; }
-
-        public ICollection<PeriodicPointDetailViewModel> PeriodicPointDetails { set; get; }
     }
 }

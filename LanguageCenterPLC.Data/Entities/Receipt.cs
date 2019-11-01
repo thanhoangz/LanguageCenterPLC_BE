@@ -67,5 +67,6 @@ namespace LanguageCenterPLC.Data.Entities
         /*List of References */
 
         public ICollection<ReceiptDetail> ReceiptDetails { set; get; }
+        public string LearnerId { get; set; }
     }
 }

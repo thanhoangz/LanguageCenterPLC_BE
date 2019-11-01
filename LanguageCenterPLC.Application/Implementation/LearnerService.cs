@@ -117,6 +117,14 @@ namespace LanguageCenterPLC.Application.Implementation
 
             return learnerViewModel;
         }
+        public LearnerViewModel GetByCardId(string cardId = "")
+        {
+            var learner = _learnerRepository.FindAll().Where(x => x.CardId == cardId).Single();
+            
+            
+            var learnerViewModel = Mapper.Map<LearnerViewModel>(learner);
+            return learnerViewModel;
+        }
 
         public List<LearnerViewModel> GetAll()
         {
