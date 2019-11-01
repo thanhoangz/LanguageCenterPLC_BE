@@ -93,8 +93,7 @@ namespace LanguageCenterPLC.Controllers
                     {
                         studyProcess.DateCreated = DateTime.Now;
                         studyProcess.Status = Status.Active;
-                        studyProcess.InDate = DateTime.Now;
-                        studyProcess.OutDate = DateTime.Now;               
+                        studyProcess.InDate = DateTime.Now;              
                         _studyProcessService.Add(studyProcess);
                         _studyProcessService.SaveChanges();
                         return Ok("Thêm thành công!");
