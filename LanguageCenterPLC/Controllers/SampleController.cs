@@ -617,7 +617,14 @@ namespace LanguageCenterPLC.Controllers
             }
 
 
-                await _context.SaveChangesAsync();
+            if(_context.PeriodicPoints.Count() == 0)
+            {
+                List<PeriodicPoint> periodicPoints = new List<PeriodicPoint>();
+                var userId = _context.AppUsers.ToList()[0].Id;
+
+            }
+
+            await _context.SaveChangesAsync();
 
             return Ok("Đã tạo dữ liệu thành công!");
         }

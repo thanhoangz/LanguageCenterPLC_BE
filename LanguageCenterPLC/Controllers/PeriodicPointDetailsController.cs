@@ -109,7 +109,26 @@ namespace LanguageCenterPLC.Controllers
             return CreatedAtAction("GetPeriodicPointDetails()", new { id = periodicPointDetail.Id }, periodicPointDetail);
         }
 
-       
+        [HttpPost("/api/PeriodicPointDetails/post-periodic-point-conditions")]
+        public async Task<ActionResult<PeriodicPointDetailViewModel>> PostPeriodicPointDetailAll()
+        {       
+                try
+                {
+                    await Task.Run(() =>
+                    {
+                        _periodicPointDetailService.AddRange();
+                        _periodicPointDetailService.SaveChanges();
+                        return Ok("Thêm giáo viên thành công!");
+                    });
+
+                }
+                catch
+                {
+
+                    throw new Exception(string.Format("Lỗi khi thêm dữ liệu"));
+                }
+            return Ok();
+        }
 
         // DELETE: api/PeriodicPointDetails/5
         [HttpDelete("{id}")]
@@ -138,6 +157,12 @@ namespace LanguageCenterPLC.Controllers
             return Ok();
         }
 
+        // get all theo điều kiện
+        [HttpPost("/api/PeriodicPointDetails/get-all-with-conditions")]
+        public async Task<ActionResult<IEnumerable<PeriodicPointDetailViewModel>>> GetAllConditions(int periodicPointId)
+        {
+            return await Task.FromResult(_periodicPointDetailService.GetAllWithConditions(periodicPointId));
+        }
         private bool PeriodicPointDetailExists(int id)
         {
             return _periodicPointDetailService.IsExists(id);

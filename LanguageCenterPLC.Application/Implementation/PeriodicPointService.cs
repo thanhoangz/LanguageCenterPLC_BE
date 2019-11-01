@@ -13,13 +13,18 @@ namespace LanguageCenterPLC.Application.Implementation
     public class PeriodicPointService : IPeriodicPointService
     {
         private readonly IRepository<PeriodicPoint, int> _periodicPointRepository;
+        private readonly IRepository<Lecturer, int> _lecturerRepository;
+        private readonly IRepository<LanguageClass, string> _languageclassRepository;
 
         private readonly IUnitOfWork _unitOfWork;
 
         public PeriodicPointService(IRepository<PeriodicPoint, int> periodicPointRepository,
+            IRepository<Lecturer, int> lecturerRepository, IRepository<LanguageClass, string> languageclassRepository,
           IUnitOfWork unitOfWork)
         {
             _periodicPointRepository = periodicPointRepository;
+            _lecturerRepository = lecturerRepository;
+            _languageclassRepository = languageclassRepository;
             _unitOfWork = unitOfWork;
         }
         public bool Add(PeriodicPointViewModel periodicPointVm)
@@ -61,15 +66,31 @@ namespace LanguageCenterPLC.Application.Implementation
             return periodicPointViewModels;
         }
 
-        public List<PeriodicPointViewModel> GetAllWithConditions()
+        public List<PeriodicPointViewModel> GetAllWithConditions(string languageClassId)
         {
-            throw new NotImplementedException();
+            var periodicPoint = _periodicPointRepository.FindAll().Where(x => x.LanguageClassId == languageClassId).OrderBy(x=>x.Week);
+            var periodicPointViewModels = Mapper.Map<List<PeriodicPointViewModel>>(periodicPoint);
+            foreach (var item in periodicPointViewModels)
+            {
+                string lecturerName = _lecturerRepository.FindById(item.LecturerId).FirstName + ' ' + _lecturerRepository.FindById(item.LecturerId).LastName;
+                string languageName = _languageclassRepository.FindById(item.LanguageClassId).Name;
+
+                item.LecturerName = lecturerName;
+                item.LanguageClassName = languageName;
+            }
+            return periodicPointViewModels;
         }
 
         public PeriodicPointViewModel GetById(int id)
         {
             var periodicPoint = _periodicPointRepository.FindById(id);
             var periodicPointViewModel = Mapper.Map<PeriodicPointViewModel>(periodicPoint);
+            string lecturerName = _lecturerRepository.FindById(periodicPointViewModel.LecturerId).FirstName + ' ' + _lecturerRepository.FindById(periodicPointViewModel.LecturerId).LastName;
+            string languageName = _languageclassRepository.FindById(periodicPointViewModel.LanguageClassId).Name;
+
+            periodicPointViewModel.LecturerName = lecturerName;
+            periodicPointViewModel.LanguageClassName = languageName;
+            
             return periodicPointViewModel;
         }
 

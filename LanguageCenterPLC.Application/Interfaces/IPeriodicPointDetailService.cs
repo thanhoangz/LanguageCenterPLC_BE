@@ -16,7 +16,9 @@ namespace LanguageCenterPLC.Application.Interfaces
 
         PeriodicPointDetailViewModel GetById(int id);
 
-        List<PeriodicPointViewModel> GetAllWithConditions();
+        List<PeriodicPointDetailViewModel> GetAllWithConditions(int periodicPointId);
+        bool AddRange();
+        bool UpdateRange(int periodicPointId, string classId);
 
         bool IsExists(int id);
         void SaveChanges();

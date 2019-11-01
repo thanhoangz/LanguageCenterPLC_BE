@@ -1,4 +1,5 @@
 ﻿using LanguageCenterPLC.Application.ViewModels.Studies;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -15,7 +16,8 @@ namespace LanguageCenterPLC.Application.Interfaces
         List<PeriodicPointViewModel> GetAll();
 
         PeriodicPointViewModel GetById(int id);
-        List<PeriodicPointViewModel> GetAllWithConditions();
+        List<PeriodicPointViewModel> GetAllWithConditions( string languageClassId);
+
 
         bool IsExists(int id);
         void SaveChanges();
