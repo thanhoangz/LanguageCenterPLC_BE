@@ -196,9 +196,10 @@ namespace LanguageCenterPLC.Application.Implementation
             periodicPointDetail.AveragePoint = (periodicPointDetail.AveragePoint + periodicPointDetailVm.Point) / details.Count();
             periodicPointDetail.Point = periodicPointDetailVm.Point;
             _context.PeriodicPointDetails.Update(periodicPointDetail);
-            UpdateSortIndexRange(periodicPointDetail.PeriodicPointId);
-
             _context.SaveChanges();
+            UpdateSortIndexRange(periodicPointDetail.PeriodicPointId);
+            _context.SaveChanges();
+
 
             return false;
 
