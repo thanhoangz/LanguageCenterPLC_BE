@@ -6,6 +6,7 @@ using LanguageCenterPLC.Data.Entities;
 using LanguageCenterPLC.Infrastructure.Enums;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -123,5 +124,57 @@ namespace LanguageCenterPLC.Controllers
         {
             return _context.TeachingSchedules.Any(e => e.Id == id);
         }
+
+
+
+        [HttpPost]
+        [Route("get-classsecsion-by-id")]
+        public object GetClassSecListById(string classId)
+        {
+            var schedulesList = _context.TeachingSchedules.Where(x => x.LanguageClassId == classId && x.Status == Status.Active);
+            List<ScheduleViewModel> ScheduleViewModels = new List<ScheduleViewModel>();
+            foreach (var item in schedulesList)
+            {
+                ScheduleViewModel scheduleViewModel = new ScheduleViewModel();
+                scheduleViewModel.Id = item.Id;
+                scheduleViewModel.FromDate = item.FromDate;
+                scheduleViewModel.ToDate = item.ToDate;
+
+                var classSec = _context.ClassSessions.Where(x => x.TeachingScheduleId == item.Id).OrderBy(x => x.Date).ToList();
+                scheduleViewModel.ClassSessions = Mapper.Map<List<ClassSessionViewModel>>(classSec);
+
+                var lecturer = _context.Lecturers.Where(x => x.Id == item.LecturerId).Single();
+                scheduleViewModel.LecturerId = lecturer.Id;
+                scheduleViewModel.LecturerName = lecturer.FirstName +  " " + lecturer.LastName;
+
+                var classroom = _context.Classrooms.Where(x => x.Id == item.ClassroomId).Single();
+
+                scheduleViewModel.ClassroomId = classroom.Id;
+                scheduleViewModel.ClassroomName = classroom.Name;
+                var languageClass = _context.LanguageClasses.Where(x => x.Id == item.LanguageClassId).Single();
+
+                scheduleViewModel.LanguageClassId = languageClass.Id;
+                scheduleViewModel.LanguageClassName = languageClass.Name;
+
+                ScheduleViewModels.Add(scheduleViewModel);
+            }
+
+
+            return ScheduleViewModels;
+
+        }
+
+
+        [HttpPost]
+        [Route("get-classsecssion-for-month")]
+        public object GetClassSecForMonthd(string classId, int month=1, int year=2019)
+        {
+            return new
+            {
+                month, year, classId
+            };
+
+        }
+
     }
 }

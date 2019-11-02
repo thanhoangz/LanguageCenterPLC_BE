@@ -44,7 +44,7 @@ namespace LanguageCenterPLC.Application.AutoMapper
             CreateMap<TeachingSchedule, TeachingScheduleViewModel>();
             CreateMap<Timesheet, TimesheetViewModel>();
             CreateMap<Announcement, AnnouncementViewModel>().MaxDepth(2);
-
+            CreateMap<ClassSession, ClassSessionViewModel>();
         }
     }
 }
