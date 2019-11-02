@@ -83,8 +83,8 @@ namespace LanguageCenterPLC.Application.Implementation
         {
             var courses = _courseRepository.FindAll().ToList();
 
-            var languageClasses = _languageClassRepository.FindAll().Where(x =>  x.Status != 0 && x.Id != classId && x.CourseId == courseId).ToList();
-      
+            var languageClasses = _languageClassRepository.FindAll().Where(x => x.Status != 0 && x.Id != classId && x.CourseId == courseId).ToList();
+
             var languageClassViewModel = Mapper.Map<List<LanguageClassViewModel>>(languageClasses);
 
             foreach (var item in languageClassViewModel)
@@ -96,7 +96,7 @@ namespace LanguageCenterPLC.Application.Implementation
             return languageClassViewModel;
         }
 
-        public List<LanguageClassViewModel> GetAllWithConditions(DateTime? start, DateTime? end, string keyword = "",int courseKeyword = -1, int status = 1)
+        public List<LanguageClassViewModel> GetAllWithConditions(DateTime? start, DateTime? end, string keyword = "", int courseKeyword = -1, int status = 1)
         {
             var query = _languageClassRepository.FindAll();
 
@@ -174,6 +174,13 @@ namespace LanguageCenterPLC.Application.Implementation
             {
                 return false;
             }
+        }
+
+        public List<LanguageClassViewModel> GetLanguageClassesByCourse(int courseId)
+        {
+            var languageClasse = _languageClassRepository.FindAll().Where(x => x.CourseId == courseId && x.Status == Status.Active);
+            var languageClassesViewModel = Mapper.Map<List<LanguageClassViewModel>>(languageClasse);
+            return languageClassesViewModel;
         }
     }
 }

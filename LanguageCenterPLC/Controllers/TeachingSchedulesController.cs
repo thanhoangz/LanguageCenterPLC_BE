@@ -128,10 +128,10 @@ namespace LanguageCenterPLC.Controllers
 
 
         [HttpPost]
-        [Route("get-classsecsion-by-id")]
-        public object GetClassSecListById(string classId)
+        [Route("getbyclass/{ClassId}")]
+        public object GetClassSecListById(string ClassId)
         {
-            var schedulesList = _context.TeachingSchedules.Where(x => x.LanguageClassId == classId && x.Status == Status.Active);
+            var schedulesList = _context.TeachingSchedules.Where(x => x.LanguageClassId == ClassId && x.Status == Status.Active);
             List<ScheduleViewModel> ScheduleViewModels = new List<ScheduleViewModel>();
             foreach (var item in schedulesList)
             {
