@@ -23,6 +23,8 @@ namespace LanguageCenterPLC.Application.Interfaces
 
         public List<LanguageClassViewModel> GetAllWithConditions(DateTime? start, DateTime? end, string keyword = "", int courseKeyword = -1, int status = 1);
 
+
+        List<LanguageClassViewModel> GetLanguageClassesByCourse(int courseId);
         bool IsExists(string id);
     }
 }

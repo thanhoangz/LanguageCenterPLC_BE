@@ -51,6 +51,7 @@ namespace LanguageCenterPLC.Application.AutoMapper
             CreateMap<ReceiptDetailViewModel, ReceiptDetail>();
             CreateMap<ReceiptTypeViewModel, ReceiptType>();
             CreateMap<StudyProcessViewModel, StudyProcess>();
+            CreateMap<ClassSessionViewModel, ClassSession>();
             CreateMap<SystemConfigViewModel, SystemConfig>();
             CreateMap<TeachingScheduleViewModel, TeachingSchedule>();
             CreateMap<TimesheetViewModel, Timesheet>();

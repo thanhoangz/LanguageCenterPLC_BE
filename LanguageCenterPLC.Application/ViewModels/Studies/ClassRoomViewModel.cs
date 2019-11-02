@@ -1,6 +1,5 @@
 ﻿using LanguageCenterPLC.Infrastructure.Enums;
 using System;
-using System.Collections.Generic;
 
 namespace LanguageCenterPLC.Application.ViewModels.Studies
 {
@@ -17,7 +16,5 @@ namespace LanguageCenterPLC.Application.ViewModels.Studies
         public DateTime? DateModified { get; set; }
 
         public string Note { get; set; }
-
-        public ICollection<TeachingScheduleViewModel> TeachingSchedules { set; get; }
     }
 }

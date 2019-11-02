@@ -6,7 +6,7 @@ namespace LanguageCenterPLC.Application.ViewModels.Studies
 {
     public class TeachingScheduleViewModel
     {
-      public int Id { get; set; }
+        public int Id { get; set; }
         public DateTime FromDate { get; set; }
 
         public DateTime ToDate { get; set; }
@@ -41,5 +41,7 @@ namespace LanguageCenterPLC.Application.ViewModels.Studies
         public  ClassroomViewModel ClassRoom { get; set; }
 
         public  LanguageClassViewModel LanguageClass { get; set; }
+
+        
     }
 }

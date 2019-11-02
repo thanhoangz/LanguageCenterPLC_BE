@@ -102,6 +102,7 @@ namespace LanguageCenterPLC
             services.AddAutoMapper();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0).AddNewtonsoftJson();
+              
 
             services.AddSingleton(Mapper.Configuration);
 
