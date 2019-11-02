@@ -38,7 +38,7 @@ namespace LanguageCenterPLC.Application.Implementation
             }
         }
 
-        public bool AddRange(int month, int year)
+        public bool AddRange(int month, int year , Guid userId)
         {
 
             try
@@ -98,7 +98,7 @@ namespace LanguageCenterPLC.Application.Implementation
                         timeSheet.Status = (Status)1;
                         timeSheet.DateCreated = DateTime.Now;
                         timeSheet.DateModified = DateTime.Now;
-                        timeSheet.AppUserId = new Guid("af00337b-7278-46d5-4e50-08d75e211f20"); // need fix
+                        timeSheet.AppUserId = userId; // need fix
                         timeSheet.PersonnelId = personnel.Id;
                         timeSheet.SalaryOfDay = personnel.SalaryOfDay;
 

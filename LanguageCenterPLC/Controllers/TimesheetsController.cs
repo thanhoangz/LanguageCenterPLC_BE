@@ -112,13 +112,13 @@ namespace LanguageCenterPLC.Controllers
             return CreatedAtAction("GetLecturer()", new { id = timesheet.Id }, timesheet);
         }
         [HttpPost("/api/Timesheets/post-timesheet-conditions")]
-        public async Task<ActionResult<IEnumerable<TimesheetViewModel>>> PostTimesheetConditions(int month, int year)
+        public async Task<ActionResult<IEnumerable<TimesheetViewModel>>> PostTimesheetConditions(int month, int year, Guid userId)
         {
             try
             {
                 await Task.Run(() =>
                 {                  
-                    _timesheetService.AddRange(month +1,year);
+                    _timesheetService.AddRange(month +1,year, userId);
                     _timesheetService.SaveChanges();
                     return Ok("Thêm thành công!");
                 });

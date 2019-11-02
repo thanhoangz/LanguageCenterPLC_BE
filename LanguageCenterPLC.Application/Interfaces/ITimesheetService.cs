@@ -1,4 +1,5 @@
 ﻿using LanguageCenterPLC.Application.ViewModels.Timekeepings;
+using System;
 using System.Collections.Generic;
 
 namespace LanguageCenterPLC.Application.Interfaces
@@ -19,7 +20,7 @@ namespace LanguageCenterPLC.Application.Interfaces
         bool IsExists(int id);
         bool IsExistsTimeSheetCondition(int month, int year, string personnelId);
 
-        bool AddRange(int month, int year);
+        bool AddRange(int month, int year, Guid userId);
         
         void SaveChanges();
     }
