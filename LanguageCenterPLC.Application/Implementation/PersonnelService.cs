@@ -92,9 +92,9 @@ namespace LanguageCenterPLC.Application.Implementation
             {
                 query = query.Where(x => x.Status == _status);
             }
-            if (!string.IsNullOrEmpty(position))                 // tìm kiếm chức vụ
+            if ( position != "Tất cả")                 // tìm kiếm chức vụ
             {
-                query = query.Where(x => x.Position.Contains(position));
+                query = query.Where(x => x.Position == position );
             }
 
 

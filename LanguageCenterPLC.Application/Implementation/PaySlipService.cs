@@ -5,6 +5,7 @@ using LanguageCenterPLC.Data.Entities;
 using LanguageCenterPLC.Infrastructure.Enums;
 using LanguageCenterPLC.Infrastructure.Interfaces;
 using LanguageCenterPLC.Utilities.Dtos;
+using LanguageCenterPLC.Utilities.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,17 +31,7 @@ namespace LanguageCenterPLC.Application.Implementation
             {
                 var payslip = Mapper.Map<PaySlipViewModel, PaySlip>(payslipVm);
 
-                string id = _payslipRepository.FindAll().OrderByDescending(x => x.DateCreated).First().Id;
-                payslip.Id = id.Substring(2);
-
-                int newid = Convert.ToInt32(payslip.Id) + 1;
-
-                id = newid.ToString();
-                while (id.Length < 9)
-                {
-                    id = "0" + id;
-                }
-                payslip.Id = "PC" + id;
+                payslip.Id = TextHelper.RandomNumber(10);
 
                 _payslipRepository.Add(payslip);
 
@@ -172,7 +163,7 @@ namespace LanguageCenterPLC.Application.Implementation
 
             if (!string.IsNullOrEmpty(keyword))
             {
-                query = query.Where(x => x.Id.Contains(keyword));
+                query = query.Where(x => x.Id == keyword);
             }
 
             Status _status = (Status)status;
