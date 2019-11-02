@@ -682,7 +682,7 @@ namespace LanguageCenterPLC.Controllers
             {
                 List<TeachingSchedule> teachingSchedules = new List<TeachingSchedule>();
 
-                for (int i = 0; i < 100; i++)
+                for (int i = 0; i < 10; i++)
                 {
                     TeachingSchedule teachingSchedule = new TeachingSchedule();
                     teachingSchedule.FromDate = DateTime.Now;
@@ -690,7 +690,7 @@ namespace LanguageCenterPLC.Controllers
                     Random rnd = new Random();
                     int temp = rnd.Next(1, 60);
                     teachingSchedule.ToDate = teachingSchedule.FromDate.AddDays(temp);
-                    temp = rnd.Next(1, 3);
+                    temp = rnd.Next(1, 4);
                     teachingSchedule.DaysOfWeek = temp;
                     teachingSchedule.Status = Status.Active;
                     teachingSchedule.DateCreated = DateTime.Now;
@@ -699,8 +699,7 @@ namespace LanguageCenterPLC.Controllers
                     teachingSchedule.LecturerId = _context.Lecturers.ToList()[temp].Id;
                     temp = rnd.Next(1, 15);
                     teachingSchedule.ClassroomId = _context.Classrooms.ToList()[temp].Id;
-                    temp = rnd.Next(1, 59);
-                    teachingSchedule.LanguageClassId = _context.LanguageClasses.ToList()[temp].Id;
+                    teachingSchedule.LanguageClassId = _context.LanguageClasses.ToList()[i].Id;
 
                     teachingSchedules.Add(teachingSchedule);
                 }

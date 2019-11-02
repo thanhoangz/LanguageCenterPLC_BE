@@ -92,6 +92,10 @@ namespace LanguageCenterPLC.Controllers
                 {
                     await Task.Run(() =>
                     {
+                        periodicPoint.DateCreated = DateTime.Now;
+                        periodicPoint.DateOnPoint = DateTime.Now;
+
+                        periodicPoint.AppUserId = Guid.Parse("bfb51478-8c23-4fe2-3f0b-08d75eddf107");
                         _periodicPointService.Add(periodicPoint);
                         _periodicPointService.SaveChanges();
                         return Ok("Thêm giáo viên thành công!");
@@ -112,9 +116,9 @@ namespace LanguageCenterPLC.Controllers
 
         [HttpPost]
         [Route("get-all-with-conditions")]
-        public async Task<ActionResult<IEnumerable<PeriodicPointViewModel>>> GetAllConditions()
+        public async Task<ActionResult<IEnumerable<PeriodicPointViewModel>>> GetAllConditions(string languageClassId)
         {
-            return await Task.FromResult(_periodicPointService.GetAllWithConditions());
+            return await Task.FromResult(_periodicPointService.GetAllWithConditions(languageClassId));
         }
 
 

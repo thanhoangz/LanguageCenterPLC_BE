@@ -25,7 +25,11 @@ namespace LanguageCenterPLC.Application.ViewModels.Studies
 
         public string LanguageClassId { get; set; }
 
+        public string LanguageClassName { get; set; }
+
         public int LecturerId { get; set; }
+
+        public string LecturerName { get; set; }
 
         public Guid AppUserId { get; set; }
 
