@@ -38,7 +38,7 @@ namespace LanguageCenterPLC.Application.Implementation
                 int newCardId = Convert.ToInt32(personnel.CardId) + 1;
                 
                 cardId = newCardId.ToString();
-                while (cardId.Length < 9)
+                while (cardId.Length < 7)
                 {
                     cardId = "0" + cardId;
                 }

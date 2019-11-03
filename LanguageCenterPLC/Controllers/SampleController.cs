@@ -61,13 +61,32 @@ namespace LanguageCenterPLC.Controllers
 
         public List<string> _national = new List<string>()
         {
-            "Việt Nam",
-            "Mỹ",
-            "Úc",
-            "Canada",
-            "Pháp",
-            "Nhật",
-            "Trung quốc"
+            "Việt Nam","Mỹ","Úc","Canada","Pháp","Nhật","Trung quốc"
+        };
+
+
+        public List<string> firstName = new List<string>()
+        {
+            "Nguyễn","Vũ","Đào","Lê","Trần","Bá","Tôn","Triệu","Khinh","Vương","Lý","Lưu","Hoàng","Ngô","Cao","Bác","Kiến"
+        };
+
+        public List<string> midNameFemale = new List<string>()
+        {
+            "Ái","Lan","Ngọc","Như","Quỳnh","Thảo","Thu","Thủy","Trâm","Hạ","Gia"
+        };
+
+        public List<string> midNameMale = new List<string>()
+        {
+            "Nhược","Hải","Tịnh","Kỳ","Y","Đức","Cao","Vĩ","Khải","Bằng","Dương","Hạ","Gia","Lịch"
+        };
+
+        public List<string> lastNameMale = new List<string>()
+        {
+            "Lãng","Hiên","Cường","Kỳ","Kiệt","Đức","Cao","Vĩ","Khải","Bằng","Dương","Hạc","Gia","Lịch"
+        };
+        public List<string> lastNameFemale = new List<string>()
+        {
+            "Duệ","Lệ","Vũ","Tú","Quỳnh","Tuyết","Trân","Liên","Di","Nguyệt","Kha","Hi","Giai","Dao"
         };
 
         #endregion
@@ -190,18 +209,9 @@ namespace LanguageCenterPLC.Controllers
                     {
                         new Course() { Name="Toiec",Content="", TraingTime = 4, Price = 20000,NumberOfSession = 32, DateCreated = DateTime.Now, DateModified = DateTime.Now, Status = Status.Active},
                         new Course() { Name="Ielts",Content="", TraingTime = 4, Price = 690000,NumberOfSession = 32, DateCreated = DateTime.Now, DateModified = DateTime.Now, Status = Status.Active},
-                        new Course() { Name="Anh văn cơ bản 1",Content="", TraingTime = 4, Price = 208000,NumberOfSession = 32, DateCreated = DateTime.Now, DateModified = DateTime.Now, Status = Status.Active},
-                        new Course() { Name="Giao tiếp A2",Content="", TraingTime = 4, Price = 202000,NumberOfSession = 32, DateCreated = DateTime.Now, DateModified = DateTime.Now, Status = Status.Active},
-
-                        new Course() { Name="Toiec 450",Content="", TraingTime = 9, Price = 20000,NumberOfSession = 32, DateCreated = DateTime.Now, DateModified = DateTime.Now, Status = Status.Active},
-                        new Course() { Name="Ielts - đọc",Content="", TraingTime = 8, Price = 690000,NumberOfSession = 32, DateCreated = DateTime.Now, DateModified = DateTime.Now, Status = Status.Active},
-                        new Course() { Name="Anh văn cơ bản 2",Content="", TraingTime = 4, Price = 700000,NumberOfSession = 32, DateCreated = DateTime.Now, DateModified = DateTime.Now, Status = Status.Active},
-                        new Course() { Name="Giao tiếp A5",Content="", TraingTime = 7, Price = 20000,NumberOfSession = 32, DateCreated = DateTime.Now, DateModified = DateTime.Now, Status = Status.Active},
-
-                        new Course() { Name="Toiec 700",Content="", TraingTime = 4, Price = 20000,NumberOfSession = 32, DateCreated = DateTime.Now, DateModified = DateTime.Now, Status = Status.Active},
-                        new Course() { Name="Ielts - viết",Content="", TraingTime = 4, Price = 690000,NumberOfSession = 32, DateCreated = DateTime.Now, DateModified = DateTime.Now, Status = Status.Active},
-                        new Course() { Name="Anh văn cơ bản 3",Content="", TraingTime = 6, Price = 600000,NumberOfSession = 32, DateCreated = DateTime.Now, DateModified = DateTime.Now, Status = Status.Active},
-                        new Course() { Name="Giao tiếp B1",Content="", TraingTime = 6, Price = 200020,NumberOfSession = 32, DateCreated = DateTime.Now, DateModified = DateTime.Now, Status = Status.Active},
+                        new Course() { Name="Anh văn cơ bản",Content="", TraingTime = 4, Price = 208000,NumberOfSession = 32, DateCreated = DateTime.Now, DateModified = DateTime.Now, Status = Status.Active},
+                        new Course() { Name="Giao tiếp",Content="", TraingTime = 4, Price = 202000,NumberOfSession = 32, DateCreated = DateTime.Now, DateModified = DateTime.Now, Status = Status.Active},
+                        new Course() { Name="Luyện phát âm",Content="", TraingTime = 9, Price = 20000,NumberOfSession = 32, DateCreated = DateTime.Now, DateModified = DateTime.Now, Status = Status.Active},
                     };
                 _context.Courses.AddRange(listCourses);
             }
@@ -249,12 +259,6 @@ namespace LanguageCenterPLC.Controllers
                 _context.GuestTypes.AddRange(listGuest);
             }
 
-
-
-          
-
-
-
             await _context.SaveChangesAsync();
 
             return Ok("Đã tạo dữ liệu thành công!");
@@ -277,7 +281,7 @@ namespace LanguageCenterPLC.Controllers
                         LanguageClass _class = new LanguageClass()
                         {
                             Id = TextHelper.RandomString(10),
-                            Name = "Lớp " + item.Name + " " + j.ToString(),
+                            Name = item.Name + " " + j.ToString(),
                             StartDay = new DateTime(2019, 6, 9),
                             EndDay = new DateTime(2019, 9, 6),
                             CourseFee = 20000,
@@ -351,17 +355,27 @@ namespace LanguageCenterPLC.Controllers
                 {
                     Learner learner = new Learner()
                     {
-                        CardId = TextHelper.RandomNumber(10),
-                        FirstName = TextHelper.GenerateName(5),
-                        LastName = TextHelper.GenerateName(4) + " " + TextHelper.GenerateName(4)
+                        CardId = TextHelper.RandomNumber(10)
                     };
 
                     learner.Id = TextHelper.RandomString(10);
-                    learner.CardId = "HV" + "00000" + ((j < 10) ? "000" + j.ToString() : (j < 100) ? "00" + j.ToString() : (j < 1000) ? "0" + j.ToString() : j.ToString());
+                    learner.CardId = "HV" + "000" + ((j < 10) ? "000" + j.ToString() : (j < 100) ? "00" + j.ToString() : (j < 1000) ? "0" + j.ToString() : j.ToString());
                     Random gen = new Random();
                     bool result = gen.Next(100) < 50 ? true : false;
                     learner.Sex = result;
 
+                    if (learner.Sex)
+                    {
+                        Random ranName = new Random();
+                        learner.FirstName = firstName[ranName.Next(16)];
+                        learner.LastName = midNameMale[ranName.Next(14)] + " " + lastNameMale[ranName.Next(14)];
+                    }
+                    else
+                    {
+                        Random ranName = new Random();
+                        learner.FirstName = firstName[ranName.Next(16)];
+                        learner.LastName = midNameMale[ranName.Next(11)] + " " + lastNameMale[ranName.Next(14)];
+                    }
                     Random r = new Random();
                     DateTime rDate = new DateTime(r.Next(1900, 2010), r.Next(1, 12), r.Next(1, 28));
 
@@ -398,15 +412,27 @@ namespace LanguageCenterPLC.Controllers
                 {
                     Lecturer lecturer = new Lecturer()
                     {
-                        CardId = TextHelper.RandomNumber(10),
-                        FirstName = TextHelper.GenerateName(5),
-                        LastName = TextHelper.GenerateName(4) + " " + TextHelper.GenerateName(4)
+                        CardId = TextHelper.RandomNumber(10)
                     };
 
                     Random gen = new Random();
                     bool result = gen.Next(100) < 50 ? true : false;
                     lecturer.Sex = result;
-                    lecturer.CardId = "GV" + "00000" + ((j < 10) ? "000" + j.ToString() : (j < 100) ? "00" + j.ToString() : (j < 1000) ? "0" + j.ToString() : j.ToString());
+
+                    if (lecturer.Sex)
+                    {
+                        Random ranName = new Random();
+                        lecturer.FirstName = firstName[ranName.Next(16)];
+                        lecturer.LastName = midNameMale[ranName.Next(14)] + " " + lastNameMale[ranName.Next(14)];
+                    }
+                    else
+                    {
+                        Random ranName = new Random();
+                        lecturer.FirstName = firstName[ranName.Next(16)];
+                        lecturer.LastName = midNameMale[ranName.Next(11)] + " " + lastNameMale[ranName.Next(14)];
+                    }
+
+                    lecturer.CardId = "GV" + "000" + ((j < 10) ? "000" + j.ToString() : (j < 100) ? "00" + j.ToString() : (j < 1000) ? "0" + j.ToString() : j.ToString());
                     Random r = new Random();
                     DateTime rDate = new DateTime(r.Next(1900, 2010), r.Next(1, 12), r.Next(1, 28));
 
@@ -455,16 +481,27 @@ namespace LanguageCenterPLC.Controllers
                 {
                     Personnel personnel = new Personnel()
                     {
-                        CardId = TextHelper.RandomNumber(10),
-                        FirstName = TextHelper.GenerateName(5),
-                        LastName = TextHelper.GenerateName(4) + " " + TextHelper.GenerateName(4)
+                        CardId = TextHelper.RandomNumber(10)
                     };
 
                     personnel.Id = TextHelper.RandomString(10);
-                    personnel.CardId = "NV" + "00000" + ((j < 10) ? "000" + j.ToString() : (j < 100) ? "00" + j.ToString() : (j < 1000) ? "0" + j.ToString() : j.ToString());
+                    personnel.CardId = "NV" + "000" + ((j < 10) ? "000" + j.ToString() : (j < 100) ? "00" + j.ToString() : (j < 1000) ? "0" + j.ToString() : j.ToString());
                     Random gen = new Random();
                     bool result = gen.Next(100) < 50 ? true : false;
                     personnel.Sex = result;
+
+                    if (personnel.Sex)
+                    {
+                        Random ranName = new Random();
+                        personnel.FirstName = firstName[ranName.Next(16)];
+                        personnel.LastName = midNameMale[ranName.Next(14)] + " " + lastNameMale[ranName.Next(14)];
+                    }
+                    else
+                    {
+                        Random ranName = new Random();
+                        personnel.FirstName = firstName[ranName.Next(16)];
+                        personnel.LastName = midNameMale[ranName.Next(11)] + " " + lastNameMale[ranName.Next(14)];
+                    }
 
                     Random r = new Random();
                     DateTime rDate = new DateTime(r.Next(1900, 2010), r.Next(1, 12), r.Next(1, 28));
