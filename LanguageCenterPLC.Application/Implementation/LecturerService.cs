@@ -77,9 +77,9 @@ namespace LanguageCenterPLC.Application.Implementation
             return lecturerViewModels;
         }
 
-        public List<LecturerViewModel> GetAllWithConditions(string cardId = "", string name = "", bool? sex = true, int status = -1)
+        public List<LecturerViewModel> GetAllWithConditions(string keyword, string position, int status)
         {
-            var query = _lecturerRepository.FindAll();
+            /*var query = _lecturerRepository.FindAll();
             if (!string.IsNullOrEmpty(cardId))
             {
                 query = query.Where(x => x.CardId.Contains(cardId));
@@ -109,6 +109,34 @@ namespace LanguageCenterPLC.Application.Implementation
 
             var lecturerViewModels = Mapper.Map<List<LecturerViewModel>>(query);
 
+            return lecturerViewModels;*/
+
+            var query = _lecturerRepository.FindAll();
+
+            if (!string.IsNullOrEmpty(keyword))                 // tìm kiếm tên
+            {
+                query = query.Where(x => x.CardId.Contains(keyword) || x.LastName.Contains(keyword) || x.FirstName.Contains(keyword) || x.Phone.Contains(keyword) || x.Email.Contains(keyword));
+
+            }
+
+            Status _status = (Status)status;                      // tìm kiếm trạng thái
+            if (_status == Status.Active || _status == Status.InActive)    // hoạt động or nghỉ    // kp thì là tất cả
+            {
+                query = query.Where(x => x.Status == _status);
+            }
+            if (position != "Tất cả")                 // tìm kiếm chức vụ
+            {
+                if (position != "Trợ giảng")
+                {
+                    query = query.Where(x => x.Position == position);
+                } else
+                {
+                    query = query.Where(x => x.Position == position || x.IsTutor == true);
+                }
+            }
+
+
+            var lecturerViewModels = Mapper.Map<List<LecturerViewModel>>(query);
             return lecturerViewModels;
         }
 
