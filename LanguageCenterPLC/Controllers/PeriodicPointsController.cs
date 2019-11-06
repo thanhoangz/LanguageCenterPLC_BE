@@ -84,7 +84,7 @@ namespace LanguageCenterPLC.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
-        public async Task<ActionResult<PeriodicPointViewModel>> PostPeriodicPoint(PeriodicPointViewModel periodicPoint)
+        public async Task<ActionResult<PeriodicPointViewModel>> PostPeriodicPoint(PeriodicPointViewModel periodicPoint , Guid userId)
         {
             if (periodicPoint != null)
             {
@@ -95,7 +95,7 @@ namespace LanguageCenterPLC.Controllers
                         periodicPoint.DateCreated = DateTime.Now;
                         periodicPoint.DateOnPoint = DateTime.Now;
 
-                        periodicPoint.AppUserId = Guid.Parse("bfb51478-8c23-4fe2-3f0b-08d75eddf107");
+                        periodicPoint.AppUserId = userId;
                         _periodicPointService.Add(periodicPoint);
                         _periodicPointService.SaveChanges();
                         return Ok("Thêm giáo viên thành công!");

@@ -15,7 +15,7 @@ namespace LanguageCenterPLC.Application.Interfaces
         List<EndingCoursePointViewModel> GetAll();
 
         EndingCoursePointViewModel GetById(int id);
-        List<EndingCoursePointViewModel> GetAllWithConditions();
+        EndingCoursePointViewModel GetAllWithConditions(string languageClassId);
 
         bool IsExists(int id);
         void SaveChanges();

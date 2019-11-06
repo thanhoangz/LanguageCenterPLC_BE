@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using LanguageCenterPLC.Application.Interfaces;
 using LanguageCenterPLC.Application.ViewModels.Studies;
+using LanguageCenterPLC.Data.EF;
 using LanguageCenterPLC.Data.Entities;
+using LanguageCenterPLC.Infrastructure.Enums;
 using LanguageCenterPLC.Infrastructure.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -13,14 +15,23 @@ namespace LanguageCenterPLC.Application.Implementation
     public class EndingCoursePointDetailService : IEndingCoursePointDetailService
     {
         private readonly IRepository<EndingCoursePointDetail, int> _endingCoursePointDetailRepository;
-
+        private readonly IRepository<EndingCoursePoint, int> _endingCoursePoinRepository;
+        private readonly IRepository<Learner, string> _learnerRepository;
+        private readonly IRepository<StudyProcess, int> _studyProcessRepository;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly AppDbContext _context;
+
 
         public EndingCoursePointDetailService(IRepository<EndingCoursePointDetail, int> endingCoursePointDetailRepository,
-          IUnitOfWork unitOfWork)
+          IUnitOfWork unitOfWork, IRepository<Learner, string> learnerRepository, IRepository<StudyProcess, int> studyProcessRepository, 
+          IRepository<EndingCoursePoint, int> endingCoursePoinRepository, AppDbContext context)
         {
             _endingCoursePointDetailRepository = endingCoursePointDetailRepository;
+            _endingCoursePoinRepository = endingCoursePoinRepository;
+            _learnerRepository = learnerRepository;
+            _studyProcessRepository = studyProcessRepository;
             _unitOfWork = unitOfWork;
+            _context = context;
         }
 
 
@@ -31,6 +42,55 @@ namespace LanguageCenterPLC.Application.Implementation
                 var endingCoursePointDetail = Mapper.Map<EndingCoursePointDetailViewModel, EndingCoursePointDetail>(endingCoursePointDetailVm);
 
                 _endingCoursePointDetailRepository.Add(endingCoursePointDetail);
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public bool AddRange()
+        {
+            try
+            {
+                // tìm id endingpoint lớn nhất để lấy giá trị thêm vào chi tiết
+                var endingCoursePoint = _endingCoursePoinRepository.FindAll();
+                int endingCoursePointId = 0;
+                string languageId = "";
+                foreach (var item in endingCoursePoint)
+                {
+                    if (endingCoursePointId < item.Id)
+                    {
+                        endingCoursePointId = item.Id;
+                        languageId = item.LanguageClassId;
+                    }
+
+                }
+
+                var learner = _studyProcessRepository.FindAll();
+
+
+                //qwery ra điều kiện cần
+                var learnerQwery = learner.Where(x => x.LanguageClassId == languageId).ToList();
+                foreach (var item in learnerQwery)
+                {
+                    var endingCoursePointDetail = new EndingCoursePointDetail();
+                    endingCoursePointDetail.ListeningPoint = 0;
+                    endingCoursePointDetail.SayingPoint = 0;
+                    endingCoursePointDetail.ReadingPoint = 0;
+                    endingCoursePointDetail.WritingPoint = 0;
+                    endingCoursePointDetail.TotalPoint = 0;
+                    endingCoursePointDetail.DateCreated = DateTime.Now;
+                    endingCoursePointDetail.SortOrder = 0;
+                    endingCoursePointDetail.LearnerId = item.LearnerId;
+                    endingCoursePointDetail.EndingCoursePointId = endingCoursePointId;
+                    endingCoursePointDetail.Status = (Status)1;
+                    _endingCoursePointDetailRepository.Add(endingCoursePointDetail);
+                    _unitOfWork.Commit();
+
+                }
 
                 return true;
             }
@@ -63,9 +123,25 @@ namespace LanguageCenterPLC.Application.Implementation
             return endingCoursePointDetailViewModels;
         }
 
-        public List<EndingCoursePointDetailViewModel> GetAllWithConditions()
+        public List<EndingCoursePointDetailViewModel> GetAllWithConditions(int endingPointId)
         {
-            throw new NotImplementedException();
+             
+            var endingPointPointDetail = _endingCoursePointDetailRepository.FindAll().Where(x => x.EndingCoursePointId == endingPointId);
+            var endingCoursePointDetailViewModels = Mapper.Map<List<EndingCoursePointDetailViewModel>>(endingPointPointDetail);
+            foreach (var item in endingCoursePointDetailViewModels)
+            {
+                string name = _learnerRepository.FindById(item.LearnerId).FirstName + ' ' + _learnerRepository.FindById(item.LearnerId).LastName;
+                DateTime briday = _learnerRepository.FindById(item.LearnerId).Birthday;
+                bool sex = _learnerRepository.FindById(item.LearnerId).Sex;
+                string cardId = _learnerRepository.FindById(item.LearnerId).CardId;
+
+                item.LearnerName = name;
+                item.LearnerBriday = briday;
+                item.LearnerSex = sex;
+                item.LearnerCardId = cardId;
+
+            }
+            return endingCoursePointDetailViewModels;
         }
 
         public EndingCoursePointDetailViewModel GetById(int id)
@@ -92,7 +168,47 @@ namespace LanguageCenterPLC.Application.Implementation
             {
                 var endingCoursePointDetail = Mapper.Map<EndingCoursePointDetailViewModel, EndingCoursePointDetail>(endingCoursePointDetailVm);
                 endingCoursePointDetail.DateModified = DateTime.Now;
+                endingCoursePointDetail.TotalPoint = endingCoursePointDetail.ListeningPoint + endingCoursePointDetail.SayingPoint 
+                    + endingCoursePointDetail.ReadingPoint + endingCoursePointDetail.WritingPoint;
+                endingCoursePointDetail.AveragePoint = (endingCoursePointDetail.ListeningPoint + endingCoursePointDetail.SayingPoint
+                    + endingCoursePointDetail.ReadingPoint + endingCoursePointDetail.WritingPoint) / 4;
                 _endingCoursePointDetailRepository.Update(endingCoursePointDetail);
+                _context.SaveChanges();
+
+                UpdateSortIndexRange(endingCoursePointDetail.EndingCoursePointId);
+                _context.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public bool UpdateSortIndexRange(int endingPointId)
+        {
+            try
+            {
+                var allAverPoint = _context.EndingCoursePointDetails.Where(x => x.EndingCoursePointId == endingPointId && x.Status == Status.Active).OrderByDescending(x => x.TotalPoint).ToList();
+                var totalPoint = _context.EndingCoursePointDetails.Where(x => x.EndingCoursePointId == endingPointId && x.Status == Status.Active)
+                .Select(x=>x.TotalPoint).Distinct().OrderByDescending(x=>x).ToList();
+
+                for (int i = 0; i < allAverPoint.Count(); i++)
+                {
+                   
+                    var temp = allAverPoint[i];
+                   for (int j = 0; j < totalPoint.Count(); j++)
+                   {
+                       if (temp.TotalPoint == totalPoint[j])
+                       {
+                           temp.SortOrder = j+1;
+
+                      }                     
+                   }
+                    _context.EndingCoursePointDetails.Update(temp);
+
+                }
+                _context.SaveChanges();
                 return true;
             }
             catch

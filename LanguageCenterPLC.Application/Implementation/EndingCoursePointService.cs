@@ -13,13 +13,16 @@ namespace LanguageCenterPLC.Application.Implementation
     public class EndingCoursePointService : IEndingCoursePointService
     {
         private readonly IRepository<EndingCoursePoint, int> _endingCoursePointRepository;
-
+        private readonly IRepository<Lecturer, int> _lecturerRepository;
+        private readonly IRepository<LanguageClass, string> _languageclassRepository;
         private readonly IUnitOfWork _unitOfWork;
 
         public EndingCoursePointService(IRepository<EndingCoursePoint, int> endingCoursePointRepository,
-          IUnitOfWork unitOfWork)
+          IUnitOfWork unitOfWork, IRepository<Lecturer, int> lecturerRepository, IRepository<LanguageClass, string> languageclassRepository)
         {
             _endingCoursePointRepository = endingCoursePointRepository;
+            _lecturerRepository = lecturerRepository;
+            _languageclassRepository = languageclassRepository;
             _unitOfWork = unitOfWork;
         }
 
@@ -62,9 +65,26 @@ namespace LanguageCenterPLC.Application.Implementation
             return endingCoursePointViewModels;
         }
 
-        public List<EndingCoursePointViewModel> GetAllWithConditions()
+        public EndingCoursePointViewModel GetAllWithConditions(string languageClassId)
         {
-            throw new NotImplementedException();
+            var endingCoursePoints = _endingCoursePointRepository.FindAll().Where(x => x.LanguageClassId == languageClassId).SingleOrDefault();
+           
+            var endingCoursePointViewModels = Mapper.Map<EndingCoursePointViewModel>(endingCoursePoints);
+            if (endingCoursePoints != null)
+            {
+                string lecturerName = _lecturerRepository.FindById(endingCoursePointViewModels.LecturerId).FirstName + ' ' + _lecturerRepository.FindById(endingCoursePointViewModels.LecturerId).LastName;
+                string languageName = _languageclassRepository.FindById(endingCoursePointViewModels.LanguageClassId).Name;
+
+                endingCoursePointViewModels.LecturerName = lecturerName;
+                endingCoursePointViewModels.LanguageClassName = languageName;
+            }
+            else
+            {
+                endingCoursePointViewModels = null;
+            }
+
+            return endingCoursePointViewModels;
+
         }
 
         public EndingCoursePointViewModel GetById(int id)
