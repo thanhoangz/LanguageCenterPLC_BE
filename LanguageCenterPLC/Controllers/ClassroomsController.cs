@@ -124,7 +124,7 @@ namespace LanguageCenterPLC.Controllers
         }
 
         [HttpPost("/api/Classrooms/get-all-with-conditions")]
-        public async Task<ActionResult<IEnumerable<ClassroomViewModel>>> GetAllConditions(string keyword = "", int status = 1)
+        public async Task<ActionResult<IEnumerable<ClassroomViewModel>>> GetAllConditions(string keyword = "", int status = -1)
         {
             return await Task.FromResult(_classroomService.GetAllWithConditions(keyword, status));
         }

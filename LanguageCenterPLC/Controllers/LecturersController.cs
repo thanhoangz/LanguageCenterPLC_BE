@@ -24,6 +24,7 @@ namespace LanguageCenterPLC.Controllers
         public async Task<ActionResult<IEnumerable<LecturerViewModel>>> GetLecturers()
         {
             return await Task.FromResult(_lecturerService.GetAll());
+
         }
 
         // GET: api/Lecturers/5
@@ -109,9 +110,9 @@ namespace LanguageCenterPLC.Controllers
 
         [HttpPost]
         [Route("get-all-with-conditions")]
-        public async Task<ActionResult<IEnumerable<LecturerViewModel>>> GetAllConditions(string cardId = "", string name = "", bool? sex = null, int status = -1)
+        public async Task<ActionResult<IEnumerable<LecturerViewModel>>> GetAllConditions(string keyword = "", string position = "", int status = -1)
         {
-            return await Task.FromResult(_lecturerService.GetAllWithConditions(cardId, name, sex, status));
+            return await Task.FromResult(_lecturerService.GetAllWithConditions(keyword, position, status));
         }
 
         // DELETE: api/Lecturers/5

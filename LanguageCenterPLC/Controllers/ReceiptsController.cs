@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using LanguageCenterPLC.Data.EF;
-using LanguageCenterPLC.Data.Entities;
-using LanguageCenterPLC.Application.Interfaces;
+﻿using LanguageCenterPLC.Application.Interfaces;
 using LanguageCenterPLC.Application.ViewModels.Studies;
 using LanguageCenterPLC.Utilities.Dtos;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace LanguageCenterPLC.Controllers
 {
@@ -30,6 +26,23 @@ namespace LanguageCenterPLC.Controllers
         {
             return await Task.FromResult(_receiptService.GetAll());
         }
+
+
+        /*
+        [HttpGet]
+        [Route("asdasd")]
+        public async Task<Object> GetReceiptDetails()
+        {
+            var  phieuthu = _receiptService.GetAll();
+            var x = new {
+                id = 2,
+                name = "asdasdasd",
+                DanhSachPhieu = phieuthu
+            };
+
+            return x;
+        }
+        */
 
         // GET: api/Receipts/5
         [HttpGet("{id}")]

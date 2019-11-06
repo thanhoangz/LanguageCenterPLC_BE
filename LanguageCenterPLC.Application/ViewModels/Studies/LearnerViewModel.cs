@@ -41,7 +41,8 @@ namespace LanguageCenterPLC.Application.ViewModels.Studies
         public DateTime DateCreated { get; set; }
         public DateTime? DateModified { get; set; }
 
-        public int GuestTypeId { get; set; } 
+        public int GuestTypeId { get; set; }
+        public string GuestTypeName { get; set; }
 
         public virtual GuestTypeViewModel GuestTypeViewModel { get; set; }
 
