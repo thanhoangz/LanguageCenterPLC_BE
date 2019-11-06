@@ -55,6 +55,19 @@ namespace LanguageCenterPLC.Controllers
             return await Task.FromResult(_learnerService.GetAllInClass(id));
         }
 
+        // GET: api/Learners/get-chua-co-lop
+        [HttpGet("/api/Learners/get-chua-co-lop")]
+        public async Task<ActionResult<IEnumerable<LearnerViewModel>>> GetChuaCoLop()
+        {
+            return await Task.FromResult(_learnerService.ChuaCoLop());
+        }
+        // GET: api/Learners/get-da-co-lop
+        [HttpGet("/api/Learners/get-da-co-lop")]
+        public async Task<ActionResult<IEnumerable<LearnerViewModel>>> GetDaCoLop()
+        {
+            return await Task.FromResult(_learnerService.DaCoLop());
+        }
+
         // GET: api/Learners/get-out-class
         [HttpGet("/api/Learners/get-out-class/{id}")]
         public async Task<ActionResult<IEnumerable<LearnerViewModel>>> GetLearnersOutClass(string id)
@@ -67,6 +80,13 @@ namespace LanguageCenterPLC.Controllers
         public async Task<ActionResult<IEnumerable<LearnerViewModel>>> GetLearnersOutClassWithCondition(string classId, string keyword)
         {
             return await Task.FromResult(_learnerService.GetOutClassWithCondition(classId, keyword));
+        }
+
+        [HttpPost]
+        [Route("get-all-with-conditions")]
+        public async Task<ActionResult<IEnumerable<LearnerViewModel>>> GetAllConditions(string keyword = "", int status = 1)
+        {
+            return await Task.FromResult(_learnerService.GetAllWithConditions(keyword, status));
         }
 
         // PUT: api/Learners/5

@@ -14,6 +14,7 @@ namespace LanguageCenterPLC.Application.Interfaces
         List<LearnerViewModel> GetAll();
 
         LearnerViewModel GetByCardId(string cardId);
+        List<LearnerViewModel> GetAllWithConditions(string keyword, int status);
 
         LearnerViewModel GetById(string id);
 
@@ -24,5 +25,7 @@ namespace LanguageCenterPLC.Application.Interfaces
         public List<LearnerViewModel> GetAllInClass(string classId);
         public List<LearnerViewModel> GetAllOutClass(string classId);
         public List<LearnerViewModel> GetOutClassWithCondition(string classId, string keyword);
+        public List<LearnerViewModel> ChuaCoLop();
+        public List<LearnerViewModel> DaCoLop();
     }
 }

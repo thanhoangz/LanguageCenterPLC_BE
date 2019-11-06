@@ -31,14 +31,14 @@ namespace LanguageCenterPLC.Application.Implementation
 
                 #region sinh mã cardId tăng tự động
                 personnel.DateCreated = DateTime.Now;
-                personnel.Id = TextHelper.RandomString(50);
+                personnel.Id = TextHelper.RandomString(10);
                 string cardId = _personelRepository.FindAll().OrderByDescending(x => x.DateCreated).First().CardId;
                 personnel.CardId = cardId.Substring(2);
 
                 int newCardId = Convert.ToInt32(personnel.CardId) + 1;
                 
                 cardId = newCardId.ToString();
-                while (cardId.Length < 7)
+                while (cardId.Length < 5)
                 {
                     cardId = "0" + cardId;
                 }

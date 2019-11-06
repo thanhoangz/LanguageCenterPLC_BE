@@ -79,37 +79,7 @@ namespace LanguageCenterPLC.Application.Implementation
 
         public List<LecturerViewModel> GetAllWithConditions(string keyword, string position, int status)
         {
-            /*var query = _lecturerRepository.FindAll();
-            if (!string.IsNullOrEmpty(cardId))
-            {
-                query = query.Where(x => x.CardId.Contains(cardId));
-            }
-
-            if (!string.IsNullOrEmpty(name))
-            {
-                query = query.Where(x => x.LastName.Contains(name) || x.FirstName.Contains(name));
-            }         
-
-            if (sex != null)
-            {
-                query = query.Where(x => x.Sex == sex).OrderBy(x => x.LastName);
-            }
-            else
-            {
-                query = query.Where(x => x.Sex == true || x.Sex == false ).OrderBy(x => x.LastName);
-            }
-            Status _status = (Status)status;
-            if (status != -1)
-            {
-                if (_status == Status.Active || _status == Status.InActive)
-                {
-                    query = query.Where(x => x.Status == _status).OrderBy(x => x.LastName);
-                }
-            }
-
-            var lecturerViewModels = Mapper.Map<List<LecturerViewModel>>(query);
-
-            return lecturerViewModels;*/
+            
 
             var query = _lecturerRepository.FindAll();
 

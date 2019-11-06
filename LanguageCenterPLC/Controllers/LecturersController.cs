@@ -24,6 +24,7 @@ namespace LanguageCenterPLC.Controllers
         public async Task<ActionResult<IEnumerable<LecturerViewModel>>> GetLecturers()
         {
             return await Task.FromResult(_lecturerService.GetAll());
+
         }
 
         // GET: api/Lecturers/5

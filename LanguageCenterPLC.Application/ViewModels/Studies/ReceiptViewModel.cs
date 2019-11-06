@@ -46,6 +46,7 @@ namespace LanguageCenterPLC.Application.ViewModels.Studies
 
         public ReceiptTypeViewModel ReceiptType { get; set; }
 
-        public ICollection<ReceiptDetailViewModel> ReceiptDetails { set; get; }
+   //     public List<ReceiptDetailViewModel> ReceiptDetails { get; set; }
+
     }
 }
