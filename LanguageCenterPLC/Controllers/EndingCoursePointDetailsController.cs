@@ -107,13 +107,37 @@ namespace LanguageCenterPLC.Controllers
 
             return CreatedAtAction("GetEndingCoursePointDetails()", new { id = endingCoursePointDetail.Id }, endingCoursePointDetail);
         }
+        /// <summary>
+        ///  Add all leaner
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost("/api/EndingCoursePointDetails/post-ending-point-conditions")]
+        public async Task<ActionResult<EndingCoursePointDetailViewModel>> PostEndingPointDetailAll()
+        {
+            try
+            {
+                await Task.Run(() =>
+                {
+                    _endingCoursePointDetailService.AddRange();
+                    _endingCoursePointDetailService.SaveChanges();
+                    return Ok("Thêm giáo viên thành công!");
+                });
+
+            }
+            catch
+            {
+
+                throw new Exception(string.Format("Lỗi khi thêm dữ liệu"));
+            }
+            return Ok();
+        }
 
 
         [HttpPost]
         [Route("get-all-with-conditions")]
-        public async Task<ActionResult<IEnumerable<EndingCoursePointDetailViewModel>>> GetAllConditions()
+        public async Task<ActionResult<IEnumerable<EndingCoursePointDetailViewModel>>> GetAllConditions( int endingPointId)
         {
-            return await Task.FromResult(_endingCoursePointDetailService.GetAllWithConditions());
+            return await Task.FromResult(_endingCoursePointDetailService.GetAllWithConditions(endingPointId));
         }
 
 

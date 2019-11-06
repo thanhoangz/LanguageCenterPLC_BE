@@ -84,7 +84,7 @@ namespace LanguageCenterPLC.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
-        public async Task<ActionResult<EndingCoursePointViewModel>> PostEndingCoursePoint(EndingCoursePointViewModel endingCoursePoint)
+        public async Task<ActionResult<EndingCoursePointViewModel>> PostEndingCoursePoint(EndingCoursePointViewModel endingCoursePoint, Guid userId)
         {
             if (endingCoursePoint != null)
             {
@@ -92,6 +92,9 @@ namespace LanguageCenterPLC.Controllers
                 {
                     await Task.Run(() =>
                     {
+                        endingCoursePoint.DateModified = DateTime.Now;
+                        endingCoursePoint.DateOnPoint = DateTime.Now;
+                        endingCoursePoint.AppUserId = userId;
                         _endingCoursePointService.Add(endingCoursePoint);
                         _endingCoursePointService.SaveChanges();
                         return Ok("Thêm giáo viên thành công!");
@@ -111,9 +114,9 @@ namespace LanguageCenterPLC.Controllers
 
         [HttpPost]
         [Route("get-all-with-conditions")]
-        public async Task<ActionResult<IEnumerable<EndingCoursePointViewModel>>> GetAllConditions()
+        public async Task<ActionResult<EndingCoursePointViewModel>> GetAllConditions(string languageClassId)
         {
-            return await Task.FromResult(_endingCoursePointService.GetAllWithConditions());
+            return await Task.FromResult(_endingCoursePointService.GetAllWithConditions(languageClassId));
         }
         // DELETE: api/EndingCoursePoints/5
         [HttpDelete("{id}")]

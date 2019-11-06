@@ -29,7 +29,13 @@ namespace LanguageCenterPLC.Application.ViewModels.Studies
 
         /* Foreign Key */
         public string LearnerId { get; set; }
+        public string LearnerName { get; set; }
 
+        public string LearnerCardId { get; set; }
+
+        public DateTime LearnerBriday { get; set; }
+
+        public bool LearnerSex { get; set; }
         public int EndingCoursePointId { get; set; }
 
         public  LearnerViewModel Learner { get; set; }

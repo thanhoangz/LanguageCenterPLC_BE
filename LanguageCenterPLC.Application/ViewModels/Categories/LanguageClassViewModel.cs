@@ -1,9 +1,5 @@
-﻿using LanguageCenterPLC.Application.ViewModels.Finances;
-using LanguageCenterPLC.Application.ViewModels.Studies;
-using LanguageCenterPLC.Application.ViewModels.Timekeepings;
-using LanguageCenterPLC.Infrastructure.Enums;
+﻿using LanguageCenterPLC.Infrastructure.Enums;
 using System;
-using System.Collections.Generic;
 
 
 namespace LanguageCenterPLC.Application.ViewModels.Categories
@@ -37,12 +33,6 @@ namespace LanguageCenterPLC.Application.ViewModels.Categories
         public int CourseId { get; set; }
 
         public int MaxNumber { get; set; }
-        public ICollection<StudyProcessViewModel> StudyProcesses { set; get; }
-        public ICollection<EndingCoursePointViewModel> EndingCoursePoints { set; get; }
-        public ICollection<PeriodicPointViewModel> PeriodicPoints { set; get; }
-        public ICollection<TeachingScheduleViewModel> TeachingSchedules { set; get; }
-        public ICollection<ReceiptDetailViewModel> ReceiptDetails { set; get; }
-        public ICollection<AttendanceSheetViewModel> AttendanceSheets { set; get; }
-        public ICollection<AttendanceSheetDetailViewModel> AttendanceSheetDetails { set; get; }
+       
     }
 }

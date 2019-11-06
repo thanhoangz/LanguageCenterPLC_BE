@@ -34,14 +34,15 @@ namespace LanguageCenterPLC.Application.ViewModels.Studies
 
         public string LanguageClassId { get; set; }
 
+        public int TimeShiftId { get; set; }
         /*Reference Table*/
 
-        public  LecturerViewModel Lecturer { get; set; }
+        public LecturerViewModel Lecturer { get; set; }
 
-        public  ClassroomViewModel ClassRoom { get; set; }
+        public ClassroomViewModel ClassRoom { get; set; }
 
-        public  LanguageClassViewModel LanguageClass { get; set; }
+        public LanguageClassViewModel LanguageClass { get; set; }
 
-        
+
     }
 }

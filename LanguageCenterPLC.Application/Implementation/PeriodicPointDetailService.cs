@@ -163,7 +163,7 @@ namespace LanguageCenterPLC.Application.Implementation
         }
 
         /// <summary>
-        /// 
+        /// Update thần sầu đừng hỏi vì k nhớ đâu bưởi ạ
         /// </summary>
         /// <param name="periodicPointDetailVm"></param>
         /// <param name="classId"></param>
@@ -171,19 +171,21 @@ namespace LanguageCenterPLC.Application.Implementation
         public bool Update(PeriodicPointDetailViewModel periodicPointDetailVm, string classId)
         {
 
-            List<PeriodicPointDetail> details = new List<PeriodicPointDetail>();
-            var periodicPointDetail = _context.PeriodicPointDetails.ToList().Where(x => x.Id == periodicPointDetailVm.Id).Single();
-         
+            List<PeriodicPointDetail> details = new List<PeriodicPointDetail>(); // danh sách chứa điểm của học viên từ tuần hiện tại và những tuần trc đó
+
+            var periodicPointDetail = _context.PeriodicPointDetails.ToList().Where(x => x.Id == periodicPointDetailVm.Id).Single();// tìm thằng hiện tại
             periodicPointDetail.DateModified = DateTime.Now;
 
             // đang xử lý test cập nhật điểm tb tổng
+            // tìm tất cả bảng điểm của lớp đó từ tuần hiện tại trở về trc
             var periodicPointInClass = _periodicPointRepository.FindAll().Where(x => x.LanguageClassId == classId && x.Id <= periodicPointDetailVm.PeriodicPointId);
             foreach (var item in periodicPointInClass)
             {
                 var PointDetail = _periodicPointDetailRepository.FindAll().Where(x => x.PeriodicPointId == item.Id && x.LearnerId == periodicPointDetailVm.LearnerId);
-                details.AddRange(PointDetail);
+                details.AddRange(PointDetail); // điểm của thằng học viên hiện tại các tuần
             }
 
+            // tính điểm trung bình tổng
             periodicPointDetail.AveragePoint = 0;
             foreach (var item in details)
             {
@@ -197,6 +199,7 @@ namespace LanguageCenterPLC.Application.Implementation
             periodicPointDetail.Point = periodicPointDetailVm.Point;
             _context.PeriodicPointDetails.Update(periodicPointDetail);
             _context.SaveChanges();
+            // sắp xếp thứ tự
             UpdateSortIndexRange(periodicPointDetail.PeriodicPointId);
             _context.SaveChanges();
 
@@ -211,23 +214,41 @@ namespace LanguageCenterPLC.Application.Implementation
         {
             try
             {
+                // Sắp xếp theo điểm trung bình
                 var allAverPoint = _context.PeriodicPointDetails.Where(x => x.PeriodicPointId == periodicPointId && x.Status == Status.Active).OrderByDescending(x => x.AveragePoint).ToList();
-              
+                var avePoint = _context.PeriodicPointDetails.Where(x => x.PeriodicPointId == periodicPointId && x.Status == Status.Active)
+                 .Select(x => x.AveragePoint).Distinct().OrderByDescending(x => x).ToList();
 
                 for (int i = 0; i < allAverPoint.Count(); i++)
                 {
 
                     var temp = allAverPoint[i];
-                    temp.SortedByAveragePoint = i+1;
+                    for (int j = 0; j < avePoint.Count(); j++)
+                    {
+                        if (allAverPoint[i].AveragePoint == avePoint[j])
+                        {
+                            temp.SortedByAveragePoint = j+1;
+                        }
+                    }
                     _context.PeriodicPointDetails.Update(temp);
                 }
                 _context.SaveChanges();
 
+                // Sắp xếp điểm
                 var allPoint = _context.PeriodicPointDetails.Where(x => x.PeriodicPointId == periodicPointId && x.Status == Status.Active).OrderByDescending(x => x.Point).ToList();
+                var point = _context.PeriodicPointDetails.Where(x => x.PeriodicPointId == periodicPointId && x.Status == Status.Active)
+                 .Select(x => x.Point).Distinct().OrderByDescending(x => x).ToList();
+
                 for (int i = 0; i < allPoint.Count(); i++)
                 {
                     var temp = allPoint[i];
-                    temp.SortedByPoint= i+1;
+                    for (int j = 0; j < point.Count(); j++)
+                    {
+                        if (allPoint[i].Point == point[j])
+                        {
+                            temp.SortedByPoint = j+1;
+                        }
+                    }
                     _context.PeriodicPointDetails.Update(temp);
                 }
 

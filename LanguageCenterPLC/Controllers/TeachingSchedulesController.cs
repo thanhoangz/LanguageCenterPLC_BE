@@ -26,6 +26,24 @@ namespace LanguageCenterPLC.Controllers
 
         // GET: api/TeachingSchedules
         [HttpGet]
+        public async Task<List<TeachingScheduleViewModel>> GetAllTeachingSchedules()
+        {
+            var schedules = _context.TeachingSchedules.Where(x => x.Status == Status.Active);
+            var schedulesViewModel = Mapper.Map<List<TeachingScheduleViewModel>>(schedules);
+            foreach (var item in schedulesViewModel)
+            {
+                var lecturer = _context.Lecturers.Where(x => x.Id == item.LecturerId).Single();
+                item.Lecturer = Mapper.Map<LecturerViewModel>(lecturer);
+                var classroom = _context.Classrooms.Where(x => x.Id == item.ClassroomId).Single();
+                item.ClassRoom = Mapper.Map<ClassroomViewModel>(classroom);
+                var languageClass = _context.LanguageClasses.Where(x => x.Id == item.LanguageClassId).Single();
+                item.LanguageClass = Mapper.Map<LanguageClassViewModel>(languageClass);
+            }
+            return await Task.FromResult(schedulesViewModel);
+        }
+
+        [HttpGet]
+        [Route("Search")]
         public async Task<List<TeachingScheduleViewModel>> GetTeachingSchedules()
         {
             var schedules = _context.TeachingSchedules.Where(x => x.Status == Status.Active);
@@ -91,17 +109,16 @@ namespace LanguageCenterPLC.Controllers
 
         // POST: api/TeachingSchedules
         [HttpPost]
-        public async Task<ActionResult<TeachingSchedule>> PostTeachingSchedule(TeachingSchedule teachingSchedule)
+        [Route("Add")]
+        public async Task<ActionResult<TeachingSchedule>> PostTeachingSchedule(TeachingScheduleViewModel teachingSchedule)
         {
-            _context.TeachingSchedules.Add(teachingSchedule);
-            /*Tạo các buổi học gắn vào lịch giảng*/
-            string[] day = teachingSchedule.Note.Split(',');
+            teachingSchedule.DateCreated = DateTime.Now;
 
-
-
+            var schedule = Mapper.Map<TeachingScheduleViewModel, TeachingSchedule>(teachingSchedule);
+            _context.TeachingSchedules.Add(schedule);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetTeachingSchedule", new { id = teachingSchedule.Id }, teachingSchedule);
+            return CreatedAtAction("GetTeachingSchedule", new { id = schedule.Id }, schedule);
         }
 
         // DELETE: api/TeachingSchedules/5
