@@ -131,47 +131,54 @@ namespace LanguageCenterPLC.Controllers
         [Route("getbyclass/{ClassId}")]
         public object GetClassSecListById(string ClassId)
         {
-            var schedulesList = _context.TeachingSchedules.Where(x => x.LanguageClassId == ClassId && x.Status == Status.Active);
-            List<ScheduleViewModel> ScheduleViewModels = new List<ScheduleViewModel>();
-            foreach (var item in schedulesList)
+            var schedulesList = _context.TeachingSchedules.Where(x => x.LanguageClassId == ClassId && x.Status == Status.Active).SingleOrDefault();
+            ScheduleViewModel scheduleViewModel = new ScheduleViewModel();
+            if (schedulesList != null)
             {
-                ScheduleViewModel scheduleViewModel = new ScheduleViewModel();
-                scheduleViewModel.Id = item.Id;
-                scheduleViewModel.FromDate = item.FromDate;
-                scheduleViewModel.ToDate = item.ToDate;
+                scheduleViewModel.Id = schedulesList.Id;
+                scheduleViewModel.FromDate = schedulesList.FromDate;
+                scheduleViewModel.ToDate = schedulesList.ToDate;
 
-                var classSec = _context.ClassSessions.Where(x => x.TeachingScheduleId == item.Id).OrderBy(x => x.Date).ToList();
+                var classSec = _context.ClassSessions.Where(x => x.TeachingScheduleId == schedulesList.Id).OrderBy(x => x.Date).ToList();
                 scheduleViewModel.ClassSessions = Mapper.Map<List<ClassSessionViewModel>>(classSec);
 
-                var lecturer = _context.Lecturers.Where(x => x.Id == item.LecturerId).Single();
+                var lecturer = _context.Lecturers.Where(x => x.Id == schedulesList.LecturerId).Single();
                 scheduleViewModel.LecturerId = lecturer.Id;
-                scheduleViewModel.LecturerName = lecturer.FirstName +  " " + lecturer.LastName;
+                scheduleViewModel.LecturerName = lecturer.FirstName + " " + lecturer.LastName;
 
-                var classroom = _context.Classrooms.Where(x => x.Id == item.ClassroomId).Single();
+                var classroom = _context.Classrooms.Where(x => x.Id == schedulesList.ClassroomId).Single();
 
                 scheduleViewModel.ClassroomId = classroom.Id;
                 scheduleViewModel.ClassroomName = classroom.Name;
-                var languageClass = _context.LanguageClasses.Where(x => x.Id == item.LanguageClassId).Single();
+                var languageClass = _context.LanguageClasses.Where(x => x.Id == schedulesList.LanguageClassId).Single();
 
                 scheduleViewModel.LanguageClassId = languageClass.Id;
                 scheduleViewModel.LanguageClassName = languageClass.Name;
 
-                ScheduleViewModels.Add(scheduleViewModel);
             }
 
 
-            return ScheduleViewModels;
+
+
+            return scheduleViewModel;
 
         }
 
 
         [HttpPost]
-        [Route("get-classsecssion-for-month")]
-        public object GetClassSecForMonthd(string classId, int month=1, int year=2019)
+        [Route("getClasssecssionForMonth")]
+        public object GetClassSecForMonthBy(string classId, int month = 1, int year = 2019)
         {
+            var scheduleList = new
+            {
+
+
+            };
             return new
             {
-                month, year, classId
+                month,
+                year,
+                classId
             };
 
         }
