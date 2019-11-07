@@ -75,6 +75,7 @@ namespace LanguageCenterPLC.Controllers
             return teachingSchedule;
         }
 
+
         // PUT: api/TeachingSchedules/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
@@ -173,12 +174,7 @@ namespace LanguageCenterPLC.Controllers
                 scheduleViewModel.LanguageClassName = languageClass.Name;
 
             }
-
-
-
-
             return scheduleViewModel;
-
         }
 
 

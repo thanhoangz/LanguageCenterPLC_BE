@@ -31,6 +31,7 @@ namespace LanguageCenterPLC.Application.Implementation
             try
             {
                 var receiptDetail = Mapper.Map<ReceiptDetailViewModel, ReceiptDetail>(receiptDetailVm);
+
                 _receiptDetailRepository.Add(receiptDetail);
                 return true;
             }
@@ -109,18 +110,6 @@ namespace LanguageCenterPLC.Application.Implementation
             }
         }
 
-        public bool UpdateStatus(int id, Status status)
-        {
-            try
-            {
-                var receipt = _receiptDetailRepository.FindById(id);
-                receipt.Status = status;
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
-        }
+      
     }
 }

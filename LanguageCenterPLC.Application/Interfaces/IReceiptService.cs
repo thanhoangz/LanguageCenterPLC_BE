@@ -23,7 +23,6 @@ namespace LanguageCenterPLC.Application.Interfaces
 
         ReceiptViewModel GetById(string id);
 
-        bool UpdateStatus(string payslipId, Status status);
 
         bool IsExists(string id);
 

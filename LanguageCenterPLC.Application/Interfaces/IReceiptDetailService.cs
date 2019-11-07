@@ -20,7 +20,6 @@ namespace LanguageCenterPLC.Application.Interfaces
 
         void SaveChanges();
 
-        bool UpdateStatus(int id, Status status);
 
         bool IsExists(int id);
     }
