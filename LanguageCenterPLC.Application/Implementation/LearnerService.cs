@@ -118,6 +118,11 @@ namespace LanguageCenterPLC.Application.Implementation
             inClassLearners = inClassLearners.OrderBy(x => x.LastName);
             var learnerViewModel = Mapper.Map<List<LearnerViewModel>>(inClassLearners);
 
+            foreach (var item in learnerViewModel)
+            {
+                string name = _guestTypeRepository.FindById(item.GuestTypeId).Name;
+                item.GuestTypeName = name;
+            }
             return learnerViewModel;
         }
 
@@ -142,7 +147,11 @@ namespace LanguageCenterPLC.Application.Implementation
 
             emptyForClassLeaners = emptyForClassLeaners.OrderBy(x => x.LastName).ToList();
             var learnerViewModel = Mapper.Map<List<LearnerViewModel>>(emptyForClassLeaners);
-
+            foreach (var item in learnerViewModel)
+            {
+                string name = _guestTypeRepository.FindById(item.GuestTypeId).Name;
+                item.GuestTypeName = name;
+            }
             return learnerViewModel;
         }
 

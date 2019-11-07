@@ -26,7 +26,13 @@ namespace LanguageCenterPLC.Controllers
             return await Task.FromResult(_languageClassService.GetAll());
         }
 
-  
+        [HttpGet("/api/LanguageClasses/get-class-studied-with-learnerid/{learnerId}")]
+        public async Task<ActionResult<IEnumerable<LanguageClassViewModel>>> GetClass_Learner_Studied(string learnerId = "")
+        {
+            return await Task.FromResult(_languageClassService.GetClass_Learner_Studied(learnerId));
+        }
+
+
         [HttpPost]
         [Route("getallbycourse/{courseId}")]
         public async Task<ActionResult<IEnumerable<LanguageClassViewModel>>> GetLanguageClassesByCourse(int courseId)
