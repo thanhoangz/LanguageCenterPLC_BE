@@ -18,7 +18,7 @@ namespace LanguageCenterPLC.Application.Interfaces
         bool IsExists(int id);
         List<LecturerViewModel> GetAllWithConditions(string keyword, string position, int status);
 
-
+        public List<LecturerViewModel> GetAllTutors();
         void SaveChanges();
     }
 }

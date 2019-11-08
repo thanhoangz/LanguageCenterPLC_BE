@@ -106,7 +106,8 @@ namespace LanguageCenterPLC.Data.Entities
         [InverseProperty(nameof(PaySlip.Personnel))]
         public ICollection<PaySlip> PersonnelPaySlip { set; get; }
 
-        [InverseProperty(nameof(PaySlip.SendPersonnel))]
-        public ICollection<PaySlip> SendPersonnelPaySlip { set; get; }
+        [InverseProperty(nameof(PaySlip.ReceivePersonnel))]
+        public ICollection<PaySlip> ReceivePersonnelPaySlip { set; get; }
+
     }
 }

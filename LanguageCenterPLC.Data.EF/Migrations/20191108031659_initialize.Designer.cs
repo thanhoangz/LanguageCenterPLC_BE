@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LanguageCenterPLC.Data.EF.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20191101150927_initialize")]
+    [Migration("20191108031659_initialize")]
     partial class initialize
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -993,12 +993,15 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("ReceiveLecturerId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ReceivePersonnelId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("Receiver")
                         .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
-
-                    b.Property<string>("SendPersonnelId")
-                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
@@ -1014,7 +1017,7 @@ namespace LanguageCenterPLC.Data.EF.Migrations
 
                     b.HasIndex("PersonnelId");
 
-                    b.HasIndex("SendPersonnelId");
+                    b.HasIndex("ReceivePersonnelId");
 
                     b.ToTable("PaySlips");
                 });
@@ -1982,9 +1985,9 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("LanguageCenterPLC.Data.Entities.Personnel", "SendPersonnel")
-                        .WithMany("SendPersonnelPaySlip")
-                        .HasForeignKey("SendPersonnelId");
+                    b.HasOne("LanguageCenterPLC.Data.Entities.Personnel", "ReceivePersonnel")
+                        .WithMany("ReceivePersonnelPaySlip")
+                        .HasForeignKey("ReceivePersonnelId");
                 });
 
             modelBuilder.Entity("LanguageCenterPLC.Data.Entities.PeriodicPoint", b =>

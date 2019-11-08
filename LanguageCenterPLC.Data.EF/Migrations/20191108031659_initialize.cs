@@ -609,7 +609,8 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                     Note = table.Column<string>(nullable: true),
                     PaySlipTypeId = table.Column<int>(nullable: false),
                     PersonnelId = table.Column<string>(nullable: false),
-                    SendPersonnelId = table.Column<string>(nullable: true),
+                    ReceivePersonnelId = table.Column<string>(nullable: true),
+                    ReceiveLecturerId = table.Column<string>(nullable: true),
                     AppUserId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
@@ -634,8 +635,8 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_PaySlips_Personnels_SendPersonnelId",
-                        column: x => x.SendPersonnelId,
+                        name: "FK_PaySlips_Personnels_ReceivePersonnelId",
+                        column: x => x.ReceivePersonnelId,
                         principalTable: "Personnels",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -1288,9 +1289,9 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                 column: "PersonnelId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PaySlips_SendPersonnelId",
+                name: "IX_PaySlips_ReceivePersonnelId",
                 table: "PaySlips",
-                column: "SendPersonnelId");
+                column: "ReceivePersonnelId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PeriodicPointDetails_LearnerId",
