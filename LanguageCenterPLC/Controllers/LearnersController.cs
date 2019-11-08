@@ -82,6 +82,13 @@ namespace LanguageCenterPLC.Controllers
             return await Task.FromResult(_learnerService.GetOutClassWithCondition(classId, keyword));
         }
 
+        [HttpGet]
+        [Route("getlearninginclass/{classId}")]
+        public async Task<ActionResult<IEnumerable<LearnerViewModel>>> GetFullLearningByClass(string classId)
+        {
+            return await Task.FromResult(_learnerService.GetFullLearningByClass(classId));
+        }
+
         [HttpPost]
         [Route("get-all-with-conditions")]
         public async Task<ActionResult<IEnumerable<LearnerViewModel>>> GetAllConditions(string keyword = "", int status = 1)

@@ -213,6 +213,18 @@ namespace LanguageCenterPLC.Application.Implementation
             return learnerViewModel;
         }
 
+        public List<LearnerViewModel> GetFullLearningByClass(string classId)
+        {
+            var studies = _studyProcessRepository.FindAll().Where(x => x.LanguageClassId == classId && x.Status == Status.Active);
+            var learners = new List<Learner>();
+            foreach (var item in studies)
+            {
+                learners.Add(_learnerRepository.FindById(item.LearnerId));
+            }
+
+            return Mapper.Map<List<LearnerViewModel>>(learners);
+        }
+
         public List<LearnerViewModel> GetAll()
         {
             List<Learner> Learners = _learnerRepository.FindAll().ToList();

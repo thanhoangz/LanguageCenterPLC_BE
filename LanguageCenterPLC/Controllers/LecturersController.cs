@@ -27,6 +27,16 @@ namespace LanguageCenterPLC.Controllers
 
         }
 
+        [HttpGet]
+        [Route("getalltutor")]
+        public async Task<ActionResult<IEnumerable<LecturerViewModel>>> GetTutors()
+        {
+            return await Task.FromResult(_lecturerService.GetAllTutors());
+
+        }
+
+
+
         // GET: api/Lecturers/5
         [HttpGet("{id}")]
         public async Task<ActionResult<LecturerViewModel>> GetLecturer(int id)

@@ -1,12 +1,12 @@
-﻿using System;
+﻿using LanguageCenterPLC.Data.EF;
+using LanguageCenterPLC.Data.Entities;
+using LanguageCenterPLC.Infrastructure.Enums;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using LanguageCenterPLC.Data.EF;
-using LanguageCenterPLC.Data.Entities;
 
 namespace LanguageCenterPLC.Controllers
 {
@@ -80,6 +80,10 @@ namespace LanguageCenterPLC.Controllers
         [HttpPost]
         public async Task<ActionResult<AttendanceSheet>> PostAttendanceSheet(AttendanceSheet attendanceSheet)
         {
+            attendanceSheet.WageOfLecturer = 0;
+            attendanceSheet.WageOfTutor = 0;
+            attendanceSheet.DateCreated = DateTime.Now;
+            attendanceSheet.Status = Status.Active;
             _context.AttendanceSheets.Add(attendanceSheet);
             await _context.SaveChangesAsync();
 

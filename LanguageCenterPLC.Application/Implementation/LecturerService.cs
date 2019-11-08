@@ -4,11 +4,9 @@ using LanguageCenterPLC.Application.ViewModels.Studies;
 using LanguageCenterPLC.Data.Entities;
 using LanguageCenterPLC.Infrastructure.Enums;
 using LanguageCenterPLC.Infrastructure.Interfaces;
-using LanguageCenterPLC.Utilities.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace LanguageCenterPLC.Application.Implementation
 {
@@ -76,6 +74,16 @@ namespace LanguageCenterPLC.Application.Implementation
             var lecturerViewModels = Mapper.Map<List<LecturerViewModel>>(lecturers);
             return lecturerViewModels;
         }
+
+
+        public List<LecturerViewModel> GetAllTutors()
+        {
+            List<Lecturer> lecturers = _lecturerRepository.FindAll().Where(x => x.IsTutor == true && x.Status == Status.Active).ToList();
+            var lecturerViewModels = Mapper.Map<List<LecturerViewModel>>(lecturers);
+            return lecturerViewModels;
+        }
+
+
 
         public List<LecturerViewModel> GetAllWithConditions(string keyword, string position, int status)
         {
