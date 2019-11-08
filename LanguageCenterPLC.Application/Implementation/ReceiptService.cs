@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
 using LanguageCenterPLC.Application.Interfaces;
 using LanguageCenterPLC.Application.ViewModels.Studies;
+using LanguageCenterPLC.Data.EF;
 using LanguageCenterPLC.Data.Entities;
 using LanguageCenterPLC.Infrastructure.Enums;
 using LanguageCenterPLC.Infrastructure.Interfaces;
 using LanguageCenterPLC.Utilities.Dtos;
+using LanguageCenterPLC.Utilities.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,13 +17,24 @@ namespace LanguageCenterPLC.Application.Implementation
     {
         private readonly IRepository<Receipt, string> _receiptRepository;
         private readonly IRepository<ReceiptType, int> _receiptTypeRepository;
+        private readonly IRepository<LanguageClass, string> _languageClassRepository;
+        private readonly IRepository<Learner, string> _learnerRepository;
+        private readonly IRepository<StudyProcess, int> _studyProcessRepository;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly AppDbContext _context;
 
-        public ReceiptService(IRepository<Receipt, string> receiptRepository, IRepository<ReceiptType, int> receiptTypeRepository, IUnitOfWork unitOfWork)
+        public ReceiptService(IRepository<Receipt, string> receiptRepository, IRepository<ReceiptType, int> receiptTypeRepository, IUnitOfWork unitOfWork,
+             IRepository<LanguageClass, string> languageClassRepository, IRepository<Learner, string> learnerRepository,
+             IRepository<StudyProcess, int> studyProcessRepository, AppDbContext context)
         {
             _receiptRepository = receiptRepository;
             _receiptTypeRepository = receiptTypeRepository;
+            _languageClassRepository = languageClassRepository;
             _unitOfWork = unitOfWork;
+            _learnerRepository = learnerRepository;
+            _studyProcessRepository = studyProcessRepository;
+            _context = context;
+
         }
 
         public bool Add(ReceiptViewModel receiptVm)
@@ -29,19 +42,15 @@ namespace LanguageCenterPLC.Application.Implementation
             try
             {
                 var receipt = Mapper.Map<ReceiptViewModel, Receipt>(receiptVm);
+                receipt.Id = TextHelper.RandomNumber(10);
 
-                string id = _receiptRepository.FindAll().OrderByDescending(x => x.DateCreated).First().Id;
-                receipt.Id = id.Substring(2);
-
-                int newid = Convert.ToInt32(receipt.Id) + 1;
-
-                id = newid.ToString();
-                while (id.Length < 9)
+                var study = _studyProcessRepository.FindAll().Where(x => x.LearnerId == receipt.LearnerId);
+                decimal total;
+                foreach (var item in study)
                 {
-                    id = "0" + id;
+                    var languageClass = _languageClassRepository.FindAll().Where(x => x.Id == item.LanguageClassId).SingleOrDefault();
+                    receipt.TotalAmount += languageClass.MonthlyFee;
                 }
-                receipt.Id = "PT" + id;
-
                 _receiptRepository.Add(receipt);
 
                 return true;
@@ -190,18 +199,5 @@ namespace LanguageCenterPLC.Application.Implementation
             }
         }
 
-        public bool UpdateStatus(string receiptId, Status status)
-        {
-            try
-            {
-                var receipt = _receiptRepository.FindById(receiptId);
-                receipt.Status = status;
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
-        }
     }
 }

@@ -30,7 +30,7 @@ namespace LanguageCenterPLC.Application.ViewModels.Studies
         /* Foreign Key */
         public int LecturerId { get; set; }
 
-        public int ClassroomId { get; set; }
+        public int ClassroomId { get; set; }    
 
         public string LanguageClassId { get; set; }
 
