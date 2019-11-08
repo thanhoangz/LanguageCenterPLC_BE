@@ -55,11 +55,10 @@ namespace LanguageCenterPLC.Data.Entities
         /// Nhân viên nhận chi trả (nếu có)
         /// </summary>
         /// 
-        [ForeignKey(nameof(ReceivePersonnel)), Column(Order = 1)]
-        public string ReceivePersonnelId { get; set; }
+        public string ReceivePersonnelCardId { get; set; }
 
 
-        public string ReceiveLecturerId { get; set; }
+        public string ReceiveLecturerCardId { get; set; }
 
         [Required]
         public Guid AppUserId { get; set; }
