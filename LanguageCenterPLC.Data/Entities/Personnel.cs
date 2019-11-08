@@ -103,11 +103,8 @@ namespace LanguageCenterPLC.Data.Entities
 
         public ICollection<Timesheet> Timesheets { set; get; }
 
-        [InverseProperty(nameof(PaySlip.Personnel))]
-        public ICollection<PaySlip> PersonnelPaySlip { set; get; }
+        public ICollection<PaySlip> PaySlips { set; get; }
 
-        [InverseProperty(nameof(PaySlip.ReceivePersonnel))]
-        public ICollection<PaySlip> ReceivePersonnelPaySlip { set; get; }
 
     }
 }

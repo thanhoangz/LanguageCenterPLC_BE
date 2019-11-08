@@ -44,42 +44,26 @@ namespace LanguageCenterPLC.Data.Entities
         [Required]
         public int PaySlipTypeId { get; set; }
 
-        /// <summary>
-        /// Nhân viên tạo phiếu, chi trả
-        /// </summary>
         [Required]
-        [ForeignKey(nameof(Personnel)), Column(Order = 0)]
         public string PersonnelId { get; set; }
 
-        /// <summary>
-        /// Nhân viên nhận chi trả (nếu có)
-        /// </summary>
-        /// 
-        public string ReceivePersonnelCardId { get; set; }
+        public string ReceivePersonnelId { get; set; }
 
-
-        public string ReceiveLecturerCardId { get; set; }
+        public string ReceiveLecturerId { get; set; }
 
         [Required]
         public Guid AppUserId { get; set; }
 
         /*Reference Table*/
 
-
+        [ForeignKey("PersonnelId")]
         public virtual Personnel Personnel { get; set; }
 
-
-        public virtual Personnel ReceivePersonnel { get; set; }
-
-
-
         [ForeignKey("PaySlipTypeId")]
-        public PaySlipType PaySlipType { get; set; }
+        public virtual PaySlipType PaySlipType { get; set; }
 
         [ForeignKey("AppUserId")]
-        public AppUser AppUser { get; set; }
-
-        /*List of References */
+        public virtual AppUser AppUser { get; set; }
 
 
     }
