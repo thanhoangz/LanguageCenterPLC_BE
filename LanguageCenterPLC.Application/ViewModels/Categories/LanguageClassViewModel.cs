@@ -30,6 +30,8 @@ namespace LanguageCenterPLC.Application.ViewModels.Categories
 
         public string CourseName { get; set; }
 
+        public string LectureName { get; set; }
+
         public int CourseId { get; set; }
 
         public int MaxNumber { get; set; }
