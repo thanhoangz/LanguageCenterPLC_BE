@@ -112,11 +112,7 @@ namespace LanguageCenterPLC.Data.Entities
 
 
 
-        /* Foreign Key */
 
-        /*Reference Table*/
-
-        /*List of References */
         public ICollection<EndingCoursePoint> EndingCoursePoints { set; get; }
 
         public ICollection<PeriodicPoint> PeriodicPoints { set; get; }

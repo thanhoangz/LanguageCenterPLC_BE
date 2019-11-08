@@ -55,8 +55,11 @@ namespace LanguageCenterPLC.Data.Entities
         /// Nhân viên nhận chi trả (nếu có)
         /// </summary>
         /// 
-        [ForeignKey(nameof(SendPersonnel)), Column(Order = 1)]
-        public string SendPersonnelId { get; set; }
+        [ForeignKey(nameof(ReceivePersonnel)), Column(Order = 1)]
+        public string ReceivePersonnelId { get; set; }
+
+
+        public string ReceiveLecturerId { get; set; }
 
         [Required]
         public Guid AppUserId { get; set; }
@@ -67,7 +70,8 @@ namespace LanguageCenterPLC.Data.Entities
         public virtual Personnel Personnel { get; set; }
 
 
-        public virtual Personnel SendPersonnel { get; set; }
+        public virtual Personnel ReceivePersonnel { get; set; }
+
 
 
         [ForeignKey("PaySlipTypeId")]
