@@ -1,4 +1,6 @@
-﻿using LanguageCenterPLC.Data.EF;
+﻿using AutoMapper;
+using LanguageCenterPLC.Application.ViewModels.Timekeepings;
+using LanguageCenterPLC.Data.EF;
 using LanguageCenterPLC.Data.Entities;
 using LanguageCenterPLC.Infrastructure.Enums;
 using Microsoft.AspNetCore.Mvc;
@@ -42,6 +44,22 @@ namespace LanguageCenterPLC.Controllers
             return attendanceSheet;
         }
 
+
+
+        [HttpGet]
+        [Route("getByDate")]
+        public async Task<ActionResult<AttendanceSheet>> GetAttendanceSheetByDate(string classId, DateTime date)
+        {
+            var attendanceSheet =  _context.AttendanceSheets.Where(x => x.LanguageClassId == classId && x.Date.Day == date.Day && x.Date.Month == date.Month && x.Date.Year == date.Year).SingleOrDefault();
+
+            if (attendanceSheet == null)
+            {
+                return NotFound();
+            }
+
+            return await Task.FromResult(attendanceSheet);
+        }
+
         // PUT: api/AttendanceSheets/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
@@ -78,13 +96,14 @@ namespace LanguageCenterPLC.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
-        public async Task<ActionResult<AttendanceSheet>> PostAttendanceSheet(AttendanceSheet attendanceSheet)
+        public async Task<ActionResult<AttendanceSheetViewModel>> PostAttendanceSheet(AttendanceSheetViewModel attendanceSheet)
         {
             attendanceSheet.WageOfLecturer = 0;
             attendanceSheet.WageOfTutor = 0;
             attendanceSheet.DateCreated = DateTime.Now;
             attendanceSheet.Status = Status.Active;
-            _context.AttendanceSheets.Add(attendanceSheet);
+            var result = Mapper.Map<AttendanceSheetViewModel, AttendanceSheet>(attendanceSheet);
+            _context.AttendanceSheets.Add(result);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetAttendanceSheet", new { id = attendanceSheet.Id }, attendanceSheet);
