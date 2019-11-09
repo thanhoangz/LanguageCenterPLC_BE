@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LanguageCenterPLC.Data.EF.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20191108031659_initialize")]
+    [Migration("20191109082954_initialize")]
     partial class initialize
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -993,8 +993,11 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("ReceiveLecturerId")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("PersonnelId1")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("ReceiveLecturerId")
+                        .HasColumnType("int");
 
                     b.Property<string>("ReceivePersonnelId")
                         .HasColumnType("nvarchar(450)");
@@ -1016,6 +1019,10 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                     b.HasIndex("PaySlipTypeId");
 
                     b.HasIndex("PersonnelId");
+
+                    b.HasIndex("PersonnelId1");
+
+                    b.HasIndex("ReceiveLecturerId");
 
                     b.HasIndex("ReceivePersonnelId");
 
@@ -1980,13 +1987,23 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                         .IsRequired();
 
                     b.HasOne("LanguageCenterPLC.Data.Entities.Personnel", "Personnel")
-                        .WithMany("PersonnelPaySlip")
+                        .WithMany("PersonnelPay")
                         .HasForeignKey("PersonnelId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("LanguageCenterPLC.Data.Entities.Personnel", null)
+                        .WithMany("PaySlips")
+                        .HasForeignKey("PersonnelId1");
+
+                    b.HasOne("LanguageCenterPLC.Data.Entities.Lecturer", "ReceiveLecturer")
+                        .WithMany("PaySlips")
+                        .HasForeignKey("ReceiveLecturerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("LanguageCenterPLC.Data.Entities.Personnel", "ReceivePersonnel")
-                        .WithMany("ReceivePersonnelPaySlip")
+                        .WithMany("ReceivePersonnelPay")
                         .HasForeignKey("ReceivePersonnelId");
                 });
 

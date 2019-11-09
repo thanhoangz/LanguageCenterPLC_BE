@@ -17,6 +17,6 @@ namespace LanguageCenterPLC.Data.Entities
 
 
         [ForeignKey("TeachingScheduleId")]
-        public TeachingSchedule TeachingSchedule { get; set; }
+        public virtual TeachingSchedule TeachingSchedule { get; set; }
     }
 }

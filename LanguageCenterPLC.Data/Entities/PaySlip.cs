@@ -7,15 +7,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LanguageCenterPLC.Data.Entities
 {
-    /// <summary>
-    /// Phiếu chi (Phiếu xuất)
-    /// </summary>
+
     [Table("PaySlips")]
     public class PaySlip : DomainEntity<string>, ISwitchable, IDateTracking
     {
-        /// <summary>
-        /// Nội dung chi
-        /// </summary>
+
         [Required]
         public string Content { get; set; }
 
@@ -39,25 +35,31 @@ namespace LanguageCenterPLC.Data.Entities
         public string Note { get; set; }
 
 
-        /* Foreign Key */
+
 
         [Required]
         public int PaySlipTypeId { get; set; }
 
         [Required]
+        [ForeignKey(nameof(Personnel)), Column(Order = 0)]
         public string PersonnelId { get; set; }
 
+        [ForeignKey(nameof(ReceivePersonnel)), Column(Order = 1)]
         public string ReceivePersonnelId { get; set; }
 
-        public string ReceiveLecturerId { get; set; }
+        public int ReceiveLecturerId { get; set; }
 
         [Required]
         public Guid AppUserId { get; set; }
 
         /*Reference Table*/
 
-        [ForeignKey("PersonnelId")]
-        public virtual Personnel Personnel { get; set; }
+        public Personnel Personnel { get; set; }
+        public Personnel ReceivePersonnel { get; set; }
+
+        [ForeignKey("ReceiveLecturerId")]
+        public virtual Lecturer ReceiveLecturer { get; set; }
+
 
         [ForeignKey("PaySlipTypeId")]
         public virtual PaySlipType PaySlipType { get; set; }

@@ -45,6 +45,6 @@ namespace LanguageCenterPLC.Data.Entities
 
         public string Note { get; set; }
 
-        public ICollection<LanguageClass> LanguageClasses { set; get; }
+        public virtual ICollection<LanguageClass> LanguageClasses { set; get; }
     }
 }

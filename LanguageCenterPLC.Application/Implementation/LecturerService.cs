@@ -118,6 +118,13 @@ namespace LanguageCenterPLC.Application.Implementation
             return lecturerViewModels;
         }
 
+        public LecturerViewModel GetByCardId(string keyword)
+        {
+            var query = _lecturerRepository.FindAll().Where(x => x.CardId == keyword).Single();
+            var lecturerViewModels = Mapper.Map<LecturerViewModel>(query);
+            return lecturerViewModels;
+        }
+
         public LecturerViewModel GetById(int id)
         {
             var lecturer = _lecturerRepository.FindById(id);

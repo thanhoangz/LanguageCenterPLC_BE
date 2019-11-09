@@ -31,6 +31,6 @@ namespace LanguageCenterPLC.Data.Entities
         /* Foreign Key */
         /*Reference Table*/
         /*List of References */
-        public ICollection<Learner> Learners { set; get; }
+        public virtual ICollection<Learner> Learners { set; get; }
     }
 }

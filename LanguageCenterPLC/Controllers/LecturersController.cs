@@ -51,6 +51,14 @@ namespace LanguageCenterPLC.Controllers
             return await Task.FromResult(lecturers);
         }
 
+        // GET: api/Lecturers/get-by-cardid
+        [HttpGet("/api/Lecturers/get-by-cardid/{keyword}")]
+        public async Task<ActionResult<LecturerViewModel>> GetByCardId(string keyword)
+        {
+            return await Task.FromResult(_lecturerService.GetByCardId(keyword));
+        }
+
+
         // PUT: api/Lecturers/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.

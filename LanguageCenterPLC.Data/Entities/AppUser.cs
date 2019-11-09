@@ -26,10 +26,10 @@ namespace LanguageCenterPLC.Data.Entities
 
         public Status Status { get; set; }
 
-        public ICollection<EndingCoursePoint> EndingCoursePoints { set; get; }
-        public ICollection<Receipt> Receipts { set; get; }
-        public ICollection<Timesheet> Timesheets { set; get; }
-        public ICollection<AttendanceSheet> AttendanceSheets { set; get; }
+        public virtual ICollection<EndingCoursePoint> EndingCoursePoints { set; get; }
+        public virtual ICollection<Receipt> Receipts { set; get; }
+        public virtual ICollection<Timesheet> Timesheets { set; get; }
+        public virtual ICollection<AttendanceSheet> AttendanceSheets { set; get; }
 
       
     }

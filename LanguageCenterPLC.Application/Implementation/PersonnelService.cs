@@ -101,6 +101,14 @@ namespace LanguageCenterPLC.Application.Implementation
             return personnelViewModels;
         }
 
+        public PersonnelViewModel GetByCardId(string keyword)
+        {
+            var query = _personelRepository.FindAll().Where(x => x.CardId == keyword).Single();
+
+            var personnelViewModels = Mapper.Map<PersonnelViewModel>(query);
+            return personnelViewModels;
+        }
+
 
 
         public PersonnelViewModel GetById(string id)

@@ -112,16 +112,17 @@ namespace LanguageCenterPLC.Data.Entities
 
 
 
+        public virtual ICollection<PaySlip> PaySlips { set; get; }
 
-        public ICollection<EndingCoursePoint> EndingCoursePoints { set; get; }
+        public virtual ICollection<EndingCoursePoint> EndingCoursePoints { set; get; }
 
-        public ICollection<PeriodicPoint> PeriodicPoints { set; get; }
+        public virtual ICollection<PeriodicPoint> PeriodicPoints { set; get; }
 
         [InverseProperty(nameof(AttendanceSheet.Lecturer))]
-        public ICollection<AttendanceSheet> LecturerAttendanceSheets { set; get; }
+        public virtual ICollection<AttendanceSheet> LecturerAttendanceSheets { set; get; }
 
         [InverseProperty(nameof(AttendanceSheet.Tutor))]
-        public ICollection<AttendanceSheet> TutorAttendanceSheets { set; get; }
+        public virtual ICollection<AttendanceSheet> TutorAttendanceSheets { set; get; }
 
     }
 }
