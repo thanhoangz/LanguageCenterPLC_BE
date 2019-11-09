@@ -610,9 +610,9 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                     PaySlipTypeId = table.Column<int>(nullable: false),
                     PersonnelId = table.Column<string>(nullable: false),
                     ReceivePersonnelId = table.Column<string>(nullable: true),
-                    ReceiveLecturerId = table.Column<int>(nullable: false),
+                    ReceiveLecturerId = table.Column<int>(nullable: true),
                     AppUserId = table.Column<Guid>(nullable: false),
-               
+                    PersonnelId1 = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -636,11 +636,17 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
+                        name: "FK_PaySlips_Personnels_PersonnelId1",
+                        column: x => x.PersonnelId1,
+                        principalTable: "Personnels",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
                         name: "FK_PaySlips_Lecturers_ReceiveLecturerId",
                         column: x => x.ReceiveLecturerId,
                         principalTable: "Lecturers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_PaySlips_Personnels_ReceivePersonnelId",
                         column: x => x.ReceivePersonnelId,
@@ -1295,7 +1301,10 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                 table: "PaySlips",
                 column: "PersonnelId");
 
-        
+            migrationBuilder.CreateIndex(
+                name: "IX_PaySlips_PersonnelId1",
+                table: "PaySlips",
+                column: "PersonnelId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PaySlips_ReceiveLecturerId",

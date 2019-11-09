@@ -47,7 +47,7 @@ namespace LanguageCenterPLC.Data.Entities
         [ForeignKey(nameof(ReceivePersonnel)), Column(Order = 1)]
         public string ReceivePersonnelId { get; set; }
 
-        public int ReceiveLecturerId { get; set; }
+        public int? ReceiveLecturerId { get; set; }
 
         [Required]
         public Guid AppUserId { get; set; }

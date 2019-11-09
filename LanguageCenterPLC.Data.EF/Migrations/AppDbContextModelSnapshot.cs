@@ -994,7 +994,7 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                     b.Property<string>("PersonnelId1")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("ReceiveLecturerId")
+                    b.Property<int?>("ReceiveLecturerId")
                         .HasColumnType("int");
 
                     b.Property<string>("ReceivePersonnelId")
@@ -1996,9 +1996,7 @@ namespace LanguageCenterPLC.Data.EF.Migrations
 
                     b.HasOne("LanguageCenterPLC.Data.Entities.Lecturer", "ReceiveLecturer")
                         .WithMany("PaySlips")
-                        .HasForeignKey("ReceiveLecturerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ReceiveLecturerId");
 
                     b.HasOne("LanguageCenterPLC.Data.Entities.Personnel", "ReceivePersonnel")
                         .WithMany("ReceivePersonnelPay")

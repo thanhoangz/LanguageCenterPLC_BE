@@ -30,8 +30,8 @@ namespace LanguageCenterPLC.Application.ViewModels.Studies
 
         public string PersonnelId { get; set; }
 
-        public string ReceivePersonnelId { get; set; }  // card ID  
-        public string ReceiveLecturerId { get; set; }   // cardId
+        public string ReceivePersonnelId { get; set; }  
+        public int? ReceiveLecturerId { get; set; }   
 
         public Guid AppUserId { get; set; }
     }
