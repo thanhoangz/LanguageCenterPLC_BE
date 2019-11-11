@@ -27,5 +27,7 @@ namespace LanguageCenterPLC.Application.Interfaces
         public List<LearnerViewModel> GetOutClassWithCondition(string classId, string keyword);
         public List<LearnerViewModel> ChuaCoLop();
         public List<LearnerViewModel> DaCoLop();
+
+        public LearnerViewModel GetLearnerCardIdForReceipt(string cardId);
     }
 }

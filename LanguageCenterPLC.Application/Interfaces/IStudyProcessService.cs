@@ -34,6 +34,11 @@ namespace LanguageCenterPLC.Application.Interfaces
         bool IsExists(int id);
         StudyProcessViewModel GetByClassLearner(string classId, string learnerId);
 
+        // phần này của thằng bò cấm động vào :v
+        public List<StudyProcessViewModel> GetAllClassOfLearner(string learnerId);
+        public List<StudyProcessViewModel> GetLearnerForReceipt();
+        // kết thúc phần của thằng Bò
+
         List<StudyProcessViewModel> GetAllInClass(string classId,int status);
     }
 }

@@ -32,6 +32,8 @@ namespace LanguageCenterPLC.Application.ViewModels.Studies
 
         public string PersonnelId { get; set; }
 
+        public string PersonnelName { get; set; }
+
         public string LearnerId { get; set; }
 
         public string LearnerName { get; set; }

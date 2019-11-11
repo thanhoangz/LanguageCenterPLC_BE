@@ -23,7 +23,13 @@ namespace LanguageCenterPLC.Application.ViewModels.Studies
 
         public string LanguageClassName { get; set; }
 
+        public decimal MonthlyFee { get; set; }
+
+        public decimal CourseFee { get; set; }
+
         public string LearnerId { get; set; }
+
+        public string LearnerName { get; set; }
 
         public LearnerViewModel Learner { get; set; }
     }
