@@ -1,8 +1,6 @@
 ﻿using LanguageCenterPLC.Application.ViewModels.Categories;
-using LanguageCenterPLC.Application.ViewModels.Timekeepings;
 using LanguageCenterPLC.Infrastructure.Enums;
 using System;
-using System.Collections.Generic;
 
 namespace LanguageCenterPLC.Application.ViewModels.Studies
 {
@@ -46,11 +44,6 @@ namespace LanguageCenterPLC.Application.ViewModels.Studies
 
         public virtual GuestTypeViewModel GuestTypeViewModel { get; set; }
 
-        public ICollection<StudyProcessViewModel> StudyProcesses { set; get; }
-        public ICollection<EndingCoursePointDetailViewModel> EndingCoursePointDetails { set; get; }
-        public ICollection<PeriodicPointDetailViewModel> PeriodicPointDetails { set; get; }
-        public ICollection<TeachingScheduleViewModel> TeachingSchedules { set; get; }
-        public ICollection<ReceiptViewModel> Receipts { set; get; }
-        public ICollection<AttendanceSheetDetailViewModel> AttendanceSheetDetails { set; get; }
+     
     }
 }

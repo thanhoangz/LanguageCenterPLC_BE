@@ -15,13 +15,14 @@ namespace LanguageCenterPLC.Application.Implementation
     {
         private readonly IRepository<LanguageClass, string> _languageClassRepository;
         private readonly IRepository<Course, int> _courseRepository;
-
+        private readonly IRepository<StudyProcess, int> _studyProcessRepository;
         private readonly IUnitOfWork _unitOfWork;
 
-        public LanguageClassService(IRepository<LanguageClass, string> languageClassRepository, IRepository<Course, int> courseRepository, IUnitOfWork unitOfWork)
+        public LanguageClassService(IRepository<LanguageClass, string> languageClassRepository, IRepository<Course, int> courseRepository, IRepository<StudyProcess, int> studyProcessRepository, IUnitOfWork unitOfWork)
         {
             _languageClassRepository = languageClassRepository;
             _courseRepository = courseRepository;
+            _studyProcessRepository = studyProcessRepository;
             _unitOfWork = unitOfWork;
         }
 
@@ -132,6 +133,32 @@ namespace LanguageCenterPLC.Application.Implementation
             return languageClassViewModel;
         }
 
+            // Tìm theo mã học : kp cardId
+        public List<LanguageClassViewModel> GetClass_Learner_Studied(string learnerId)
+        {
+            var listclass = (from c in _languageClassRepository.FindAll()
+                                   join qtht in _studyProcessRepository.FindAll().Where(x => x.LearnerId == learnerId)
+                                   on c.Id equals qtht.LanguageClassId
+                                   select c);
+
+            var languageClassViewModel = Mapper.Map<List<LanguageClassViewModel>>(listclass);
+
+            return languageClassViewModel;
+        }
+
+  /*      // Tìm theo mã học : kp cardId
+        public List<LanguageClassViewModel> GetClass_DangHoc(string learnerId)
+        {
+            var listclass = (from c in _languageClassRepository.FindAll()
+                             join qtht in _studyProcessRepository.FindAll().Where(x => x.LearnerId == learnerId && x.Status == Status.Active)
+                             on c.Id equals qtht.LanguageClassId
+                             select c);
+
+            var languageClassViewModel = Mapper.Map<List<LanguageClassViewModel>>(listclass);
+
+            return languageClassViewModel;
+        }
+*/
 
         public LanguageClassViewModel GetById(string id)
         {

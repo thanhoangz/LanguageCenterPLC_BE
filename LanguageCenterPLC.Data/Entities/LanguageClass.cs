@@ -55,12 +55,12 @@ namespace LanguageCenterPLC.Data.Entities
         /*Reference Table*/
 
         /*List of References */
-        public ICollection<StudyProcess> StudyProcesses { set; get; }
-        public ICollection<EndingCoursePoint> EndingCoursePoints { set; get; }
-        public ICollection<PeriodicPoint> PeriodicPoints { set; get; }
-        public ICollection<TeachingSchedule> TeachingSchedules { set; get; }
-        public ICollection<ReceiptDetail> ReceiptDetails { set; get; }
-        public ICollection<AttendanceSheet> AttendanceSheets { set; get; }
-        public ICollection<AttendanceSheetDetail> AttendanceSheetDetails { set; get; }
+        public virtual ICollection<StudyProcess> StudyProcesses { set; get; }
+        public virtual ICollection<EndingCoursePoint> EndingCoursePoints { set; get; }
+        public virtual ICollection<PeriodicPoint> PeriodicPoints { set; get; }
+        public virtual ICollection<TeachingSchedule> TeachingSchedules { set; get; }
+        public virtual ICollection<ReceiptDetail> ReceiptDetails { set; get; }
+        public virtual ICollection<AttendanceSheet> AttendanceSheets { set; get; }
+        public virtual ICollection<AttendanceSheetDetail> AttendanceSheetDetails { set; get; }
     }
 }

@@ -28,6 +28,6 @@ namespace LanguageCenterPLC.Data.Entities
 
         /*List of References */
 
-        public ICollection<Receipt> Receipts { set; get; }
+        public virtual ICollection<Receipt> Receipts { set; get; }
     }
 }

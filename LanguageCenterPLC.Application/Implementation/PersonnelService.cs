@@ -42,6 +42,7 @@ namespace LanguageCenterPLC.Application.Implementation
                     cardId = "0" + cardId;
                 }
                 personnel.CardId = "NV" + cardId;
+                personnel.SalaryOfDay = personnel.BasicSalary / 25;
                 #endregion
                 _personelRepository.Add(personnel);
 
@@ -98,6 +99,14 @@ namespace LanguageCenterPLC.Application.Implementation
 
 
             var personnelViewModels = Mapper.Map<List<PersonnelViewModel>>(query);
+            return personnelViewModels;
+        }
+
+        public PersonnelViewModel GetByCardId(string keyword)
+        {
+            var query = _personelRepository.FindAll().Where(x => x.CardId == keyword).Single();
+
+            var personnelViewModels = Mapper.Map<PersonnelViewModel>(query);
             return personnelViewModels;
         }
 

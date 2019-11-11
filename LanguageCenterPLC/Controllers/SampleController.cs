@@ -384,7 +384,7 @@ namespace LanguageCenterPLC.Controllers
                     learner.Email = TextHelper.EmailAddress(16);
                     learner.Facebook = @"https://www.facebook.com/" + TextHelper.RandomString(10);
                     learner.Phone = TextHelper.RandomNumber(10);
-                    learner.ParentFullName = TextHelper.GenerateName(5) + TextHelper.GenerateName(4) + TextHelper.GenerateName(3);
+                    learner.ParentFullName = firstName[r.Next(16)] + " " + midNameMale[r.Next(14)] + " " + lastNameMale[r.Next(14)];
                     learner.ParentPhone = TextHelper.RandomNumber(10);
 
                     Random rnd = new Random();

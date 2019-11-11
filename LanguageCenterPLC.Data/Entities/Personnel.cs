@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.RegularExpressions;
 
 namespace LanguageCenterPLC.Data.Entities
 {
@@ -99,14 +100,17 @@ namespace LanguageCenterPLC.Data.Entities
 
         /*List of References */
 
-        public ICollection<Receipt> Receipts { set; get; }
+        public virtual ICollection<Receipt> Receipts { set; get; }
 
-        public ICollection<Timesheet> Timesheets { set; get; }
+        public virtual ICollection<Timesheet> Timesheets { set; get; }
+
+        public virtual ICollection<PaySlip> PaySlips { set; get; }
+
 
         [InverseProperty(nameof(PaySlip.Personnel))]
-        public ICollection<PaySlip> PersonnelPaySlip { set; get; }
+        public ICollection<PaySlip> PersonnelPay { get; set; }
 
-        [InverseProperty(nameof(PaySlip.SendPersonnel))]
-        public ICollection<PaySlip> SendPersonnelPaySlip { set; get; }
+        [InverseProperty(nameof(PaySlip.ReceivePersonnel))]
+        public ICollection<PaySlip> ReceivePersonnelPay { get; set; }
     }
 }

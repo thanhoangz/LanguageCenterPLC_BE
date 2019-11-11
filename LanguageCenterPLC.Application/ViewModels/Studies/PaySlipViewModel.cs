@@ -29,8 +29,9 @@ namespace LanguageCenterPLC.Application.ViewModels.Studies
         public string PaySlipTypeName { get; set; }
 
         public string PersonnelId { get; set; }
-        
-        public string SendPersonnelId { get; set; }
+
+        public string ReceivePersonnelId { get; set; }  
+        public int? ReceiveLecturerId { get; set; }   
 
         public Guid AppUserId { get; set; }
     }

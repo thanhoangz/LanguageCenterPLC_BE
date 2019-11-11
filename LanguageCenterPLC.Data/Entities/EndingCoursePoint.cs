@@ -61,7 +61,7 @@ namespace LanguageCenterPLC.Data.Entities
         public virtual AppUser AppUser { get; set; }
 
         /*List of References */
-        public ICollection<EndingCoursePointDetail> EndingCoursePointDetails { set; get; }
+        public virtual ICollection<EndingCoursePointDetail> EndingCoursePointDetails { set; get; }
 
     }
 }

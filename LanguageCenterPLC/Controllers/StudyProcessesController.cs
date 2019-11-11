@@ -151,6 +151,25 @@ namespace LanguageCenterPLC.Controllers
             return Ok();
         }
 
+        [HttpPost("/api/StudyProcesses/update-status")]
+        public async Task<ActionResult<StudyProcessViewModel>> UpdateStatusById(int studyProcessId, Status status)
+        {
+            try
+            {
+                await Task.Run(() =>
+                {
+                    _studyProcessService.UpdateStatus(studyProcessId, status);
+                    _studyProcessService.SaveChanges();
+                    return Ok("Update thành công!");
+                });
+            }
+            catch
+            {
+                throw new Exception(string.Format("Lỗi !"));
+            }
+            return Ok();
+        }
+
 
         [HttpPost("/api/StudyProcesses/paging")]
         public async Task<ActionResult<PagedResult<StudyProcessViewModel>>> PagingPaySlip(string keyword = "", int status = 0, int pageSize = 10, int pageIndex = 0)
@@ -207,5 +226,8 @@ namespace LanguageCenterPLC.Controllers
         {
             return await Task.FromResult(_studyProcessService.GetAllInClass(classId, status));
         }
+
+
+        
     }
 }

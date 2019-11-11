@@ -79,10 +79,10 @@ namespace LanguageCenterPLC.Data.Entities
         public virtual GuestType GuestType { get; set; }
 
         /*List of References */
-        public ICollection<StudyProcess> StudyProcesses { set; get; }
-        public ICollection<EndingCoursePointDetail> EndingCoursePointDetails { set; get; }
-        public ICollection<PeriodicPointDetail> PeriodicPointDetails { set; get; }
-        public ICollection<Receipt> Receipts { set; get; }
-        public ICollection<AttendanceSheetDetail> AttendanceSheetDetails { set; get; }
+        public virtual ICollection<StudyProcess> StudyProcesses { set; get; }
+        public virtual ICollection<EndingCoursePointDetail> EndingCoursePointDetails { set; get; }
+        public virtual ICollection<PeriodicPointDetail> PeriodicPointDetails { set; get; }
+        public virtual ICollection<Receipt> Receipts { set; get; }
+        public virtual ICollection<AttendanceSheetDetail> AttendanceSheetDetails { set; get; }
     }
 }

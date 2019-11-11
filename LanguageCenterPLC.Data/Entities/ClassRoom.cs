@@ -31,7 +31,7 @@ namespace LanguageCenterPLC.Data.Entities
         /* Foreign Key */
         /*Reference Table*/
         /*List of References */
-        public ICollection<TeachingSchedule> TeachingSchedules { set; get; }
+        public virtual ICollection<TeachingSchedule> TeachingSchedules { set; get; }
 
     }
 }
