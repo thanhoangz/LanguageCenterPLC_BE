@@ -80,6 +80,23 @@ namespace LanguageCenterPLC.Application.Implementation
             return languageClassViewModel;
         }
 
+        public List<LanguageClassViewModel> LopHoatDong()   // status = 1 và 2
+        {
+            var courses = _courseRepository.FindAll().ToList();
+
+            var languageClasses = _languageClassRepository.FindAll().Where(x => x.Status != 0).ToList();
+
+            var languageClassViewModel = Mapper.Map<List<LanguageClassViewModel>>(languageClasses);
+
+            foreach (var item in languageClassViewModel)
+            {
+                string name = _courseRepository.FindById(item.CourseId).Name;
+                item.CourseName = name;
+            }
+
+            return languageClassViewModel;
+        }
+
         public List<LanguageClassViewModel> LopDeChuyen(string classId, int courseId)
         {
             var courses = _courseRepository.FindAll().ToList();
