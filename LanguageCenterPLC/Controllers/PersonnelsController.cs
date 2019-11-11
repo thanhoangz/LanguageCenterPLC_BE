@@ -178,7 +178,43 @@ namespace LanguageCenterPLC.Controllers
                 List<PersonnelViewModel> empty = new List<PersonnelViewModel>();
                 return await Task.FromResult(empty);
             }
-
         }
+
+        [HttpGet]
+        [Route("not-paied-roll-personnels")]
+        public async Task<ActionResult<IEnumerable<PersonnelViewModel>>> NotPaiedPersonnels(int month, int year)
+        {
+            var salaryPaies = _context.SalaryPays.Where(x => x.Month == month && x.Year == year).ToList();
+            if (salaryPaies.Count != 0)
+            {
+                var personnels = new List<Personnel>();
+                foreach (var item in salaryPaies)
+                {
+                    if (item.PersonnelId != null)
+                    {
+                        Personnel personnel = _context.Personnels.Find(item.PersonnelId);
+                        if (personnel != null)
+                            personnels.Add(personnel);
+                    }
+                }
+
+                var results = _context.Personnels.ToList();
+                foreach (var item in personnels)
+                {
+                    results.Remove(item);
+                }
+
+                var personnelsViewModel = Mapper.Map<List<PersonnelViewModel>>(results);
+
+                return await Task.FromResult(personnelsViewModel);
+            }
+            else
+            {
+                List<PersonnelViewModel> empty = new List<PersonnelViewModel>();
+                return await Task.FromResult(empty);
+            }
+        }
+
+
     }
 }

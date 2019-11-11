@@ -1,9 +1,13 @@
-﻿using LanguageCenterPLC.Application.Interfaces;
+﻿using AutoMapper;
+using LanguageCenterPLC.Application.Interfaces;
 using LanguageCenterPLC.Application.ViewModels.Studies;
+using LanguageCenterPLC.Data.EF;
+using LanguageCenterPLC.Data.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace LanguageCenterPLC.Controllers
@@ -14,9 +18,11 @@ namespace LanguageCenterPLC.Controllers
     {
         private readonly ILecturerService _lecturerService;
 
-        public LecturersController(ILecturerService lecturerService)
+        private readonly AppDbContext _context;
+        public LecturersController(ILecturerService lecturerService, AppDbContext context)
         {
             _lecturerService = lecturerService;
+            _context = context;
         }
 
         // GET: api/Lecturers
@@ -163,6 +169,69 @@ namespace LanguageCenterPLC.Controllers
         private bool LecturerExists(int id)
         {
             return _lecturerService.IsExists(id);
+        }
+
+
+        [HttpGet]
+        [Route("paied-roll-lecturers")]
+        public async Task<ActionResult<IEnumerable<LecturerViewModel>>> PaiedPersonnels(int month, int year)
+        {
+            var salaryPaies = _context.SalaryPays.Where(x => x.Month == month && x.Year == year).ToList();
+            if (salaryPaies.Count != 0)
+            {
+                var lecturers = new List<Lecturer>();
+                foreach (var item in salaryPaies)
+                {
+                    if (item.LecturerId != null)
+                    {
+                        Lecturer lecturer = _context.Lecturers.Find(item.LecturerId);
+                        if (lecturer != null)
+                            lecturers.Add(lecturer);
+                    }
+                }
+                var lecturersViewModel = Mapper.Map<List<LecturerViewModel>>(lecturers);
+
+                return await Task.FromResult(lecturersViewModel);
+            }
+            else
+            {
+                List<LecturerViewModel> empty = new List<LecturerViewModel>();
+                return await Task.FromResult(empty);
+            }
+        }
+
+        [HttpGet]
+        [Route("not-paied-roll-lecturers")]
+        public async Task<ActionResult<IEnumerable<LecturerViewModel>>> NotPaiedPersonnels(int month, int year)
+        {
+            var salaryPaies = _context.SalaryPays.Where(x => x.Month == month && x.Year == year).ToList();
+            if (salaryPaies.Count != 0)
+            {
+                var lecturers = new List<Lecturer>();
+                foreach (var item in salaryPaies)
+                {
+                    if (item.LecturerId != null)
+                    {
+                        Lecturer lecturer = _context.Lecturers.Find(item.LecturerId);
+                        if (lecturer != null)
+                            lecturers.Add(lecturer);
+                    }
+                }
+
+                var results = _context.Lecturers.ToList();
+                foreach (var item in lecturers)
+                {
+                    results.Remove(item);
+                }
+                var lecturersViewModel = Mapper.Map<List<LecturerViewModel>>(results);
+
+                return await Task.FromResult(lecturersViewModel);
+            }
+            else
+            {
+                List<LecturerViewModel> empty = new List<LecturerViewModel>();
+                return await Task.FromResult(empty);
+            }
         }
     }
 }

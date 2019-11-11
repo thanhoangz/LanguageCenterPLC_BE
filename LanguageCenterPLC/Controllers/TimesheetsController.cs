@@ -167,7 +167,7 @@ namespace LanguageCenterPLC.Controllers
 
         [HttpPost]
         [Route("payroll-approval-staff")]
-        public async Task<ActionResult<List<TimesheetViewModel>>> PayrollApproval(List<int> timeSheetList)
+        public async Task<ActionResult<List<TimesheetViewModel>>> PayrollApprovalStaff(List<int> timeSheetList)
         {
             try
             {
@@ -211,6 +211,9 @@ namespace LanguageCenterPLC.Controllers
 
             return Ok();
         }
+
+
+   
 
         private bool TimesheetExists(int id)
         {
