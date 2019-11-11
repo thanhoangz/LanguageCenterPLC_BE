@@ -1,13 +1,12 @@
-﻿using System;
+﻿using LanguageCenterPLC.Data.EF;
+using LanguageCenterPLC.Data.Entities;
+using LanguageCenterPLC.Infrastructure.Enums;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using LanguageCenterPLC.Data.EF;
-using LanguageCenterPLC.Data.Entities;
-using LanguageCenterPLC.Infrastructure.Enums;
 
 namespace LanguageCenterPLC.Controllers
 {
@@ -43,9 +42,22 @@ namespace LanguageCenterPLC.Controllers
             return attendanceSheetDetail;
         }
 
+
+        [HttpGet]
+        [Route("get-details-by-date-attendance")]
+        public async Task<ActionResult<IEnumerable<AttendanceSheetDetail>>> GetAttendanceSheetDetailByAtten(int attendanceId)
+        {
+            var attendanceSheetDetail = _context.AttendanceSheetDetails.Where(x => x.AttendanceSheetId == attendanceId);
+            if (attendanceSheetDetail == null)
+            {
+                return NotFound();
+            }
+
+            return await Task.FromResult(attendanceSheetDetail.ToList());
+        }
+
+
         // PUT: api/AttendanceSheetDetails/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("{id}")]
         public async Task<IActionResult> PutAttendanceSheetDetail(int id, AttendanceSheetDetail attendanceSheetDetail)
         {
@@ -126,6 +138,39 @@ namespace LanguageCenterPLC.Controllers
             return CreatedAtAction("GetAttendanceSheetDetails", attendanceSheetDetails);
         }
 
+
+
+        [HttpPost]
+        [Route("delete-attendance-list")]
+        public async Task<ActionResult<List<AttendanceSheetDetail>>> DeleteAttendanceSheetDetailList(List<AttendanceSheetDetail> attendanceSheetDetails)
+        {
+            if (attendanceSheetDetails.Count != 0)
+            {
+                var checkList = _context.AttendanceSheetDetails.Where(x => x.AttendanceSheetId == attendanceSheetDetails[0].AttendanceSheetId).ToList();
+
+                if (checkList.Count != 0)
+                {
+
+                    foreach (var attendance in attendanceSheetDetails)
+                    {
+
+                        var deteleAttendance = checkList.Where(x => x.LearnerId == attendance.LearnerId).SingleOrDefault();
+
+                        if (deteleAttendance != null)
+                            _context.AttendanceSheetDetails.Remove(deteleAttendance);
+
+                    }
+
+                }
+
+            }
+
+
+
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetAttendanceSheetDetails", attendanceSheetDetails);
+        }
 
         private bool IsExists(List<AttendanceSheetDetail> InDetails, AttendanceSheetDetail test)
         {

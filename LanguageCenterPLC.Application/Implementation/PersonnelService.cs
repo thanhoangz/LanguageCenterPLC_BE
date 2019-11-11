@@ -42,6 +42,7 @@ namespace LanguageCenterPLC.Application.Implementation
                     cardId = "0" + cardId;
                 }
                 personnel.CardId = "NV" + cardId;
+                personnel.SalaryOfDay = personnel.BasicSalary / 25;
                 #endregion
                 _personelRepository.Add(personnel);
 
