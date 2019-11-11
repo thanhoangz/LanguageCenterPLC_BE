@@ -203,8 +203,18 @@ namespace LanguageCenterPLC.Controllers
             return await Task.FromResult(_studyProcessService.GetByClassLearner(classId, learnerId));
         }
 
-     
-
+        // phần này của thằng Bò cấm động vào :v
+        [HttpPost("/api/StudyProcesses/get-language-class-of-learner")]
+        public async Task<ActionResult<IEnumerable<StudyProcessViewModel>>> GetAllClassOfLearner(string learnerId)
+        {
+            return await Task.FromResult(_studyProcessService.GetAllClassOfLearner(learnerId));
+        }
+        [HttpPost("/api/StudyProcesses/get-learner-for-receipt")]
+        public async Task<ActionResult<IEnumerable<StudyProcessViewModel>>> GetLearnerForReceipt()
+        {
+            return await Task.FromResult(_studyProcessService.GetLearnerForReceipt());
+        }
+        // The End
         private bool StudyProcessExists(int id)
         {
             return _studyProcessService.IsExists(id);

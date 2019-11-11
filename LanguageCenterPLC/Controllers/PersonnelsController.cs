@@ -9,6 +9,7 @@ using LanguageCenterPLC.Data.EF;
 using LanguageCenterPLC.Data.Entities;
 using LanguageCenterPLC.Application.Interfaces;
 using LanguageCenterPLC.Application.ViewModels.Categories;
+using AutoMapper;
 
 namespace LanguageCenterPLC.Controllers
 {
@@ -17,10 +18,11 @@ namespace LanguageCenterPLC.Controllers
     public class PersonnelsController : ControllerBase
     {
         private readonly IPersonnelService _personnelService;
-
-        public PersonnelsController(IPersonnelService personnelService)
+        private readonly AppDbContext _context;
+        public PersonnelsController(IPersonnelService personnelService, AppDbContext context)
         {
             _personnelService = personnelService;
+            _context = context;
         }
 
         // GET: api/Personnels
@@ -52,8 +54,6 @@ namespace LanguageCenterPLC.Controllers
         }
 
         // PUT: api/Personnels/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("{id}")]
         public async Task<IActionResult> PutPersonnel(string id, PersonnelViewModel personnel)
         {
@@ -88,8 +88,6 @@ namespace LanguageCenterPLC.Controllers
         }
 
         // POST: api/Personnels
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
         public async Task<ActionResult<PersonnelViewModel>> PostPersonnel(PersonnelViewModel personnel)
         {
@@ -117,7 +115,7 @@ namespace LanguageCenterPLC.Controllers
 
 
         [HttpPost("/api/Personnels/get-all-with-conditions/")]
-        public async Task<ActionResult<IEnumerable<PersonnelViewModel>>> GetAllConditions(string keyword = "",string position = "", int status = 2)
+        public async Task<ActionResult<IEnumerable<PersonnelViewModel>>> GetAllConditions(string keyword = "", string position = "", int status = 2)
         {
             return await Task.FromResult(_personnelService.GetAllWithConditions(keyword, position, status));
         }
@@ -152,5 +150,71 @@ namespace LanguageCenterPLC.Controllers
         {
             return _personnelService.IsExists(id);
         }
+
+
+        [HttpGet]
+        [Route("paied-roll-personnels")]
+        public async Task<ActionResult<IEnumerable<PersonnelViewModel>>> PaiedPersonnels(int month, int year)
+        {
+            var salaryPaies = _context.SalaryPays.Where(x => x.Month == month && x.Year == year).ToList();
+            if (salaryPaies.Count != 0)
+            {
+                var personnels = new List<Personnel>();
+                foreach (var item in salaryPaies)
+                {
+                    if (item.PersonnelId != null)
+                    {
+                        Personnel personnel = _context.Personnels.Find(item.PersonnelId);
+                        if (personnel != null)
+                            personnels.Add(personnel);
+                    }
+                }
+                var personnelsViewModel = Mapper.Map<List<PersonnelViewModel>>(personnels);
+
+                return await Task.FromResult(personnelsViewModel);
+            }
+            else
+            {
+                List<PersonnelViewModel> empty = new List<PersonnelViewModel>();
+                return await Task.FromResult(empty);
+            }
+        }
+
+        [HttpGet]
+        [Route("not-paied-roll-personnels")]
+        public async Task<ActionResult<IEnumerable<PersonnelViewModel>>> NotPaiedPersonnels(int month, int year)
+        {
+            var salaryPaies = _context.SalaryPays.Where(x => x.Month == month && x.Year == year).ToList();
+            if (salaryPaies.Count != 0)
+            {
+                var personnels = new List<Personnel>();
+                foreach (var item in salaryPaies)
+                {
+                    if (item.PersonnelId != null)
+                    {
+                        Personnel personnel = _context.Personnels.Find(item.PersonnelId);
+                        if (personnel != null)
+                            personnels.Add(personnel);
+                    }
+                }
+
+                var results = _context.Personnels.ToList();
+                foreach (var item in personnels)
+                {
+                    results.Remove(item);
+                }
+
+                var personnelsViewModel = Mapper.Map<List<PersonnelViewModel>>(results);
+
+                return await Task.FromResult(personnelsViewModel);
+            }
+            else
+            {
+                List<PersonnelViewModel> empty = new List<PersonnelViewModel>();
+                return await Task.FromResult(empty);
+            }
+        }
+
+
     }
 }

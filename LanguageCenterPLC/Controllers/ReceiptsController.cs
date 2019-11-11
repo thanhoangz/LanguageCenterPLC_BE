@@ -99,7 +99,7 @@ namespace LanguageCenterPLC.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
-        public async Task<ActionResult<ReceiptViewModel>> PostReceipt(ReceiptViewModel receipt)
+        public async Task<ActionResult<ReceiptViewModel>> PostReceipt(ReceiptViewModel receipt, Guid userId)
         {
             if (receipt != null)
             {
@@ -108,9 +108,10 @@ namespace LanguageCenterPLC.Controllers
                     await Task.Run(() =>
                     {
                         receipt.DateCreated = DateTime.Now;
+                        receipt.AppUserId = userId;
                         _receiptService.Add(receipt);
                         _receiptService.SaveChanges();
-                        return Ok("Thêm phiếu chi thành công!");
+                        return Ok("Thêm phiếu thu thành công!");
                     });
                 }
                 catch
@@ -118,7 +119,7 @@ namespace LanguageCenterPLC.Controllers
                     throw new Exception(string.Format("Lỗi khi thêm dữ liệu"));
                 }
             }
-            return CreatedAtAction("PostReceipt", new { id = receipt.Id }, receipt);
+            return CreatedAtAction("GetReceipt()", new { id = receipt.Id }, receipt);
         }
 
         [HttpPost("/api/Receipts/get-all-with-conditions")]

@@ -41,6 +41,7 @@ namespace LanguageCenterPLC.Controllers
             return await Task.FromResult(leaner);
         }
 
+       
         // GET: api/Learners/get-by-cardid
         [HttpGet("/api/Learners/get-by-cardid/{id}")]
         public async Task<ActionResult<LearnerViewModel>> GetByCardId(string id)
@@ -94,6 +95,13 @@ namespace LanguageCenterPLC.Controllers
         public async Task<ActionResult<IEnumerable<LearnerViewModel>>> GetAllConditions(string keyword = "", int status = 1)
         {
             return await Task.FromResult(_learnerService.GetAllWithConditions(keyword, status));
+        }
+
+        [HttpPost]
+        [Route("get-learner-cardId")]
+        public async Task<ActionResult<LearnerViewModel>> GetLearnerCardIdForReceipt(string cardId)
+        {
+            return await Task.FromResult(_learnerService.GetLearnerCardIdForReceipt(cardId));
         }
 
         // PUT: api/Learners/5

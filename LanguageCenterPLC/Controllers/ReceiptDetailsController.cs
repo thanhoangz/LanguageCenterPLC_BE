@@ -100,6 +100,30 @@ namespace LanguageCenterPLC.Controllers
             return CreatedAtAction("PostReceipt", new { id = receiptDetail.Id }, receiptDetail);
         }
 
+        [HttpPost("/api/ReceiptDetails/add-list-receiptDetail")]
+        public async Task<ActionResult<ReceiptDetailViewModel>> PostPeriodicPointDetailAll(List<ReceiptDetailViewModel> receiptDetail)
+        {
+            try
+            {
+                await Task.Run(() =>
+                {
+                    foreach (var item in receiptDetail)
+                    {
+                        item.DateCreated = DateTime.Now;
+                    }                 
+                    _receiptDetailService.AddList(receiptDetail);
+                    _receiptDetailService.SaveChanges();
+                    return Ok("Thêm giáo viên thành công!");
+                });
+
+            }
+            catch
+            {
+
+                throw new Exception(string.Format("Lỗi khi thêm dữ liệu"));
+            }
+            return Ok();
+        }
         private bool ReceiptDetailExists(int id)
         {
             return _receiptDetailService.IsExists(id);

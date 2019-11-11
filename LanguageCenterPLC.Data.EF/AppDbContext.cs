@@ -85,6 +85,8 @@ namespace LanguageCenterPLC.Data.EF
         public DbSet<ClassSession> ClassSessions { set; get; }
         public DbSet<TimeShift> TimeShifts { set; get; }
 
+        public DbSet<SalaryPay> SalaryPays { set; get; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             #region Identity Config

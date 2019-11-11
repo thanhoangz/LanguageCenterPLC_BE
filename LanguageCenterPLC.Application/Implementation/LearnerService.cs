@@ -261,6 +261,26 @@ namespace LanguageCenterPLC.Application.Implementation
             return learnerViewModel;
         }
 
+        // Bò
+        public LearnerViewModel GetLearnerCardIdForReceipt(string cardId)
+        {
+            var learner = _learnerRepository.FindAll().Where(x=>x.CardId == cardId).SingleOrDefault();
+            var learnerViewModel = Mapper.Map<LearnerViewModel>(learner);
+            var study = _studyProcessRepository.FindAll();
+            foreach (var a in study)
+            {
+                if (learnerViewModel.Id == a.LearnerId)
+                {
+                    var item = learnerViewModel;
+                    var guestType = _guestTypeRepository.FindById(item.GuestTypeId);
+                    item.GuestTypeName = guestType.Name;
+
+                    return learnerViewModel;
+                }
+            }
+            return null;
+        }
+
         public bool IsExists(string id)
         {
             var learner = _learnerRepository.FindById(id);

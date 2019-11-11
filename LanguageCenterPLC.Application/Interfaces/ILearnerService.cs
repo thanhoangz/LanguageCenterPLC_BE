@@ -28,6 +28,8 @@ namespace LanguageCenterPLC.Application.Interfaces
         public List<LearnerViewModel> ChuaCoLop();
         public List<LearnerViewModel> DaCoLop();
 
+        public LearnerViewModel GetLearnerCardIdForReceipt(string cardId);
+
         public List<LearnerViewModel> GetFullLearningByClass(string classId);
     }
 }

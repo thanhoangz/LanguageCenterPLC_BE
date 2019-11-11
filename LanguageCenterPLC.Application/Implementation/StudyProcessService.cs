@@ -8,6 +8,7 @@ using LanguageCenterPLC.Utilities.Dtos;
 using System.Collections.Generic;
 using System;
 using System.Linq;
+using LanguageCenterPLC.Data.EF;
 
 namespace LanguageCenterPLC.Application.Implementation
 {
@@ -17,13 +18,16 @@ namespace LanguageCenterPLC.Application.Implementation
         private readonly IRepository<LanguageClass, string> _languageClassRepository;
         private readonly IRepository<Learner, string> _learnerRepository;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly AppDbContext _context;
 
-        public StudyProcessService(IRepository<StudyProcess, int> studyProcessRepository, IRepository<LanguageClass, string> languageClassRepository, IRepository<Learner, string> learnerRepository, IUnitOfWork unitOfWork)
+        public StudyProcessService(IRepository<StudyProcess, int> studyProcessRepository, IRepository<LanguageClass, string> languageClassRepository, 
+            IRepository<Learner, string> learnerRepository, IUnitOfWork unitOfWork, AppDbContext context)
         {
             _studyProcessRepository = studyProcessRepository;
             _languageClassRepository = languageClassRepository;
             _learnerRepository = learnerRepository;
             _unitOfWork = unitOfWork;
+            _context = context;
         }
 
 
@@ -261,6 +265,40 @@ namespace LanguageCenterPLC.Application.Implementation
 
             return studyProcessViewModel;
         }
+
+        // chỗ này là của thằng Bò múa cấm động vào :V
+        public List<StudyProcessViewModel> GetAllClassOfLearner(string learnerId)
+        {
+            var languageClassOfLearner = _studyProcessRepository.FindAll().Where(x=>x.LearnerId == learnerId && x.Status == Status.Active);
+      
+            var studyProcessViewModel = Mapper.Map<List<StudyProcessViewModel>>(languageClassOfLearner);
+            foreach (var item in studyProcessViewModel)
+            {
+                string className = _languageClassRepository.FindById(item.LanguageClassId).Name;
+                item.LanguageClassName = className;
+                item.MonthlyFee = _languageClassRepository.FindById(item.LanguageClassId).MonthlyFee;
+                item.CourseFee = _languageClassRepository.FindById(item.LanguageClassId).CourseFee;
+
+            }
+
+            return studyProcessViewModel;
+        }
+        public List<StudyProcessViewModel> GetLearnerForReceipt()
+        {
+            var languageClassOfLearner = (from learner in _learnerRepository.FindAll().Where(x => x.Status == Status.Active) join
+                                            study in _studyProcessRepository.FindAll().Where(y => y.Status == Status.Active)
+                                            on learner.Id equals study.LearnerId select study).Distinct();
+
+            var studyProcessViewModel = Mapper.Map<List<StudyProcessViewModel>>(languageClassOfLearner);
+            foreach (var item in studyProcessViewModel)
+            {           
+                item.LearnerName = _learnerRepository.FindById(item.LearnerId).FirstName +" " + _learnerRepository.FindById(item.LearnerId).LastName;
+              
+            }
+
+            return studyProcessViewModel;
+        }
+
 
         public bool IsExists(int id)
         {

@@ -41,6 +41,24 @@ namespace LanguageCenterPLC.Application.Implementation
             }
         }
 
+        public bool AddList(List<ReceiptDetailViewModel> receiptDetailVm)
+        {
+            try
+            {
+                var receipt = _receiptRepository.FindAll().Where(x => x.Status == Status.Active).OrderByDescending(x => x.DateCreated).ToList();
+                foreach (var item in receiptDetailVm)
+                {
+                    var receiptDetail = Mapper.Map<ReceiptDetailViewModel, ReceiptDetail>(item);
+                    receiptDetail.ReceiptId = receipt[0].Id;
+                    _receiptDetailRepository.Add(receiptDetail);
+                }
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
         public bool Delete(int id)
         {
             throw new NotImplementedException();
