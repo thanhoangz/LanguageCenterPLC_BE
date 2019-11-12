@@ -306,19 +306,36 @@ namespace LanguageCenterPLC.Controllers
             {
 
                 List<ReceiptType> listReceiptTypes = new List<ReceiptType>();
-                for (int j = 0; j < 10; j++)
+                ReceiptType receiptType = new ReceiptType
                 {
-                    ReceiptType receiptType = new ReceiptType
-                    {
-                        Name = "Loại phiếu thu " + j.ToString(),
-                        Note = "",
-                        DateCreated = DateTime.Now,
-                        DateModified = DateTime.Now,
-                        Status = Status.Active
-                    };
+                    Name = "Thu học phí",
+                    Note = "",
+                    DateCreated = DateTime.Now,
+                    DateModified = DateTime.Now,
+                    Status = Status.Active
+                };
 
-                    listReceiptTypes.Add(receiptType);
-                }
+                ReceiptType receiptTypeA = new ReceiptType
+                {
+                    Name = "Thu quỹ lớp",
+                    Note = "",
+                    DateCreated = DateTime.Now,
+                    DateModified = DateTime.Now,
+                    Status = Status.Active
+                };
+
+                ReceiptType receiptTypeB = new ReceiptType
+                {
+                    Name = "Thu khác",
+                    Note = "",
+                    DateCreated = DateTime.Now,
+                    DateModified = DateTime.Now,
+                    Status = Status.Active
+                };
+
+                listReceiptTypes.Add(receiptType);
+                listReceiptTypes.Add(receiptTypeA);
+                listReceiptTypes.Add(receiptTypeB);
                 _context.ReceiptTypes.AddRange(listReceiptTypes);
             }
 
@@ -327,19 +344,56 @@ namespace LanguageCenterPLC.Controllers
             {
 
                 List<PaySlipType> paySlipTypes = new List<PaySlipType>();
-                for (int j = 0; j < 10; j++)
+                PaySlipType paySlip = new PaySlipType()
                 {
-                    PaySlipType paySlip = new PaySlipType()
-                    {
-                        Name = "Loại phiếu chi " + j.ToString(),
-                        Note = "",
-                        DateCreated = DateTime.Now,
-                        DateModified = DateTime.Now,
-                        Status = Status.Active
-                    };
+                    Name = "Tạm ứng lương",
+                    Note = "",
+                    DateCreated = DateTime.Now,
+                    DateModified = DateTime.Now,
+                    Status = Status.Active
+                };
+                paySlipTypes.Add(paySlip);
 
-                    paySlipTypes.Add(paySlip);
-                }
+                PaySlipType paySlipA = new PaySlipType()
+                {
+                    Name = "Chi phí điện nước",
+                    Note = "",
+                    DateCreated = DateTime.Now,
+                    DateModified = DateTime.Now,
+                    Status = Status.Active
+                };
+                paySlipTypes.Add(paySlipA);
+
+                PaySlipType paySlipD = new PaySlipType()
+                {
+                    Name = "Chi phí mua CSVC",
+                    Note = "",
+                    DateCreated = DateTime.Now,
+                    DateModified = DateTime.Now,
+                    Status = Status.Active
+                };
+                paySlipTypes.Add(paySlipA);
+
+                PaySlipType paySlipB = new PaySlipType()
+                {
+                    Name = "Chi phí internet",
+                    Note = "",
+                    DateCreated = DateTime.Now,
+                    DateModified = DateTime.Now,
+                    Status = Status.Active
+                };
+                paySlipTypes.Add(paySlipB);
+
+
+                PaySlipType paySlipC = new PaySlipType()
+                {
+                    Name = "Chi phí khác",
+                    Note = "",
+                    DateCreated = DateTime.Now,
+                    DateModified = DateTime.Now,
+                    Status = Status.Active
+                };
+                paySlipTypes.Add(paySlipC);
                 _context.PaySlipTypes.AddRange(paySlipTypes);
             }
 
