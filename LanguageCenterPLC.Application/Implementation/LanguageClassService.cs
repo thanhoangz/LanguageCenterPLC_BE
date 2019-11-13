@@ -80,6 +80,23 @@ namespace LanguageCenterPLC.Application.Implementation
             return languageClassViewModel;
         }
 
+        public List<LanguageClassViewModel> LopHoatDong()   // status = 1 và 2
+        {
+            var courses = _courseRepository.FindAll().ToList();
+
+            var languageClasses = _languageClassRepository.FindAll().Where(x => x.Status != 0).ToList();
+
+            var languageClassViewModel = Mapper.Map<List<LanguageClassViewModel>>(languageClasses);
+
+            foreach (var item in languageClassViewModel)
+            {
+                string name = _courseRepository.FindById(item.CourseId).Name;
+                item.CourseName = name;
+            }
+
+            return languageClassViewModel;
+        }
+
         public List<LanguageClassViewModel> LopDeChuyen(string classId, int courseId)
         {
             var courses = _courseRepository.FindAll().ToList();
@@ -193,6 +210,18 @@ namespace LanguageCenterPLC.Application.Implementation
             {
 
                 var languageClasse = Mapper.Map<LanguageClassViewModel, LanguageClass>(languageClassVm);
+                if(languageClasse.Status == Status.InActive)
+                {
+                    // lấy ra danh sách học viên trong lớp này và có status = 1
+                    var studyprocess = _studyProcessRepository.GetAll().Where(x => x.Status == Status.Active && x.LanguageClassId == languageClasse.Id).ToList();
+                    // đổi status QTHT của hv
+                    foreach (var item in studyprocess)
+                    {
+                        item.Status = Status.Stop;
+                        item.DateModified = DateTime.Now;
+                        _studyProcessRepository.Update(item);
+                    }
+                }
                 languageClasse.DateModified = DateTime.Now;
                 _languageClassRepository.Update(languageClasse);
                 return true;
