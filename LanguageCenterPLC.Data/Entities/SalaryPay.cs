@@ -34,7 +34,6 @@ namespace LanguageCenterPLC.Data.Entities
 
         public int Month { get; set; }
         public int Year { get; set; }
-
-        
+ 
     }
 }

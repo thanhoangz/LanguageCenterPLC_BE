@@ -28,7 +28,7 @@ namespace LanguageCenterPLC.Controllers
         [HttpGet]
         public async Task<List<TeachingScheduleViewModel>> GetAllTeachingSchedules()
         {
-            var schedules = _context.TeachingSchedules.Where(x => x.Status == Status.Active);
+            var schedules = _context.TeachingSchedules;
             var schedulesViewModel = Mapper.Map<List<TeachingScheduleViewModel>>(schedules);
             foreach (var item in schedulesViewModel)
             {
@@ -46,7 +46,7 @@ namespace LanguageCenterPLC.Controllers
         [Route("Search")]
         public async Task<List<TeachingScheduleViewModel>> GetTeachingSchedules()
         {
-            var schedules = _context.TeachingSchedules.Where(x => x.Status == Status.Active);
+            var schedules = _context.TeachingSchedules;
             var schedulesViewModel = Mapper.Map<List<TeachingScheduleViewModel>>(schedules);
             foreach (var item in schedulesViewModel)
             {
@@ -195,6 +195,48 @@ namespace LanguageCenterPLC.Controllers
                 year,
                 classId
             };
+
+        }
+
+
+        [HttpPost]
+        [Route("get-all-class-and-full-info")]
+        public object GetClassSecForMonthBy(int courseId)
+        {
+            List<LanguageClass> classes = _context.LanguageClasses.Where(x => x.CourseId == courseId && x.Status == Status.Active).ToList();
+            var inforOfClasses = new List<Object>();
+            foreach (var _class in classes)
+            {
+                //tìm ra số lượng học viên
+                int quantityLearner = _context.StudyProcesses.Where(x => x.LanguageClassId == _class.Id && x.Status == Status.Active).ToList().Count;
+                // tìm ra tên của giảng viên đang dạy chính lớp này
+
+                var lecturer = (from l in _context.Lecturers
+                                join ts in _context.TeachingSchedules on l.Id equals ts.LecturerId
+                                join cl in _context.LanguageClasses on ts.LanguageClassId equals cl.Id
+                                where (ts.Status == Status.Active&& ts.LanguageClassId == _class.Id)
+                                select new
+                                {
+                                    Name = l.FirstName + " " + l.LastName
+                                }).ToList();
+                string nameOfLecturer = "";
+                if (lecturer.Count != 0)
+                {
+                    nameOfLecturer = lecturer[0].Name;
+                }
+                    
+
+                inforOfClasses.Add(new
+                {
+                    NameOfClass = _class.Name,
+                    NameOfLecturer = nameOfLecturer,
+                    Quantity = quantityLearner
+                });
+
+            }
+
+
+            return inforOfClasses;
 
         }
 

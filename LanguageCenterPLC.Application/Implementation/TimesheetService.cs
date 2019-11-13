@@ -38,15 +38,13 @@ namespace LanguageCenterPLC.Application.Implementation
             }
         }
 
-        public bool AddRange(int month, int year , Guid userId)
+        public bool AddRange(int month, int year, Guid userId)
         {
 
             try
             {
                 var personnelList = _peronelRepository.FindAll();
-                var personnelList1 = personnelList.Where(x => x.Status == (Status)1).ToList();
-
-
+                var personnelList1 = personnelList.Where(x => x.Status == Status.Active).ToList();
 
                 foreach (var personnel in personnelList1)
                 {
@@ -106,9 +104,6 @@ namespace LanguageCenterPLC.Application.Implementation
                         _unitOfWork.Commit();
                     }
                 }
-
-
-
 
                 return true;
             }
@@ -193,7 +188,17 @@ namespace LanguageCenterPLC.Application.Implementation
         {
             try
             {
-                timesheetVm.TotalWorkday = timesheetVm.Day_1 + timesheetVm.Day_2 + timesheetVm.Day_3 + timesheetVm.Day_4 + timesheetVm.Day_5 + timesheetVm.Day_6 + timesheetVm.Day_7 + timesheetVm.Day_8 + timesheetVm.Day_9 + timesheetVm.Day_10 + timesheetVm.Day_11 + timesheetVm.Day_12 + timesheetVm.Day_13 + timesheetVm.Day_14 + timesheetVm.Day_15 + timesheetVm.Day_16 + timesheetVm.Day_17 + timesheetVm.Day_18 + timesheetVm.Day_19 + timesheetVm.Day_20 + timesheetVm.Day_21 + timesheetVm.Day_22 + timesheetVm.Day_23 + timesheetVm.Day_24 + timesheetVm.Day_25 + timesheetVm.Day_26 + timesheetVm.Day_27 + timesheetVm.Day_28 + timesheetVm.Day_29 + timesheetVm.Day_30 + timesheetVm.Day_31 ;
+                timesheetVm.TotalWorkday = timesheetVm.Day_1 + timesheetVm.Day_2
+                    + timesheetVm.Day_3 + timesheetVm.Day_4 + timesheetVm.Day_5 + timesheetVm.Day_6
+                    + timesheetVm.Day_7 + timesheetVm.Day_8 + timesheetVm.Day_9 + timesheetVm.Day_10
+                    + timesheetVm.Day_11 + timesheetVm.Day_12 + timesheetVm.Day_13 + timesheetVm.Day_14 + timesheetVm.Day_15
+                    + timesheetVm.Day_16 + timesheetVm.Day_17 + timesheetVm.Day_18 + timesheetVm.Day_19 + timesheetVm.Day_20
+                    + timesheetVm.Day_21 + timesheetVm.Day_22 + timesheetVm.Day_23 + timesheetVm.Day_24 + timesheetVm.Day_25 + timesheetVm.Day_26
+                    + timesheetVm.Day_27 + timesheetVm.Day_28 + timesheetVm.Day_29 + timesheetVm.Day_30 + timesheetVm.Day_31;
+
+                timesheetVm.TotalActualSalary = timesheetVm.SalaryOfDay * Convert.ToDecimal(timesheetVm.TotalWorkday)
+                    +timesheetVm.Allowance + timesheetVm.Bonus - timesheetVm.AdvancePayment - timesheetVm.InsurancePremiums;
+
                 var timeSheet = Mapper.Map<TimesheetViewModel, Timesheet>(timesheetVm);
                 _timesheetRepository.Update(timeSheet);
                 return true;
@@ -207,6 +212,6 @@ namespace LanguageCenterPLC.Application.Implementation
 
 
 
-        
+
     }
 }

@@ -35,6 +35,9 @@ namespace LanguageCenterPLC.Application.ViewModels.Categories
         public int CourseId { get; set; }
 
         public int MaxNumber { get; set; }
-       
+        public decimal? WageOfLecturer { get; set; }
+
+        public decimal? WageOfTutor { get; set; }
+
     }
 }
