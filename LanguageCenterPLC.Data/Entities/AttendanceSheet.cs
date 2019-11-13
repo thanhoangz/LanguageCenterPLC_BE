@@ -20,8 +20,6 @@ namespace LanguageCenterPLC.Data.Entities
         /// </summary>
         public decimal WageOfLecturer { get; set; }
 
-        /// <summary>
-        /// Tiền công giảng dạy với trợ giảng
         /// </summary>
         public decimal WageOfTutor { get; set; }
 

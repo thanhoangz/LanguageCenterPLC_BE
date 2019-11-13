@@ -48,13 +48,17 @@ namespace LanguageCenterPLC.Data.Entities
 
         public string Note { get; set; }
 
+        public decimal? WageOfLecturer { get; set; }
+
+        public decimal? WageOfTutor { get; set; }
+
+
         [ForeignKey("CourseId")]
         public int CourseId { get; set; }
         public virtual Course Course { get; set; }
-        /* Foreign Key */
-        /*Reference Table*/
 
-        /*List of References */
+
+
         public virtual ICollection<StudyProcess> StudyProcesses { set; get; }
         public virtual ICollection<EndingCoursePoint> EndingCoursePoints { set; get; }
         public virtual ICollection<PeriodicPoint> PeriodicPoints { set; get; }
