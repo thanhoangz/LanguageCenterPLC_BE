@@ -20,7 +20,10 @@ namespace LanguageCenterPLC.Application.Interfaces
 
         void SaveChanges();
 
+        // bò
         public bool AddList(List<ReceiptDetailViewModel> receiptDetailVm);
+
+        List<ReceiptDetailViewModel> GetDetailReceipt(string receiptId);
 
         bool IsExists(int id);
     }

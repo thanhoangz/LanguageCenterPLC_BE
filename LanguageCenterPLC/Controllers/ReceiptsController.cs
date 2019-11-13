@@ -66,7 +66,7 @@ namespace LanguageCenterPLC.Controllers
         {
             if (string.Compare(receipt.Id, id) != 0)
             {
-                throw new Exception(string.Format("Id và Id của phiếu chi không giống nhau!"));
+                throw new Exception(string.Format("Id và Id của phiếu thu không giống nhau!"));
             }
 
             try
@@ -74,7 +74,7 @@ namespace LanguageCenterPLC.Controllers
                 await Task.Run(() =>
                 {
                     receipt.DateModified = DateTime.Now;
-                    _receiptService.Update(receipt);
+                    _receiptService.UpdateStatusReceiptAnđetail(receipt);
                     _receiptService.SaveChanges();
                     return Ok();
                 });
@@ -139,6 +139,13 @@ namespace LanguageCenterPLC.Controllers
             {
                 throw new Exception(string.Format("Lỗi xảy ra ở phân trang!"));
             }
+        }
+
+        // bò
+        [HttpPost("/api/Receipts/search-receipt")]
+        public async Task<ActionResult<IEnumerable<ReceiptViewModel>>> SearchReceipt(string keyword)
+        {
+            return await Task.FromResult(_receiptService.SearchReceipt(keyword));
         }
 
         // DELETE: api/Receipts/5

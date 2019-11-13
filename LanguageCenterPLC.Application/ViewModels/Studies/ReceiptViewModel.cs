@@ -38,6 +38,11 @@ namespace LanguageCenterPLC.Application.ViewModels.Studies
 
         public string LearnerName { get; set; }
 
+        public string LearnerCardId { get; set; }
+
+        public string LearnerAdress { get; set; }
+
+
         public Guid AppUserId { get; set; }
 
         public LearnerViewModel Learner { get; set; }
