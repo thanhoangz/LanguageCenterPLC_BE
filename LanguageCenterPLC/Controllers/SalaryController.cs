@@ -1,4 +1,5 @@
-﻿using LanguageCenterPLC.Data.EF;
+﻿using LanguageCenterPLC.Application.Interfaces;
+using LanguageCenterPLC.Data.EF;
 using LanguageCenterPLC.Data.Entities;
 using LanguageCenterPLC.Infrastructure.Enums;
 using Microsoft.AspNetCore.Mvc;
@@ -13,11 +14,12 @@ namespace LanguageCenterPLC.Controllers
     [ApiController]
     public class SalaryController : ControllerBase
     {
-
+        private readonly ITimesheetService _timesheetService;
         private readonly AppDbContext _context;
-        public SalaryController(AppDbContext context)
+        public SalaryController(AppDbContext context, ITimesheetService timesheetService)
         {
             _context = context;
+            _timesheetService = timesheetService;
         }
 
         [HttpPost]
@@ -82,6 +84,45 @@ namespace LanguageCenterPLC.Controllers
             }
             return resultList;
         }
+
+        [HttpPost]
+        [Route("payroll-approval-staff")]
+        public async Task<Object> PayrollApprovalStaff(List<int> timeSheetList)
+        {
+            try
+            {
+                await Task.Run(() =>
+                {
+                    List<SalaryPay> salaryPays = new List<SalaryPay>();
+                    foreach (var item in timeSheetList)
+                    {
+                        SalaryPay salaryPay = new SalaryPay();
+                        var timeSheet = _timesheetService.GetById(item);
+                        salaryPay.PersonnelId = timeSheet.PersonnelId;
+                        salaryPay.TotalBasicSalary = timeSheet.Salary;
+                        salaryPay.TotalAllowance = timeSheet.Allowance;
+                        salaryPay.TotalBonus = timeSheet.Bonus;
+                        salaryPay.TotalInsurancePremium = timeSheet.InsurancePremiums;
+
+                        salaryPay.TotalSalaryOfDay = timeSheet.SalaryOfDay;
+                        salaryPay.TotalWorkdays = timeSheet.TotalWorkday;
+                        salaryPay.TotalTheoreticalAmount = timeSheet.SalaryOfDay * Convert.ToDecimal(timeSheet.TotalWorkday);
+                        salaryPay.TotalRealityAmount = salaryPay.TotalSalaryOfDay * Convert.ToDecimal(salaryPay.TotalWorkdays) + salaryPay.TotalAllowance + salaryPay.TotalBonus - salaryPay.TotalInsurancePremium;
+                        salaryPays.Add(salaryPay);
+                    }
+
+                    _context.SalaryPays.AddRange(salaryPays);
+                    _context.SaveChanges();
+                });
+            }
+            catch
+            {
+                throw new Exception(string.Format("Có lỗi xảy ra !"));
+            }
+
+            return Ok();
+        }
+
 
     }
 }
