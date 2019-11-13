@@ -109,7 +109,7 @@ namespace LanguageCenterPLC.Controllers
                 }
 
             }
-            
+
             return CreatedAtAction("GetLecturer()", new { id = timesheet.Id }, timesheet);
         }
         [HttpPost("/api/Timesheets/post-timesheet-conditions")]
@@ -118,8 +118,8 @@ namespace LanguageCenterPLC.Controllers
             try
             {
                 await Task.Run(() =>
-                {                  
-                    _timesheetService.AddRange(month +1,year, userId);
+                {
+                    _timesheetService.AddRange(month + 1, year, userId);
                     _timesheetService.SaveChanges();
                     return Ok("Thêm thành công!");
                 });
@@ -133,9 +133,9 @@ namespace LanguageCenterPLC.Controllers
             return Ok();
         }
         [HttpPost("/api/Timesheets/get-all-with-conditions")]
-        public async Task<ActionResult<IEnumerable<TimesheetViewModel>>> GetAllConditions(int month,int year)
+        public async Task<ActionResult<IEnumerable<TimesheetViewModel>>> GetAllConditions(int month, int year)
         {
-            return await Task.FromResult(_timesheetService.GetAllWithConditions(month,year));
+            return await Task.FromResult(_timesheetService.GetAllWithConditions(month, year));
         }
 
         // DELETE: api/Timesheets/5
@@ -166,7 +166,7 @@ namespace LanguageCenterPLC.Controllers
         }
 
         [HttpPost]
-        [Route("payroll-approval-staff")]
+        [Route("payroll-approval-staff")]   
         public async Task<ActionResult<List<TimesheetViewModel>>> PayrollApprovalStaff(List<int> timeSheetList)
         {
             try
@@ -187,14 +187,8 @@ namespace LanguageCenterPLC.Controllers
                         salaryPay.TotalSalaryOfDay = timeSheet.SalaryOfDay;
                         salaryPay.TotalWorkdays = timeSheet.TotalWorkday;
                         salaryPay.TotalTheoreticalAmount = timeSheet.SalaryOfDay * Convert.ToDecimal(timeSheet.TotalWorkday);
-                        if (salaryPay.TotalWorkdays >= 25)
-                        {
-                            salaryPay.TotalRealityAmount = salaryPay.TotalBasicSalary + salaryPay.TotalAllowance + salaryPay.TotalBonus - salaryPay.TotalInsurancePremium;
-                        }
-                        else
-                        {
-                            salaryPay.TotalRealityAmount = salaryPay.TotalSalaryOfDay* Convert.ToDecimal(salaryPay.TotalWorkdays) + salaryPay.TotalAllowance + salaryPay.TotalBonus - salaryPay.TotalInsurancePremium;
-                        }
+
+                        salaryPay.TotalRealityAmount = salaryPay.TotalSalaryOfDay * Convert.ToDecimal(salaryPay.TotalWorkdays) + salaryPay.TotalAllowance + salaryPay.TotalBonus - salaryPay.TotalInsurancePremium;
 
                         salaryPays.Add(salaryPay);
                     }
@@ -213,7 +207,7 @@ namespace LanguageCenterPLC.Controllers
         }
 
 
-   
+
 
         private bool TimesheetExists(int id)
         {
@@ -222,7 +216,7 @@ namespace LanguageCenterPLC.Controllers
 
         private bool TimesheetExistsCondition(int month, int year, string personelId)
         {
-            return _timesheetService.IsExistsTimeSheetCondition(month,year,personelId);
+            return _timesheetService.IsExistsTimeSheetCondition(month, year, personelId);
         }
     }
 }
