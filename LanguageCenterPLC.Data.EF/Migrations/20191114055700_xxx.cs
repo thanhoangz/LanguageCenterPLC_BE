@@ -356,6 +356,7 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                     TotalTeachingByLecturer = table.Column<int>(nullable: false),
                     TotalTeachingByTutor = table.Column<int>(nullable: false),
                     TotalTheoreticalAmount = table.Column<decimal>(nullable: true),
+                    TotalAdvancePayment = table.Column<decimal>(nullable: true),
                     TotalRealityAmount = table.Column<decimal>(nullable: true),
                     Month = table.Column<int>(nullable: false),
                     Year = table.Column<int>(nullable: false)

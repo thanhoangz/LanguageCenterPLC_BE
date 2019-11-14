@@ -30,6 +30,9 @@ namespace LanguageCenterPLC.Data.Entities
         public int TotalTeachingByTutor { get; set; }
 
         public decimal? TotalTheoreticalAmount { get; set; }
+
+        public decimal? TotalAdvancePayment { get; set; }
+
         public decimal? TotalRealityAmount { get; set; }
 
         public int Month { get; set; }

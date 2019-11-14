@@ -1453,6 +1453,9 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                     b.Property<string>("PersonnelId")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<decimal?>("TotalAdvancePayment")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<decimal?>("TotalAllowance")
                         .HasColumnType("decimal(18,2)");
 
@@ -2202,7 +2205,7 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                         .IsRequired();
 
                     b.HasOne("LanguageCenterPLC.Data.Entities.Personnel", "Personnel")
-                        .WithMany("Timesheets")
+                        .WithMany()
                         .HasForeignKey("PersonnelId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

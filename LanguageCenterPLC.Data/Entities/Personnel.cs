@@ -102,7 +102,7 @@ namespace LanguageCenterPLC.Data.Entities
 
         public virtual ICollection<Receipt> Receipts { set; get; }
 
-        public virtual ICollection<Timesheet> Timesheets { set; get; }
+     
 
         public virtual ICollection<PaySlip> PaySlips { set; get; }
 
