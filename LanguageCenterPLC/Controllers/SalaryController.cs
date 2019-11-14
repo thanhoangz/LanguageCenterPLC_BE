@@ -38,7 +38,7 @@ namespace LanguageCenterPLC.Controllers
                 };
                 resultList.Add(paiedPersonnel);
             }
-            return resultList;
+            return await Task.FromResult(resultList);
         }
 
         [HttpPost]
@@ -71,8 +71,8 @@ namespace LanguageCenterPLC.Controllers
                     TotalWorkdays = item.TotalWorkday,
                     TotalTheoreticalAmount = item.SalaryOfDay * Convert.ToDecimal(item.TotalWorkday),
                     TotalRealityAmount = item.SalaryOfDay * Convert.ToDecimal(item.TotalWorkday) + item.Allowance + item.Bonus - item.InsurancePremiums - item.AdvancePayment,
-                    Month = item.Month,
-                    Year = item.Year
+                    item.Month,
+                    item.Year
                 };
 
                 var paiedPersonnel = new
@@ -82,7 +82,7 @@ namespace LanguageCenterPLC.Controllers
                 };
                 resultList.Add(paiedPersonnel);
             }
-            return resultList;
+            return await Task.FromResult(resultList);
         }
 
         [HttpPost]

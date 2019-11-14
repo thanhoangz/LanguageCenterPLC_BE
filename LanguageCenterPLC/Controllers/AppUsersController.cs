@@ -23,14 +23,14 @@ namespace LanguageCenterPLC.Controllers
     public class AppUsersController : ControllerBase
     {
         private readonly UserManager<AppUser> _userManager;
-        private readonly SignInManager<AppUser> _singInManager;
+
         private readonly ApplicationSettings _appSettings;
         private readonly AppDbContext _context;
 
-        public AppUsersController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IOptions<ApplicationSettings> appSettings, AppDbContext context)
+        public AppUsersController(UserManager<AppUser> userManager, IOptions<ApplicationSettings> appSettings, AppDbContext context)
         {
             _userManager = userManager;
-            _singInManager = signInManager;
+         
             _appSettings = appSettings.Value;
             _context = context;
         }
@@ -82,14 +82,16 @@ namespace LanguageCenterPLC.Controllers
                 var functions = _context.Functions;
                 foreach (var item in functions)
                 {
-                    Permission permission = new Permission();
-                    permission.AppUserId = user.Id;
-                    permission.FunctionId = item.Id;
-                    permission.CanCreate = false;
-                    permission.CanUpdate = false;
-                    permission.CanDelete = false;
-                    permission.CanRead = false;
-                    permission.Status = Status.Active;
+                    Permission permission = new Permission
+                    {
+                        AppUserId = user.Id,
+                        FunctionId = item.Id,
+                        CanCreate = false,
+                        CanUpdate = false,
+                        CanDelete = false,
+                        CanRead = false,
+                        Status = Status.Active
+                    };
                 }
 
                 return Ok(result);
