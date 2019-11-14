@@ -21,13 +21,15 @@ namespace LanguageCenterPLC.Application.Implementation
         private readonly IRepository<Learner, string> _learnerRepository;
         private readonly IRepository<StudyProcess, int> _studyProcessRepository;
         private readonly IRepository<Personnel, string> _personnelRepository;
+        private readonly IRepository<ReceiptDetail, int> _receiptDetailRepository;
 
         private readonly IUnitOfWork _unitOfWork;
         private readonly AppDbContext _context;
 
         public ReceiptService(IRepository<Receipt, string> receiptRepository, IRepository<ReceiptType, int> receiptTypeRepository, IUnitOfWork unitOfWork,
              IRepository<LanguageClass, string> languageClassRepository, IRepository<Learner, string> learnerRepository,
-             IRepository<StudyProcess, int> studyProcessRepository, AppDbContext context, IRepository<Personnel, string> personnelRepository)
+             IRepository<StudyProcess, int> studyProcessRepository, AppDbContext context, IRepository<Personnel, string> personnelRepository,
+             IRepository<ReceiptDetail, int> receiptDetailRepository)
         {
             _receiptRepository = receiptRepository;
             _receiptTypeRepository = receiptTypeRepository;
@@ -36,6 +38,7 @@ namespace LanguageCenterPLC.Application.Implementation
             _learnerRepository = learnerRepository;
             _personnelRepository = personnelRepository;
             _studyProcessRepository = studyProcessRepository;
+            _receiptDetailRepository = receiptDetailRepository;
             _context = context;
             
 
@@ -82,14 +85,12 @@ namespace LanguageCenterPLC.Application.Implementation
             var receiptViewModel = Mapper.Map<List<ReceiptViewModel>>(receipt);
 
             foreach (var item in receiptViewModel)
-            {
-                string receiptname = _receiptTypeRepository.FindById(item.ReceiptTypeId).Name;
-                string learnerName = _learnerRepository.FindById(item.LearnerId).FirstName + " " + _learnerRepository.FindById(item.LearnerId).LastName;
-                string personnelName = _personnelRepository.FindById(item.PersonnelId).FirstName + " " + _personnelRepository.FindById(item.PersonnelId).LastName;
-
-                item.ReceiptTypeName = receiptname;
-                item.LearnerName = learnerName;
-                item.PersonnelName = personnelName;
+            {           
+                item.ReceiptTypeName = _receiptTypeRepository.FindById(item.ReceiptTypeId).Name;
+                item.LearnerName = _learnerRepository.FindById(item.LearnerId).FirstName + " " + _learnerRepository.FindById(item.LearnerId).LastName;
+                item.LearnerCardId = _learnerRepository.FindById(item.LearnerId).CardId;
+                item.LearnerAdress = _learnerRepository.FindById(item.LearnerId).Address;
+                item.PersonnelName = _personnelRepository.FindById(item.PersonnelId).FirstName + " " + _personnelRepository.FindById(item.PersonnelId).LastName;
             }
             return receiptViewModel;
         }
@@ -199,6 +200,50 @@ namespace LanguageCenterPLC.Application.Implementation
             {
                 return false;
             }
+        }
+
+        // Bò
+        public bool UpdateStatusReceiptAnđetail(ReceiptViewModel receiptVm)
+        {
+            try
+            {
+                var receipt = Mapper.Map<ReceiptViewModel, Receipt>(receiptVm);
+                receipt.ForReason = receipt.NameOfPaymentApplicant;
+                _receiptRepository.Update(receipt);
+                var detail = _receiptDetailRepository.FindAll(x => x.ReceiptId == receipt.Id).ToList();
+                foreach (var item in detail)
+                {
+                    item.Status = receipt.Status;
+                    _receiptDetailRepository.Update(item);
+                }
+                return true;
+
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public List<ReceiptViewModel> SearchReceipt(string keyWord = "")
+        {
+            
+            var receipts = (from receipt in _receiptRepository.FindAll()
+                            join learner in _learnerRepository.FindAll() on receipt.LearnerId equals learner.Id 
+                            where receipt.Id == keyWord || learner.FirstName.Contains(keyWord) || learner.LastName.Contains(keyWord)
+                            || (learner.FirstName +" "+ learner.LastName).Contains(keyWord) select receipt).ToList();
+            var receiptViewModel = Mapper.Map<List<ReceiptViewModel>>(receipts);
+            foreach (var item in receiptViewModel)
+            {
+                item.ReceiptTypeName = _receiptTypeRepository.FindById(item.ReceiptTypeId).Name;
+                item.LearnerName = _learnerRepository.FindById(item.LearnerId).FirstName + " " + _learnerRepository.FindById(item.LearnerId).LastName;
+                item.LearnerCardId = _learnerRepository.FindById(item.LearnerId).CardId;
+                item.LearnerAdress = _learnerRepository.FindById(item.LearnerId).Address;
+                item.PersonnelName = _personnelRepository.FindById(item.PersonnelId).FirstName + " " + _personnelRepository.FindById(item.PersonnelId).LastName;
+            }
+            return receiptViewModel;
+
+            
         }
 
     }
