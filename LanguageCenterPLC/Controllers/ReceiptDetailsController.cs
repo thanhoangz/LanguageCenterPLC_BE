@@ -29,12 +29,20 @@ namespace LanguageCenterPLC.Controllers
         {
             return await Task.FromResult(_receiptDetailService.GetAll());
         }
-
+        ///////////////////////////////////////////////////////////////////////
         [HttpPost("/api/ReceiptDetails/get-all-with-conditions")]
         public async Task<ActionResult<IEnumerable<ReceiptDetailViewModel>>> GetAllConditions(string receiptId = "")
         {
             return await Task.FromResult(_receiptDetailService.GetAllWithConditions( receiptId));
         }
+
+        ///////////////////////////////////////////////////////////////////////
+        [HttpPost("/api/ReceiptDetails/get-receipt-detail-for-receipt")]
+        public async Task<ActionResult<IEnumerable<ReceiptDetailViewModel>>> GetDetailReceiptForReceipt(string receiptId = "")
+        {
+            return await Task.FromResult(_receiptDetailService.GetDetailReceipt(receiptId));
+        }
+
 
 
         // PUT: api/ReceiptDetails/5
@@ -101,7 +109,7 @@ namespace LanguageCenterPLC.Controllers
         }
 
         [HttpPost("/api/ReceiptDetails/add-list-receiptDetail")]
-        public async Task<ActionResult<ReceiptDetailViewModel>> PostPeriodicPointDetailAll(List<ReceiptDetailViewModel> receiptDetail)
+        public async Task<ActionResult<ReceiptDetailViewModel>> AddListReceiptDetail(List<ReceiptDetailViewModel> receiptDetail)
         {
             try
             {

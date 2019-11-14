@@ -97,6 +97,19 @@ namespace LanguageCenterPLC.Application.Implementation
             return receiptDetailViewModel;
         }
 
+        public List<ReceiptDetailViewModel> GetDetailReceipt(string receiptId)
+        {
+
+            var receiptDetail = _receiptDetailRepository.FindAll().Where(x=>x.ReceiptId == receiptId && x.Status == Status.Active ).ToList();
+            var receiptDetailViewModel = Mapper.Map<List<ReceiptDetailViewModel>>(receiptDetail);
+            foreach (var item in receiptDetailViewModel)
+            {
+                string name = _classRepository.FindById(item.LanguageClassId).Name;
+                item.LanguageClassName = name;
+            }
+            return receiptDetailViewModel;
+        }
+
         public ReceiptDetailViewModel GetById(int id)
         {
             throw new NotImplementedException();

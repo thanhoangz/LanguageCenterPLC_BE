@@ -23,7 +23,9 @@ namespace LanguageCenterPLC.Application.Interfaces
 
         ReceiptViewModel GetById(string id);
 
-
+        // bò
+        public bool UpdateStatusReceiptAnđetail(ReceiptViewModel receiptVm);
+        public List<ReceiptViewModel> SearchReceipt(string keyWord);
         bool IsExists(string id);
 
         void SaveChanges();
