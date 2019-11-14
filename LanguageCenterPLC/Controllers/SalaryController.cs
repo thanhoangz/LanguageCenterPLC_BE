@@ -1,7 +1,10 @@
-﻿using LanguageCenterPLC.Application.Interfaces;
+﻿using DinkToPdf;
+using IronPdf;
+using LanguageCenterPLC.Application.Interfaces;
 using LanguageCenterPLC.Data.EF;
 using LanguageCenterPLC.Data.Entities;
 using LanguageCenterPLC.Infrastructure.Enums;
+using LanguageCenterPLC.Utilities.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -122,6 +125,10 @@ namespace LanguageCenterPLC.Controllers
 
             return Ok();
         }
+
+
+
+       
 
 
     }

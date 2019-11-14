@@ -1,0 +1,28 @@
+@media print {
+    .page-break {
+        height: 0;
+        page-break-before: always;
+        margin: 0;
+        border-top: none;
+    }
+}
+
+body, p, a,
+span, td {
+    font-size: 9pt;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    margin-left: 2em;
+    margin-right: 2em;
+}
+
+.page {
+    height: 947px;
+    padding-top: 5px;
+    page-break-after: always;
+    font-family: Arial, Helvetica, sans-serif;
+    position: relative;
+    border-bottom: 1px solid #000;
+}
