@@ -48,15 +48,28 @@ namespace LanguageCenterPLC.Controllers
         [Route("not-paied-roll-personnels")]
         public async Task<List<Object>> NotPaiedPersonnels(int month, int year)
         {
-            var salaryPaies = _context.SalaryPays.Where(x => x.Month == month && x.Year == year && !string.IsNullOrEmpty(x.PersonnelId));
-            var timeSheets = _context.Timesheets.Where(x => x.Month == month && x.Year == year && x.Status == Status.Active);
-            var timeSheetNotInSalary = new List<Timesheet>();
-            foreach (var salary in salaryPaies)
+            var salaryPaies = _context.SalaryPays.Where(x => x.Month == month && x.Year == year && !string.IsNullOrEmpty(x.PersonnelId)).ToList();
+            var timeSheets = _context.Timesheets.Where(x => x.Month == month && x.Year == year && x.Status == Status.Active).ToList();
+
+            var timeSheetInSalary = new List<Timesheet>();
+            if (salaryPaies.Count != 0)
             {
-                var temp = timeSheets.Where(x => x.PersonnelId == salary.PersonnelId).ToList();
-                if (temp.Count != 0)
+                foreach (var salary in salaryPaies)
                 {
-                    timeSheetNotInSalary.Add(temp[0]);
+                    var temp = timeSheets.Where(x => x.PersonnelId == salary.PersonnelId).SingleOrDefault();
+                    if (temp != null)
+                    {
+                        timeSheetInSalary.Add(temp);
+                    }
+                }
+            }
+
+            var timeSheetNotInSalary = new  List<Timesheet>();
+            foreach (var item in timeSheets)
+            {
+                if (!timeSheetInSalary.Contains(item))
+                {
+                    timeSheetNotInSalary.Add(item);
                 }
             }
 
@@ -66,14 +79,16 @@ namespace LanguageCenterPLC.Controllers
                 var personnel = _context.Personnels.Find(item.PersonnelId);
                 var temp = new
                 {
-                    TotalBasicSalary = item.Salary,
-                    TotalSalaryOfDay = item.SalaryOfDay,
-                    TotalAllowance = item.Allowance,
-                    TotalBonus = item.Bonus,
+                    id = item.Id,
+                    TotalBasicSalary = item.Salary,         // lương cơ bản
+                    TotalSalaryOfDay = item.SalaryOfDay,    // luong theo ngày
+                    TotalAllowance = item.Allowance,        
+                    TotalAdvancePayment = item.AdvancePayment,  // tạm ứng
+                    TotalBonus = item.Bonus,                       
                     TotalInsurancePremium = item.InsurancePremiums,
-                    TotalWorkdays = item.TotalWorkday,
-                    TotalTheoreticalAmount = item.SalaryOfDay * Convert.ToDecimal(item.TotalWorkday),
-                    TotalRealityAmount = item.SalaryOfDay * Convert.ToDecimal(item.TotalWorkday) + item.Allowance + item.Bonus - item.InsurancePremiums - item.AdvancePayment,
+                    TotalWorkdays = item.TotalWorkday,          // số công
+                    TotalTheoreticalAmount = item.SalaryOfDay * Convert.ToDecimal(item.TotalWorkday) + item.Allowance + item.Bonus - item.InsurancePremiums,   // tổng lương          
+                    TotalRealityAmount = item.SalaryOfDay * Convert.ToDecimal(item.TotalWorkday) + item.Allowance + item.Bonus - item.InsurancePremiums - item.AdvancePayment,  // tiền nhận đc
                     item.Month,
                     item.Year
                 };
@@ -85,7 +100,7 @@ namespace LanguageCenterPLC.Controllers
                 };
                 resultList.Add(paiedPersonnel);
             }
-            return await Task.FromResult(resultList);
+            return resultList;
         }
 
         [HttpPost]
@@ -106,11 +121,11 @@ namespace LanguageCenterPLC.Controllers
                         salaryPay.TotalAllowance = timeSheet.Allowance;
                         salaryPay.TotalBonus = timeSheet.Bonus;
                         salaryPay.TotalInsurancePremium = timeSheet.InsurancePremiums;
-
+                        salaryPay.TotalAdvancePayment = timeSheet.AdvancePayment;
                         salaryPay.TotalSalaryOfDay = timeSheet.SalaryOfDay;
                         salaryPay.TotalWorkdays = timeSheet.TotalWorkday;
-                        salaryPay.TotalTheoreticalAmount = timeSheet.SalaryOfDay * Convert.ToDecimal(timeSheet.TotalWorkday);
-                        salaryPay.TotalRealityAmount = salaryPay.TotalSalaryOfDay * Convert.ToDecimal(salaryPay.TotalWorkdays) + salaryPay.TotalAllowance + salaryPay.TotalBonus - salaryPay.TotalInsurancePremium;
+                        salaryPay.TotalTheoreticalAmount = timeSheet.SalaryOfDay * Convert.ToDecimal(timeSheet.TotalWorkday) + timeSheet.Allowance + timeSheet.Bonus - timeSheet.InsurancePremiums;     // tổng lương                               // nhận đc bên dưới
+                        salaryPay.TotalRealityAmount = salaryPay.TotalSalaryOfDay * Convert.ToDecimal(salaryPay.TotalWorkdays) + salaryPay.TotalAllowance + salaryPay.TotalBonus - salaryPay.TotalInsurancePremium - salaryPay.TotalAdvancePayment;
                         salaryPays.Add(salaryPay);
                     }
 
