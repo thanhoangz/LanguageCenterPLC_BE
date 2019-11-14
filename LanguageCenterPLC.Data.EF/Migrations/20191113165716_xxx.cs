@@ -543,6 +543,8 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                     DateCreated = table.Column<DateTime>(nullable: false),
                     DateModified = table.Column<DateTime>(nullable: true),
                     Note = table.Column<string>(nullable: true),
+                    WageOfLecturer = table.Column<decimal>(nullable: true),
+                    WageOfTutor = table.Column<decimal>(nullable: true),
                     CourseId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>

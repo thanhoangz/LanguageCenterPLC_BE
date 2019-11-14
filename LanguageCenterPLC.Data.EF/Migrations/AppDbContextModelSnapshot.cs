@@ -685,6 +685,12 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
+                    b.Property<decimal?>("WageOfLecturer")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal?>("WageOfTutor")
+                        .HasColumnType("decimal(18,2)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CourseId");
