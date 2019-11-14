@@ -43,7 +43,7 @@ namespace LanguageCenterPLC.Controllers
             return await Task.FromResult(users);
         }
 
-    
+
         // DELETE: api/AppUsers
         [HttpDelete("{id}")]
         public async Task<Object> DeleteUsers(Guid id)
@@ -71,12 +71,27 @@ namespace LanguageCenterPLC.Controllers
                 DateCreated = model.DateCreated,
                 DateModified = model.DateModified,
                 Status = Status.Active,
-                
+
             };
 
             try
             {
                 var result = await _userManager.CreateAsync(appnUser, model.Password);
+
+                var user = await _userManager.FindByNameAsync(appnUser.UserName);
+                var functions = _context.Functions;
+                foreach (var item in functions)
+                {
+                    Permission permission = new Permission();
+                    permission.AppUserId = user.Id;
+                    permission.FunctionId = item.Id;
+                    permission.CanCreate = false;
+                    permission.CanUpdate = false;
+                    permission.CanDelete = false;
+                    permission.CanRead = false;
+                    permission.Status = Status.Active;
+                }
+
                 return Ok(result);
             }
             catch (Exception ex)
@@ -97,7 +112,7 @@ namespace LanguageCenterPLC.Controllers
                 var userUpdate = await _userManager.FindByNameAsync(user.UserName);
                 if (userUpdate.PasswordHash != null)
                 {
-                   await _userManager.RemovePasswordAsync(userUpdate);
+                    await _userManager.RemovePasswordAsync(userUpdate);
                 }
 
                 await _userManager.AddPasswordAsync(userUpdate, user.Password);
