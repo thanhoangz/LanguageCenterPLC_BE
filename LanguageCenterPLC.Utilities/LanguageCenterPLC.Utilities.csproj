@@ -5,10 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="IronPdf" Version="2019.7.0" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\LanguageCenterPLC.Data\LanguageCenterPLC.Data.csproj" />
   </ItemGroup>
 

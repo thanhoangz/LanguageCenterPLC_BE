@@ -15,7 +15,6 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="3.0.1" />
-    <PackageReference Include="IronPdf" Version="2019.7.0" />
   </ItemGroup>
 
   <ItemGroup>

@@ -100,7 +100,7 @@ namespace LanguageCenterPLC.Controllers
                 };
                 resultList.Add(paiedPersonnel);
             }
-            return resultList;
+            return await Task.FromResult(resultList);
         }
 
         [HttpPost]
