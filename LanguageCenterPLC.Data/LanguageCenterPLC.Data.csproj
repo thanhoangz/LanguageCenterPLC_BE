@@ -9,6 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="IronPdf" Version="2019.7.0" />
     <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="3.0.0" />
   </ItemGroup>
 

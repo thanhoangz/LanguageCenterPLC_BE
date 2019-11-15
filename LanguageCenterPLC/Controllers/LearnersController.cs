@@ -62,6 +62,8 @@ namespace LanguageCenterPLC.Controllers
         {
             return await Task.FromResult(_learnerService.ChuaCoLop());
         }
+
+
         // GET: api/Learners/get-da-co-lop
         [HttpGet("/api/Learners/get-da-co-lop")]
         public async Task<ActionResult<IEnumerable<LearnerViewModel>>> GetDaCoLop()
@@ -142,8 +144,6 @@ namespace LanguageCenterPLC.Controllers
         }
 
         // POST: api/Learners
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
         public async Task<ActionResult<Learner>> PostLearner(LearnerViewModel learner)
         {

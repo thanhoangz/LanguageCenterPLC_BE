@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using LanguageCenterPLC.Application.Interfaces;
+using LanguageCenterPLC.Application.ViewModels.Timekeepings;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using LanguageCenterPLC.Data.EF;
-using LanguageCenterPLC.Data.Entities;
-using LanguageCenterPLC.Application.Interfaces;
-using LanguageCenterPLC.Application.ViewModels.Timekeepings;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace LanguageCenterPLC.Controllers
 {
@@ -17,11 +13,10 @@ namespace LanguageCenterPLC.Controllers
     public class TimesheetsController : ControllerBase
     {
         private readonly ITimesheetService _timesheetService;
-        private readonly AppDbContext _context;
-        public TimesheetsController(ITimesheetService timesheetService, AppDbContext context)
+ 
+        public TimesheetsController(ITimesheetService timesheetService)
         {
             _timesheetService = timesheetService;
-            _context = context;
         }
 
         // GET: api/Timesheets
@@ -174,9 +169,9 @@ namespace LanguageCenterPLC.Controllers
             return _timesheetService.IsExists(id);
         }
 
-        private bool TimesheetExistsCondition(int month, int year, string personelId)
-        {
-            return _timesheetService.IsExistsTimeSheetCondition(month, year, personelId);
-        }
+        //private bool TimesheetExistsCondition(int month, int year, string personelId)
+        //{
+        //    return _timesheetService.IsExistsTimeSheetCondition(month, year, personelId);
+        //}
     }
 }

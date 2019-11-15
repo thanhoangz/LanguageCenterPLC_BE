@@ -23,14 +23,14 @@ namespace LanguageCenterPLC.Controllers
     public class AppUsersController : ControllerBase
     {
         private readonly UserManager<AppUser> _userManager;
-        private readonly SignInManager<AppUser> _singInManager;
+
         private readonly ApplicationSettings _appSettings;
         private readonly AppDbContext _context;
 
-        public AppUsersController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IOptions<ApplicationSettings> appSettings, AppDbContext context)
+        public AppUsersController(UserManager<AppUser> userManager, IOptions<ApplicationSettings> appSettings, AppDbContext context)
         {
             _userManager = userManager;
-            _singInManager = signInManager;
+         
             _appSettings = appSettings.Value;
             _context = context;
         }
@@ -43,7 +43,7 @@ namespace LanguageCenterPLC.Controllers
             return await Task.FromResult(users);
         }
 
-    
+
         // DELETE: api/AppUsers
         [HttpDelete("{id}")]
         public async Task<Object> DeleteUsers(Guid id)
@@ -71,12 +71,29 @@ namespace LanguageCenterPLC.Controllers
                 DateCreated = model.DateCreated,
                 DateModified = model.DateModified,
                 Status = Status.Active,
-                
+
             };
 
             try
             {
                 var result = await _userManager.CreateAsync(appnUser, model.Password);
+
+                var user = await _userManager.FindByNameAsync(appnUser.UserName);
+                var functions = _context.Functions;
+                foreach (var item in functions)
+                {
+                    Permission permission = new Permission
+                    {
+                        AppUserId = user.Id,
+                        FunctionId = item.Id,
+                        CanCreate = false,
+                        CanUpdate = false,
+                        CanDelete = false,
+                        CanRead = false,
+                        Status = Status.Active
+                    };
+                }
+
                 return Ok(result);
             }
             catch (Exception ex)
@@ -97,7 +114,7 @@ namespace LanguageCenterPLC.Controllers
                 var userUpdate = await _userManager.FindByNameAsync(user.UserName);
                 if (userUpdate.PasswordHash != null)
                 {
-                   await _userManager.RemovePasswordAsync(userUpdate);
+                    await _userManager.RemovePasswordAsync(userUpdate);
                 }
 
                 await _userManager.AddPasswordAsync(userUpdate, user.Password);

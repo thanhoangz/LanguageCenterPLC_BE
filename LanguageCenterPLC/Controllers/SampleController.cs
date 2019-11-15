@@ -508,12 +508,12 @@ namespace LanguageCenterPLC.Controllers
                     lecturer.Certificate = "";
 
                     temp = rnd.Next(1, 30);
-                    lecturer.BasicSalary = temp * 100000;
-                    lecturer.Allowance = 50000;
-                    lecturer.Bonus = temp * 200;
-                    lecturer.InsurancePremium = temp * 15;
-                    lecturer.WageOfLecturer = 30000;
-                    lecturer.WageOfTutor = 15000;
+                    lecturer.BasicSalary = 12500000;
+                    lecturer.Allowance = 500000;
+                    lecturer.Bonus = 500000;
+                    lecturer.InsurancePremium = 1250000;
+                    lecturer.WageOfLecturer = 500000;
+                    lecturer.WageOfTutor = 200000;
                     lecturer.IsTutor = gen.Next(100) < 50 ? true : false;
                     lecturer.IsVisitingLecturer = gen.Next(100) < 50 ? true : false;
 
@@ -571,16 +571,16 @@ namespace LanguageCenterPLC.Controllers
                     personnel.Image = _images[temp];
                     temp = rnd.Next(1, 7);
                     personnel.Nationality = _national[temp];
-
+                    personnel.SalaryOfDay = 300000;
                     personnel.MarritalStatus = gen.Next(100) < 50 ? 1 : 0;
                     personnel.ExperienceRecord = "";
                     personnel.Position = "Nhân viên";
                     personnel.Certificate = "";
                     temp = rnd.Next(1, 30);
-                    personnel.BasicSalary = temp * 100000;
-                    personnel.Allowance = 50000;
-                    personnel.Bonus = temp * 200;
-                    personnel.InsurancePremium = temp * 15;
+                    personnel.BasicSalary =7500000;
+                    personnel.Allowance = 500000;
+                    personnel.Bonus = 500000;
+                    personnel.InsurancePremium = 750000;
 
 
                     personnel.Note = "";
