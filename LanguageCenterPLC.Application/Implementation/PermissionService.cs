@@ -119,5 +119,40 @@ namespace LanguageCenterPLC.Application.Implementation
                 return false;
             }
         }
+
+        public List<PermissionViewModel> GetAllByBo(Guid userId)
+        {
+            var permissions = (from permission in _permissionRepository.FindAll()
+                               join funtion in _functionRepository.FindAll() on permission.FunctionId equals funtion.Id
+                               where permission.AppUserId == userId && String.IsNullOrEmpty(funtion.ParentId)
+                               orderby funtion.Name ascending
+                               select permission).ToList();
+
+
+            var permissionsViewModel = Mapper.Map<List<PermissionViewModel>>(permissions);
+            foreach (var item in permissionsViewModel)
+            {
+                item.FunctionName = _functionRepository.FindById(item.FunctionId).Name;
+                item.UserName = _context.AppUsers.Where(x => x.Id == item.AppUserId).FirstOrDefault().UserName;
+                item.FunctionParentId = _functionRepository.FindById(item.FunctionId).Id;
+                var childPermissions = (from permission in _permissionRepository.FindAll()
+                                        join funtion in _functionRepository.FindAll() on permission.FunctionId equals funtion.Id
+                                        where permission.AppUserId == userId && funtion.ParentId == item.FunctionId
+                                        orderby funtion.Name ascending
+                                        select permission).ToList();
+                var childPermissionsViewModel = Mapper.Map<List<PermissionViewModel>>(childPermissions);
+                foreach (var child in childPermissionsViewModel)
+                {
+                    child.FunctionName = _functionRepository.FindById(child.FunctionId).Name;
+                    child.UserName = _context.AppUsers.Where(x => x.Id == child.AppUserId).FirstOrDefault().UserName;
+                    child.FunctionParentId = _functionRepository.FindById(child.FunctionId).Id;
+                }
+                item.ChildFunctionViewModels = childPermissionsViewModel;
+
+            }
+
+           
+            return permissionsViewModel;
+        }
     }
 }

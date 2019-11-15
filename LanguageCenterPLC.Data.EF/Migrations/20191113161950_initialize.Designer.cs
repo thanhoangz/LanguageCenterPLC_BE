@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LanguageCenterPLC.Data.EF.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20191111143956_xxx")]
-    partial class xxx
+    [Migration("20191113161950_initialize")]
+    partial class initialize
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -686,6 +686,12 @@ namespace LanguageCenterPLC.Data.EF.Migrations
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
+
+                    b.Property<decimal?>("WageOfLecturer")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal?>("WageOfTutor")
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 

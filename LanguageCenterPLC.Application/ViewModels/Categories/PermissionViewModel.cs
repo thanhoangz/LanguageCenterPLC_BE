@@ -1,6 +1,7 @@
 ﻿using LanguageCenterPLC.Application.ViewModels.Finances;
 using LanguageCenterPLC.Infrastructure.Enums;
 using System;
+using System.Collections.Generic;
 
 namespace LanguageCenterPLC.Application.ViewModels.Categories
 {
@@ -24,7 +25,10 @@ namespace LanguageCenterPLC.Application.ViewModels.Categories
 
         public string FunctionName { get; set; }
 
+        public string FunctionParentId { get; set; }
+
         public Status Status { get; set; }
+        public List<PermissionViewModel> ChildFunctionViewModels { get; set; }
 
     }
 }

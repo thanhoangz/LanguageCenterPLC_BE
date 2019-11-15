@@ -36,6 +36,12 @@ namespace LanguageCenterPLC.Controllers
             return await Task.FromResult(_permissionService.GetAllByUser(new Guid(Id)));
         }
 
+        [HttpPost]
+        [Route("get-permission-by-bo-user")]
+        public async Task<ActionResult<IEnumerable<PermissionViewModel>>> GetAllByBo(Guid userId)
+        {
+            return await Task.FromResult(_permissionService.GetAllByBo(userId));
+        }
 
 
         // PUT: api/Permissions/5
