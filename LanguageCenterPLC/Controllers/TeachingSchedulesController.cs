@@ -113,8 +113,13 @@ namespace LanguageCenterPLC.Controllers
         // POST: api/TeachingSchedules
         [HttpPost]
         [Route("Add")]
-        public async Task<ActionResult<TeachingSchedule>> PostTeachingSchedule(TeachingScheduleViewModel teachingSchedule)
+        public async Task<Object> PostTeachingSchedule(TeachingScheduleViewModel teachingSchedule)
         {
+            var check = _context.TeachingSchedules.Where(x => x.LanguageClassId == teachingSchedule.LanguageClassId).ToList();
+            if(check.Count != 0)
+            {
+                return check;
+            }
             teachingSchedule.DateCreated = DateTime.Now;
 
             var schedule = Mapper.Map<TeachingScheduleViewModel, TeachingSchedule>(teachingSchedule);

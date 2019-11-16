@@ -783,7 +783,7 @@ namespace LanguageCenterPLC.Controllers
                     teachingSchedule.ToDate = teachingSchedule.FromDate.AddDays(temp);
                     temp = rnd.Next(1, 4);
                     teachingSchedule.DaysOfWeek = temp;
-                    teachingSchedule.Status = Status.Active;
+                    teachingSchedule.Status = Status.Pause;
                     teachingSchedule.DateCreated = DateTime.Now;
                     teachingSchedule.DateModified = DateTime.Now;
                     temp = rnd.Next(1, 14);
