@@ -57,6 +57,5 @@ namespace LanguageCenterPLC.Data.Entities
         [ForeignKey("LanguageClassId")]
         public virtual LanguageClass LanguageClass { get; set; }
 
-        public virtual ICollection<ClassSession> ClassSessions { set; get; }
     }
 }

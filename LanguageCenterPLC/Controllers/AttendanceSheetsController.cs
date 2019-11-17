@@ -98,8 +98,9 @@ namespace LanguageCenterPLC.Controllers
         [HttpPost]
         public async Task<ActionResult<AttendanceSheetViewModel>> PostAttendanceSheet(AttendanceSheetViewModel attendanceSheet)
         {
-            attendanceSheet.WageOfLecturer = 0;
-            attendanceSheet.WageOfTutor = 0;
+            var _class = _context.LanguageClasses.Where(x => x.Id == attendanceSheet.LanguageClassId).SingleOrDefault();
+            attendanceSheet.WageOfLecturer = Convert.ToDecimal( _class.WageOfLecturer);
+            attendanceSheet.WageOfTutor = Convert.ToDecimal(_class.WageOfTutor);
             attendanceSheet.DateCreated = DateTime.Now;
             attendanceSheet.Status = Status.Active;
             var result = Mapper.Map<AttendanceSheetViewModel, AttendanceSheet>(attendanceSheet);
