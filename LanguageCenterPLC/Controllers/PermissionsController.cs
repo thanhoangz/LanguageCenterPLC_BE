@@ -44,6 +44,28 @@ namespace LanguageCenterPLC.Controllers
         }
 
 
+        // bò add range
+        [HttpPost("/api/Permissions/add-all-function-permission")]
+        public async Task<ActionResult<IEnumerable<PermissionViewModel>>> AddFunctionInPermission()
+        {
+            try
+            {
+                await Task.Run(() =>
+                {
+                    _permissionService.AddRangPermission();
+                    _permissionService.SaveChanges();
+                    return Ok("Thêm thành công!");
+                });
+
+            }
+            catch
+            {
+
+                throw new Exception(string.Format("Lỗi khi thêm dữ liệu"));
+            }
+            return Ok();
+        }
+
         // PUT: api/Permissions/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutPermission(int id, PermissionViewModel permission)

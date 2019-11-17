@@ -621,6 +621,15 @@ namespace LanguageCenterPLC.Controllers
                     },
                     new Function()
                     {
+                        Id = "owqkazmakauwmajlop",
+                        Name = "Danh sách lớp",
+                        URL = "",
+                        SortOrder = 35,
+                        Status = Status.Active,
+                        ParentId = "7rjHufjhgg",
+                    },
+                    new Function()
+                    {
                         Id = "82fxsSM76d",
                         Name = "Cấu hình trung tâm",
                         URL = "",

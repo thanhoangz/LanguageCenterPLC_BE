@@ -11,6 +11,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="Migrations\20191115152536_fsngsdkjbn.cs" />
+    <Compile Include="Migrations\20191115152536_fsngsdkjbn.designer.cs" />
+    <Compile Include="Migrations\AppDbContextModelSnapshot.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Configurations\" />
     <Folder Include="Repositories\" />
   </ItemGroup>

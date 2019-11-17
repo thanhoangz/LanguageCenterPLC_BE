@@ -3,6 +3,7 @@ using LanguageCenterPLC.Application.Interfaces;
 using LanguageCenterPLC.Application.ViewModels.Categories;
 using LanguageCenterPLC.Data.EF;
 using LanguageCenterPLC.Data.Entities;
+using LanguageCenterPLC.Infrastructure.Enums;
 using LanguageCenterPLC.Infrastructure.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -18,12 +19,13 @@ namespace LanguageCenterPLC.Application.Implementation
         private readonly AppDbContext _context;
         private readonly IUnitOfWork _unitOfWork;
 
+
         public PermissionService(IRepository<Permission, int> permissionRepository,
             IRepository<Function, string> functionRepository, IUnitOfWork unitOfWork,
             AppDbContext context)
         {
             _permissionRepository = permissionRepository;
-            _functionRepository = functionRepository;
+            _functionRepository = functionRepository; 
             _unitOfWork = unitOfWork;
             _context = context;
         }
@@ -119,7 +121,7 @@ namespace LanguageCenterPLC.Application.Implementation
                 return false;
             }
         }
-
+      
         public List<PermissionViewModel> GetAllByBo(Guid userId)
         {
             var permissions = (from permission in _permissionRepository.FindAll()
@@ -154,5 +156,33 @@ namespace LanguageCenterPLC.Application.Implementation
            
             return permissionsViewModel;
         }
+
+        public bool AddRangPermission()
+        {
+            try
+            {
+                var userNew = _context.AppUsers.Where(x => x.Status == Status.Active).OrderByDescending(x => x.DateCreated).ToList();
+                var functions = _functionRepository.FindAll().ToList();
+
+                foreach (var item in functions)
+                {
+                    Permission permission = new Permission
+                    {
+                        AppUserId = userNew[0].Id,
+                        FunctionId = item.Id,
+                        Status = Status.Active
+
+                    };
+                    _permissionRepository.Add(permission);
+                    _unitOfWork.Commit();
+                }
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }       
     }
 }
