@@ -123,6 +123,8 @@ namespace LanguageCenterPLC.Controllers
                         salaryPay.TotalWorkdays = timeSheet.TotalWorkday;
                         salaryPay.TotalTheoreticalAmount = timeSheet.SalaryOfDay * Convert.ToDecimal(timeSheet.TotalWorkday) + timeSheet.Allowance + timeSheet.Bonus - timeSheet.InsurancePremiums;     // tổng lương                               // nhận đc bên dưới
                         salaryPay.TotalRealityAmount = salaryPay.TotalSalaryOfDay * Convert.ToDecimal(salaryPay.TotalWorkdays) + salaryPay.TotalAllowance + salaryPay.TotalBonus - salaryPay.TotalInsurancePremium - salaryPay.TotalAdvancePayment;
+                        salaryPay.Month = timeSheet.Month;
+                        salaryPay.Year = timeSheet.Year;
                         salaryPays.Add(salaryPay);
                     }
 
