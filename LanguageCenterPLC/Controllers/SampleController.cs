@@ -621,6 +621,15 @@ namespace LanguageCenterPLC.Controllers
                     },
                     new Function()
                     {
+                        Id = "owqkazmakauwmajlop",
+                        Name = "Danh sách lớp",
+                        URL = "",
+                        SortOrder = 35,
+                        Status = Status.Active,
+                        ParentId = "7rjHufjhgg",
+                    },
+                    new Function()
+                    {
                         Id = "82fxsSM76d",
                         Name = "Cấu hình trung tâm",
                         URL = "",
@@ -708,6 +717,212 @@ namespace LanguageCenterPLC.Controllers
                         Status = Status.Active,
                         ParentId = "dkjfhreij5h234598ufdfh"
                     },
+                     new Function()
+                    {
+                        Id = "lkjdfgjk4j90807",
+                        Name = "Quản lý điểm cuối khóa",
+                        URL = "",
+                        SortOrder = 12,
+                        Status = Status.Active,
+                        ParentId = "dkjfhreij5h234598ufdfh"
+                    },
+                     new Function()
+                    {
+                        Id = "klasldksai69",
+                        Name = "Quản lý học viên",
+                        URL = "",
+                        SortOrder = 13,
+                        Status = Status.Active
+                    },
+                      new Function()
+                    {
+                        Id = "ljxkkojk4j90807",
+                        Name = "Học viên",
+                        URL = "",
+                        SortOrder = 14,
+                        Status = Status.Active,
+                        ParentId = "klasldksai69"
+                    },
+                       new Function()
+                    {
+                        Id = "ooiusilxla686",
+                        Name = "Thêm mới học viên",
+                        URL = "",
+                        SortOrder = 15,
+                        Status = Status.Active,
+                        ParentId = "klasldksai69"
+                    },
+                        new Function()
+                    {
+                        Id = "mlakuowzgakbkaoppq799",
+                        Name = "Điểm danh",
+                        URL = "",
+                        SortOrder = 16,
+                        Status = Status.Active,
+                        ParentId = "klasldksai69"
+                    },
+                        new Function()
+                    {
+                        Id = "zmzjakuqooznueu01919",
+                        Name = "Xếp lớp",
+                        URL = "",
+                        SortOrder = 17,
+                        Status = Status.Active,
+                        ParentId = "klasldksai69"
+                    },
+                         new Function()
+                    {
+                        Id = "nzmgayoruynzeql1235678",
+                        Name = "Quá trình học tập",
+                        URL = "",
+                        SortOrder = 18,
+                        Status = Status.Active,
+                        ParentId = "klasldksai69"
+                    },
+                          new Function()
+                    {
+                        Id = "uqoozlimabocmhvgq98",
+                        Name = "Quản lý nhân sự",
+                        URL = "",
+                        SortOrder = 19,
+                        Status = Status.Active
+                    },
+                          new Function()
+                    {
+                        Id = "vbadsamdlaa3218as",
+                        Name = "Giáo viên",
+                        URL = "",
+                        SortOrder = 20,
+                        Status = Status.Active,
+                        ParentId = "uqoozlimabocmhvgq98"
+                    },
+                           new Function()
+                    {
+                        Id = "cxaxquoamzhohwu52525nvnv",
+                        Name = "Nhân viên",
+                        URL = "",
+                        SortOrder = 21,
+                        Status = Status.Active,
+                        ParentId = "uqoozlimabocmhvgq98"
+                    },
+                           new Function()
+                    {
+                        Id = "mkzmhakhzhchamcongnv",
+                        Name = "Chấm công nhân viên",
+                        URL = "",
+                        SortOrder = 22,
+                        Status = Status.Active,
+                        ParentId = "uqoozlimabocmhvgq98"
+                    },
+                            new Function()
+                    {
+                        Id = "opanmjkzwotuzngtw128nsdh3",
+                        Name = "Tính lương",
+                        URL = "",
+                        SortOrder = 23,
+                        Status = Status.Active,
+                        ParentId = "uqoozlimabocmhvgq98"
+                    },
+                             new Function()
+                    {
+                        Id = "qumnzjaqyqo731asdnahthuchi",
+                        Name = "Quản lý thu chi",
+                        URL = "",
+                        SortOrder = 24,
+                        Status = Status.Active
+                    },
+                              new Function()
+                    {
+                        Id = "qpqnamzyoqmzh25628mzk",
+                        Name = "Phiếu thu",
+                        URL = "",
+                        SortOrder = 25,
+                        Status = Status.Active,
+                        ParentId = "qumnzjaqyqo731asdnahthuchi"
+                    },
+                              new Function()
+                    {
+                        Id = "mzkhakuqjnzgkwghroq68758868",
+                        Name = "Phiếu chi",
+                        URL = "",
+                        SortOrder = 26,
+                        Status = Status.Active,
+                        ParentId = "qumnzjaqyqo731asdnahthuchi"
+                    },
+                              new Function()
+                    {
+                        Id = "bctkquaomzawdkzgaka",
+                        Name = "Báo cáo thống kê",
+                        URL = "",
+                        SortOrder = 27,
+                        Status = Status.Active,
+                    },
+                              new Function()
+                    {
+                        Id = "bcccnv123456789",
+                        Name = "Báo cáo chấm công",
+                        URL = "",
+                        SortOrder = 28,
+                        Status = Status.Active,
+                        ParentId = "bctkquaomzawdkzgaka"
+                    },
+
+                              new Function()
+                    {
+                        Id = "bcdck123456789",
+                        Name = "Báo cáo điểm cuối khóa",
+                        URL = "",
+                        SortOrder = 29,
+                        Status = Status.Active,
+                        ParentId = "bctkquaomzawdkzgaka"
+
+                    },
+                              new Function()
+                    {
+                        Id = "bcddkaiwwianh68",
+                        Name = "Báo cáo điểm đình kỳ",
+                        URL = "",
+                        SortOrder = 30,
+                        Status = Status.Active,
+                        ParentId = "bctkquaomzawdkzgaka"
+
+                    },
+                               new Function()
+                    {
+                        Id = "bcdonghocphi32u28281",
+                        Name = "Báo cáo đóng học phí",
+                        URL = "",
+                        SortOrder = 31,
+                        Status = Status.Active,
+                        ParentId = "bctkquaomzawdkzgaka"
+                    },
+                               new Function()
+                    {
+                        Id = "bcdiemdanh62121sajdsak",
+                        Name = "Báo cáo điểm danh",
+                        URL = "",
+                        SortOrder = 32,
+                        Status = Status.Active,
+                        ParentId = "bctkquaomzawdkzgaka"
+                    },
+                               new Function()
+                    {
+                        Id = "bcchuadonghocphi",
+                        Name = "Báo cáo chưa đóng học phí",
+                        URL = "",
+                        SortOrder = 33,
+                        Status = Status.Active,
+                        ParentId = "bctkquaomzawdkzgaka"
+                    },
+                               new Function()
+                    {
+                        Id = "bcdanhsachlop",
+                        Name = "Báo cáo danh sách lớp",
+                        URL = "",
+                        SortOrder = 34,
+                        Status = Status.Active,
+                        ParentId = "bctkquaomzawdkzgaka"
+                    },
                 };
                 _context.Functions.AddRange(functions);
             }
@@ -783,7 +998,7 @@ namespace LanguageCenterPLC.Controllers
                     teachingSchedule.ToDate = teachingSchedule.FromDate.AddDays(temp);
                     temp = rnd.Next(1, 4);
                     teachingSchedule.DaysOfWeek = temp;
-                    teachingSchedule.Status = Status.Active;
+                    teachingSchedule.Status = Status.Pause;
                     teachingSchedule.DateCreated = DateTime.Now;
                     teachingSchedule.DateModified = DateTime.Now;
                     temp = rnd.Next(1, 14);

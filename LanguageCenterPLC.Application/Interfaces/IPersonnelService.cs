@@ -21,6 +21,7 @@ namespace LanguageCenterPLC.Application.Interfaces
         PersonnelViewModel GetById(string id);
         bool IsExists(string id);
 
+
         void SaveChanges();
     }
 }

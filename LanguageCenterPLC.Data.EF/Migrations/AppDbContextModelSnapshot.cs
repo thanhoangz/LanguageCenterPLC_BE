@@ -1976,7 +1976,7 @@ namespace LanguageCenterPLC.Data.EF.Migrations
             modelBuilder.Entity("LanguageCenterPLC.Data.Entities.ClassSession", b =>
                 {
                     b.HasOne("LanguageCenterPLC.Data.Entities.TeachingSchedule", "TeachingSchedule")
-                        .WithMany("ClassSessions")
+                        .WithMany()
                         .HasForeignKey("TeachingScheduleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

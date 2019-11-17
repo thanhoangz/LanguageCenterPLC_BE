@@ -17,7 +17,8 @@ namespace LanguageCenterPLC.Application.Interfaces
         List<PermissionViewModel> GetAllByUser(Guid userId);
 
         PermissionViewModel GetById(int id);
-
+        List<PermissionViewModel> GetAllByBo(Guid userId);
+        bool AddRangPermission();
         void SaveChanges();
         bool IsExists(int id);
 

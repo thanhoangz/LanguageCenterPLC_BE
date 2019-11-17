@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LanguageCenterPLC.Data.EF.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20191114055700_xxx")]
-    partial class xxx
+    [Migration("20191116020412_initialize")]
+    partial class initialize
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -1978,7 +1978,7 @@ namespace LanguageCenterPLC.Data.EF.Migrations
             modelBuilder.Entity("LanguageCenterPLC.Data.Entities.ClassSession", b =>
                 {
                     b.HasOne("LanguageCenterPLC.Data.Entities.TeachingSchedule", "TeachingSchedule")
-                        .WithMany("ClassSessions")
+                        .WithMany()
                         .HasForeignKey("TeachingScheduleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

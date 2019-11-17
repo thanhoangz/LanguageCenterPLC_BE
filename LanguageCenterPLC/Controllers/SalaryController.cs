@@ -1,7 +1,10 @@
-﻿using LanguageCenterPLC.Application.Interfaces;
+﻿using DinkToPdf;
+using IronPdf;
+using LanguageCenterPLC.Application.Interfaces;
 using LanguageCenterPLC.Data.EF;
 using LanguageCenterPLC.Data.Entities;
 using LanguageCenterPLC.Infrastructure.Enums;
+using LanguageCenterPLC.Utilities.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -61,7 +64,7 @@ namespace LanguageCenterPLC.Controllers
                 }
             }
 
-            var timeSheetNotInSalary = new  List<Timesheet>();
+            var timeSheetNotInSalary = new List<Timesheet>();
             foreach (var item in timeSheets)
             {
                 if (!timeSheetInSalary.Contains(item))
@@ -79,9 +82,9 @@ namespace LanguageCenterPLC.Controllers
                     id = item.Id,
                     TotalBasicSalary = item.Salary,         // lương cơ bản
                     TotalSalaryOfDay = item.SalaryOfDay,    // luong theo ngày
-                    TotalAllowance = item.Allowance,        
+                    TotalAllowance = item.Allowance,
                     TotalAdvancePayment = item.AdvancePayment,  // tạm ứng
-                    TotalBonus = item.Bonus,                       
+                    TotalBonus = item.Bonus,
                     TotalInsurancePremium = item.InsurancePremiums,
                     TotalWorkdays = item.TotalWorkday,          // số công
                     TotalTheoreticalAmount = item.SalaryOfDay * Convert.ToDecimal(item.TotalWorkday) + item.Allowance + item.Bonus - item.InsurancePremiums,   // tổng lương          
@@ -97,7 +100,7 @@ namespace LanguageCenterPLC.Controllers
                 };
                 resultList.Add(paiedPersonnel);
             }
-            return resultList;
+            return await Task.FromResult(resultList);
         }
 
         [HttpPost]
@@ -139,6 +142,154 @@ namespace LanguageCenterPLC.Controllers
 
             return Ok();
         }
+
+
+
+
+
+        [HttpPost]
+        [Route("paied-roll-lecturers")]
+        public async Task<List<Object>> PaiedLecturers(int month, int year)
+        {
+            var salaryPaies = _context.SalaryPays.Where(x => x.Month == month && x.Year == year && x.LecturerId != null && x.LecturerId != 0).ToList();
+
+            var resultList = new List<Object>();
+            foreach (var item in salaryPaies)
+            {
+                var lecturer = _context.Lecturers.Find(item.LecturerId);
+                var paiedLecturer = new
+                {
+                    Lecturer = lecturer,
+                    Salary = item
+                };
+                resultList.Add(paiedLecturer);
+            }
+            return await Task.FromResult(resultList);
+        }
+
+
+
+        [HttpPost]
+        [Route("not-paied-roll-lecturers")]
+        public async Task<List<Object>> NotPaiedLecturers(int month, int year)
+        {
+            var SalaryPaies = _context.SalaryPays.Where(x => x.Month == month && x.Year == year && x.LecturerId != null && x.LecturerId != 0).ToList();
+            if (SalaryPaies.Count != 0)
+            {
+                List<Lecturer> lecturerInSalaryPaies = new List<Lecturer>();
+                foreach (var lecturer in _context.Lecturers)
+                {
+                    foreach (var salaryPay in SalaryPaies)
+                    {
+                        if (lecturer.Id == salaryPay.LecturerId)
+                        {
+                            lecturerInSalaryPaies.Add(lecturer);
+                        }
+                    }
+                }
+
+                List<Lecturer> lecturerOutSalaryPaies = new List<Lecturer>();
+                foreach (var item in _context.Lecturers)
+                {
+                    if (!lecturerInSalaryPaies.Contains(item))
+                    {
+                        lecturerOutSalaryPaies.Add(item);
+                    }
+                }
+                var resultList = new List<Object>();
+
+                foreach (var item in lecturerOutSalaryPaies)
+                {
+
+                    var attendanceSheets = _context.AttendanceSheets.Where(x => x.LecturerId == item.Id && x.Date.Month == month && x.Date.Year == year && x.Status == Status.Active)
+                        .OrderByDescending(x => x.Date);
+
+                    float countWorkDays = attendanceSheets.ToList().Count;
+                    var paySlipsOfLecturer = _context.PaySlips.Where(x => x.Date.Month == month && x.Date.Year == year && x.Status == Status.Active && x.ReceiveLecturerId == item.Id).ToList();
+                    decimal totalAdvancePayment = 0;
+                    foreach (var pay in paySlipsOfLecturer)
+                    {
+                        totalAdvancePayment += pay.Total;
+                    }
+
+                    decimal totalAmount = 0;
+                    foreach (var attendance in attendanceSheets)
+                    {
+                        totalAmount += attendance.WageOfLecturer;
+                    }
+                    var temp = new
+                    {
+                        TotalBasicSalary = item.BasicSalary,         // lương cơ bản
+                        TotalSalaryOfDay = item.WageOfLecturer,    // luong theo ngày
+                        TotalAllowance = item.Allowance,
+                        TotalAdvancePayment = totalAdvancePayment,  // tạm ứng
+                        TotalBonus = 0,
+                        TotalInsurancePremium = item.InsurancePremium,
+                        TotalWorkdays = countWorkDays,          // số công
+                        TotalTheoreticalAmount = totalAmount + item.Allowance + item.Bonus - item.InsurancePremium,   // tổng lương          
+                        TotalRealityAmount = totalAmount + item.Allowance + item.Bonus - item.InsurancePremium - totalAdvancePayment,  // tiền nhận đc
+                        Month = month,
+                        Year = year
+                    };
+
+                    var paiedLecturer = new
+                    {
+                        Lecturer = item,
+                        Salary = temp
+                    };
+                    resultList.Add(paiedLecturer);
+                }
+                return await Task.FromResult(resultList);
+            }
+            else
+            {
+                var resultList = new List<Object>();
+
+                foreach (var item in _context.Lecturers)
+                {
+
+                    var attendanceSheets = _context.AttendanceSheets.Where(x => x.LecturerId == item.Id && x.Date.Month == month && x.Date.Year == year && x.Status == Status.Active)
+                        .OrderByDescending(x => x.Date);
+
+                    float countWorkDays = attendanceSheets.ToList().Count;
+                    var paySlipsOfLecturer = _context.PaySlips.Where(x => x.Date.Month == month && x.Date.Year == year && x.Status == Status.Active && x.ReceiveLecturerId == item.Id).ToList();
+                    decimal totalAdvancePayment = 0;
+                    foreach (var pay in paySlipsOfLecturer)
+                    {
+                        totalAdvancePayment += pay.Total;
+                    }
+
+                    decimal totalAmount = 0;
+                    foreach (var attendance in attendanceSheets)
+                    {
+                        totalAmount += attendance.WageOfLecturer;
+                    }
+                    var temp = new
+                    {
+                        TotalBasicSalary = item.BasicSalary,         // lương cơ bản
+                        TotalSalaryOfDay = item.WageOfLecturer,    // luong theo ngày
+                        TotalAllowance = item.Allowance,
+                        TotalAdvancePayment = totalAdvancePayment,  // tạm ứng
+                        TotalBonus = 0,
+                        TotalInsurancePremium = item.InsurancePremium,
+                        TotalWorkdays = countWorkDays,          // số công
+                        TotalTheoreticalAmount = totalAmount + item.Allowance + item.Bonus - item.InsurancePremium,   // tổng lương          
+                        TotalRealityAmount = totalAmount + item.Allowance + item.Bonus - item.InsurancePremium - totalAdvancePayment,  // tiền nhận đc
+                        Month = month,
+                        Year = year
+                    };
+
+                    var paiedLecturer = new
+                    {
+                        Lecturer = item,
+                        Salary = temp
+                    };
+                    resultList.Add(paiedLecturer);
+                }
+                return await Task.FromResult(resultList);
+            }
+        }
+
 
 
     }

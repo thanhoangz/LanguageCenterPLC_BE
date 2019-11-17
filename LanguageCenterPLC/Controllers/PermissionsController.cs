@@ -36,7 +36,35 @@ namespace LanguageCenterPLC.Controllers
             return await Task.FromResult(_permissionService.GetAllByUser(new Guid(Id)));
         }
 
+        [HttpPost]
+        [Route("get-permission-by-bo-user")]
+        public async Task<ActionResult<IEnumerable<PermissionViewModel>>> GetAllByBo(Guid userId)
+        {
+            return await Task.FromResult(_permissionService.GetAllByBo(userId));
+        }
 
+
+        // bò add range
+        [HttpPost("/api/Permissions/add-all-function-permission")]
+        public async Task<ActionResult<IEnumerable<PermissionViewModel>>> AddFunctionInPermission()
+        {
+            try
+            {
+                await Task.Run(() =>
+                {
+                    _permissionService.AddRangPermission();
+                    _permissionService.SaveChanges();
+                    return Ok("Thêm thành công!");
+                });
+
+            }
+            catch
+            {
+
+                throw new Exception(string.Format("Lỗi khi thêm dữ liệu"));
+            }
+            return Ok();
+        }
 
         // PUT: api/Permissions/5
         [HttpPut("{id}")]
