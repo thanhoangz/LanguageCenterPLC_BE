@@ -9,12 +9,14 @@ namespace LanguageCenterPLC.Application.Interfaces
         bool Add(TimesheetViewModel timesheetVm);
 
         bool Update(TimesheetViewModel timesheetVm);
+        bool UpdateTamUng(TimesheetViewModel timesheetVm, decimal tientamung);
 
         bool Delete(int id);
 
         List<TimesheetViewModel> GetAll();
 
         List<TimesheetViewModel> GetAllWithConditions(int month, int year);
+        TimesheetViewModel GetWithCondition(string personnelId, int month, int year);
 
         TimesheetViewModel GetById(int id);
         bool IsExists(int id);

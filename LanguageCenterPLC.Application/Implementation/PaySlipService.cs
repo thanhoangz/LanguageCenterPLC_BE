@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using LanguageCenterPLC.Application.Interfaces;
 using LanguageCenterPLC.Application.ViewModels.Studies;
+using LanguageCenterPLC.Application.ViewModels.Timekeepings;
+using LanguageCenterPLC.Data.EF;
 using LanguageCenterPLC.Data.Entities;
 using LanguageCenterPLC.Infrastructure.Enums;
 using LanguageCenterPLC.Infrastructure.Interfaces;
@@ -16,13 +18,28 @@ namespace LanguageCenterPLC.Application.Implementation
     {
         private readonly IRepository<PaySlip, string> _payslipRepository;
         private readonly IRepository<PaySlipType, int> _paysliptypeRepository;
+        private readonly IRepository<Timesheet, int> _timesheetRepository;
         private readonly IUnitOfWork _unitOfWork;
-
-        public PaySlipService(IRepository<PaySlip, string> payslipRepository, IRepository<PaySlipType, int> paySlipTypeRepository, IUnitOfWork unitOfWork)
+        private readonly AppDbContext _context;
+        public PaySlipService(IRepository<PaySlip, string> payslipRepository, IRepository<PaySlipType, int> paySlipTypeRepository,
+            IRepository<Timesheet, int> timesheetRepository, IUnitOfWork unitOfWork,
+            AppDbContext context
+            )
         {
             _payslipRepository = payslipRepository;
             _paysliptypeRepository = paySlipTypeRepository;
+            _timesheetRepository = timesheetRepository;
             _unitOfWork = unitOfWork;
+            _context = context;
+        }
+        
+        public TimesheetViewModel GetWithConditions(string personnelId, int month, int year)
+        {
+            var timeSheets = _timesheetRepository.FindAll().Where(x => x.PersonnelId == personnelId && x.Month == month && x.Year == year).SingleOrDefault();
+
+            var timesheetViewModels = Mapper.Map<TimesheetViewModel>(timeSheets);
+
+            return timesheetViewModels;
         }
 
         public bool Add(PaySlipViewModel payslipVm)
@@ -34,6 +51,25 @@ namespace LanguageCenterPLC.Application.Implementation
                 payslip.Id = TextHelper.RandomNumber(10);
 
                 _payslipRepository.Add(payslip);
+                SaveChanges();
+
+            
+                if(payslip.PaySlipTypeId == 1)  // =1 là loại chi tạm ứng      
+                {
+                    var Tamung = payslip.Total; // tiền tạm ứng
+                    
+                    if ( !string.IsNullOrEmpty(payslip.ReceivePersonnelId)) // mã nv khác rỗng
+                    {
+                        var timeSheet = _context.Timesheets.Where(x => x.Month == payslip.Date.Month && x.Year == payslip.Date.Year && x.PersonnelId == payslip.ReceivePersonnelId).SingleOrDefault();
+                        timeSheet.AdvancePayment += Tamung; // update tạm ứng trong chấm công
+                        timeSheet.TotalActualSalary = timeSheet.SalaryOfDay * Convert.ToDecimal(timeSheet.TotalWorkday)
+                    + timeSheet.Allowance + timeSheet.Bonus - timeSheet.AdvancePayment - timeSheet.InsurancePremiums;
+                        _context.Timesheets.Update(timeSheet);
+                        _context.SaveChanges();
+                    }                
+                }
+
+                
 
                 return true;
             }
