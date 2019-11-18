@@ -1,4 +1,6 @@
-﻿using LanguageCenterPLC.Application.Interfaces;
+﻿using AutoMapper;
+using LanguageCenterPLC.Application.Interfaces;
+using LanguageCenterPLC.Application.ViewModels.Categories;
 using LanguageCenterPLC.Application.ViewModels.Studies;
 using LanguageCenterPLC.Data.EF;
 using LanguageCenterPLC.Data.Entities;
@@ -220,13 +222,13 @@ namespace LanguageCenterPLC.Controllers
         [Route("get-score-by-learner")]
         public async Task<List<Object>> GetFullScore(string id)
         {
-            // lấy ra danh sách lớp học viên đã và đang học
+            // lấy ra danh sách lớp học viên đã và đang học                                
             var studyProcessOfLearner = _context.StudyProcesses.Where(x => x.LearnerId == id).OrderBy(y => y.DateCreated).ToList();
             var resultList = new List<Object>();
 
             foreach (var study in studyProcessOfLearner)
             {
-                LanguageClass languageClass = _context.LanguageClasses.Find(study.LanguageClassId);
+                LanguageClass languageClass = _context.LanguageClasses.Where(x => x.Id == study.LanguageClassId).SingleOrDefault();
 
 
                 var PeriodicPoints = new List<Object>();
@@ -244,7 +246,7 @@ namespace LanguageCenterPLC.Controllers
                                 new
                                 {
                                     periodic.Week,
-                                    detailPointOfLearner
+                                    detailPointOfLearner = Mapper.Map<PeriodicPointDetailViewModel>(detailPointOfLearner)
                                 });
                         }
 
@@ -260,16 +262,30 @@ namespace LanguageCenterPLC.Controllers
                     var detailEndingOfLearner = _context.EndingCoursePointDetails.Where(x => x.LearnerId == id && x.EndingCoursePointId == ending.Id).SingleOrDefault();
                     if (detailEndingOfLearner != null)
                     {
-                        EndingCoursePoint = detailEndingOfLearner;
+                        EndingCoursePoint = new 
+                        { 
+                            detailEndingOfLearner.AveragePoint,
+                            detailEndingOfLearner.ListeningPoint,
+                            detailEndingOfLearner.ReadingPoint,
+                            detailEndingOfLearner.SayingPoint,
+                            detailEndingOfLearner.SortOrder,
+                            detailEndingOfLearner.WritingPoint,
+                            detailEndingOfLearner.TotalPoint,
+                        };
                     }
                 }
 
 
+                var languageClassVm = new
+                {
+                    languageClass.Id,
+                    languageClass.Name,
+                };
 
                 resultList.Add(
                     new
                     {
-                        Class = languageClass,
+                        Class = languageClassVm,
                         PeriodicPoints,
                         EndingCoursePoint
                     });
@@ -277,5 +293,41 @@ namespace LanguageCenterPLC.Controllers
             return await Task.FromResult(resultList);
         }
 
+        /*  [HttpPost]
+          [Route("get-score-by-learnerId")]
+          public async Task<List<Object>> GetFullScoreById(string id)
+          {
+              // lấy ra danh sách lớp học viên đã và đang học     
+
+              var listclass = (from c in _context.LanguageClasses
+                               join qtht in _context.StudyProcesses.Where(x => x.LearnerId == id)
+                               on c.Id equals qtht.LanguageClassId
+                               select c).ToList();
+
+              var resultList = new List<Object>();
+
+              foreach (var study in listclass)
+              {
+                  LanguageClass languageClass = _context.LanguageClasses.Find(study.Id);
+
+                  var EndingCoursePoint = new Object();
+                  var allEndingCoursePonint = _context.EndingCoursePoints.Where(x => x.LanguageClassId == study.Id).OrderBy(y => y.ExaminationDate).ToList();
+                  foreach (var ending in allEndingCoursePonint)
+                  {
+                      var detailEndingOfLearner = _context.EndingCoursePointDetails.Where(x => x.LearnerId == id).SingleOrDefault();
+                      if (detailEndingOfLearner != null)
+                      {
+                          EndingCoursePoint = detailEndingOfLearner;
+                      }
+                  }
+                  resultList.Add(
+                      new
+                      {
+                          Class = languageClass,              
+                          EndingCoursePoint
+                      });
+              }
+              return await Task.FromResult(resultList);
+          }*/
     }
 }

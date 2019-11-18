@@ -150,7 +150,7 @@ namespace LanguageCenterPLC.Application.Implementation
             return languageClassViewModel;
         }
 
-            // Tìm theo mã học : kp cardId
+            // Tìm theo mã học : kp cardId  // danh sách lớp đã học
         public List<LanguageClassViewModel> GetClass_Learner_Studied(string learnerId)
         {
             var listclass = (from c in _languageClassRepository.FindAll()
@@ -163,19 +163,6 @@ namespace LanguageCenterPLC.Application.Implementation
             return languageClassViewModel;
         }
 
-  /*      // Tìm theo mã học : kp cardId
-        public List<LanguageClassViewModel> GetClass_DangHoc(string learnerId)
-        {
-            var listclass = (from c in _languageClassRepository.FindAll()
-                             join qtht in _studyProcessRepository.FindAll().Where(x => x.LearnerId == learnerId && x.Status == Status.Active)
-                             on c.Id equals qtht.LanguageClassId
-                             select c);
-
-            var languageClassViewModel = Mapper.Map<List<LanguageClassViewModel>>(listclass);
-
-            return languageClassViewModel;
-        }
-*/
 
         public LanguageClassViewModel GetById(string id)
         {
