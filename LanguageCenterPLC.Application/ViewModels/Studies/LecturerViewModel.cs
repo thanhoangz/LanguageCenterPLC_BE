@@ -73,11 +73,11 @@ namespace LanguageCenterPLC.Application.ViewModels.Studies
         //ngày nghỉ việc
         public DateTime QuitWorkDay { get; set; }
 
-        public ICollection<EndingCoursePointViewModel> EndingCoursePoints { set; get; }
-        public ICollection<PeriodicPointViewModel> PeriodicPoints { set; get; }
+        //public ICollection<EndingCoursePointViewModel> EndingCoursePoints { set; get; }
+        //public ICollection<PeriodicPointViewModel> PeriodicPoints { set; get; }
 
-        public ICollection<AttendanceSheetViewModel> LecturerAttendanceSheets { set; get; }
+        //public ICollection<AttendanceSheetViewModel> LecturerAttendanceSheets { set; get; }
 
-        public ICollection<AttendanceSheetViewModel> TutorAttendanceSheets { set; get; }
+        //public ICollection<AttendanceSheetViewModel> TutorAttendanceSheets { set; get; }
     }
 }

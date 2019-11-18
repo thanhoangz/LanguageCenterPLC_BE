@@ -8,19 +8,15 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LanguageCenterPLC.Data.Entities
 {
-    /// <summary>
-    /// Tờ điểm danh
-    /// </summary>
+
     [Table("AttendanceSheets")]
     public class AttendanceSheet : DomainEntity<int>, ISwitchable, IDateTracking
     {
 
-        /// <summary>
-        /// Tiền công giảng dạy với giáo viên
-        /// </summary>
+
         public decimal WageOfLecturer { get; set; }
 
-        /// </summary>
+
         public decimal WageOfTutor { get; set; }
 
 

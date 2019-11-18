@@ -1,6 +1,8 @@
-﻿using DinkToPdf;
+﻿using AutoMapper;
+using DinkToPdf;
 using IronPdf;
 using LanguageCenterPLC.Application.Interfaces;
+using LanguageCenterPLC.Application.ViewModels.Studies;
 using LanguageCenterPLC.Data.EF;
 using LanguageCenterPLC.Data.Entities;
 using LanguageCenterPLC.Infrastructure.Enums;
@@ -84,11 +86,11 @@ namespace LanguageCenterPLC.Controllers
                     TotalSalaryOfDay = item.SalaryOfDay,    // luong theo ngày
                     TotalAllowance = item.Allowance,
                     TotalAdvancePayment = item.AdvancePayment,  // tạm ứng
-                    TotalBonus = item.Bonus,
-                    TotalInsurancePremium = item.InsurancePremiums,
+                    TotalBonus = item.Bonus,                  
                     TotalWorkdays = item.TotalWorkday,          // số công
-                    TotalTheoreticalAmount = item.SalaryOfDay * Convert.ToDecimal(item.TotalWorkday) + item.Allowance + item.Bonus - item.InsurancePremiums,   // tổng lương          
-                    TotalRealityAmount = item.SalaryOfDay * Convert.ToDecimal(item.TotalWorkday) + item.Allowance + item.Bonus - item.InsurancePremiums - item.AdvancePayment,  // tiền nhận đc
+                    TotalTheoreticalAmount = item.SalaryOfDay * Convert.ToDecimal(item.TotalWorkday) + item.Allowance + item.Bonus,   // tổng lương   
+                    TotalInsurancePremium =  ((item.SalaryOfDay * Convert.ToDecimal(item.TotalWorkday) + item.Allowance + item.Bonus) * 8) / 100,
+                    TotalRealityAmount = item.SalaryOfDay * Convert.ToDecimal(item.TotalWorkday) + item.Allowance + item.Bonus - (((item.SalaryOfDay * Convert.ToDecimal(item.TotalWorkday) + item.Allowance + item.Bonus) * 8) / 100) - item.AdvancePayment,  // tiền nhận đc
                     item.Month,
                     item.Year
                 };
@@ -120,11 +122,12 @@ namespace LanguageCenterPLC.Controllers
                         salaryPay.TotalBasicSalary = timeSheet.Salary;
                         salaryPay.TotalAllowance = timeSheet.Allowance;
                         salaryPay.TotalBonus = timeSheet.Bonus;
-                        salaryPay.TotalInsurancePremium = timeSheet.InsurancePremiums;
                         salaryPay.TotalAdvancePayment = timeSheet.AdvancePayment;
                         salaryPay.TotalSalaryOfDay = timeSheet.SalaryOfDay;
                         salaryPay.TotalWorkdays = timeSheet.TotalWorkday;
-                        salaryPay.TotalTheoreticalAmount = timeSheet.SalaryOfDay * Convert.ToDecimal(timeSheet.TotalWorkday) + timeSheet.Allowance + timeSheet.Bonus - timeSheet.InsurancePremiums;     // tổng lương                               // nhận đc bên dưới
+                        salaryPay.TotalTheoreticalAmount = timeSheet.SalaryOfDay * Convert.ToDecimal(timeSheet.TotalWorkday) + timeSheet.Allowance + timeSheet.Bonus ;     // tổng lương    
+                        salaryPay.TotalInsurancePremium = ((timeSheet.SalaryOfDay * Convert.ToDecimal(timeSheet.TotalWorkday) + timeSheet.Allowance + timeSheet.Bonus) * 8) / 100;
+                        // nhận đc bên dưới
                         salaryPay.TotalRealityAmount = salaryPay.TotalSalaryOfDay * Convert.ToDecimal(salaryPay.TotalWorkdays) + salaryPay.TotalAllowance + salaryPay.TotalBonus - salaryPay.TotalInsurancePremium - salaryPay.TotalAdvancePayment;
                         salaryPay.Month = timeSheet.Month;
                         salaryPay.Year = timeSheet.Year;
@@ -143,9 +146,27 @@ namespace LanguageCenterPLC.Controllers
             return Ok();
         }
 
+        // POST: api/TeachingSchedules
+        [HttpPost]
+        [Route("add-lecturer-payroll")]
+        public async Task<Object> AddListLecture(List<SalaryPay> listGV)
+        {
+            try
+            {
+                await Task.Run(() =>
+                {
 
+                    _context.SalaryPays.AddRange(listGV);
+                    _context.SaveChanges();
+                });
+            }
+            catch
+            {
+                throw new Exception(string.Format("Có lỗi xảy ra !"));
+            }
 
-
+            return Ok();
+        }
 
         [HttpPost]
         [Route("paied-roll-lecturers")]
@@ -223,18 +244,21 @@ namespace LanguageCenterPLC.Controllers
                         TotalSalaryOfDay = item.WageOfLecturer,    // luong theo ngày
                         TotalAllowance = item.Allowance,
                         TotalAdvancePayment = totalAdvancePayment,  // tạm ứng
-                        TotalBonus = 0,
-                        TotalInsurancePremium = item.InsurancePremium,
+                        TotalBonus = item.Bonus,
                         TotalWorkdays = countWorkDays,          // số công
-                        TotalTheoreticalAmount = totalAmount + item.Allowance + item.Bonus - item.InsurancePremium,   // tổng lương          
-                        TotalRealityAmount = totalAmount + item.Allowance + item.Bonus - item.InsurancePremium - totalAdvancePayment,  // tiền nhận đc
+                        TotalGiangday = totalAmount,
+                        TotalTheoreticalAmount = totalAmount + item.Allowance + item.Bonus ,   // tổng lương  
+                        TotalInsurancePremium = ((totalAmount + item.Allowance + item.Bonus) * 8) / 100 ,   // bảo hiểm
+                        TotalRealityAmount = totalAmount + item.Allowance + item.Bonus - (((totalAmount + item.Allowance + item.Bonus) * 8) / 100) - totalAdvancePayment,  // tiền nhận đc
                         Month = month,
-                        Year = year
+                        Year = year,
+                        LecturerId = item.Id
                     };
 
+                    var lecturerVm = Mapper.Map<LecturerViewModel>(item);
                     var paiedLecturer = new
                     {
-                        Lecturer = item,
+                        Lecturer = lecturerVm,
                         Salary = temp
                     };
                     resultList.Add(paiedLecturer);
@@ -264,24 +288,28 @@ namespace LanguageCenterPLC.Controllers
                     {
                         totalAmount += attendance.WageOfLecturer;
                     }
+
                     var temp = new
                     {
                         TotalBasicSalary = item.BasicSalary,         // lương cơ bản
                         TotalSalaryOfDay = item.WageOfLecturer,    // luong theo ngày
                         TotalAllowance = item.Allowance,
                         TotalAdvancePayment = totalAdvancePayment,  // tạm ứng
-                        TotalBonus = 0,
-                        TotalInsurancePremium = item.InsurancePremium,
+                        TotalBonus = item.Bonus,                     
                         TotalWorkdays = countWorkDays,          // số công
-                        TotalTheoreticalAmount = totalAmount + item.Allowance + item.Bonus - item.InsurancePremium,   // tổng lương          
-                        TotalRealityAmount = totalAmount + item.Allowance + item.Bonus - item.InsurancePremium - totalAdvancePayment,  // tiền nhận đc
+                        TotalGiangday = totalAmount,
+                        TotalTheoreticalAmount = totalAmount + item.Allowance + item.Bonus ,   // tổng lương  
+                        TotalInsurancePremium = ((totalAmount + item.Allowance + item.Bonus) * 8) / 100,
+                        TotalRealityAmount = totalAmount + item.Allowance + item.Bonus - (((totalAmount + item.Allowance + item.Bonus) * 8) / 100) - totalAdvancePayment,  // tiền nhận đc
                         Month = month,
-                        Year = year
+                        Year = year,
+                        LecturerId = item.Id
                     };
 
+                    var lecturerVm  = Mapper.Map<LecturerViewModel>(item);
                     var paiedLecturer = new
                     {
-                        Lecturer = item,
+                        Lecturer = lecturerVm,
                         Salary = temp
                     };
                     resultList.Add(paiedLecturer);

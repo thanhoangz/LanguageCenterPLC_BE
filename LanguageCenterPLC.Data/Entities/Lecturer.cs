@@ -119,10 +119,10 @@ namespace LanguageCenterPLC.Data.Entities
         public virtual ICollection<PeriodicPoint> PeriodicPoints { set; get; }
 
         [InverseProperty(nameof(AttendanceSheet.Lecturer))]
-        public virtual ICollection<AttendanceSheet> LecturerAttendanceSheets { set; get; }
+        public ICollection<AttendanceSheet> LecturerAttendanceSheets { set; get; }
 
         [InverseProperty(nameof(AttendanceSheet.Tutor))]
-        public virtual ICollection<AttendanceSheet> TutorAttendanceSheets { set; get; }
+        public ICollection<AttendanceSheet> TutorAttendanceSheets { set; get; }
 
     }
 }

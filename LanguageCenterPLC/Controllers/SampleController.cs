@@ -511,7 +511,7 @@ namespace LanguageCenterPLC.Controllers
                     lecturer.BasicSalary = 12500000;
                     lecturer.Allowance = 500000;
                     lecturer.Bonus = 500000;
-                    lecturer.InsurancePremium = 1250000;
+                    lecturer.InsurancePremium = 0;
                     lecturer.WageOfLecturer = 500000;
                     lecturer.WageOfTutor = 200000;
                     lecturer.IsTutor = gen.Next(100) < 50 ? true : false;
@@ -580,7 +580,7 @@ namespace LanguageCenterPLC.Controllers
                     personnel.BasicSalary =7500000;
                     personnel.Allowance = 500000;
                     personnel.Bonus = 500000;
-                    personnel.InsurancePremium = 750000;
+                    personnel.InsurancePremium = 0;
 
 
                     personnel.Note = "";
