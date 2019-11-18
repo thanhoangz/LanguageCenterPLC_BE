@@ -1,10 +1,12 @@
 ﻿using LanguageCenterPLC.Application.Interfaces;
 using LanguageCenterPLC.Application.ViewModels.Studies;
+using LanguageCenterPLC.Data.EF;
 using LanguageCenterPLC.Data.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace LanguageCenterPLC.Controllers
@@ -14,10 +16,12 @@ namespace LanguageCenterPLC.Controllers
     public class LearnersController : ControllerBase
     {
         private readonly ILearnerService _learnerService;
+        private readonly AppDbContext _context;
 
-        public LearnersController(ILearnerService learnerService)
+        public LearnersController(ILearnerService learnerService, AppDbContext context)
         {
             _learnerService = learnerService;
+            _context = context;
         }
 
         // GET: api/Learners
@@ -41,7 +45,7 @@ namespace LanguageCenterPLC.Controllers
             return await Task.FromResult(leaner);
         }
 
-       
+
         // GET: api/Learners/get-by-cardid
         [HttpGet("/api/Learners/get-by-cardid/{id}")]
         public async Task<ActionResult<LearnerViewModel>> GetByCardId(string id)
@@ -78,7 +82,7 @@ namespace LanguageCenterPLC.Controllers
             return await Task.FromResult(_learnerService.GetAllOutClass(id));
         }
 
-        
+
         [HttpGet("/api/Learners/get-out-class-with-condition/{classId}/{keyword}")]
         public async Task<ActionResult<IEnumerable<LearnerViewModel>>> GetLearnersOutClassWithCondition(string classId, string keyword)
         {
@@ -204,7 +208,7 @@ namespace LanguageCenterPLC.Controllers
             return Ok();
         }
 
-      
+
         private bool LearnerExists(string id)
         {
             return _learnerService.IsExists(id);
@@ -212,7 +216,66 @@ namespace LanguageCenterPLC.Controllers
 
 
 
+        [HttpPost]
+        [Route("get-score-by-learner")]
+        public async Task<List<Object>> GetFullScore(string id)
+        {
+            // lấy ra danh sách lớp học viên đã và đang học
+            var studyProcessOfLearner = _context.StudyProcesses.Where(x => x.LearnerId == id).OrderBy(y => y.DateCreated).ToList();
+            var resultList = new List<Object>();
 
+            foreach (var study in studyProcessOfLearner)
+            {
+                LanguageClass languageClass = _context.LanguageClasses.Find(study.LanguageClassId);
+
+
+                var PeriodicPoints = new List<Object>();
+                var allPeriodicPoint = _context.PeriodicPoints.Where(x => x.LanguageClassId == study.LanguageClassId).OrderBy(y => y.ExaminationDate).ToList();
+                if (allPeriodicPoint.Count != 0)
+                {
+                    foreach (var periodic in allPeriodicPoint)
+                    {
+
+                        var detailPointOfLearner = _context.PeriodicPointDetails.Where(x => x.LearnerId == id && x.PeriodicPointId == periodic.Id).SingleOrDefault();
+                        if (detailPointOfLearner != null)
+                        {
+
+                            PeriodicPoints.Add(
+                                new
+                                {
+                                    periodic.Week,
+                                    detailPointOfLearner
+                                });
+                        }
+
+                    }
+
+                }
+
+
+                var EndingCoursePoint = new Object();
+                var allEndingCoursePonint = _context.EndingCoursePoints.Where(x => x.LanguageClassId == study.LanguageClassId).OrderBy(y => y.ExaminationDate).ToList();
+                foreach (var ending in allEndingCoursePonint)
+                {
+                    var detailEndingOfLearner = _context.EndingCoursePointDetails.Where(x => x.LearnerId == id && x.EndingCoursePointId == ending.Id).SingleOrDefault();
+                    if (detailEndingOfLearner != null)
+                    {
+                        EndingCoursePoint = detailEndingOfLearner;
+                    }
+                }
+
+
+
+                resultList.Add(
+                    new
+                    {
+                        Class = languageClass,
+                        PeriodicPoints,
+                        EndingCoursePoint
+                    });
+            }
+            return await Task.FromResult(resultList);
+        }
 
     }
 }

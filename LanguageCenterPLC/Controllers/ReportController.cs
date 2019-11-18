@@ -5,7 +5,6 @@ using LanguageCenterPLC.Application.ReportGenerate;
 using LanguageCenterPLC.Application.ViewModels.Report;
 using LanguageCenterPLC.Data.EF;
 using LanguageCenterPLC.Infrastructure.Enums;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.StaticFiles;
 using System;
@@ -88,7 +87,7 @@ namespace LanguageCenterPLC.Controllers
 
             HtmlToPdf Renderer = new HtmlToPdf();
 
-            Renderer.RenderHtmlAsPdf(ReportControl.GetHTMLString(results)).SaveAs("html-string.pdf");
+            Renderer.RenderHtmlAsPdf(ReportControl.GetHTMLString(results)).SaveAs("baocaolop.pdf");
 
             var PDF = Renderer.RenderHtmlAsPdf(ReportControl.GetHTMLString(results), @"C:\Users\Than Hoang\source\repos\LanguageCenterPLC_BE\LanguageCenterPLC\wwwroot\css\");
             PDF.SaveAs("html-with-assets.pdf");
@@ -185,28 +184,6 @@ namespace LanguageCenterPLC.Controllers
                 return BadRequest(new { result = -2, message = "Lỗi cơ sở dữ liệu" });
             }
         }
-
-        //[HttpGet]
-        //[Route("test-report")]
-        //public void ERTRYDFG()
-        //{
-
-
-
-
-        //    PdfDocument pdf = ReportControl.RenderPDF(ReportControl.GetHTMLString());
-        //    File(pdf.BinaryData, "application/pdf;");
-
-
-        //    IronPdf.HtmlToPdf Renderer = new IronPdf.HtmlToPdf();
-
-        //    Renderer.RenderHtmlAsPdf(ReportControl.GetHTMLString()).SaveAs("html-string.pdf");
-
-        //    var PDF = Renderer.RenderHtmlAsPdf(ReportControl.GetHTMLString(), @"C:\Users\Than Hoang\source\repos\LanguageCenterPLC_BE\LanguageCenterPLC\wwwroot\css\");
-        //    PDF.SaveAs("html-with-assets.pdf");
-
-
-        //}
 
 
 
