@@ -87,7 +87,7 @@ namespace LanguageCenterPLC.Application.Implementation
                 item.UserName = _context.AppUsers.Where(x => x.Id == item.AppUserId).FirstOrDefault().UserName;
             }
 
-            return permissionsViewModel;
+            return permissionsViewModel.OrderBy(x => x.FunctionName).ToList();
         }
 
         public PermissionViewModel GetById(int id)
