@@ -73,6 +73,15 @@ namespace LanguageCenterPLC.Controllers
         }
 
         // POST: api/ClassSessions
+        [HttpPut]
+        [Route("put-list")]
+        public async Task<Object> PutList(List<ClassSession> classSessionList)
+        {
+            _context.ClassSessions.AddRange(classSessionList);
+            await _context.SaveChangesAsync();
+            return Task.FromResult("Thành công!");
+        }
+
         [HttpPost]
         public async Task<ActionResult<ClassSession>> PostClassSession(ClassSession classSession)
         {
@@ -99,8 +108,6 @@ namespace LanguageCenterPLC.Controllers
 
                 for (int i = 1; i <= totalDay; i++)
                 {
-
-
                     if (days.Contains(learnDate.DayOfWeek.ToString()))
                     {
                         ClassSession classSession1 = new ClassSession();
