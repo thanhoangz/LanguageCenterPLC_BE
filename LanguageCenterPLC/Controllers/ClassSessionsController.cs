@@ -75,11 +75,11 @@ namespace LanguageCenterPLC.Controllers
         // POST: api/ClassSessions
         [HttpPut]
         [Route("put-list")]
-        public async Task<Object> PutList(List<ClassSession> classSessionList)
+        public void PutList(List<ClassSession> classSessionList)
         {
-            _context.ClassSessions.AddRange(classSessionList);
-            await _context.SaveChangesAsync();
-            return Task.FromResult("Thành công!");
+            _context.ClassSessions.UpdateRange(classSessionList);
+            _context.SaveChanges();
+
         }
 
         [HttpPost]
