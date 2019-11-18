@@ -186,30 +186,5 @@ namespace LanguageCenterPLC.Controllers
             }
         }
 
-        //[HttpGet]
-        //[Route("test-report")]
-        //public void ERTRYDFG()
-        //{
-
-
-
-
-        //    PdfDocument pdf = ReportControl.RenderPDF(ReportControl.GetHTMLString());
-        //    File(pdf.BinaryData, "application/pdf;");
-
-
-        //    IronPdf.HtmlToPdf Renderer = new IronPdf.HtmlToPdf();
-
-        //    Renderer.RenderHtmlAsPdf(ReportControl.GetHTMLString()).SaveAs("html-string.pdf");
-
-        //    var PDF = Renderer.RenderHtmlAsPdf(ReportControl.GetHTMLString(), @"C:\Users\Than Hoang\source\repos\LanguageCenterPLC_BE\LanguageCenterPLC\wwwroot\css\");
-        //    PDF.SaveAs("html-with-assets.pdf");
-
-
-        //}
-
-
-
-
     }
 }
