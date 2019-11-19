@@ -86,10 +86,10 @@ namespace LanguageCenterPLC.Controllers
                     TotalSalaryOfDay = item.SalaryOfDay,    // luong theo ngày
                     TotalAllowance = item.Allowance,
                     TotalAdvancePayment = item.AdvancePayment,  // tạm ứng
-                    TotalBonus = item.Bonus,                  
+                    TotalBonus = item.Bonus,
                     TotalWorkdays = item.TotalWorkday,          // số công
                     TotalTheoreticalAmount = item.SalaryOfDay * Convert.ToDecimal(item.TotalWorkday) + item.Allowance + item.Bonus,   // tổng lương   
-                    TotalInsurancePremium =  ((item.SalaryOfDay * Convert.ToDecimal(item.TotalWorkday) + item.Allowance + item.Bonus) * 8) / 100,
+                    TotalInsurancePremium = ((item.SalaryOfDay * Convert.ToDecimal(item.TotalWorkday) + item.Allowance + item.Bonus) * 8) / 100,
                     TotalRealityAmount = item.SalaryOfDay * Convert.ToDecimal(item.TotalWorkday) + item.Allowance + item.Bonus - (((item.SalaryOfDay * Convert.ToDecimal(item.TotalWorkday) + item.Allowance + item.Bonus) * 8) / 100) - item.AdvancePayment,  // tiền nhận đc
                     item.Month,
                     item.Year
@@ -125,7 +125,7 @@ namespace LanguageCenterPLC.Controllers
                         salaryPay.TotalAdvancePayment = timeSheet.AdvancePayment;
                         salaryPay.TotalSalaryOfDay = timeSheet.SalaryOfDay;
                         salaryPay.TotalWorkdays = timeSheet.TotalWorkday;
-                        salaryPay.TotalTheoreticalAmount = timeSheet.SalaryOfDay * Convert.ToDecimal(timeSheet.TotalWorkday) + timeSheet.Allowance + timeSheet.Bonus ;     // tổng lương    
+                        salaryPay.TotalTheoreticalAmount = timeSheet.SalaryOfDay * Convert.ToDecimal(timeSheet.TotalWorkday) + timeSheet.Allowance + timeSheet.Bonus;     // tổng lương    
                         salaryPay.TotalInsurancePremium = ((timeSheet.SalaryOfDay * Convert.ToDecimal(timeSheet.TotalWorkday) + timeSheet.Allowance + timeSheet.Bonus) * 8) / 100;
                         // nhận đc bên dưới
                         salaryPay.TotalRealityAmount = salaryPay.TotalSalaryOfDay * Convert.ToDecimal(salaryPay.TotalWorkdays) + salaryPay.TotalAllowance + salaryPay.TotalBonus - salaryPay.TotalInsurancePremium - salaryPay.TotalAdvancePayment;
@@ -247,8 +247,8 @@ namespace LanguageCenterPLC.Controllers
                         TotalBonus = item.Bonus,
                         TotalWorkdays = countWorkDays,          // số công
                         TotalGiangday = totalAmount,
-                        TotalTheoreticalAmount = totalAmount + item.Allowance + item.Bonus ,   // tổng lương  
-                        TotalInsurancePremium = ((totalAmount + item.Allowance + item.Bonus) * 8) / 100 ,   // bảo hiểm
+                        TotalTheoreticalAmount = totalAmount + item.Allowance + item.Bonus,   // tổng lương  
+                        TotalInsurancePremium = ((totalAmount + item.Allowance + item.Bonus) * 8) / 100,   // bảo hiểm
                         TotalRealityAmount = totalAmount + item.Allowance + item.Bonus - (((totalAmount + item.Allowance + item.Bonus) * 8) / 100) - totalAdvancePayment,  // tiền nhận đc
                         Month = month,
                         Year = year,
@@ -295,10 +295,10 @@ namespace LanguageCenterPLC.Controllers
                         TotalSalaryOfDay = item.WageOfLecturer,    // luong theo ngày
                         TotalAllowance = item.Allowance,
                         TotalAdvancePayment = totalAdvancePayment,  // tạm ứng
-                        TotalBonus = item.Bonus,                     
+                        TotalBonus = item.Bonus,
                         TotalWorkdays = countWorkDays,          // số công
                         TotalGiangday = totalAmount,
-                        TotalTheoreticalAmount = totalAmount + item.Allowance + item.Bonus ,   // tổng lương  
+                        TotalTheoreticalAmount = totalAmount + item.Allowance + item.Bonus,   // tổng lương  
                         TotalInsurancePremium = ((totalAmount + item.Allowance + item.Bonus) * 8) / 100,
                         TotalRealityAmount = totalAmount + item.Allowance + item.Bonus - (((totalAmount + item.Allowance + item.Bonus) * 8) / 100) - totalAdvancePayment,  // tiền nhận đc
                         Month = month,
@@ -306,7 +306,7 @@ namespace LanguageCenterPLC.Controllers
                         LecturerId = item.Id
                     };
 
-                    var lecturerVm  = Mapper.Map<LecturerViewModel>(item);
+                    var lecturerVm = Mapper.Map<LecturerViewModel>(item);
                     var paiedLecturer = new
                     {
                         Lecturer = lecturerVm,
@@ -317,7 +317,40 @@ namespace LanguageCenterPLC.Controllers
                 return await Task.FromResult(resultList);
             }
         }
+        
+        public class data1
+        {
+            public int? Name { get; set; }
+            public date2 date2 { get; set; }
+        }
 
+        public class date2
+        {
+            public DateTime date { get; set; }
+            public int Number { get; set; }
+        }
+
+        //[HttpPost]
+        //[Route("time-sheet-of-lecturer")]
+        //public Object GetTimeSheetOfLecturers(int month, int year)
+        //{
+        //    IEnumerable<AttendanceSheet> attendanceSheets = _context.AttendanceSheets.Where(x => x.Date.Month == month && x.Date.Year == year).ToList();
+        //    attendanceSheets = attendanceSheets.Select(e => { e.Date = DateTime.Parse(e.Date.ToShortDateString()); return e; });
+        //    var data = from e in attendanceSheets
+        //               group e by new { e.LecturerId, e.Date } into p
+        //               select new { ID = p.Key.LecturerId, p.Key.Date, Number = p.Count() };
+            
+        //    var one = data.Where(e => e.ID == 1).Select(e => new data1 { Name = e.ID, e.Date } } ))
+        //    return data;
+        //}
+
+
+
+
+
+
+
+        // Lấy bảng chấm công cho nhân viên theo tháng và năm 
 
 
     }
