@@ -44,7 +44,11 @@ namespace LanguageCenterPLC.Controllers
         }
 
 
-
+        [HttpPost("/api/ReceiptDetails/get-receipt-detail-for-report")]
+        public async Task<ActionResult<IEnumerable<ReceiptDetailViewModel>>> GetAllReceiptDetailForReport(int month, int year)
+        {
+            return await Task.FromResult(_receiptDetailService.GetDetailReceiptForReport(month,year));
+        }
         // PUT: api/ReceiptDetails/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.

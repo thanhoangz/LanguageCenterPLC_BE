@@ -91,6 +91,8 @@ namespace LanguageCenterPLC.Application.Implementation
                 item.LearnerCardId = _learnerRepository.FindById(item.LearnerId).CardId;
                 item.LearnerAdress = _learnerRepository.FindById(item.LearnerId).Address;
                 item.PersonnelName = _personnelRepository.FindById(item.PersonnelId).FirstName + " " + _personnelRepository.FindById(item.PersonnelId).LastName;
+                item.LearnerPhone = _learnerRepository.FindById(item.LearnerId).Phone;
+
             }
             return receiptViewModel;
         }
@@ -240,6 +242,7 @@ namespace LanguageCenterPLC.Application.Implementation
                 item.LearnerCardId = _learnerRepository.FindById(item.LearnerId).CardId;
                 item.LearnerAdress = _learnerRepository.FindById(item.LearnerId).Address;
                 item.PersonnelName = _personnelRepository.FindById(item.PersonnelId).FirstName + " " + _personnelRepository.FindById(item.PersonnelId).LastName;
+                item.LearnerPhone = _learnerRepository.FindById(item.LearnerId).Phone;
             }
             return receiptViewModel;
 
