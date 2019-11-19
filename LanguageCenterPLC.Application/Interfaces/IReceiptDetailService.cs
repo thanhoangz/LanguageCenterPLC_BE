@@ -24,7 +24,7 @@ namespace LanguageCenterPLC.Application.Interfaces
         public bool AddList(List<ReceiptDetailViewModel> receiptDetailVm);
 
         List<ReceiptDetailViewModel> GetDetailReceipt(string receiptId);
-
+        public List<ReceiptDetailViewModel> GetDetailReceiptForReport(int month, int year);
         bool IsExists(int id);
     }
 }
