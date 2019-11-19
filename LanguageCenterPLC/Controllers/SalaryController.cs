@@ -317,40 +317,77 @@ namespace LanguageCenterPLC.Controllers
                 return await Task.FromResult(resultList);
             }
         }
-        
-        public class data1
+
+
+
+        [HttpPost]
+        [Route("time-sheet-of-lecturer")]
+        public async Task<List<Object>> GetTimeSheetOfLecturers(int month, int year)
         {
-            public int? Name { get; set; }
-            public date2 date2 { get; set; }
+            var lecturers = _context.Lecturers.Where(x => x.Status == Status.Active);
+            IEnumerable<AttendanceSheet> attendanceSheets = _context.AttendanceSheets.Where(x => x.Date.Month == month && x.Date.Year == year).ToList();
+            attendanceSheets = attendanceSheets.Select(e => { e.Date = DateTime.Parse(e.Date.ToShortDateString()); return e; });
+            var data = from e in attendanceSheets
+                       group e by new { e.LecturerId, e.Date } into p
+                       select new { Id = p.Key.LecturerId, p.Key.Date, Number = p.Count() };
+
+            List<Object> result = new List<object>();
+            int index = 1;
+            foreach (var lecturer in lecturers)
+            {
+                var objectOfLecturer = data.Where(x => x.Id == lecturer.Id);
+
+
+                if (objectOfLecturer.ToList().Count != 0)
+                {
+
+                    var monthList = new List<int>();
+                    for (int i = 1; i <= DateTime.DaysInMonth(year, month); i++)
+                    {
+                        var number = objectOfLecturer.Where(x => x.Date.Day == i).SingleOrDefault();
+                        if (number != null)
+                        {
+                            monthList.Add(number.Number);
+                            continue;
+                        }
+                        monthList.Add(0);
+                    }
+
+                    var newRow = new
+                    {
+                        Index = index,
+                        LecturerName = lecturer.FirstName + " " + lecturer.LastName,
+                        PhoneNumber = " ",
+                        Days = monthList,
+                        Total = monthList.Sum()
+                    };
+
+                    result.Add(newRow);
+                    index++;
+                }
+                else
+                {
+                    var monthList = new List<int>();
+                    for (int i = 1; i <= DateTime.DaysInMonth(year, month); i++)
+                    {
+                        monthList.Add(0);
+                    }
+                    var newRow = new
+                    {
+                        Index = index,
+                        LecturerName = lecturer.FirstName + " " + lecturer.LastName,
+                        PhoneNumber = " ",
+                        Days = monthList,
+                        Total = monthList.Sum()
+                    };
+                    result.Add(newRow);
+                    index++;
+                }
+            }
+            return await Task.FromResult(result);
         }
 
-        public class date2
-        {
-            public DateTime date { get; set; }
-            public int Number { get; set; }
-        }
 
-        //[HttpPost]
-        //[Route("time-sheet-of-lecturer")]
-        //public Object GetTimeSheetOfLecturers(int month, int year)
-        //{
-        //    IEnumerable<AttendanceSheet> attendanceSheets = _context.AttendanceSheets.Where(x => x.Date.Month == month && x.Date.Year == year).ToList();
-        //    attendanceSheets = attendanceSheets.Select(e => { e.Date = DateTime.Parse(e.Date.ToShortDateString()); return e; });
-        //    var data = from e in attendanceSheets
-        //               group e by new { e.LecturerId, e.Date } into p
-        //               select new { ID = p.Key.LecturerId, p.Key.Date, Number = p.Count() };
-            
-        //    var one = data.Where(e => e.ID == 1).Select(e => new data1 { Name = e.ID, e.Date } } ))
-        //    return data;
-        //}
-
-
-
-
-
-
-
-        // Lấy bảng chấm công cho nhân viên theo tháng và năm 
 
 
     }
