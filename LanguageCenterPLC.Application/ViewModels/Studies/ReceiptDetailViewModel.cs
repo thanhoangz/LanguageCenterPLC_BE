@@ -36,6 +36,8 @@ namespace LanguageCenterPLC.Application.ViewModels.Finances
         public string LanguageClassName { get; set; }
 
         public string LearnerName { get; set; }
+        public string LearnerId { get; set; }
+
         public DateTime LearnerBirthday { get; set; }
         public DateTime CollectionDate { get; set; }
 

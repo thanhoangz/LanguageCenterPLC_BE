@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using LanguageCenterPLC.Application.Interfaces;
+using LanguageCenterPLC.Application.ViewModels.Finances;
 using LanguageCenterPLC.Application.ViewModels.Studies;
 using LanguageCenterPLC.Data.Entities;
 using LanguageCenterPLC.Infrastructure.Enums;
@@ -16,14 +17,19 @@ namespace LanguageCenterPLC.Application.Implementation
         private readonly IRepository<Learner, string> _learnerRepository;
         private readonly IRepository<StudyProcess, int> _studyProcessRepository;
         private readonly IRepository<GuestType, int> _guestTypeRepository;
+        private readonly IRepository<ReceiptDetail, int> _receiptDetailRepository;
+        private readonly IRepository<Receipt, string> _receiptRepository;
         private readonly IUnitOfWork _unitOfWork;
 
-        public LearnerService(IRepository<Learner, string> learnerRepository, IRepository<GuestType, int> guestTypeRepository, IRepository<StudyProcess, int> studyProcessRepository,
+        public LearnerService(IRepository<Learner, string> learnerRepository, IRepository<GuestType, int> guestTypeRepository, 
+         IRepository<StudyProcess, int> studyProcessRepository, IRepository<ReceiptDetail, int> receiptDetailRepository, IRepository<Receipt, string> receiptRepository,
          IUnitOfWork unitOfWork)
         {
             _learnerRepository = learnerRepository;
             _studyProcessRepository = studyProcessRepository;
             _guestTypeRepository = guestTypeRepository;
+            _receiptDetailRepository = receiptDetailRepository;
+            _receiptRepository = receiptRepository;
             _unitOfWork = unitOfWork;
         }
 
@@ -280,6 +286,8 @@ namespace LanguageCenterPLC.Application.Implementation
             }
             return null;
         }
+
+        // kết thúc phần bò hạ code
 
         public bool IsExists(string id)
         {

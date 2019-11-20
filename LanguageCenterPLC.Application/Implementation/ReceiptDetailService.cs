@@ -16,16 +16,20 @@ namespace LanguageCenterPLC.Application.Implementation
         private readonly IRepository<ReceiptDetail, int> _receiptDetailRepository;
         private readonly IRepository<Receipt, string> _receiptRepository;
         private readonly IRepository<LanguageClass, string> _classRepository;
-        private readonly IRepository<Learner, string> _learnerRepository;
+        private readonly IRepository<Learner, string> _learnerRepository; 
+        private readonly IRepository<StudyProcess, int> _studyRepository;
+
         private readonly IUnitOfWork _unitOfWork;
 
         public ReceiptDetailService(IRepository<ReceiptDetail, int> receiptDetailRepository, IRepository<Receipt, string> receiptRepository,
-            IRepository<LanguageClass, string> classRepository, IUnitOfWork unitOfWork, IRepository<Learner, string> learnerRepository)
+            IRepository<LanguageClass, string> classRepository, IUnitOfWork unitOfWork, IRepository<Learner, string> learnerRepository,
+            IRepository<StudyProcess, int> studyRepository)
         {
             _receiptDetailRepository = receiptDetailRepository;
             _receiptRepository = receiptRepository;
             _classRepository = classRepository;
             _learnerRepository = learnerRepository;
+            _studyRepository = studyRepository;
             _unitOfWork = unitOfWork;
         }
 
@@ -157,6 +161,23 @@ namespace LanguageCenterPLC.Application.Implementation
                 item.LearnerName = _learnerRepository.FindById(learnerId).FirstName + " " + _learnerRepository.FindById(learnerId).LastName;
                 item.LearnerBirthday = _learnerRepository.FindById(learnerId).Birthday;
                 item.CollectionDate = _receiptRepository.FindById(item.ReceiptId).CollectionDate;               
+            }
+            return receiptDetailViewModel;
+        }
+        public List<ReceiptDetailViewModel> GetLearNotPaidTuiTion(int month, int year, string classId)
+        {
+            var leanerInClass = _studyRepository.FindAll().Where(x => x.LanguageClassId == classId && x.Status == Status.Active).ToList();
+
+
+            var receiptDetail = _receiptDetailRepository.FindAll().Where(x => x.Month == month && x.Year == year && x.Status == Status.Active).ToList();
+            var receiptDetailViewModel = Mapper.Map<List<ReceiptDetailViewModel>>(receiptDetail);
+            foreach (var item in receiptDetailViewModel)
+            {
+                item.LanguageClassName = _classRepository.FindById(item.LanguageClassId).Name;
+                string learnerId = _receiptRepository.FindById(item.ReceiptId).LearnerId;
+                item.LearnerName = _learnerRepository.FindById(learnerId).FirstName + " " + _learnerRepository.FindById(learnerId).LastName;
+                item.LearnerBirthday = _learnerRepository.FindById(learnerId).Birthday;
+                item.CollectionDate = _receiptRepository.FindById(item.ReceiptId).CollectionDate;
             }
             return receiptDetailViewModel;
         }

@@ -214,6 +214,13 @@ namespace LanguageCenterPLC.Controllers
         {
             return await Task.FromResult(_studyProcessService.GetLearnerForReceipt());
         }
+
+        // Bò đã hạ code lấy học viên chưa đóng tiền học phí theo lớp tại đây đừng có động vào
+        [HttpPost("/api/StudyProcesses/get-learner-not-paid-tuition")]
+        public async Task<ActionResult<IEnumerable<StudyProcessViewModel>>> GetLearNotPaidTuiTion(int month, int year, string classId)
+        {
+            return await Task.FromResult(_studyProcessService.GetLearNotPaidTuiTion(month, year, classId));
+        }
         // The End
         private bool StudyProcessExists(int id)
         {

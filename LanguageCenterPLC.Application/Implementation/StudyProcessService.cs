@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System;
 using System.Linq;
 using LanguageCenterPLC.Data.EF;
+using LanguageCenterPLC.Application.ViewModels.Finances;
 
 namespace LanguageCenterPLC.Application.Implementation
 {
@@ -17,15 +18,20 @@ namespace LanguageCenterPLC.Application.Implementation
         private readonly IRepository<StudyProcess, int> _studyProcessRepository;
         private readonly IRepository<LanguageClass, string> _languageClassRepository;
         private readonly IRepository<Learner, string> _learnerRepository;
+        private readonly IRepository<ReceiptDetail, int> _receiptDetailRepository;
+        private readonly IRepository<Receipt, string> _receiptRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly AppDbContext _context;
 
-        public StudyProcessService(IRepository<StudyProcess, int> studyProcessRepository, IRepository<LanguageClass, string> languageClassRepository, 
-            IRepository<Learner, string> learnerRepository, IUnitOfWork unitOfWork, AppDbContext context)
+        public StudyProcessService(IRepository<StudyProcess, int> studyProcessRepository, IRepository<LanguageClass, string> languageClassRepository,
+            IRepository<Learner, string> learnerRepository, IRepository<ReceiptDetail, int> receiptDetailRepository,
+            IRepository<Receipt, string> receiptRepository, IUnitOfWork unitOfWork, AppDbContext context)
         {
             _studyProcessRepository = studyProcessRepository;
             _languageClassRepository = languageClassRepository;
             _learnerRepository = learnerRepository;
+            _receiptDetailRepository = receiptDetailRepository;
+            _receiptRepository = receiptRepository;
             _unitOfWork = unitOfWork;
             _context = context;
         }
@@ -45,7 +51,7 @@ namespace LanguageCenterPLC.Application.Implementation
                 var languageClass = _languageClassRepository.FindById(studyProcess.LanguageClassId);
                 int max = languageClass.MaxNumber;
 
-                if(countInClass >= max)  
+                if (countInClass >= max)
                 {
                     languageClass.Status = Status.Pause;
                     _languageClassRepository.Update(languageClass);
@@ -269,8 +275,8 @@ namespace LanguageCenterPLC.Application.Implementation
         // chỗ này là của thằng Bò múa cấm động vào :V
         public List<StudyProcessViewModel> GetAllClassOfLearner(string learnerId)
         {
-            var languageClassOfLearner = _studyProcessRepository.FindAll().Where(x=>x.LearnerId == learnerId && x.Status == Status.Active);
-      
+            var languageClassOfLearner = _studyProcessRepository.FindAll().Where(x => x.LearnerId == learnerId && x.Status == Status.Active);
+
             var studyProcessViewModel = Mapper.Map<List<StudyProcessViewModel>>(languageClassOfLearner);
             foreach (var item in studyProcessViewModel)
             {
@@ -285,15 +291,17 @@ namespace LanguageCenterPLC.Application.Implementation
         }
         public List<StudyProcessViewModel> GetLearnerForReceipt()
         {
-            var languageClassOfLearner = (from learner in _learnerRepository.FindAll().Where(x => x.Status == Status.Active) join
-                                            study in _studyProcessRepository.FindAll().Where(y => y.Status == Status.Active)
-                                            on learner.Id equals study.LearnerId select study).Distinct();
+            var languageClassOfLearner = (from learner in _learnerRepository.FindAll().Where(x => x.Status == Status.Active)
+                                          join
+study in _studyProcessRepository.FindAll().Where(y => y.Status == Status.Active)
+on learner.Id equals study.LearnerId
+                                          select study).Distinct();
 
             var studyProcessViewModel = Mapper.Map<List<StudyProcessViewModel>>(languageClassOfLearner);
             foreach (var item in studyProcessViewModel)
-            {           
-                item.LearnerName = _learnerRepository.FindById(item.LearnerId).FirstName +" " + _learnerRepository.FindById(item.LearnerId).LastName;
-              
+            {
+                item.LearnerName = _learnerRepository.FindById(item.LearnerId).FirstName + " " + _learnerRepository.FindById(item.LearnerId).LastName;
+
             }
 
             return studyProcessViewModel;
@@ -385,6 +393,55 @@ namespace LanguageCenterPLC.Application.Implementation
 
             }
             return studyprocessViewModel;
+        }
+
+        // Bò viết cho báo cáo chưa đóng học phí
+        public List<StudyProcessViewModel> GetLearNotPaidTuiTion(int month, int year, string classId)
+        {
+            List<StudyProcess> learnerNotPaid = new List<StudyProcess>();
+            var leanerInClass = _studyProcessRepository.FindAll().Where(x => x.LanguageClassId == classId && x.Status == Status.Active).ToList();
+            var test = (from lear in _learnerRepository.FindAll(x => x.Status == Status.Active)
+                        join study in _studyProcessRepository.FindAll().Where(x => x.LanguageClassId == classId && x.Status == Status.Active)
+                        on lear.Id equals study.LearnerId
+                        orderby lear.LastName ascending
+                        select lear).ToList();
+            var receiptDetail = _receiptDetailRepository.FindAll().Where(x => x.Status == Status.Active & x.LanguageClassId == classId && x.Month ==month && x.Year == year).ToList();
+            var receiptDetailViewModel = Mapper.Map<List<ReceiptDetailViewModel>>(receiptDetail);
+            foreach (var item in receiptDetailViewModel)
+            {
+                item.LearnerId = _receiptRepository.FindById(item.ReceiptId).LearnerId;           
+            }
+            for (int i = 0; i < leanerInClass.Count(); i++)
+            {
+                for (int j = 0; j < receiptDetailViewModel.Count(); j++)
+                {
+                    if (leanerInClass[i].LearnerId == receiptDetailViewModel[j].LearnerId)
+                    {
+                        learnerNotPaid.Add(leanerInClass[i]);
+                    }
+                }
+            }
+
+            // 2 cái này như nhau k hiểu lắm nhưng dùng đúng thì quất thôi
+            var learnerSelect = leanerInClass.Except(learnerNotPaid);
+
+            //var difList = leanerInClass.Where(a => !learnerNotPaid.Any(a1 => a1.LearnerId == a.LearnerId))
+            //.Union(learnerNotPaid.Where(a => !leanerInClass.Any(a1 => a1.LearnerId == a.LearnerId)));
+            //////////////////////////////////
+
+            var learNotPaidViewModel = Mapper.Map<List<StudyProcessViewModel>>(learnerSelect);
+            foreach (var item in learNotPaidViewModel)
+            {
+                item.LearnerName = _learnerRepository.FindById(item.LearnerId).FirstName + " " + _learnerRepository.FindById(item.LearnerId).LastName;
+                item.LearnerAdress = _learnerRepository.FindById(item.LearnerId).Address;
+                item.LearnerBriday = _learnerRepository.FindById(item.LearnerId).Birthday;
+                item.LearnerPhone = _learnerRepository.FindById(item.LearnerId).Phone;
+                item.LearnerSex = _learnerRepository.FindById(item.LearnerId).Sex;
+                item.LearnerNameOrderBy = _learnerRepository.FindById(item.LearnerId).LastName;
+            }
+            return learNotPaidViewModel;
+
+
         }
     }
 }
