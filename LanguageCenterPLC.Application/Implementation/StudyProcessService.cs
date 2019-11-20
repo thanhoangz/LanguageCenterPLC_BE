@@ -389,6 +389,7 @@ on learner.Id equals study.LearnerId
                 learnerViewModel.Sex = learner.Sex;
                 learnerViewModel.Birthday = learner.Birthday;
                 learnerViewModel.Address = learner.Address;
+                learnerViewModel.Phone = learner.Phone;
                 item.Learner = learnerViewModel;
 
             }
