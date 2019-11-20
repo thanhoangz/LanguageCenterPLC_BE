@@ -25,6 +25,8 @@ namespace LanguageCenterPLC.Application.Interfaces
 
         List<ReceiptDetailViewModel> GetDetailReceipt(string receiptId);
         public List<ReceiptDetailViewModel> GetDetailReceiptForReport(int month, int year);
+        public List<ReceiptDetailViewModel> GetLearNotPaidTuiTion(int month, int year, string classId);
+
         bool IsExists(int id);
     }
 }

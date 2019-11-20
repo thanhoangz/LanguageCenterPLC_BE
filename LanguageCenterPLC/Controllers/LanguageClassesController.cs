@@ -54,6 +54,13 @@ namespace LanguageCenterPLC.Controllers
             return await Task.FromResult(_languageClassService.GetLanguageClassesByCourse(courseId));
         }
 
+        [HttpPost]
+        [Route("getall-status-bycourse/{courseId}")]
+        public async Task<ActionResult<IEnumerable<LanguageClassViewModel>>> GetAllClassByCourseId(int courseId)
+        {
+            return await Task.FromResult(_languageClassService.GetAllClassByCourseId(courseId));
+        }
+
 
         [HttpPost("/api/LanguageClasses/get-class-chuyen-lop")]
         public async Task<ActionResult<IEnumerable<LanguageClassViewModel>>> LopDeChuyen(string classId, int courseId)

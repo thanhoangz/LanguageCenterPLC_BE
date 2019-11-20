@@ -30,6 +30,15 @@ namespace LanguageCenterPLC.Application.ViewModels.Studies
         public string LearnerId { get; set; }
 
         public string LearnerName { get; set; }
+        public string LearnerPhone { get; set; }
+
+        public DateTime LearnerBriday { get; set; }
+        public bool LearnerSex { get; set; }
+
+        public string LearnerAdress { get; set; }
+
+        public string LearnerNameOrderBy { get; set; }
+
 
         public LearnerViewModel Learner { get; set; }
     }

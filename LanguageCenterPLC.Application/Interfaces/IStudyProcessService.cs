@@ -37,6 +37,9 @@ namespace LanguageCenterPLC.Application.Interfaces
         // phần này của thằng bò cấm động vào :v
         public List<StudyProcessViewModel> GetAllClassOfLearner(string learnerId);
         public List<StudyProcessViewModel> GetLearnerForReceipt();
+
+        public List<StudyProcessViewModel> GetLearNotPaidTuiTion(int month, int year, string classId);
+
         // kết thúc phần của thằng Bò
 
         List<StudyProcessViewModel> GetAllInClass(string classId,int status);
