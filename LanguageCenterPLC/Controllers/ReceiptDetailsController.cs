@@ -136,9 +136,13 @@ namespace LanguageCenterPLC.Controllers
             }
             return Ok();
         }
+
+
         private bool ReceiptDetailExists(int id)
         {
             return _receiptDetailService.IsExists(id);
         }
+
+
     }
 }
