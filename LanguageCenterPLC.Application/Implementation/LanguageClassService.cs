@@ -225,5 +225,12 @@ namespace LanguageCenterPLC.Application.Implementation
             var languageClassesViewModel = Mapper.Map<List<LanguageClassViewModel>>(languageClasse);
             return languageClassesViewModel;
         }
+
+        public List<LanguageClassViewModel> GetAllClassByCourseId(int courseId)
+        {
+            var languageClasse = _languageClassRepository.FindAll().Where(x => x.CourseId == courseId).OrderByDescending(x => x.Status);
+            var languageClassesViewModel = Mapper.Map<List<LanguageClassViewModel>>(languageClasse);
+            return languageClassesViewModel;
+        }
     }
 }

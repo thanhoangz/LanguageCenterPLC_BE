@@ -27,6 +27,7 @@ namespace LanguageCenterPLC.Application.Interfaces
         public List<LanguageClassViewModel> GetClass_Learner_Studied(string learnerId);
 
         List<LanguageClassViewModel> GetLanguageClassesByCourse(int courseId);
+        List<LanguageClassViewModel> GetAllClassByCourseId(int courseId);
         bool IsExists(string id);
     }
 }
