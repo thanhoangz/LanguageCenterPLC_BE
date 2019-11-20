@@ -388,6 +388,79 @@ namespace LanguageCenterPLC.Controllers
         }
 
 
+        [HttpPost]
+        [Route("attendance-of-learner")]
+        public async Task<List<Object>> GetAttendanceSheetOfLearners(int month, int year, string _class)
+        {
+            var learners = (from l in _context.Learners
+                            join st in _context.StudyProcesses on l.Id equals st.LearnerId
+                            where st.LanguageClassId == _class && l.Status == Status.Active && st.Status == Status.Active
+                            select l).ToList();
+            var infoClass = _context.LanguageClasses.Where(x => x.Id == _class).SingleOrDefault();
+            IEnumerable<AttendanceSheetDetail> attendanceSheetsDetails = _context.AttendanceSheetDetails.Where(x => x.DateCreated.Month == month && x.DateCreated.Year == year && x.LanguageClassId == _class).ToList();
+            attendanceSheetsDetails = attendanceSheetsDetails.Select(e => { e.DateCreated = DateTime.Parse(e.DateCreated.ToShortDateString()); return e; });
+            var data = from e in attendanceSheetsDetails
+                       group e by new { e.LearnerId, e.DateCreated } into p
+                       select new { Id = p.Key.LearnerId, p.Key.DateCreated, Number = p.Count() };
+
+            List<Object> result = new List<object>();
+            int index = 1;
+
+            foreach (var learner in learners)
+            {
+                var objectOfLearner = data.Where(x => x.Id == learner.Id);
+
+
+                if (objectOfLearner.ToList().Count != 0)
+                {
+
+                    var monthList = new List<int>();
+                    for (int i = 1; i <= DateTime.DaysInMonth(year, month); i++)
+                    {
+                        var number = objectOfLearner.Where(x => x.DateCreated.Day == i).SingleOrDefault();
+                        if (number != null)
+                        {
+                            monthList.Add(number.Number);
+                            continue;
+                        }
+                        monthList.Add(0);
+                    }
+
+                    var newRow = new
+                    {
+                        Index = index,
+                        FullName = learner.FirstName + " " + learner.LastName,
+                        BirthYear = learner.Birthday.Year,
+                        Class = infoClass.Name,
+                        Days = monthList,
+                        Total = monthList.Sum()
+                    };
+
+                    result.Add(newRow);
+                    index++;
+                }
+                else
+                {
+                    var monthList = new List<int>();
+                    for (int i = 1; i <= DateTime.DaysInMonth(year, month); i++)
+                    {
+                        monthList.Add(0);
+                    }
+                    var newRow = new
+                    {
+                        Index = index,
+                        FullName = learner.FirstName + " " + learner.LastName,
+                        BirthYear = learner.Birthday.Year,
+                        Class = infoClass.Name,
+                        Days = monthList,
+                        Total = monthList.Sum()
+                    };
+                    result.Add(newRow);
+                    index++;
+                }
+            }
+            return await Task.FromResult(result);
+        }
 
 
     }
