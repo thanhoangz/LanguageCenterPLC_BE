@@ -223,7 +223,21 @@ namespace LanguageCenterPLC.Application.Implementation
             return payslipViewModel;
         }
 
-        
+        public List<PaySlipViewModel> GetAllWithConditions_report(int month, int year)
+        {
+            var query = _payslipRepository.FindAll().Where(x => x.Status == Status.Active).OrderBy(x => x.Date).ToList();
+            query = query.Where(x => x.Date.Year == year && x.Date.Month == month).ToList();
+            var payslipViewModel = Mapper.Map<List<PaySlipViewModel>>(query);
+            foreach (var item in payslipViewModel)
+            {
+                string name = _paysliptypeRepository.FindById(item.PaySlipTypeId).Name;
+                item.PaySlipTypeName = name;
+            }
+
+            return payslipViewModel;
+        }
+
+
     }
 }
 

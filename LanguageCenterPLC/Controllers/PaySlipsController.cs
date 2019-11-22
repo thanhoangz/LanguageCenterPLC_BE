@@ -129,6 +129,12 @@ namespace LanguageCenterPLC.Controllers
             return await Task.FromResult(_payslipService.GetAllWithConditions(startDate, endDate, keyword, phieuchi, status));
         }
 
+        [HttpPost("/api/PaySlips/get-all-with-conditions-report")]
+        public async Task<ActionResult<IEnumerable<PaySlipViewModel>>> GetAllWithConditions_report(int month, int year)
+        {
+            return await Task.FromResult(_payslipService.GetAllWithConditions_report(month,year));
+        }
+
         // DELETE: api/PaySlips/5
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeletePaySlip(string id)
