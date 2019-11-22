@@ -294,41 +294,7 @@ namespace LanguageCenterPLC.Controllers
             return await Task.FromResult(resultList);
         }
 
-        /*  [HttpPost]
-          [Route("get-score-by-learnerId")]
-          public async Task<List<Object>> GetFullScoreById(string id)
-          {
-              // lấy ra danh sách lớp học viên đã và đang học     
 
-              var listclass = (from c in _context.LanguageClasses
-                               join qtht in _context.StudyProcesses.Where(x => x.LearnerId == id)
-                               on c.Id equals qtht.LanguageClassId
-                               select c).ToList();
-
-              var resultList = new List<Object>();
-
-              foreach (var study in listclass)
-              {
-                  LanguageClass languageClass = _context.LanguageClasses.Find(study.Id);
-
-                  var EndingCoursePoint = new Object();
-                  var allEndingCoursePonint = _context.EndingCoursePoints.Where(x => x.LanguageClassId == study.Id).OrderBy(y => y.ExaminationDate).ToList();
-                  foreach (var ending in allEndingCoursePonint)
-                  {
-                      var detailEndingOfLearner = _context.EndingCoursePointDetails.Where(x => x.LearnerId == id).SingleOrDefault();
-                      if (detailEndingOfLearner != null)
-                      {
-                          EndingCoursePoint = detailEndingOfLearner;
-                      }
-                  }
-                  resultList.Add(
-                      new
-                      {
-                          Class = languageClass,              
-                          EndingCoursePoint
-                      });
-              }
-              return await Task.FromResult(resultList);
-          }*/
+ 
     }
 }

@@ -44,7 +44,19 @@ namespace LanguageCenterPLC.Controllers
             return attendanceSheet;
         }
 
+        [HttpGet]
+        [Route("attendance/{id}")]
+        public async Task<ActionResult<AttendanceSheet>> GetAttendanceSheetByClass(string id, DateTime date)
+        {
+            var attendanceSheet = await _context.AttendanceSheets.Where(x => x.LanguageClassId == id && x.Date.Day == date.Date.Day && x.Date.Month == date.Month && x.Date.Year == date.Year).SingleOrDefaultAsync();
 
+            if (attendanceSheet == null)
+            {
+                return NotFound();
+            }
+
+            return attendanceSheet;
+        }
 
         [HttpGet]
         [Route("getByDate")]
