@@ -251,5 +251,23 @@ namespace LanguageCenterPLC.Controllers
 
             return await Task.FromResult(result);
         }
+
+
+
+
+        [HttpGet]
+        [Route("get-same-class/{classId}")]
+        public async Task<List<LanguageClassViewModel>> GetClassBySameCourse(string classId)
+        {
+            var languageClass = _context.LanguageClasses.Find(classId);
+            List<LanguageClass> result = _context.LanguageClasses.Where(x => x.CourseId == languageClass.CourseId &&  x.Id != classId).ToList();
+
+            var resultVm = Mapper.Map<List<LanguageClassViewModel>>(result);
+
+
+
+            return await Task.FromResult(resultVm);
+        }
+
     }
 }

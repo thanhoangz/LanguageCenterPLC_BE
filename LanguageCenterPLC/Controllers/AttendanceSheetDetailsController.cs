@@ -93,6 +93,8 @@ namespace LanguageCenterPLC.Controllers
         [HttpPost]
         public async Task<ActionResult<AttendanceSheetDetail>> PostAttendanceSheetDetail(AttendanceSheetDetail attendanceSheetDetail)
         {
+            attendanceSheetDetail.DateCreated = DateTime.Now;
+            attendanceSheetDetail.Status = Status.Active;
             _context.AttendanceSheetDetails.Add(attendanceSheetDetail);
             await _context.SaveChangesAsync();
 
