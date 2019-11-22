@@ -30,31 +30,33 @@ namespace LanguageCenterPLC.Controllers
         #region dữ liệu mẫu 
         public List<string> _images = new List<string>()
         {
-            "data:image/jpeg;base64,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",
+            @"http://media.doisongphapluat.com/602/2019/8/16/loat-anh-mong-manh-suong-khoi-cua-tan-sinh-vien-dai-hoc-luat-3.jpeg",
             @"https://tokhoe.com/wp-content/uploads/2017/08/nu-dong-phuc2.jpg",
-            "data:image/jpeg;base64,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",
-            @"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRnQ3wNGN-nGytwXjV0LVCjYyOu1Z2zeTVLDa5g1fE8B_TmvCXpyQ",
-            @"https://znews-photo.zadn.vn/w660/Uploaded/zxgovb/2015_09_05/10418914_1362754997106290_688380908058332734_n.jpg",
-            @"https://we25.vn/media2018/Img_News/2019/03/28/nu-sinh-nam-nhat-dh-ngoai-thuong-nhan-bao-like-tu-buc-anh-hoc-quan-su-lo-danh-tinh-la-hoc-sinh-gioi-2_20190328105256.jpg",
-            @"http://file.vforum.vn/hinh/2016/08/hinh-anh-nhung-girl-xinh-tu-suong-dep-nhat-hot-girl-selfie-facebook-2.jpg",
-            @"https://s16815.pcdn.co/wp-content/uploads/2017/06/iStock-609683672-studying.jpg",
-            @"https://www.exlibrisgroup.com/wp-content/uploads/2018/01/Untitled-design-6-1.png",
-            @"https://www.tokyoteenies.com/media/thumbs/5/7/f/3/8/57f38eedf3b7e/236x355/15.jpg",
-            @"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS44xEqEqoGADcwXd1n9Sjc1_Mqnmv5nQh-U7r7K8P_4KYQ6Svo",
-            @"http://saoleloi.com/images/baiviet/jav/rola-takizawa.jpg",
-            @"https://media.ohay.tv/v1/upload/content/2017-11/14/1205-6bc660b69abadcc4d1f756a382bf7673.jpg",
-            @"https://scontent.fhan5-7.fna.fbcdn.net/v/t1.0-9/10376137_259358934251656_3320677344743473884_n.jpg?_nc_cat=103&_nc_oc=AQlU-9t7WVO8o3bZiijPeWgIJaf6QVKOBgZDA7oGv8DE3i8eUo1dzjn5n4TqmSOD7fQcf06o3jitA65-Sits2ygc&_nc_ht=scontent.fhan5-7.fna&oh=5564226197eb744ded8c0b343c010e8c&oe=5E566C59",
-            @"https://scontent.fhan5-2.fna.fbcdn.net/v/t1.0-1/c0.0.2011.2011a/73482633_2434565420199083_6011195756004769792_o.jpg?_nc_cat=110&_nc_oc=AQn7ZW3F6Pr_Gp-GRhUeQthzoQCfejtjv84DTnjSHIoNF-i0vjSaaBcc-hHjgjkyDExYONrT2BTvX6eht2YzUC8H&_nc_ht=scontent.fhan5-2.fna&oh=d0b71a4aeddfe12e36116f32e8ad32c6&oe=5E1752D9",
-            @"https://scontent.fhan5-7.fna.fbcdn.net/v/t1.0-9/45576457_1162598560562736_4853310025117990912_o.jpg?_nc_cat=103&_nc_oc=AQmDuUKRMe7pz-Adwhe-kAtPz8jd9FEDJCqfWQV9ph8GEzxI02uP25WQGoBUIT6SbsrC7283yP4ns7jsXCRPCEHm&_nc_ht=scontent.fhan5-7.fna&oh=beebd78aaa5d6e37ba2051ce9acdd1a8&oe=5E29D8B5",
-            @"https://scontent.fhan5-4.fna.fbcdn.net/v/t1.0-9/67544944_2371080639846869_6344308029298573312_o.jpg?_nc_cat=104&_nc_oc=AQluIhWM6-plXrNquDxnEMUxkErK47JAaaO_35A7lzs94BzTIekx9vBA1xQHzjbcPwu374_jyuiapE_1RjrmYOTu&_nc_ht=scontent.fhan5-4.fna&oh=3d547e5cd92b588ab92bb1aa95afbf21&oe=5E55AE20",
-            @"https://scontent.fhan5-7.fna.fbcdn.net/v/t31.0-8/22291241_1916922411963389_1635466374862426939_o.jpg?_nc_cat=103&_nc_oc=AQnMzH3HeVKBSuU7iLTXofDKgtNbnWktUzN-B-p3FRYzIHVuQ68YOUO_cCxQU9frmU8L6AuFl4LsI1NmKyS7Tjur&_nc_ht=scontent.fhan5-7.fna&oh=40556514aaaa9058d2fb3afbb6f4315f&oe=5E64230A",
-            @"https://scontent.fhan5-6.fna.fbcdn.net/v/t31.0-8/18216799_813067862182804_8260177825729180537_o.jpg?_nc_cat=107&_nc_oc=AQmtc5cjtKxxNZygKkbCGb2RuSO5qRgftGxU32pOiKwwQtDew54c_hYolTq5JTWwpbRuj42OGrLJAY0TPuvmrwDf&_nc_ht=scontent.fhan5-6.fna&oh=c1efe19980cd1def52ed5a0079e30fdc&oe=5E2CE7FD",
-            @"https://cafebiz.cafebizcdn.vn/thumb_w/600/2016/photo-0-1477883902802-crop-1477977528098.jpg",
-            @"https://www.docxem.com/wp-content/uploads/2015/10/%C3%A26.jpg",
-            @"http://static2.yan.vn/YanNews/2167221/201808/4a2bc43d00f3db0613138c5f5e637a95-98df37fe.png",
-            @"https://scontent.fhan5-5.fna.fbcdn.net/v/t1.0-9/12417652_1099631016754811_4117657579030545024_n.jpg?_nc_cat=108&_nc_oc=AQm1zJXBYd2rjvHkZRdLcHj5fZ7UMLnL1eSs9QJ_KgxEs2NCGLmcBHw-WcD7U3agD3lH5DoU--tRDukZjPX5fzXy&_nc_ht=scontent.fhan5-5.fna&oh=edb3ca547bb3d2c1c5baf757a8180d1b&oe=5E61CF2F",
-            @"https://scontent.fhan5-5.fna.fbcdn.net/v/t1.0-9/51304465_1078810395654064_5375734273452015616_n.jpg?_nc_cat=108&_nc_oc=AQnDIimSONRWVw6zlDhDqDMGIoR3ewUgP3kvv3XNG11uB4HqdafDXl7GZdpDRl0gOFxA9eN2zYJfaqPwosb99jbD&_nc_ht=scontent.fhan5-5.fna&oh=6c3d25664f7c384a9f901ea4627a3d29&oe=5E21E92D",
-            @"https://scontent.fhan5-4.fna.fbcdn.net/v/t1.0-9/72706304_1002291733479387_560269863763836928_n.jpg?_nc_cat=104&_nc_oc=AQl-sZ70m15c7bpl0kZHUAyzJn8mbHaHwv2qeMksYB42QElZNXA_A8-7Cjv9lg8Z5qfksnJhSIMvysggEPlgelLA&_nc_ht=scontent.fhan5-4.fna&oh=2a6d6c59cbad0a36b2e30fb0efbc0722&oe=5E2CEE27",
+            @"https://photo-3-baomoi.zadn.vn/w700_r1/2018_11_17_329_28624679/ec30eb00ab41421f1b50.jpg",
+            @"https://icdn.dantri.com.vn/2018/12/19/a-khoi-sinh-vien-viet-nam-13-1545233052369478376074.jpg",
+            @"https://znews-photo.zadn.vn/w660/Uploaded/kcwvouvs/2017_03_23/3.jpg",
+            @"https://dotobjyajpegd.cloudfront.net/photo/5ca5d137a449d212f32262d1",
+            @"https://cdn.shopify.com/s/files/1/0074/9774/4451/products/DPG008_1_2048x.jpg?v=1547179896",
+            @"http://vinhuni.edu.vn/data/1/upload/796/images//2017/05/thu_khoa_van_6.jpg",
+            @"https://znews-photo.zadn.vn/w660/Uploaded/qjyyf/2014_02_10/534023_308934209250475_2140461783_n.jpg",
+            @"https://sohanews.sohacdn.com/2017/photo-10-1505955382266.jpg",
+            @"https://media.tintuc.vn/uploads/medias/2017/06/22/550x500/linh-ka-8-bb-baaadNmV5f.jpg",
+            @"https://photo-3-baomoi.zadn.vn/w700_r1/2019_11_08_304_32869877/a6462976b2365b680227.jpg",
+
+            @"http://sinhvienusa.org/wp-content/uploads/2016/02/img20160221230548033.jpg",
+            @"https://we25.vn/media/images/nam-sinh-9x-dep-trai-khoa-fb(2).jpg",
+            @"http://mcnews3.media.netnews.vn/tiin//archive/images/20180816/102607_hue2.jpg",
+            @"https://quanghunggroup.com/wp-content/uploads/2019/06/6-kieu-toc-nam-dep-phu-hop-cho-hoc-sinh-5.jpg",
+            @"http://www.qtv.vn/dataimages/201806//original/images1067062_mon_23.jpg",
+            @"http://kenh14cdn.com/crop/640_360/2019/3/13/photo-1-1552412377302291295915-crop-1552412442632202196017.jpg",
+
+            @"https://imgraovat.vnecdn.net/images/1280_768/2018/09/19/aff747265bac97b66ebd740a97657bf4.jpeg",
+            @"https://dinhat.com/wp-content/uploads/2018/05/anh-the-di-xkld-nhat-ban.jpg",
+            @"https://miro.medium.com/max/1336/0*pPSYwu08e3xZqiMF",
+            @"https://learns.vn/wp-content/uploads/avatars/6/59d10bb9ab5db-bpfull.jpg",
+            @"https://dichvucaptoc.com/wp-content/uploads/2019/04/hi%CC%80nh-a%CC%89nh-xin-visa-trung-quo%CC%82%CC%81c.jpg",
+            @"http://file.hstatic.net/1000202498/file/cach-chup-anh-the-dep-cho-nam-2_grande.jpg",
+            @"https://ssl.latcdn.com/img/aQrHfc1pM-anh-ho-so-dung-cho-don-xin-viec-word.jpg",
             @"https://scontent.fhan5-2.fna.fbcdn.net/v/t1.0-9/37078089_1981317955511560_2319863427440312320_n.jpg?_nc_cat=110&_nc_oc=AQlgH85LjOm5nWwKS2pDVxwXik_yX9kuGSysGVUjyVdMyXwWBYYi1xFBQaLykwDRa7XKSt8k_flVrEw1qwZQoTvE&_nc_ht=scontent.fhan5-2.fna&oh=172454f381e17b1ad066fc5d0648686c&oe=5E2B2C43",
 
         };
@@ -421,17 +423,23 @@ namespace LanguageCenterPLC.Controllers
                     if (learner.Sex)
                     {
                         Random ranName = new Random();
-                        learner.FirstName = firstName[ranName.Next(16)];
-                        learner.LastName = midNameMale[ranName.Next(14)] + " " + lastNameMale[ranName.Next(14)];
+                        learner.FirstName = firstName[ranName.Next(16)] + " " + midNameMale[ranName.Next(14)];
+                        learner.LastName = lastNameMale[ranName.Next(14)];
+
+                        int im = ranName.Next(12, 17);
+                        learner.Image = _images[im];
                     }
                     else
                     {
                         Random ranName = new Random();
-                        learner.FirstName = firstName[ranName.Next(16)];
-                        learner.LastName = midNameMale[ranName.Next(11)] + " " + lastNameMale[ranName.Next(14)];
+                        learner.FirstName = firstName[ranName.Next(16)] + " " + midNameFemale[ranName.Next(11)];
+                        learner.LastName = lastNameFemale[ranName.Next(14)];
+
+                        int im = ranName.Next(1, 11);
+                        learner.Image = _images[im];
                     }
                     Random r = new Random();
-                    DateTime rDate = new DateTime(r.Next(1900, 2010), r.Next(1, 12), r.Next(1, 28));
+                    DateTime rDate = new DateTime(r.Next(1990, 2010), r.Next(1, 12), r.Next(1, 28));
 
                     learner.Birthday = rDate;
                     learner.Address = "Số 4c26, Khu 1, Lê Hồng Phong, Ngô Quyền, Hải Phòng";
@@ -442,8 +450,7 @@ namespace LanguageCenterPLC.Controllers
                     learner.ParentPhone = TextHelper.RandomNumber(10);
 
                     Random rnd = new Random();
-                    int temp = rnd.Next(1, 25);
-                    learner.Image = _images[temp];
+                    int temp;
                     temp = rnd.Next(1, 7);
                     learner.GuestTypeId = temp;
 
@@ -476,19 +483,20 @@ namespace LanguageCenterPLC.Controllers
                     if (lecturer.Sex)
                     {
                         Random ranName = new Random();
-                        lecturer.FirstName = firstName[ranName.Next(16)];
-                        lecturer.LastName = midNameMale[ranName.Next(14)] + " " + lastNameMale[ranName.Next(14)];
+                        lecturer.FirstName = firstName[ranName.Next(16)] + " " + midNameMale[ranName.Next(14)];
+                        lecturer.LastName = lastNameMale[ranName.Next(14)];
+                    
                     }
                     else
                     {
                         Random ranName = new Random();
-                        lecturer.FirstName = firstName[ranName.Next(16)];
-                        lecturer.LastName = midNameMale[ranName.Next(11)] + " " + lastNameMale[ranName.Next(14)];
+                        lecturer.FirstName = firstName[ranName.Next(16)] + " " + midNameFemale[ranName.Next(11)];
+                        lecturer.LastName = lastNameFemale[ranName.Next(14)];
                     }
 
                     lecturer.CardId = "GV" + "000" + ((j < 10) ? "000" + j.ToString() : (j < 100) ? "00" + j.ToString() : (j < 1000) ? "0" + j.ToString() : j.ToString());
                     Random r = new Random();
-                    DateTime rDate = new DateTime(r.Next(1900, 2010), r.Next(1, 12), r.Next(1, 28));
+                    DateTime rDate = new DateTime(r.Next(1900, 1985), r.Next(1, 12), r.Next(1, 28));
 
                     lecturer.Birthday = rDate;
                     lecturer.Address = "Số 4c26, Khu 1, Lê Hồng Phong, Ngô Quyền, Hải Phòng";
@@ -497,7 +505,7 @@ namespace LanguageCenterPLC.Controllers
                     lecturer.Phone = TextHelper.RandomNumber(10);
 
                     Random rnd = new Random();
-                    int temp = rnd.Next(1, 25);
+                    int temp = rnd.Next(18, 25);
                     lecturer.Image = _images[temp];
 
                     temp = rnd.Next(1, 7);
@@ -547,14 +555,14 @@ namespace LanguageCenterPLC.Controllers
                     if (personnel.Sex)
                     {
                         Random ranName = new Random();
-                        personnel.FirstName = firstName[ranName.Next(16)];
-                        personnel.LastName = midNameMale[ranName.Next(14)] + " " + lastNameMale[ranName.Next(14)];
+                        personnel.FirstName = firstName[ranName.Next(16)] + " " + midNameMale[ranName.Next(14)];
+                        personnel.LastName = lastNameMale[ranName.Next(14)];
                     }
                     else
                     {
                         Random ranName = new Random();
-                        personnel.FirstName = firstName[ranName.Next(16)];
-                        personnel.LastName = midNameMale[ranName.Next(11)] + " " + lastNameMale[ranName.Next(14)];
+                        personnel.FirstName = firstName[ranName.Next(16)] + " " + midNameFemale[ranName.Next(11)];
+                        personnel.LastName = lastNameFemale[ranName.Next(14)];
                     }
 
                     Random r = new Random();
@@ -940,10 +948,10 @@ namespace LanguageCenterPLC.Controllers
                         Permission permission = new Permission();
                         permission.AppUserId = item.Id;
                         permission.FunctionId = fun.Id;
-                        permission.CanCreate = false;
-                        permission.CanDelete = false;
-                        permission.CanRead = false;
-                        permission.CanUpdate = false;
+                        permission.CanCreate = true;
+                        permission.CanDelete = true;
+                        permission.CanRead = true;
+                        permission.CanUpdate = true;
                         permission.Status = Status.Active;
                         permissions.Add(permission);
                     }
@@ -953,21 +961,18 @@ namespace LanguageCenterPLC.Controllers
 
             if (_context.TimeShifts.Count() == 0)
             {
-                List<TimeShift> timeShifts = new List<TimeShift>();
-
-                TimeSpan timeStart = new TimeSpan(7, 0, 0);
-                TimeSpan timeEnd = new TimeSpan(9, 0, 0);
-                for (int i = 0; i < 6; i++)
+                List<TimeShift> timeShifts = new List<TimeShift>()
                 {
-                    TimeShift timeShift = new TimeShift();
-                    timeShift.Name = "Ca " + (i + 1).ToString();
-                    timeShift.FromTime = timeStart;
-                    timeStart.Add(new TimeSpan(2, 0, 0));
-                    timeShift.ToTime = timeEnd;
-                    timeEnd.Add(new TimeSpan(2, 0, 0));
+                    new TimeShift(){ Name = "Ca 1", FromTime = new TimeSpan(7, 0, 0), ToTime = new TimeSpan(9, 0, 0)},
+                    new TimeShift(){ Name = "Ca 2", FromTime = new TimeSpan(8, 0, 0), ToTime = new TimeSpan(10, 0, 0)},
+                    new TimeShift(){ Name = "Ca 3", FromTime = new TimeSpan(9, 0, 0), ToTime = new TimeSpan(11, 0, 0)},
+                    new TimeShift(){ Name = "Ca 4", FromTime = new TimeSpan(14, 0, 0), ToTime = new TimeSpan(16, 0, 0)},
+                    new TimeShift(){ Name = "Ca 5", FromTime = new TimeSpan(15, 0, 0), ToTime = new TimeSpan(17, 0, 0)},
+                    new TimeShift(){ Name = "Ca 6", FromTime = new TimeSpan(16, 0, 0), ToTime = new TimeSpan(18, 0, 0)},
+                    new TimeShift(){ Name = "Ca 7", FromTime = new TimeSpan(19, 0, 0), ToTime = new TimeSpan(21, 0, 0)},
+                };
 
-                    timeShifts.Add(timeShift);
-                }
+            
                 _context.TimeShifts.AddRange(timeShifts);
             }
 
