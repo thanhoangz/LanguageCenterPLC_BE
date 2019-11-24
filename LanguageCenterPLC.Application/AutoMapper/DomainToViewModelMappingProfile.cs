@@ -29,7 +29,7 @@ namespace LanguageCenterPLC.Application.AutoMapper
             CreateMap<LanguageClass, LanguageClassViewModel>();
             CreateMap<Learner, LearnerViewModel>();
             CreateMap<Lecturer, LecturerViewModel>();
-            CreateMap<LogWork, LogWorkViewModel>();
+          
             CreateMap<PaySlip, PaySlipViewModel>();
             CreateMap<PaySlipType, PaySlipTypeViewModel>();
             CreateMap<PeriodicPoint, PeriodicPointViewModel>();

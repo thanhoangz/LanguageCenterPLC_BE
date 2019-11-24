@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace LanguageCenterPLC.Data.EF.Migrations
 {
-    public partial class _1118 : Migration
+    public partial class initialize_v1 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -217,23 +217,32 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "LogStudyProcesses",
+                name: "LogSystems",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    DateCreated = table.Column<DateTime>(nullable: false),
+                    DateModified = table.Column<DateTime>(nullable: true),
+                    Content = table.Column<string>(nullable: true),
+                    UserId = table.Column<Guid>(nullable: false),
                     LearnerId = table.Column<string>(nullable: true),
-                    Date = table.Column<DateTime>(nullable: false),
+                    StudyProcessId = table.Column<int>(nullable: true),
                     ClassId = table.Column<string>(nullable: true),
-                    ClassName = table.Column<string>(nullable: true),
-                    CourseId = table.Column<string>(nullable: true),
-                    CourseName = table.Column<string>(nullable: true),
-                    Manipulation = table.Column<string>(nullable: true),
-                    Note = table.Column<string>(nullable: true)
+                    PeriodicPointId = table.Column<int>(nullable: true),
+                    EndingCoursePointId = table.Column<int>(nullable: true),
+                    LecturerId = table.Column<int>(nullable: true),
+                    TimesheetId = table.Column<int>(nullable: true),
+                    SalaryPayId = table.Column<int>(nullable: true),
+                    AttendanceId = table.Column<int>(nullable: true),
+                    IsTimeSheetLog = table.Column<bool>(nullable: true),
+                    IsSalaryPayLog = table.Column<bool>(nullable: true),
+                    IsStudyProcessLog = table.Column<bool>(nullable: true),
+                    IsManagerPointLog = table.Column<bool>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_LogStudyProcesses", x => x.Id);
+                    table.PrimaryKey("PK_LogSystems", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -252,20 +261,6 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_LogTuitionRecords", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "LogWorks",
-                columns: table => new
-                {
-                    Id = table.Column<long>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Content = table.Column<string>(nullable: false),
-                    DateCreated = table.Column<DateTime>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_LogWorks", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -737,6 +732,7 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                     DateCreated = table.Column<DateTime>(nullable: false),
                     DateModified = table.Column<DateTime>(nullable: true),
                     Note = table.Column<string>(nullable: true),
+                    isLoocked = table.Column<bool>(nullable: false),
                     AppUserId = table.Column<Guid>(nullable: false),
                     PersonnelId = table.Column<string>(nullable: false)
                 },
@@ -837,6 +833,7 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                     DateCreated = table.Column<DateTime>(nullable: false),
                     DateModified = table.Column<DateTime>(nullable: true),
                     Note = table.Column<string>(nullable: true),
+                    isLocked = table.Column<bool>(nullable: false),
                     LanguageClassId = table.Column<string>(nullable: false),
                     LecturerId = table.Column<int>(nullable: false),
                     AppUserId = table.Column<Guid>(nullable: false)
@@ -877,6 +874,7 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                     DateCreated = table.Column<DateTime>(nullable: false),
                     DateModified = table.Column<DateTime>(nullable: true),
                     Note = table.Column<string>(nullable: true),
+                    isLocked = table.Column<bool>(nullable: false),
                     LanguageClassId = table.Column<string>(nullable: false),
                     LecturerId = table.Column<int>(nullable: false),
                     AppUserId = table.Column<Guid>(nullable: false)
@@ -1486,13 +1484,10 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                 name: "Footers");
 
             migrationBuilder.DropTable(
-                name: "LogStudyProcesses");
+                name: "LogSystems");
 
             migrationBuilder.DropTable(
                 name: "LogTuitionRecords");
-
-            migrationBuilder.DropTable(
-                name: "LogWorks");
 
             migrationBuilder.DropTable(
                 name: "PaySlips");

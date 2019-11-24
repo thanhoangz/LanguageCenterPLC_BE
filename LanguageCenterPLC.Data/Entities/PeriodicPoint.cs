@@ -42,7 +42,7 @@ namespace LanguageCenterPLC.Data.Entities
 
         public string Note { get; set; }
 
-
+        public bool isLocked { get; set; }
 
         [Required]
         public string LanguageClassId { get; set; }
@@ -53,7 +53,7 @@ namespace LanguageCenterPLC.Data.Entities
         [Required]
         public Guid AppUserId { get; set; }
 
-        /*Reference Table*/
+
         [ForeignKey("LanguageClassId")]
         public virtual LanguageClass LanguageClass { get; set; }
 
@@ -63,7 +63,6 @@ namespace LanguageCenterPLC.Data.Entities
         [ForeignKey("AppUserId")]
         public virtual AppUser AppUser { get; set; }
 
-        /*List of References */
         public virtual ICollection<PeriodicPointDetail> PeriodicPointDetails { set; get; }
     }
 }

@@ -74,48 +74,23 @@ namespace LanguageCenterPLC.Data.EF
 
         public DbSet<Function> Functions { set; get; }
 
-        public DbSet<LogWork> LogWorks { set; get; }
+
         public DbSet<Announcement> Announcements { set; get; }
         public DbSet<AnnouncementUser> AnnouncementUsers { set; get; }
 
-        public DbSet<LogStudyProcess> LogStudyProcesses { set; get; }
 
         public DbSet<LogTuitionRecord> LogTuitionRecords { set; get; }
 
         public DbSet<ClassSession> ClassSessions { set; get; }
+
         public DbSet<TimeShift> TimeShifts { set; get; }
 
         public DbSet<SalaryPay> SalaryPays { set; get; }
 
+        public DbSet<LogSystem> LogSystems { set; get; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            #region Identity Config
-
-            //builder.Entity<IdentityUserClaim<string>>().ToTable("AppUserClaims").HasKey(x => x.Id);
-
-            //builder.Entity<IdentityRoleClaim<string>>().ToTable("AppRoleClaims").HasKey(x => x.Id);
-
-            //builder.Entity<IdentityUserLogin<string>>().ToTable("AppUserLogins").HasKey(x => x.UserId);
-
-            //builder.Entity<IdentityUserRole<string>>().ToTable("AppUserRoles").HasKey(x => new { x.RoleId, x.UserId });
-
-            //builder.Entity<IdentityUserToken<string>>().ToTable("AppUserTokens").HasKey(x => new { x.UserId });
-
-            //#endregion Identity Config
-
-            //builder.AddConfiguration(new TagConfiguration());
-            //builder.AddConfiguration(new BlogTagConfiguration());
-            //builder.AddConfiguration(new ContactDetailConfiguration());
-            //builder.AddConfiguration(new FooterConfiguration());
-            //builder.AddConfiguration(new PageConfiguration());
-            //builder.AddConfiguration(new FooterConfiguration());
-            //builder.AddConfiguration(new ProductTagConfiguration());
-            //builder.AddConfiguration(new SystemConfigConfiguration());
-            //builder.AddConfiguration(new AdvertistmentPositionConfiguration());
-            //builder.AddConfiguration(new AdvertistmentPageConfiguration());
-            //builder.AddConfiguration(new FunctionConfiguration());
-            //builder.AddConfiguration(new AnnouncementConfiguration());
-            #endregion
             base.OnModelCreating(builder);
         }
 

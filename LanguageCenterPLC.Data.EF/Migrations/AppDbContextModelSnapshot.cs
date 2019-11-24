@@ -465,6 +465,9 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
+                    b.Property<bool>("isLocked")
+                        .HasColumnType("bit");
+
                     b.HasKey("Id");
 
                     b.HasIndex("AppUserId");
@@ -881,40 +884,67 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                     b.ToTable("Lecturers");
                 });
 
-            modelBuilder.Entity("LanguageCenterPLC.Data.Entities.LogStudyProcess", b =>
+            modelBuilder.Entity("LanguageCenterPLC.Data.Entities.LogSystem", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
+                        .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("AttendanceId")
+                        .HasColumnType("int");
 
                     b.Property<string>("ClassId")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ClassName")
+                    b.Property<string>("Content")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("CourseId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CourseName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("Date")
+                    b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DateModified")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("EndingCoursePointId")
+                        .HasColumnType("int");
+
+                    b.Property<bool?>("IsManagerPointLog")
+                        .HasColumnType("bit");
+
+                    b.Property<bool?>("IsSalaryPayLog")
+                        .HasColumnType("bit");
+
+                    b.Property<bool?>("IsStudyProcessLog")
+                        .HasColumnType("bit");
+
+                    b.Property<bool?>("IsTimeSheetLog")
+                        .HasColumnType("bit");
 
                     b.Property<string>("LearnerId")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Manipulation")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("LecturerId")
+                        .HasColumnType("int");
 
-                    b.Property<string>("Note")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("PeriodicPointId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("SalaryPayId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("StudyProcessId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("TimesheetId")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
-                    b.ToTable("LogStudyProcesses");
+                    b.ToTable("LogSystems");
                 });
 
             modelBuilder.Entity("LanguageCenterPLC.Data.Entities.LogTuitionRecord", b =>
@@ -945,25 +975,6 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("LogTuitionRecords");
-                });
-
-            modelBuilder.Entity("LanguageCenterPLC.Data.Entities.LogWork", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Content")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("LogWorks");
                 });
 
             modelBuilder.Entity("LanguageCenterPLC.Data.Entities.PaySlip", b =>
@@ -1098,6 +1109,9 @@ namespace LanguageCenterPLC.Data.EF.Migrations
 
                     b.Property<int>("Week")
                         .HasColumnType("int");
+
+                    b.Property<bool>("isLocked")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -1801,6 +1815,9 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                     b.Property<int>("Year")
                         .HasColumnType("int");
 
+                    b.Property<bool>("isLoocked")
+                        .HasColumnType("bit");
+
                     b.HasKey("Id");
 
                     b.HasIndex("AppUserId");
@@ -1957,7 +1974,7 @@ namespace LanguageCenterPLC.Data.EF.Migrations
             modelBuilder.Entity("LanguageCenterPLC.Data.Entities.AttendanceSheetDetail", b =>
                 {
                     b.HasOne("LanguageCenterPLC.Data.Entities.AttendanceSheet", "AttendanceSheet")
-                        .WithMany("AttendanceSheetDetails")
+                        .WithMany()
                         .HasForeignKey("AttendanceSheetId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

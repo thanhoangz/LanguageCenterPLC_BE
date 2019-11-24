@@ -125,8 +125,7 @@ namespace LanguageCenterPLC.Data.Entities
 
         public string Note { get; set; }
 
-
-        /* Foreign Key */
+        public bool isLoocked { get; set; }
 
         [Required]
         public Guid AppUserId { get; set; }
@@ -134,7 +133,7 @@ namespace LanguageCenterPLC.Data.Entities
         [Required]
         public string PersonnelId { get; set; }
 
-        /*Reference Table*/
+      
 
         [ForeignKey("PersonnelId")]
         public virtual Personnel Personnel { get; set; }
@@ -142,7 +141,5 @@ namespace LanguageCenterPLC.Data.Entities
         [ForeignKey("AppUserId")]
         public virtual AppUser AppUser { get; set; }
 
-
-        /*List of References */
     }
 }
