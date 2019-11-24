@@ -72,9 +72,7 @@ namespace LanguageCenterPLC.Controllers
             return await Task.FromResult(attendanceSheet);
         }
 
-        // PUT: api/AttendanceSheets/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
+
         [HttpPut("{id}")]
         public async Task<IActionResult> PutAttendanceSheet(int id, AttendanceSheet attendanceSheet)
         {
@@ -105,8 +103,7 @@ namespace LanguageCenterPLC.Controllers
         }
 
         // POST: api/AttendanceSheets
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
+
         [HttpPost]
         public async Task<ActionResult<AttendanceSheetViewModel>> PostAttendanceSheet(AttendanceSheetViewModel attendanceSheet)
         {
@@ -143,55 +140,6 @@ namespace LanguageCenterPLC.Controllers
             return _context.AttendanceSheets.Any(e => e.Id == id);
         }
 
-
-
-        [HttpPost]
-        [Route("payroll-approval-lecturer")]
-        public async Task<Object> PayrollApprovalLecturer(List<int> attendanceList)
-        {
-            try
-            {
-                await Task.Run(() =>
-                {
-                    List<SalaryPay> salaryPays = new List<SalaryPay>();
-                    foreach (var item in attendanceList)
-                    {
-                        SalaryPay salaryPay = new SalaryPay();
-                        var attendances = _context.AttendanceSheets.Find(item);
-                        
-                        //salaryPay.PersonnelId = timeSheet.PersonnelId;
-                        //salaryPay.TotalBasicSalary = timeSheet.Salary;
-                        //salaryPay.TotalAllowance = timeSheet.Allowance;
-                        //salaryPay.TotalBonus = timeSheet.Bonus;
-                        //salaryPay.TotalInsurancePremium = timeSheet.InsurancePremiums;
-
-                        //salaryPay.TotalSalaryOfDay = timeSheet.SalaryOfDay;
-                        //salaryPay.TotalWorkdays = timeSheet.TotalWorkday;
-                        //salaryPay.TotalTheoreticalAmount = timeSheet.SalaryOfDay * Convert.ToDecimal(timeSheet.TotalWorkday);
-                        //if (salaryPay.TotalWorkdays >= 25)
-                        //{
-                        //    salaryPay.TotalRealityAmount = salaryPay.TotalBasicSalary + salaryPay.TotalAllowance + salaryPay.TotalBonus - salaryPay.TotalInsurancePremium;
-                        //}
-                        //else
-                        //{
-                        //    salaryPay.TotalRealityAmount = salaryPay.TotalSalaryOfDay * Convert.ToDecimal(salaryPay.TotalWorkdays) + salaryPay.TotalAllowance + salaryPay.TotalBonus - salaryPay.TotalInsurancePremium;
-                        //}
-
-                        salaryPays.Add(salaryPay);
-                    }
-
-                    _context.SalaryPays.AddRange(salaryPays);
-                    _context.SaveChanges();
-                });
-            }
-            catch
-            {
-
-                throw new Exception(string.Format("Có lỗi xảy ra !"));
-            }
-
-            return Ok();
-        }
 
     }
 }
