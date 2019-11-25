@@ -102,6 +102,7 @@ namespace LanguageCenterPLC.Application.Implementation
                         timeSheet.PersonnelId = personnel.Id;
                         timeSheet.SalaryOfDay = personnel.SalaryOfDay;
                         timeSheet.isLocked = false;
+                        timeSheet.TotalWorkday = DateTime.DaysInMonth(timeSheet.Year, timeSheet.Month);
                         _timesheetRepository.Add(timeSheet);
                         _unitOfWork.Commit();
                     }
