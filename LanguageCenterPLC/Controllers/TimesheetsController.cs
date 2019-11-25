@@ -177,9 +177,15 @@ namespace LanguageCenterPLC.Controllers
                     {
                         foreach (var item in list)
                         {
-                            item.isLoocked = true;
+                            item.isLocked = true;
                         }
                         _context.Timesheets.UpdateRange(list);
+
+
+                        // ghi log 
+                        LogSystem logSystem = new LogSystem();
+                        logSystem.DateCreated = DateTime.Now;
+
                         _context.SaveChanges();
                         return Ok("Thêm thành công!");
                     });

@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LanguageCenterPLC.Data.EF.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20191125142659_initialize-sp1")]
+    [Migration("20191125164942_initialize-sp1")]
     partial class initializesp1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -1817,7 +1817,7 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                     b.Property<int>("Year")
                         .HasColumnType("int");
 
-                    b.Property<bool>("isLoocked")
+                    b.Property<bool>("isLocked")
                         .HasColumnType("bit");
 
                     b.HasKey("Id");

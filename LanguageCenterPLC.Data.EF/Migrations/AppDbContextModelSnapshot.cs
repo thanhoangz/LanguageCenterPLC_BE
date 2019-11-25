@@ -1815,7 +1815,7 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                     b.Property<int>("Year")
                         .HasColumnType("int");
 
-                    b.Property<bool>("isLoocked")
+                    b.Property<bool>("isLocked")
                         .HasColumnType("bit");
 
                     b.HasKey("Id");
