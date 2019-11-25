@@ -119,7 +119,76 @@ namespace LanguageCenterPLC.Controllers
             return CreatedAtAction("GetAttendanceSheet", new { id = attendanceSheet.Id }, attendanceSheet);
         }
 
-        // DELETE: api/AttendanceSheets/5
+        [HttpPost]
+        [Route("add-attendance-list")]
+        public void PostAttendanceSheetList(Guid userId, int lecturerId, int tutorId,string classId, int month, int year)
+        {
+            // tạo hết 1 loạt các chi tiết điểm danh theo các buổi học 
+
+            var classSessions = (from cl in _context.LanguageClasses
+                                 join ts in _context.TeachingSchedules on cl.Id equals ts.LanguageClassId
+                                 join s in _context.ClassSessions on ts.Id equals s.TeachingScheduleId
+                                 where cl.Id == classId && s.Date.Month == month && s.Date.Year == year
+                                 select s).OrderBy(x => x.Date).ToList();
+
+            //lấy ra các học viên trong lớp đó.
+            var learners = (from l in _context.Learners
+                            join st in _context.StudyProcesses on l.Id equals st.LearnerId
+                            where st.LanguageClassId == classId && l.Status == Status.Active && st.Status == Status.Active
+                            select l).ToList();
+
+            var _class = _context.LanguageClasses.Where(x => x.Id == classId).SingleOrDefault();
+
+            List<AttendanceSheet> attendanceSheets = new List<AttendanceSheet>();
+
+
+            foreach (var cs in classSessions)
+            {
+                AttendanceSheet attendanceSheet = new AttendanceSheet();
+
+                attendanceSheet.WageOfLecturer = Convert.ToDecimal(_class.WageOfLecturer);
+                attendanceSheet.WageOfTutor = Convert.ToDecimal(_class.WageOfTutor);
+                attendanceSheet.DateCreated = DateTime.Now;
+                attendanceSheet.Status = Status.Active;
+                attendanceSheet.AppUserId = userId;
+                attendanceSheet.LecturerId = lecturerId;
+                attendanceSheet.TutorId = tutorId;
+                attendanceSheet.LanguageClassId = classId;
+
+                attendanceSheet.Date = cs.Date;
+                attendanceSheets.Add(attendanceSheet);
+            }
+            _context.AttendanceSheets.AddRange(attendanceSheets);
+            _context.SaveChanges();
+
+
+            List<AttendanceSheetDetail> attendanceSheetDetails = new List<AttendanceSheetDetail>();
+
+            foreach (var attendance in attendanceSheets)
+            {
+                foreach (var learner in learners)
+                {
+                    AttendanceSheetDetail attendanceSheetDetail = new AttendanceSheetDetail();
+                    attendanceSheetDetail.Status = Status.InActive;
+                    attendanceSheetDetail.LanguageClassId = classId;
+                    attendanceSheetDetail.DateCreated = DateTime.Now;
+                    attendanceSheetDetail.AttendanceSheetId = attendance.Id;
+
+                    attendanceSheetDetail.LearnerId = learner.Id;
+
+                    attendanceSheetDetails.Add(attendanceSheetDetail);
+                }
+
+            }
+            _context.AttendanceSheetDetails.AddRange(attendanceSheetDetails);
+            _context.SaveChanges();
+
+        }
+
+
+
+        // DELETE: api/AttendanceSheets/5SqlException: Cannot insert explicit value for identity column in table 'AttendanceSheetDetails' when IDENTITY_INSERT is set to OFF.
+
         [HttpDelete("{id}")]
         public async Task<ActionResult<AttendanceSheet>> DeleteAttendanceSheet(int id)
         {

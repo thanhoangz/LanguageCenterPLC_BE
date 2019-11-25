@@ -1,6 +1,5 @@
 ﻿using LanguageCenterPLC.Infrastructure.Enums;
 using LanguageCenterPLC.Infrastructure.Interfaces;
-using LanguageCenterPLC.Infrastructure.SharedKernel;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -11,8 +10,14 @@ namespace LanguageCenterPLC.Data.Entities
     /// Chi tiết điểm danh
     /// </summary>
     [Table("AttendanceSheetDetails")]
-    public class AttendanceSheetDetail : DomainEntity<int>, ISwitchable, IDateTracking
+    public class AttendanceSheetDetail : ISwitchable, IDateTracking
     {
+
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Key]
+        public int Id { get; set; }
+
+
         [Required]
         public Status Status { get; set; }
 
