@@ -1,5 +1,5 @@
-﻿using AutoMapper;
-using LanguageCenterPLC.Application.ViewModels.Categories;
+﻿using LanguageCenterPLC.Application.ViewModels.Categories;
+using LanguageCenterPLC.Data;
 using LanguageCenterPLC.Data.EF;
 using LanguageCenterPLC.Data.Entities;
 using LanguageCenterPLC.Infrastructure.Enums;
@@ -137,6 +137,8 @@ namespace LanguageCenterPLC.Controllers
             var user = await _userManager.FindByNameAsync(model.UserName);
             if (user != null && await _userManager.CheckPasswordAsync(user, model.Password))
             {
+
+                Const.tempUserId = user.Id;
                 var tokenDescriptor = new SecurityTokenDescriptor
                 {
                     Subject = new ClaimsIdentity(new Claim[]

@@ -10,6 +10,7 @@ using System;
 using System.Linq;
 using LanguageCenterPLC.Data.EF;
 using LanguageCenterPLC.Application.ViewModels.Finances;
+using LanguageCenterPLC.Data;
 
 namespace LanguageCenterPLC.Application.Implementation
 {
@@ -45,8 +46,8 @@ namespace LanguageCenterPLC.Application.Implementation
 
 
                 _studyProcessRepository.Add(studyProcess);
-
                 SaveChanges();
+
                 var countInClass = _studyProcessRepository.FindAll().Where(x => x.LanguageClassId == studyProcess.LanguageClassId && x.Status == Status.Active).ToList().Count;
                 var languageClass = _languageClassRepository.FindById(studyProcess.LanguageClassId);
                 int max = languageClass.MaxNumber;
@@ -56,6 +57,17 @@ namespace LanguageCenterPLC.Application.Implementation
                     languageClass.Status = Status.Pause;
                     _languageClassRepository.Update(languageClass);
                 }
+
+                // log cho xếp lớp
+                var log = new LogSystem();
+                log.IsStudyProcessLog = true;
+                log.DateCreated = DateTime.Now;
+                log.Content = "Đăng ký học";
+                log.UserId = Const.tempUserId;
+                log.LearnerId = studyProcess.LearnerId;
+                log.StudyProcessId = studyProcess.Id;
+                log.ClassId = studyProcess.LanguageClassId;
+                _context.LogSystems.Add(log); 
 
                 return true;
             }
@@ -87,7 +99,13 @@ namespace LanguageCenterPLC.Application.Implementation
                     _languageClassRepository.Update(languageClass);
                 }
 
-
+                // xóa log khi xếp nhầm
+                var log = _context.LogSystems.Where(x => x.IsStudyProcessLog == true && x.StudyProcessId == id).SingleOrDefault();
+                if(log != null)
+                {
+                    _context.LogSystems.Remove(log);
+                    _context.SaveChanges();
+                }
 
                 return true;
             }
@@ -115,7 +133,17 @@ namespace LanguageCenterPLC.Application.Implementation
                     languageClass.Status = Status.Active;
                     _languageClassRepository.Update(languageClass);
                 }
+
+                // xóa log khi xếp nhầm
+                var log = _context.LogSystems.Where(x => x.IsStudyProcessLog == true && x.StudyProcessId == studyProcess.Id).SingleOrDefault();
+                if (log != null)
+                {
+                    _context.LogSystems.Remove(log);
+                    _context.SaveChanges();
+                }
+
                 return true;
+
             }
             catch
             {
@@ -343,6 +371,20 @@ on learner.Id equals study.LearnerId
                     _languageClassRepository.Update(languageClass);
                 }
 
+                if (studyProcess.Status == Status.InActive)
+                {               
+                    // log cho nghỉ học
+                    var log = new LogSystem();
+                    log.IsStudyProcessLog = true;
+                    log.DateCreated = DateTime.Now;
+                    log.Content = "Nghỉ học";
+                    log.UserId = Const.tempUserId;
+                    log.LearnerId = studyProcess.LearnerId;
+                    log.StudyProcessId = studyProcess.Id;
+                    log.ClassId = studyProcess.LanguageClassId;
+                    _context.LogSystems.Add(log);
+                }             
+
                 return true;
             }
             catch
@@ -357,6 +399,20 @@ on learner.Id equals study.LearnerId
             {
                 var studyProcess = _studyProcessRepository.FindById(studyProcessId);
                 studyProcess.Status = status;
+
+                if (status == Status.Pause)
+                {
+                                           // log mới cho chuyển lớp
+                    var log = new LogSystem();
+                    log.IsStudyProcessLog = true;
+                    log.DateCreated = DateTime.Now;
+                    log.Content = "Chuyển lớp";
+                    log.UserId = Const.tempUserId;
+                    log.LearnerId = studyProcess.LearnerId;
+                    log.StudyProcessId = studyProcess.Id;
+                    log.ClassId = studyProcess.LanguageClassId;
+                    _context.LogSystems.Add(log);
+                }
                 return true;
             }
             catch
