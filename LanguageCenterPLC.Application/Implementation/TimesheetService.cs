@@ -101,7 +101,7 @@ namespace LanguageCenterPLC.Application.Implementation
                         timeSheet.AppUserId = userId; // need fix
                         timeSheet.PersonnelId = personnel.Id;
                         timeSheet.SalaryOfDay = personnel.SalaryOfDay;
-
+                        timeSheet.isLoocked = false;
                         _timesheetRepository.Add(timeSheet);
                         _unitOfWork.Commit();
                     }

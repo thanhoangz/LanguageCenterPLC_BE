@@ -125,7 +125,7 @@ namespace LanguageCenterPLC.Data.Entities
 
         public string Note { get; set; }
 
-        public bool isLoocked { get; set; }
+        public bool isLocked { get; set; }
 
         [Required]
         public Guid AppUserId { get; set; }

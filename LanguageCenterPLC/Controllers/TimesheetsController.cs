@@ -1,5 +1,7 @@
 ﻿using LanguageCenterPLC.Application.Interfaces;
 using LanguageCenterPLC.Application.ViewModels.Timekeepings;
+using LanguageCenterPLC.Data.EF;
+using LanguageCenterPLC.Data.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -13,10 +15,12 @@ namespace LanguageCenterPLC.Controllers
     public class TimesheetsController : ControllerBase
     {
         private readonly ITimesheetService _timesheetService;
- 
-        public TimesheetsController(ITimesheetService timesheetService)
+
+        private readonly AppDbContext _context;
+        public TimesheetsController(ITimesheetService timesheetService, AppDbContext context)
         {
             _timesheetService = timesheetService;
+            _context = context;
         }
 
         // GET: api/Timesheets
@@ -160,8 +164,37 @@ namespace LanguageCenterPLC.Controllers
             return Ok();
         }
 
-      
 
+        [HttpPost]
+        [Route("update-list")]
+        public async Task<ActionResult<TimesheetViewModel>> PutList(List<Timesheet> list)
+        {
+            if (list.Count != 0)
+            {
+                try
+                {
+                    await Task.Run(() =>
+                    {
+                        foreach (var item in list)
+                        {
+                            item.isLoocked = true;
+                        }
+                        _context.Timesheets.UpdateRange(list);
+                        _context.SaveChanges();
+                        return Ok("Thêm thành công!");
+                    });
+
+                }
+                catch
+                {
+
+                    throw new Exception(string.Format("Lỗi khi thêm dữ liệu"));
+                }
+
+            }
+
+            return Ok();
+        }
 
 
         private bool TimesheetExists(int id)
