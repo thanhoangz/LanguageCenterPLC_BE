@@ -1,4 +1,5 @@
 ﻿using LanguageCenterPLC.Application.ViewModels.Studies;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -9,7 +10,7 @@ namespace LanguageCenterPLC.Application.Interfaces
 
         bool Add(EndingCoursePointDetailViewModel endingCoursePointDetailVm);
 
-        bool Update(EndingCoursePointDetailViewModel endingCoursePointDetailVm);
+        bool Update(EndingCoursePointDetailViewModel endingCoursePointDetailVm, Guid userId);
 
         bool Delete(int id);
 

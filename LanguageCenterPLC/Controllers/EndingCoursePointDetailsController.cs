@@ -47,7 +47,7 @@ namespace LanguageCenterPLC.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutEndingCoursePointDetail(int id, EndingCoursePointDetailViewModel endingCoursePointDetail)
+        public async Task<IActionResult> PutEndingCoursePointDetail(int id, EndingCoursePointDetailViewModel endingCoursePointDetail, Guid userId)
         {
             if (endingCoursePointDetail.Id != id)
             {
@@ -58,7 +58,7 @@ namespace LanguageCenterPLC.Controllers
             {
                 await Task.Run(() =>
                 {
-                    _endingCoursePointDetailService.Update(endingCoursePointDetail);
+                    _endingCoursePointDetailService.Update(endingCoursePointDetail,userId);
                     _endingCoursePointDetailService.SaveChanges();
                     return Ok("Cập nhập thành công!");
                 });

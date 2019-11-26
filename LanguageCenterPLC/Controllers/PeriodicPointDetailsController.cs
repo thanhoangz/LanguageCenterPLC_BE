@@ -48,7 +48,7 @@ namespace LanguageCenterPLC.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutPeriodicPointDetail(int id, PeriodicPointDetailViewModel periodicPointDetail, string classId)
+        public async Task<IActionResult> PutPeriodicPointDetail(int id, PeriodicPointDetailViewModel periodicPointDetail, string classId, Guid userId)
         {
             if (periodicPointDetail.Id != id)
             {
@@ -59,7 +59,7 @@ namespace LanguageCenterPLC.Controllers
             {
                 await Task.Run(() =>
                 {
-                    _periodicPointDetailService.Update(periodicPointDetail, classId);
+                    _periodicPointDetailService.Update(periodicPointDetail, classId , userId);
                     _periodicPointDetailService.SaveChanges();
                     return Ok("Cập nhập thành công!");
                 });

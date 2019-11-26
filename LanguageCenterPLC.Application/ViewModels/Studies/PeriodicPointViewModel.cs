@@ -32,9 +32,11 @@ namespace LanguageCenterPLC.Application.ViewModels.Studies
         public string LecturerName { get; set; }
 
         public Guid AppUserId { get; set; }
+        public bool isLocked { get; set; }
+
 
         /*Reference Table*/
-        public  LanguageClassViewModel LanguageClass { get; set; }
+        public LanguageClassViewModel LanguageClass { get; set; }
 
         public  LecturerViewModel Lecturer { get; set; }
 

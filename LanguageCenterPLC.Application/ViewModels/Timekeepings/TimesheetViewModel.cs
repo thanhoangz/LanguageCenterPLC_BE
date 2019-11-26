@@ -119,7 +119,7 @@ namespace LanguageCenterPLC.Application.ViewModels.Timekeepings
 
         public string PersonnelId { get; set; }
 
-       
+       public bool isLocked { get; set; }
 
 
         public  PersonnelViewModel Personnel { get; set; }

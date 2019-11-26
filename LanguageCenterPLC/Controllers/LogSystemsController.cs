@@ -23,9 +23,41 @@ namespace LanguageCenterPLC.Controllers
 
         // GET: api/LogSystems
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<LogSystem>>> GetLogSystems()
+        public async Task<List<Object>> GetLogSystems()
         {
-            return await _context.LogSystems.ToListAsync();
+            List<Object> result = new List<object>();
+            foreach (var item in _context.LogSystems.OrderByDescending(x=>x.DateCreated))
+            {
+                var Ob = new
+                {
+                    UserName = _context.AppUsers.Find(item.UserId).FullName,
+                    Infor = item
+                };
+
+                result.Add(Ob);
+
+            }
+            return await Task.FromResult(result);
+        }
+
+        [HttpPost]
+        [Route("searchLog")]
+        public async Task<List<Object>> SearchLogSystem(Guid userId, DateTime toDate, DateTime fromDate)
+        {
+            List<Object> result = new List<object>();
+            var list = _context.LogSystems.Where(x => x.UserId == userId &&  x.DateCreated >= toDate && x.DateCreated <= fromDate).OrderByDescending(x => x.DateCreated);
+            foreach (var item in list)
+            {
+                var Ob = new
+                {
+                    UserName = _context.AppUsers.Find(item.UserId).FullName,
+                    Infor = item
+                };
+
+                result.Add(Ob);
+
+            }
+            return await Task.FromResult(result);
         }
 
         // GET: api/LogSystems/5

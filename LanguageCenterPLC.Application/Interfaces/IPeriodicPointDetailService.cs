@@ -1,4 +1,5 @@
 ﻿using LanguageCenterPLC.Application.ViewModels.Studies;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -8,7 +9,7 @@ namespace LanguageCenterPLC.Application.Interfaces
     {
         bool Add(PeriodicPointDetailViewModel periodicPointDetailVm);
 
-        bool Update(PeriodicPointDetailViewModel periodicPointDetailVm,string classID);
+        bool Update(PeriodicPointDetailViewModel periodicPointDetailVm,string classID, Guid userId);
 
         bool Delete(int id);
 

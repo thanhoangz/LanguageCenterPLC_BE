@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LanguageCenterPLC.Data.EF.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20191124044716_initialize_v1")]
-    partial class initialize_v1
+    [Migration("20191124101205_xyz")]
+    partial class xyz
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
