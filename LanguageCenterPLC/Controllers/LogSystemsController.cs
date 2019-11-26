@@ -80,6 +80,7 @@ namespace LanguageCenterPLC.Controllers
         [HttpPost]
         public async Task<ActionResult<LogSystem>> PostLogSystem(LogSystem logSystem)
         {
+            logSystem.DateCreated = DateTime.Now;
             _context.LogSystems.Add(logSystem);
             await _context.SaveChangesAsync();
 

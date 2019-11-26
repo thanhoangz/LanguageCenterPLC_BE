@@ -171,7 +171,7 @@ namespace LanguageCenterPLC.Controllers
                     AttendanceSheetDetail attendanceSheetDetail = new AttendanceSheetDetail();
                     attendanceSheetDetail.Status = Status.InActive;
                     attendanceSheetDetail.LanguageClassId = classId;
-                    attendanceSheetDetail.DateCreated = DateTime.Now;
+                    attendanceSheetDetail.DateCreated = attendance.Date;
                     attendanceSheetDetail.AttendanceSheetId = attendance.Id;
 
                     attendanceSheetDetail.LearnerId = learner.Id;

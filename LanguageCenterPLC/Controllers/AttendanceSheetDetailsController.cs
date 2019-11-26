@@ -1,4 +1,6 @@
-﻿using LanguageCenterPLC.Data.EF;
+﻿using AutoMapper;
+using LanguageCenterPLC.Application.ViewModels.Timekeepings;
+using LanguageCenterPLC.Data.EF;
 using LanguageCenterPLC.Data.Entities;
 using LanguageCenterPLC.Infrastructure.Enums;
 using Microsoft.AspNetCore.Mvc;
@@ -203,6 +205,63 @@ namespace LanguageCenterPLC.Controllers
         private bool AttendanceSheetDetailExists(int id)
         {
             return _context.AttendanceSheetDetails.Any(e => e.Id == id);
+        }
+
+
+        [HttpPost]
+        [Route("attendance-of-learner-for-month")]
+        public async Task<List<Object>> GetAttendanceSheetOfLearners(int month, int year, string _class)
+        {
+
+            //Danh sách học viên trong lớp đó.
+            var learners = (from l in _context.Learners
+                            join st in _context.StudyProcesses on l.Id equals st.LearnerId
+                            where st.LanguageClassId == _class && l.Status == Status.Active && st.Status == Status.Active
+                            select l).ToList();
+            //thông tin lớp học
+            var infoClass = _context.LanguageClasses.Where(x => x.Id == _class).SingleOrDefault();
+
+            ////thông tin buổi học trong tháng
+            //var classSessions = (from cl in _context.LanguageClasses
+            //                     join ts in _context.TeachingSchedules on cl.Id equals ts.LanguageClassId
+            //                     join s in _context.ClassSessions on ts.Id equals s.TeachingScheduleId
+            //                     where cl.Id == _class && s.Date.Month == month && s.Date.Year == year
+            //                     select s).OrderBy(x => x.Date).ToList();
+
+            IEnumerable<AttendanceSheetDetail> attendanceSheetsDetails = _context.AttendanceSheetDetails.Where(x => x.DateCreated.Month == month && x.DateCreated.Year == year && x.LanguageClassId == _class).ToList();
+
+
+
+            List<Object> result = new List<object>();
+            int index = 1;
+
+            foreach (var learner in learners)
+            {
+                var lessons = new List<Object>();
+
+                var Details = _context.AttendanceSheetDetails.Where(x => x.DateCreated.Month == month && x.DateCreated.Year == year && x.LanguageClassId == _class && x.LearnerId == learner.Id).OrderBy(y => y.DateCreated).ToList();
+
+                for (int i = 0; i < Details.Count; i++)
+                {
+                    var lesson = new
+                    {
+                        OrderLesson = i + 1,
+                        Detail =  Mapper.Map<AttendanceSheetDetailViewModel>(Details[i])
+                };
+                    lessons.Add(lesson);
+                };
+
+                var newRow = new
+                {
+                    Index = index,
+                    FullName = learner.FirstName + " " + learner.LastName,
+                    Days = lessons,
+                };
+                result.Add(newRow);
+                index++;
+            }
+
+            return await Task.FromResult(result);
         }
 
     }
