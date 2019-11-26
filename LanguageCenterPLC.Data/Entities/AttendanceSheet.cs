@@ -10,10 +10,11 @@ namespace LanguageCenterPLC.Data.Entities
 {
 
     [Table("AttendanceSheets")]
-    public class AttendanceSheet : DomainEntity<int>, ISwitchable, IDateTracking
+    public class AttendanceSheet : ISwitchable, IDateTracking
     {
-
-
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
         public decimal WageOfLecturer { get; set; }
 
 

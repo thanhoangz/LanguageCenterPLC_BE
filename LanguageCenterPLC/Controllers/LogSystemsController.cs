@@ -138,5 +138,44 @@ namespace LanguageCenterPLC.Controllers
         {
             return _context.LogSystems.Any(e => e.Id == id);
         }
+
+        [HttpPost]
+        [Route("get-studyprocess-by-learnerId")]
+        public async Task<List<Object>> getStudyProcessBtLearnerId(string learnerId)
+        {
+            var resultList = new List<Object>();
+            var studyProcessList = _context.LogSystems.Where(x => x.IsStudyProcessLog == true && x.LearnerId == learnerId).OrderBy(x => x.StudyProcessId).ToList();
+            var number = 0;
+            foreach (var itemX in studyProcessList)
+            {
+                // lấy danh sách điểm danh
+                var diemDanhByClassId = _context.AttendanceSheets.Where(x => x.LanguageClassId == itemX.ClassId).ToList();             
+                foreach (var itemY in diemDanhByClassId)
+                {     // lấy ra chi tiết điểm danh                               
+                    var diemDanh = _context.AttendanceSheetDetails.Where(x => x.LearnerId == learnerId && x.AttendanceSheetId == itemY.Id).SingleOrDefault();
+                    if ( diemDanh != null)
+                    {
+                        number++;
+                    }
+                }
+
+                // lấy tên lớp
+                var classObj = _context.LanguageClasses.Find(itemX.ClassId);
+                // lấy tên người dùng
+                var userObj = _context.AppUsers.Find(itemX.UserId);
+
+                var logQTHT = new
+                {
+                    id = itemX.Id,
+                    date = itemX.DateCreated,
+                    content = itemX.Content,                
+                    userName = userObj.FullName,
+                    className = classObj.Name,
+                    mumberSessions = number,
+                };
+                resultList.Add(logQTHT);
+            }
+            return await Task.FromResult(resultList);
+        }
     }
 }

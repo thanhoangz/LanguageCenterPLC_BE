@@ -294,7 +294,7 @@ namespace LanguageCenterPLC.Controllers
                             DateModified = DateTime.Now,
                             Status = Status.Active,
                             CourseId = item.Id,
-                            MaxNumber = 5
+                            MaxNumber = 15
                         };
 
                         languageClasses.Add(_class);
