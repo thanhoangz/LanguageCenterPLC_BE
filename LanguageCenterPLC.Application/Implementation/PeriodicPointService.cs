@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using LanguageCenterPLC.Application.Interfaces;
 using LanguageCenterPLC.Application.ViewModels.Studies;
+using LanguageCenterPLC.Data.EF;
 using LanguageCenterPLC.Data.Entities;
 using LanguageCenterPLC.Infrastructure.Interfaces;
 using System;
@@ -15,17 +16,20 @@ namespace LanguageCenterPLC.Application.Implementation
         private readonly IRepository<PeriodicPoint, int> _periodicPointRepository;
         private readonly IRepository<Lecturer, int> _lecturerRepository;
         private readonly IRepository<LanguageClass, string> _languageclassRepository;
-
         private readonly IUnitOfWork _unitOfWork;
+        private readonly AppDbContext _context;
+
 
         public PeriodicPointService(IRepository<PeriodicPoint, int> periodicPointRepository,
             IRepository<Lecturer, int> lecturerRepository, IRepository<LanguageClass, string> languageclassRepository,
-          IUnitOfWork unitOfWork)
+          IUnitOfWork unitOfWork, AppDbContext context)
         {
             _periodicPointRepository = periodicPointRepository;
             _lecturerRepository = lecturerRepository;
             _languageclassRepository = languageclassRepository;
             _unitOfWork = unitOfWork;
+            _context = context;
+
         }
         public bool Add(PeriodicPointViewModel periodicPointVm)
         {
@@ -34,7 +38,14 @@ namespace LanguageCenterPLC.Application.Implementation
                 var periodicPoint = Mapper.Map<PeriodicPointViewModel, PeriodicPoint>(periodicPointVm);
 
                 _periodicPointRepository.Add(periodicPoint);
-
+                LogSystem logSystem = new LogSystem();
+                logSystem.PeriodicPointId = periodicPoint.Id;
+                logSystem.UserId = periodicPoint.AppUserId;
+                logSystem.LecturerId = periodicPoint.LecturerId;
+                logSystem.Content = "Tạo bảng điểm định kì - Lớp: " + _languageclassRepository.FindById(periodicPoint.LanguageClassId).Name + " - Tuần: " + periodicPoint.Week;
+                logSystem.DateCreated = DateTime.Now;
+                logSystem.DateModified = DateTime.Now;
+                _context.LogSystems.Add(logSystem);
                 return true;
             }
             catch
@@ -48,9 +59,8 @@ namespace LanguageCenterPLC.Application.Implementation
             try
             {
                 var periodicPoint = _periodicPointRepository.FindById(id);
-
                 _periodicPointRepository.Remove(periodicPoint);
-
+              
                 return true;
             }
             catch
@@ -111,7 +121,7 @@ namespace LanguageCenterPLC.Application.Implementation
             {
                 var periodicPoint = Mapper.Map<PeriodicPointViewModel, PeriodicPoint>(periodicPointVm);
                 periodicPoint.DateModified = DateTime.Now;
-                _periodicPointRepository.Update(periodicPoint);
+                _periodicPointRepository.Update(periodicPoint);             
                 return true;
             }
             catch

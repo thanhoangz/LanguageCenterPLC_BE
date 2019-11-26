@@ -20,11 +20,14 @@ namespace LanguageCenterPLC.Application.Implementation
         private readonly IRepository<StudyProcess, int> _studyProcessRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly AppDbContext _context;
+        private readonly IRepository<LanguageClass, string> _languageclassRepository;
+        private readonly IRepository<Lecturer, int> _lecturerRepository;
 
 
         public EndingCoursePointDetailService(IRepository<EndingCoursePointDetail, int> endingCoursePointDetailRepository,
           IUnitOfWork unitOfWork, IRepository<Learner, string> learnerRepository, IRepository<StudyProcess, int> studyProcessRepository, 
-          IRepository<EndingCoursePoint, int> endingCoursePoinRepository, AppDbContext context)
+          IRepository<EndingCoursePoint, int> endingCoursePoinRepository, AppDbContext context,
+          IRepository<Lecturer, int> lecturerRepository, IRepository<LanguageClass, string> languageclassRepository)
         {
             _endingCoursePointDetailRepository = endingCoursePointDetailRepository;
             _endingCoursePoinRepository = endingCoursePoinRepository;
@@ -32,6 +35,8 @@ namespace LanguageCenterPLC.Application.Implementation
             _studyProcessRepository = studyProcessRepository;
             _unitOfWork = unitOfWork;
             _context = context;
+            _languageclassRepository = languageclassRepository;
+            _lecturerRepository = lecturerRepository;
         }
 
 
@@ -162,7 +167,7 @@ namespace LanguageCenterPLC.Application.Implementation
             _unitOfWork.Commit();
         }
 
-        public bool Update(EndingCoursePointDetailViewModel endingCoursePointDetailVm)
+        public bool Update(EndingCoursePointDetailViewModel endingCoursePointDetailVm , Guid userId)
         {
             try
             {
@@ -177,6 +182,17 @@ namespace LanguageCenterPLC.Application.Implementation
 
                 UpdateSortIndexRange(endingCoursePointDetail.EndingCoursePointId);
                 _context.SaveChanges();
+                LogSystem logSystem = new LogSystem();
+                logSystem.PeriodicPointId = endingCoursePointDetail.EndingCoursePointId;
+                logSystem.LecturerId = _endingCoursePoinRepository.FindById(endingCoursePointDetail.EndingCoursePointId).LecturerId;
+                logSystem.UserId = userId;
+                logSystem.Content = "Cập nhật điểm cuối khóa - Học viên: " + _learnerRepository.FindById(endingCoursePointDetail.LearnerId).FirstName + " " +
+                   _learnerRepository.FindById(endingCoursePointDetail.LearnerId).LastName
+                   + "- Lớp: " + _languageclassRepository.FindById(_endingCoursePoinRepository.FindById(endingCoursePointDetail.EndingCoursePointId).LanguageClassId).Name;
+                logSystem.DateCreated = DateTime.Now;
+                logSystem.DateModified = DateTime.Now;
+                logSystem.IsManagerPointLog = true;
+                _context.LogSystems.Add(logSystem);
                 return true;
             }
             catch

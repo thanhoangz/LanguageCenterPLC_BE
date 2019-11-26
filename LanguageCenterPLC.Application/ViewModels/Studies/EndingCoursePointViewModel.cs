@@ -31,6 +31,9 @@ namespace LanguageCenterPLC.Application.ViewModels.Studies
 
         public Guid AppUserId { get; set; }
 
+        public bool isLocked { get; set; }
+
+
         public LanguageClassViewModel LanguageClass { get; set; }
 
         public LecturerViewModel Lecturer { get; set; }

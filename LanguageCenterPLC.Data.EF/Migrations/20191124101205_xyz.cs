@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace LanguageCenterPLC.Data.EF.Migrations
 {
-    public partial class initializesp1 : Migration
+    public partial class xyz : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -732,7 +732,7 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                     DateCreated = table.Column<DateTime>(nullable: false),
                     DateModified = table.Column<DateTime>(nullable: true),
                     Note = table.Column<string>(nullable: true),
-                    isLocked = table.Column<bool>(nullable: false),
+                    isLoocked = table.Column<bool>(nullable: false),
                     AppUserId = table.Column<Guid>(nullable: false),
                     PersonnelId = table.Column<string>(nullable: false)
                 },

@@ -45,7 +45,7 @@ namespace LanguageCenterPLC.Application.Implementation
             {
                 var personnelList = _peronelRepository.FindAll();
                 var personnelList1 = personnelList.Where(x => x.Status == Status.Active).ToList();
-
+                var lastDayOfMonth = DateTime.DaysInMonth(year, month);
                 foreach (var personnel in personnelList1)
                 {
                     if (!IsExistsTimeSheetCondition(month, year, personnel.Id))
@@ -81,13 +81,43 @@ namespace LanguageCenterPLC.Application.Implementation
                             Day_25 = 1,
                             Day_26 = 1,
                             Day_27 = 1,
-                            Day_28 = 1,
-                            Day_29 = 1,
-                            Day_30 = 1,
-                            Day_31 = 1,
-
                             Salary = personnel.BasicSalary
                         };
+                        if (lastDayOfMonth == 31)
+                        {
+                            timeSheet.Day_28 = 1;
+                            timeSheet.Day_29 = 1;
+                            timeSheet.Day_30 = 1;
+                            timeSheet.Day_31 = 1;
+                            timeSheet.TotalWorkday = 31;
+                        }
+                        if (lastDayOfMonth == 30)
+                        {
+                            timeSheet.Day_28 = 1;
+                            timeSheet.Day_29 = 1;
+                            timeSheet.Day_30 = 1;
+                            timeSheet.Day_31 = 0;
+                            timeSheet.TotalWorkday = 30;
+
+                        }
+                        if (lastDayOfMonth == 29)
+                        {
+                            timeSheet.Day_28 = 1;
+                            timeSheet.Day_29 = 1;
+                            timeSheet.Day_30 = 0;
+                            timeSheet.Day_31 = 0;
+                            timeSheet.TotalWorkday = 29;
+
+                        }
+                        if (lastDayOfMonth == 28)
+                        {
+                            timeSheet.Day_28 = 1;
+                            timeSheet.Day_29 = 0;
+                            timeSheet.Day_30 = 0;
+                            timeSheet.Day_31 = 0;
+                            timeSheet.TotalWorkday = 28;
+
+                        }
                         timeSheet.Salary = personnel.BasicSalary;
                         timeSheet.Allowance = personnel.Allowance;
                         timeSheet.Bonus = personnel.Bonus;
@@ -101,8 +131,6 @@ namespace LanguageCenterPLC.Application.Implementation
                         timeSheet.AppUserId = userId; // need fix
                         timeSheet.PersonnelId = personnel.Id;
                         timeSheet.SalaryOfDay = personnel.SalaryOfDay;
-                        timeSheet.isLocked = false;
-                        timeSheet.TotalWorkday = DateTime.DaysInMonth(timeSheet.Year, timeSheet.Month);
                         _timesheetRepository.Add(timeSheet);
                         _unitOfWork.Commit();
                     }
@@ -197,7 +225,7 @@ namespace LanguageCenterPLC.Application.Implementation
         }
 
         public bool Update(TimesheetViewModel timesheetVm)
-        {
+            {
           
                 timesheetVm.TotalWorkday = timesheetVm.Day_1 + timesheetVm.Day_2
                     + timesheetVm.Day_3 + timesheetVm.Day_4 + timesheetVm.Day_5 + timesheetVm.Day_6

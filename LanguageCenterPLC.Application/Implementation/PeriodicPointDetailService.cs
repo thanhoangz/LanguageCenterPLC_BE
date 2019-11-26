@@ -18,6 +18,10 @@ namespace LanguageCenterPLC.Application.Implementation
         private readonly IRepository<PeriodicPoint, int> _periodicPointRepository;
         private readonly IRepository<Learner, string> _learnerRepository;
         private readonly IRepository<StudyProcess, int> _studyProcessRepository;
+        private readonly IRepository<LanguageClass, string> _languageclassRepository;
+        private readonly IRepository<Lecturer, int> _lecturerRepository;
+
+
         private readonly AppDbContext _context;
 
 
@@ -26,7 +30,7 @@ namespace LanguageCenterPLC.Application.Implementation
 
         public PeriodicPointDetailService(IRepository<PeriodicPointDetail, int> periodicPointDetailRepository, IRepository<PeriodicPoint,
             int> periodicPointRepository, IRepository<Learner, string> learnerRepository, IRepository<StudyProcess, int> studyProcessRepository,
-          IUnitOfWork unitOfWork, AppDbContext context)
+          IUnitOfWork unitOfWork, AppDbContext context, IRepository<Lecturer, int> lecturerRepository, IRepository<LanguageClass, string> languageclassRepository)
         {
             _periodicPointDetailRepository = periodicPointDetailRepository;
             _periodicPointRepository = periodicPointRepository;
@@ -34,6 +38,9 @@ namespace LanguageCenterPLC.Application.Implementation
             _studyProcessRepository = studyProcessRepository;
             _unitOfWork = unitOfWork;
             _context = context;
+            _languageclassRepository = languageclassRepository;
+            _lecturerRepository = lecturerRepository;
+
 
         }
         public bool Add(PeriodicPointDetailViewModel periodicPointDetailVm)
@@ -168,7 +175,7 @@ namespace LanguageCenterPLC.Application.Implementation
         /// <param name="periodicPointDetailVm"></param>
         /// <param name="classId"></param>
         /// <returns></returns>
-        public bool Update(PeriodicPointDetailViewModel periodicPointDetailVm, string classId)
+        public bool Update(PeriodicPointDetailViewModel periodicPointDetailVm, string classId , Guid userId)
         {
 
             List<PeriodicPointDetail> details = new List<PeriodicPointDetail>(); // danh sách chứa điểm của học viên từ tuần hiện tại và những tuần trc đó
@@ -202,7 +209,18 @@ namespace LanguageCenterPLC.Application.Implementation
             // sắp xếp thứ tự
             UpdateSortIndexRange(periodicPointDetail.PeriodicPointId);
             _context.SaveChanges();
-
+            LogSystem logSystem = new LogSystem();
+            logSystem.PeriodicPointId = periodicPointDetail.PeriodicPointId;
+            logSystem.LecturerId = _periodicPointRepository.FindById(periodicPointDetail.PeriodicPointId).LecturerId;
+            logSystem.UserId = userId;
+            logSystem.Content = "Cập nhật điểm định kỳ - Học viên: " + _learnerRepository.FindById(periodicPointDetail.LearnerId).FirstName +" "+
+               _learnerRepository.FindById(periodicPointDetail.LearnerId).LastName 
+               +"- Lớp: "+ _languageclassRepository.FindById(_periodicPointRepository.FindById(periodicPointDetail.PeriodicPointId).LanguageClassId).Name
+               + "- Tuần: " + _periodicPointRepository.FindById(periodicPointDetail.PeriodicPointId).Week;
+            logSystem.DateCreated = DateTime.Now;
+            logSystem.DateModified = DateTime.Now;
+            logSystem.IsManagerPointLog = true;
+            _context.LogSystems.Add(logSystem);
 
             return false;
 
