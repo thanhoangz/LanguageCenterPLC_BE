@@ -27,6 +27,7 @@ namespace LanguageCenterPLC.Data.Entities
             Lat = latitude;
             Status = status;
         }
+
         [StringLength(250)]
         [Required]
         public string Name { set; get; }
@@ -39,6 +40,10 @@ namespace LanguageCenterPLC.Data.Entities
 
         [StringLength(250)]
         public string Website { set; get; }
+
+        public string Logo { get; set; }
+
+        public string CoverImage { get; set; }
 
         [StringLength(250)]
         public string Address { set; get; }

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace LanguageCenterPLC.Data.EF.Migrations
 {
-    public partial class xyz : Migration
+    public partial class install : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -80,6 +80,8 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                     Phone = table.Column<string>(maxLength: 50, nullable: true),
                     Email = table.Column<string>(maxLength: 250, nullable: true),
                     Website = table.Column<string>(maxLength: 250, nullable: true),
+                    Logo = table.Column<string>(nullable: true),
+                    CoverImage = table.Column<string>(nullable: true),
                     Address = table.Column<string>(maxLength: 250, nullable: true),
                     Other = table.Column<string>(nullable: true),
                     Lat = table.Column<double>(nullable: true),
@@ -174,6 +176,31 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_GuestTypes", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "InforLearners",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FirstName = table.Column<string>(nullable: true),
+                    LastName = table.Column<string>(nullable: true),
+                    Sex = table.Column<bool>(nullable: false),
+                    Birthday = table.Column<DateTime>(nullable: false),
+                    Address = table.Column<string>(nullable: true),
+                    Email = table.Column<string>(nullable: true),
+                    Facebook = table.Column<string>(nullable: true),
+                    Phone = table.Column<string>(type: "VARCHAR(16)", nullable: true),
+                    ParentFullName = table.Column<string>(nullable: true),
+                    ParentPhone = table.Column<string>(type: "VARCHAR(16)", nullable: true),
+                    Image = table.Column<string>(nullable: true),
+                    Status = table.Column<int>(nullable: false),
+                    Note = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_InforLearners", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -732,7 +759,7 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                     DateCreated = table.Column<DateTime>(nullable: false),
                     DateModified = table.Column<DateTime>(nullable: true),
                     Note = table.Column<string>(nullable: true),
-                    isLoocked = table.Column<bool>(nullable: false),
+                    isLocked = table.Column<bool>(nullable: false),
                     AppUserId = table.Column<Guid>(nullable: false),
                     PersonnelId = table.Column<string>(nullable: false)
                 },
@@ -942,6 +969,27 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                         principalTable: "Lecturers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AccountForLearners",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserName = table.Column<string>(nullable: true),
+                    Password = table.Column<string>(nullable: true),
+                    LearnerId = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AccountForLearners", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AccountForLearners_Learners_LearnerId",
+                        column: x => x.LearnerId,
+                        principalTable: "Learners",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -1189,6 +1237,11 @@ namespace LanguageCenterPLC.Data.EF.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AccountForLearners_LearnerId",
+                table: "AccountForLearners",
+                column: "LearnerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Announcements_AppUserId",
@@ -1448,6 +1501,9 @@ namespace LanguageCenterPLC.Data.EF.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "AccountForLearners");
+
+            migrationBuilder.DropTable(
                 name: "AnnouncementUsers");
 
             migrationBuilder.DropTable(
@@ -1482,6 +1538,9 @@ namespace LanguageCenterPLC.Data.EF.Migrations
 
             migrationBuilder.DropTable(
                 name: "Footers");
+
+            migrationBuilder.DropTable(
+                name: "InforLearners");
 
             migrationBuilder.DropTable(
                 name: "LogSystems");
