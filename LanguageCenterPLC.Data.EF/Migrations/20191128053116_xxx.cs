@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace LanguageCenterPLC.Data.EF.Migrations
 {
-    public partial class install : Migration
+    public partial class xxx : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

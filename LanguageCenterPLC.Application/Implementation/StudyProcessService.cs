@@ -58,11 +58,14 @@ namespace LanguageCenterPLC.Application.Implementation
                     _languageClassRepository.Update(languageClass);
                 }
 
+                // lấy tên học viên
+                var hocvien = _context.Learners.Find(studyProcess.LearnerId);
+                var tenhocvien = hocvien.FirstName + hocvien.LastName;
                 // log cho xếp lớp
                 var log = new LogSystem();
                 log.IsStudyProcessLog = true;
                 log.DateCreated = DateTime.Now;
-                log.Content = "Đăng ký học";
+                log.Content = "Xếp lớp học viên : " + tenhocvien;
                 log.UserId = Const.tempUserId;
                 log.LearnerId = studyProcess.LearnerId;
                 log.StudyProcessId = studyProcess.Id;
@@ -372,12 +375,15 @@ on learner.Id equals study.LearnerId
                 }
 
                 if (studyProcess.Status == Status.InActive)
-                {               
+                {
+                    // lấy tên học viên
+                    var hocvien = _context.Learners.Find(studyProcess.LearnerId);
+                    var tenhocvien = hocvien.FirstName + hocvien.LastName;
                     // log cho nghỉ học
                     var log = new LogSystem();
                     log.IsStudyProcessLog = true;
                     log.DateCreated = DateTime.Now;
-                    log.Content = "Nghỉ học";
+                    log.Content = "Nghỉ học : " + tenhocvien;
                     log.UserId = Const.tempUserId;
                     log.LearnerId = studyProcess.LearnerId;
                     log.StudyProcessId = studyProcess.Id;
@@ -402,11 +408,14 @@ on learner.Id equals study.LearnerId
 
                 if (status == Status.Pause)
                 {
-                                           // log mới cho chuyển lớp
+                    // lấy tên học viên
+                    var hocvien = _context.Learners.Find(studyProcess.LearnerId);
+                    var tenhocvien = hocvien.FirstName + " " + hocvien.LastName;
+                    // log mới cho chuyển lớp
                     var log = new LogSystem();
                     log.IsStudyProcessLog = true;
                     log.DateCreated = DateTime.Now;
-                    log.Content = "Chuyển lớp";
+                    log.Content = "Chuyển lớp học viên : " + tenhocvien;
                     log.UserId = Const.tempUserId;
                     log.LearnerId = studyProcess.LearnerId;
                     log.StudyProcessId = studyProcess.Id;
