@@ -89,6 +89,10 @@ namespace LanguageCenterPLC.Data.EF
 
         public DbSet<LogSystem> LogSystems { set; get; }
 
+        public DbSet<AccountForLearner> AccountForLearners { set; get; }
+
+        public DbSet<InforLearner> InforLearners { set; get; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
